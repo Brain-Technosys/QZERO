@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="TabTheme" parent="@style/_TabTheme"/>
+
+  <style name="_TabTheme" parent="android:Theme.Holo.Light">
+
+  </style>
+
+</resources>

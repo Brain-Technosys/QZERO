@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_red">#d5130a</color>
+    <color name="color_background">#FDFAFA</color>
+    <color name="color_edittext_background">#663634</color>
+    <color name="color_tab_text_selected">#d5130a</color>
+    <color name="color_tab_text_not_selected">#000000</color>
+    <color name="hint_color">#663634</color>
+    <color name="color_alertbox_button_not_selected">#FDFAFA</color>
+    <color name="color_alertbox_button_selected">#636163</color>
+    <color name="name_color_of_list">#c1392b</color>
+    <color name="black">#000</color>
+    <color name="cardview_back">#DFDFDF</color>
+    <color name="navigation_drawer_background">#303030</color>
+    <color name="navigation_item_selected"> #A1A1A1</color>
+    <color name="navigation_text_color">#FFFFFF</color>
+    <color name="background_outlet">#ECEDF1</color>
+    <color name="background_cat_outlet">#D2D2D2</color>
+    <color name="oulet_image_strip">#CC583F</color>
+
+</resources>
