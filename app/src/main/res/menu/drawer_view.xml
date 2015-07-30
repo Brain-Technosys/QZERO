@@ -7,23 +7,33 @@
             android:id="@+id/nav_home_fragment"
             android:icon="@drawable/ic_home"
             android:checked="true"
-            android:title="Home" />
+            android:title="Dashboard" />
         <item
             android:id="@+id/nav_wallet_fragment"
             android:icon="@drawable/ic_wallet"
-            android:title="Wallet" />
+            android:title="Home" />
         <item
             android:id="@+id/nav_order_fragment"
             android:icon="@drawable/ic_order"
             android:title="Order" />
 
-        <item
-            android:id="@+id/nav_payment_fragment"
-            android:icon="@drawable/ic_payment_details"
-            android:title="Payment" />
+        <!--<item-->
+            <!--android:id="@+id/nav_payment_fragment"-->
+            <!--android:icon="@drawable/ic_payment_details"-->
+            <!--android:title="Payment" />-->
         <item
             android:id="@+id/nav_profile_fragment"
             android:icon="@drawable/ic_profile_info"
             android:title="Profile" />
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_profile_info"
+            android:title="Setting" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_profile_info"
+            android:title="Log out" />
     </group>
 </menu>

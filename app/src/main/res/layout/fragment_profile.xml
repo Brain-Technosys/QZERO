@@ -111,7 +111,7 @@
                             android:text="Created On:" />
 
                         <TextView
-                            android:id="@+id/tv_lblCreatedOn"
+                            android:id="@+id/tv_createdOn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#000"
@@ -309,7 +309,7 @@
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/tv_state_no"
+                            android:id="@+id/tv_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#000"

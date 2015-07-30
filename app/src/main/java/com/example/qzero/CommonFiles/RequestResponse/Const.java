@@ -37,6 +37,11 @@ public class Const {
     public static String TAG_STATUS="status";
     public static String TAG_MESSAGE="message";
     public static String TAG_RESULT = "result";
+<<<<<<< HEAD
+=======
+    public static String TAG_STATUS = "status";
+    public static String TAG_MESSAGE = "message";
+>>>>>>> Committing Profile, Drawer, Dashboard
 
     //Initialize dashboard variables
 
@@ -74,6 +79,22 @@ public class Const {
     public static String TAG_DESC = "description";
     public static String TAG_IMAGE = "image";
     public static String TAG_SUB_ID = "itemId";
+
+    //Initialize profile variables
+    public static String TAG_STATE = "state";
+    public static String TAG_COUNTRY = "country";
+    public static String TAG_PIN_CODE = "pinCode";
+    public static String TAG_USER_NAME = "userName";
+    public static String TAG_FIRST_NAME = "firstName";
+    public static String TAG_LAST_NAME = "lastName";
+    public static String TAG_EMAIL = "email";
+    public static String TAG_CREATED_ON = "createdOn";
+    public static String TAG_UPDATED_ON = "updatedOn";
+    public static String TAG_IS_ACTIVE = "isActive";
+    public static String TAG_PHONE = "phoneNumber";
+    public static String TAG_MOBILE = "mobileNumber";
+    public static String TAG_USER_PROFILE_ID = "userProfileId";
+    public static String TAG_USER_DETAIL_ID = "userDetailId";
 
 
 }

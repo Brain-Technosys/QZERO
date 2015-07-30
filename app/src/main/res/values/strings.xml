@@ -9,7 +9,7 @@
     <!-- -Dialog messages -->
     <string name="email_error">Invalid email address!</string>
     <string name="fields_error">Fields cannot be empty!</string>
-    <string name="internet_connection_message">Please check internet connection</string>
+    <string name="internet_connection_message">Please connect to working Internet connection.</string>
     <string name="server_message">Server not responding</string>
     <string name="password_error">Passwords do not match</string>
     <string name="chkbox_error">Please accept user agreement </string>
@@ -81,5 +81,7 @@
     <!--OutLet Catogery Activity-->
     <string name="category">Category</string>
 
+    <!-- Profile Info-->
+<string name="response_failure">Server is not responding!</string>
 
 </resources>

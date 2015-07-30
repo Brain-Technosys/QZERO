@@ -9,12 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
@@ -54,6 +53,7 @@ public class DashboardFragment extends Fragment {
     String clubsount;
     String orderCount;
 
+    CheckInternetHelper internetHelper;
 
     @Nullable
     @Override
@@ -61,36 +61,57 @@ public class DashboardFragment extends Fragment {
         // return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, null);
         ButterKnife.inject(this, view);
+        internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());
 
         // Setting fonts
         setFont();
 
-        if (userSession.isUserLoggedIn()) {
-            userIDString = userSession.getUserID();
-        }
+        if(internetHelper.checkInternetConnection(getActivity()))
+        {
+            // Getting counts of Order, Wallet etc
+            new GetCounts().execute();
 
-        new GetCounts().execute();
+            // Checking session and getting user ID from session
+            if (userSession.isUserLoggedIn()) {
+                userIDString = userSession.getUserID();
+            }
+        }
+        else
+        {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getActivity().getString(R.string.internet_connection_message), "Alert");
+        }
 
         return view;
     }
 
+    // Click event of Profile
     @OnClick(R.id.layout_profile)
-    void openProfile()
-    {
-        ProfileInfoFragment nextFrag= new ProfileInfoFragment();
+    void openProfile() {
+        ProfileInfoFragment nextFrag = new ProfileInfoFragment();
         this.getFragmentManager().beginTransaction()
-                .replace(R.id.flContent, nextFrag,"Profile")
+                .replace(R.id.flContent, nextFrag, "Profile")
                 .addToBackStack(null)
                 .commit();
     }
 
+    // Click event of Order
+    @OnClick(R.id.ll_order)
+    void openOrder() {
+        OrderFragment fragment = new OrderFragment();
+        this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, "Order").addToBackStack(null).commit();
+    }
+
+    // Method to set Fonts
     public void setFont() {
         FontHelper.applyFont(getActivity(), orderCountTextView, FontHelper.FontType.FONT);
         FontHelper.applyFont(getActivity(), profileLableTextView, FontHelper.FontType.FONT);
         FontHelper.applyFont(getActivity(), orderLabelTextView, FontHelper.FontType.FONT);
 
     }
+
+    // Asynchronous class to get counts
     private class GetCounts extends AsyncTask<String, String, String> {
         JsonParser jsonParser;
         int status = 0;
