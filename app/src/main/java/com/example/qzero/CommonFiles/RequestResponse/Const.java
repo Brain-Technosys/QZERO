@@ -9,7 +9,7 @@ public class Const {
     public static String APP_KEY = "OAI9/IAkW/jA4u+zosKrBKTcqDP9DHM9MtCEvaLZPSg=";
 
     //Initialize image url
-    public static String IMAGE_URL="/Venue/GetItemImage/";
+    public static String IMAGE_URL = "/Venue/GetItemImage/";
 
     //Initialize time out
     public static int TIME_OUT = 60000;
@@ -29,20 +29,16 @@ public class Const {
 
     public static String TAG_JsonObj = "result";
 
-    public static String TAG_JsonItemObj="items";
-    public static String TAG_JsonOutletObj="outlets";
+    public static String TAG_JsonItemObj = "items";
+    public static String TAG_JsonOutletObj = "outlets";
 
     //Initialize message and status parameter
 
-    public static String TAG_STATUS="status";
-    public static String TAG_MESSAGE="message";
-    public static String TAG_RESULT = "result";
-<<<<<<< HEAD
-=======
     public static String TAG_STATUS = "status";
     public static String TAG_MESSAGE = "message";
->>>>>>> Committing Profile, Drawer, Dashboard
+    public static String TAG_RESULT = "result";
 
+ 
     //Initialize dashboard variables
 
     public static String TAG_WALLET_AMOUNT = "walletAmount";
