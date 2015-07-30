@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Fragments.DashboardFragment;
 import com.example.qzero.MyAccount.Fragments.OrderFragment;
 import com.example.qzero.MyAccount.Fragments.ProfileInfoFragment;
@@ -37,6 +38,7 @@ public class DashBoardActivity extends AppCompatActivity {
     private NavigationView nvDrawer;
     private LinearLayout headerLayout;
 
+    UserSession userSession;
     // Edited on 16-Jul-2015 by Ashish
 
 
@@ -52,6 +54,7 @@ public class DashBoardActivity extends AppCompatActivity {
         setContentView(layout.activity_dashboard);
         ButterKnife.inject(this);
 
+        userSession = new UserSession(DashBoardActivity.this);
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,16 +65,19 @@ public class DashBoardActivity extends AppCompatActivity {
 
         //Inflating header layout
         headerLayout = (LinearLayout) LayoutInflater.from(this).inflate(layout.nav_header, null);
-// Creating TextView dynamically
+        // Creating TextView dynamically
         userNameTextView = new TextView(DashBoardActivity.this);
         userNameTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+        // Getting user name from session
+        userNameString = userSession.getUserName();
+        userNameTextView.setText(userNameString);
         // Getting Intent
         Intent intent = getIntent();
         // Getting value from intent and setting to header
         if (intent != null) {
-            userNameString = intent.getExtras().getString("name");
-            userNameTextView.setText(userNameString);
+
+
             headerLayout.addView(userNameTextView);
             nvDrawer.addHeaderView(headerLayout);
             nvDrawer.setItemIconTintList(null);
