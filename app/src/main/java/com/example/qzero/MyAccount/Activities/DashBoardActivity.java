@@ -18,19 +18,18 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.qzero.CommonFiles.Helpers.FontHelper;
-import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.MyAccount.Fragments.DashboardFragment;
 import com.example.qzero.MyAccount.Fragments.OrderFragment;
 import com.example.qzero.MyAccount.Fragments.ProfileInfoFragment;
 import com.example.qzero.MyAccount.Fragments.WalletFragment;
 import com.example.qzero.R;
 
-
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
-import static com.example.qzero.R.*;
+import static com.example.qzero.R.drawable;
+import static com.example.qzero.R.id;
+import static com.example.qzero.R.layout;
+import static com.example.qzero.R.string;
 
 public class DashBoardActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
@@ -81,7 +80,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
         // Setup drawer view
 
-       setupDrawerContent(nvDrawer);
+        setupDrawerContent(nvDrawer);
 
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
@@ -161,9 +160,9 @@ public class DashBoardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
-           case android.R.id.home:
-               mDrawer.openDrawer(GravityCompat.START);
-               return true;
+            case android.R.id.home:
+                mDrawer.openDrawer(GravityCompat.START);
+                return true;
             case R.id.action_settings:
                 return true;
         }

@@ -38,7 +38,7 @@ public class Const {
     public static String TAG_MESSAGE = "message";
     public static String TAG_RESULT = "result";
 
- 
+
     //Initialize dashboard variables
 
     public static String TAG_WALLET_AMOUNT = "walletAmount";

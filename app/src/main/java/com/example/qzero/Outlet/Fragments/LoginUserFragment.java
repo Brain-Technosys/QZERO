@@ -22,6 +22,7 @@ import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.R;
 
@@ -38,164 +39,170 @@ import butterknife.OnClick;
 
 public class LoginUserFragment extends Fragment {
 
-	@InjectView(R.id.edtTextUserName)
-	EditText edtTextUserName;
+    @InjectView(R.id.edtTextUserName)
+    EditText edtTextUserName;
 
-	@InjectView(R.id.edtTxtPassword)
-	EditText edtTxtPassword;
+    @InjectView(R.id.edtTxtPassword)
+    EditText edtTxtPassword;
 
-	JsonParser jsonParser;
-	JSONObject jsonObject;
+    JsonParser jsonParser;
+    JSONObject jsonObject;
 
-	String urlParameters;
+    UserSession userSession;
 
-	String user_id;
-	String name;
-	String userName;
-	String password;
+    String urlParameters;
 
-	int status;
+    String user_id;
+    String name;
+    String userName;
+    String password;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceView) {
-		View v = inflater.inflate(R.layout.fragment_login_user, null);
-		ButterKnife.inject(this, v);
+    int status;
 
-		return v;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceView) {
+        View v = inflater.inflate(R.layout.fragment_login_user, null);
+        ButterKnife.inject(this, v);
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		setFont();
+        return v;
+    }
 
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setFont();
 
-	public void setFont() {
-		FontHelper.applyFont(getActivity(), edtTextUserName, FontType.FONT);
-		FontHelper.applyFont(getActivity(), edtTxtPassword, FontType.FONT);
+    }
+
+    public void setFont() {
+        FontHelper.applyFont(getActivity(), edtTextUserName, FontType.FONT);
+        FontHelper.applyFont(getActivity(), edtTxtPassword, FontType.FONT);
 
 
-	}
+    }
 
-	@OnClick(R.id.imgViewSubmit)
-	public void submit() {
-		authenticateLogin();
+    @OnClick(R.id.imgViewSubmit)
+    public void submit() {
+        authenticateLogin();
 
-	}
+    }
 
-	public void authenticateLogin() {
-		userName = edtTextUserName.getText().toString();
-		password = edtTxtPassword.getText().toString();
+    public void authenticateLogin() {
+        userName = edtTextUserName.getText().toString();
+        password = edtTxtPassword.getText().toString();
 
-		if (userName.length() == 0 || password.length() == 0) {
-			AlertDialogHelper.showAlertDialog(getActivity(),
-					getString(R.string.fields_error), "Alert");
-		} else {
-			if (CheckInternetHelper.checkInternetConnection(getActivity())) {
-				requestLogin();
-			} else {
-				AlertDialogHelper.showAlertDialog(getActivity(),
-						getString(R.string.internet_connection_message),
-						"Alert");
-			}
-		}
-	}
+        if (userName.length() == 0 || password.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.fields_error), "Alert");
+        } else {
+            if (CheckInternetHelper.checkInternetConnection(getActivity())) {
+                requestLogin();
+            } else {
+                AlertDialogHelper.showAlertDialog(getActivity(),
+                        getString(R.string.internet_connection_message),
+                        "Alert");
+            }
+        }
+    }
 
-	public void requestLogin() {
-		new Login().execute();
-	}
+    public void requestLogin() {
+        new Login().execute();
+    }
 
-	private class Login extends AsyncTask<String, String, String> {
+    private class Login extends AsyncTask<String, String, String> {
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			ProgresBar.start(getActivity());
-		}
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(getActivity());
+        }
 
-		@Override
-		protected String doInBackground(String... params) {
+        @Override
+        protected String doInBackground(String... params) {
 
-			jsonParser = new JsonParser();
+            jsonParser = new JsonParser();
 
-			String url = Const.BASE_URL + Const.LOGIN_URL;
+            String url = Const.BASE_URL + Const.LOGIN_URL;
 
-			try {
-				urlParameters = "username="
-						+ URLEncoder.encode(userName, "UTF-8") + "&password="
-						+ URLEncoder.encode(password, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
+            try {
+                urlParameters = "username="
+                        + URLEncoder.encode(userName, "UTF-8") + "&password="
+                        + URLEncoder.encode(password, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
 
-				e.printStackTrace();
-			}
+                e.printStackTrace();
+            }
 
-			String jsonString = jsonParser.executePost(url, urlParameters,
-					Const.TIME_OUT);
+            String jsonString = jsonParser.executePost(url, urlParameters,
+                    Const.TIME_OUT);
 
-			Log.e("json", jsonString);
+            Log.e("json", jsonString);
 
-			try {
-				jsonObject = new JSONObject(jsonString);
+            try {
+                jsonObject = new JSONObject(jsonString);
 
-				if (jsonObject != null) {
+                if (jsonObject != null) {
 
-					status = jsonObject.getInt("status");
-					if (status == 1) {
-						user_id = jsonObject.getString("userId");
-						name = jsonObject.getString("name");
-					}
+                    status = jsonObject.getInt("status");
+                    if (status == 1) {
+                        user_id = jsonObject.getString("userId");
+                        name = jsonObject.getString("name");
+                    }
 
-				}
+                }
 
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
 
-				e.printStackTrace();
-			}
-			return null;
-		}
+                e.printStackTrace();
+            }
+            return null;
+        }
 
-		@Override
-		protected void onPostExecute(String result) {
+        @Override
+        protected void onPostExecute(String result) {
 
-			super.onPostExecute(result);
-			ProgresBar.stop();
+            super.onPostExecute(result);
+            ProgresBar.stop();
 
-			if (status == 1) {
+            if (status == 1) {
 
-				Intent intent = new Intent(getActivity(),
-						DashBoardActivity.class);
-				intent.putExtra("name",name);
-				startActivity(intent);
-			} else if (status == 0) {
+                // Creating User session
+                userSession = new UserSession(getActivity().getApplicationContext());
+                userSession.createUserSession(user_id,name);
 
-				AlertDialogHelper.showAlertDialog(getActivity(),
-						"Invalid username or password", "Alert");
+                Intent intent = new Intent(getActivity(),
+                        DashBoardActivity.class);
+                intent.putExtra("name", name);
+                startActivity(intent);
+            } else if (status == 0) {
 
-			} else {
-				AlertDialogHelper.showAlertDialog(getActivity(),
-						getString(R.string.server_message), "Alert");
-			}
-		}
-	}
+                AlertDialogHelper.showAlertDialog(getActivity(),
+                        "Invalid username or password", "Alert");
 
-	public void editTextActionDone() {
+            } else {
+                AlertDialogHelper.showAlertDialog(getActivity(),
+                        getString(R.string.server_message), "Alert");
+            }
+        }
+    }
 
-		edtTxtPassword.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
+    public void editTextActionDone() {
 
-					authenticateLogin();
-				}
-				return false;
-			}
-		});
+        edtTxtPassword.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-	}
+                    authenticateLogin();
+                }
+                return false;
+            }
+        });
+
+    }
 
 }
