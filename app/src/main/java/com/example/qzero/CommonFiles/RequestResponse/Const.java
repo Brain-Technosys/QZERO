@@ -18,15 +18,24 @@ public class Const {
     public static String SEARCH_OUTLET = "searchoutlet";
     public static String SEARCH_ITEM = "searchitem";
     public static String GET_OUTLETS = "venue/getoutlets";
-    public static String GET_ITEMS="venue/getitems/";
-
+    public static String GET_ITEMS = "venue/getitems/";
+    public static String DASHBOARD_URL = "Dashboard";
+    public static String PROFILE_INFO_URL = "ProfileInfo";
 
     //Intialize jsonArray parameter
 
     public static String TAG_JsonObj = "result";
-    public static String TAG_JsonItemObj="items";
+    public static String TAG_JsonItemObj = "items";
 
+//Initialize search venue variables
 
+    public static String TAG_RESULT = "result";
+    public static String TAG_STATUS = "status";
+
+    //Initialize dashboard variables
+    public static String TAG_WALLET_AMOUNT = "walletAmount";
+    public static String TAG_CLUB_COUNT = "clubsCount";
+    public static String TAG_ORDER_COUNT = "inProcessOrdersCount";
 
     //Initialze search venue variables
 
@@ -48,18 +57,15 @@ public class Const {
     public static String TAG_ITEM_NAME = "itemName";
 
     //Initialze outlet activity variables
-    public static String TAG_OUTLET_ID="outletId";
-    public static String TAG_NAME="name";
-    public static String TAG_OUTLET_ACTIVE="isActive";
+    public static String TAG_OUTLET_ID = "outletId";
+    public static String TAG_NAME = "name";
+    public static String TAG_OUTLET_ACTIVE = "isActive";
 
     //Initialize item variables
-    public static String TAG_PRICE="price";
-    public static String TAG_DESC="description";
-    public static String TAG_IMAGE="image";
-    public static String TAG_SUB_ID="itemId";
-
-
-
+    public static String TAG_PRICE = "price";
+    public static String TAG_DESC = "description";
+    public static String TAG_IMAGE = "image";
+    public static String TAG_SUB_ID = "itemId";
 
 
 }
