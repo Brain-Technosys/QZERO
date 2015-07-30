@@ -54,7 +54,7 @@ public class DashBoardActivity extends AppCompatActivity {
         setContentView(layout.activity_dashboard);
         ButterKnife.inject(this);
 
-        userSession = new UserSession(DashBoardActivity.this);
+        userSession = new UserSession(getApplicationContext());
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(id.toolbar);
         setSupportActionBar(toolbar);
