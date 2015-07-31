@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.R;
@@ -77,6 +78,7 @@ public class EditProfileFragment extends Fragment {
 
         internetHelper = new CheckInternetHelper();
         setValues();
+        setFonts();
 
         if (internetHelper.checkInternetConnection(getActivity())) {
             userSession = new UserSession(getActivity().getApplicationContext());
@@ -128,5 +130,21 @@ public class EditProfileFragment extends Fragment {
         zipcodeEditText.setText(profileBundle.getString(Const.TAG_PIN_CODE));
         phoneEditText.setText(profileBundle.getString(Const.TAG_PHONE));
         mobileEditText.setText(profileBundle.getString(Const.TAG_MOBILE));
+    }
+
+    private void setFonts()
+    {
+        FontHelper.applyFont(getActivity(), userNameEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), emailEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), firstNameEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), addressEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), lastNameEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), cityEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), stateEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), countryEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), zipcodeEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), phoneEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), mobileEditText, FontHelper.FontType.FONT);
+
     }
 }
