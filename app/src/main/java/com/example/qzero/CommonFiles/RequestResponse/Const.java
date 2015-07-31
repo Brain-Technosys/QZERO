@@ -28,7 +28,7 @@ public class Const {
     //Intialize jsonArray parameter
 
     public static String TAG_JsonObj = "result";
-<<<<<<< HEAD
+
     public static String TAG_JsonItemObj="items";
     public static String TAG_JsonOutletObj="outlets";
 
@@ -36,16 +36,10 @@ public class Const {
 
     public static String TAG_STATUS="status";
     public static String TAG_MESSAGE="message";
-=======
-    public static String TAG_JsonItemObj = "items";
-
-//Initialize search venue variables
->>>>>>> 0037df1311d2e7e408f432fb99898609904efa37
-
     public static String TAG_RESULT = "result";
-    public static String TAG_STATUS = "status";
 
     //Initialize dashboard variables
+
     public static String TAG_WALLET_AMOUNT = "walletAmount";
     public static String TAG_CLUB_COUNT = "clubsCount";
     public static String TAG_ORDER_COUNT = "inProcessOrdersCount";
