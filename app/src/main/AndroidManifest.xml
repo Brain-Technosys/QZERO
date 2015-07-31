@@ -62,7 +62,8 @@
         </activity>
         <activity
             android:name=".Outlet.Activities.OutletCategoryActivity"
-            android:label="@string/title_activity_outlet_catogery" >
+            android:label="@string/title_activity_outlet_catogery"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

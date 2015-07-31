@@ -466,11 +466,12 @@ public class OutletActivity extends Activity {
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
+                    Log.e("inside","json");
 
                     arrayListItem= new ArrayList<ItemOutlet>(jsonObject.length());
 
-                    status = jsonObject.getInt("status");
-                    message = jsonObject.getString("message");
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+                    message = jsonObject.getString(Const.TAG_MESSAGE);
 
                     Log.d("status", "" + status);
                     if (status == 1) {
@@ -483,13 +484,13 @@ public class OutletActivity extends Activity {
                             JSONObject jsonObjItem = jsonArray.getJSONObject(i);
 
                             String item_id = jsonObjItem.getString(Const.TAG_ITEM_ID);
-                            String item_name = jsonObjItem.getString(Const.TAG_ITEM_NAME);
+                            String item_name = jsonObjItem.getString(Const.TAG_CAT_IETM_NAME);
                             String item_price = jsonObjItem.getString(Const.TAG_PRICE);
                             String item_desc = jsonObjItem.getString(Const.TAG_DESC);
                             String sub_item_id = jsonObjItem.getString(Const.TAG_SUB_ID);
                             String item_image =Const.BASE_URL+Const.IMAGE_URL+item_id;
 
-                            ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name,item_image,item_price, item_desc,sub_item_id);
+                            ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name,item_image,item_price,item_desc,sub_item_id);
                             arrayListItem.add(ItemOutlet);
                         }
                     }

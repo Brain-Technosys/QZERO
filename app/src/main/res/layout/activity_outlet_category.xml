@@ -40,13 +40,16 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/advertisement"
             android:layout_below="@+id/relLayTitle"
-            android:layout_gravity="center_horizontal"
-            android:background="#DFDFDF">
+            android:layout_gravity="center_horizontal">
 
             <TableLayout
                 android:id="@+id/tableLayoutItems"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:stretchColumns="0,1"
+
+            />
 
 
         </ScrollView>

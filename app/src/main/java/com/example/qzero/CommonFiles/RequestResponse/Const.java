@@ -71,6 +71,7 @@ public class Const {
     public static String TAG_OUTLET_ACTIVE = "isActive";
 
     //Initialize item variables
+    public static String TAG_CAT_IETM_NAME = "name";
     public static String TAG_PRICE = "price";
     public static String TAG_DESC = "description";
     public static String TAG_IMAGE = "image";

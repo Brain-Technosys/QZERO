@@ -18,8 +18,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -56,6 +59,12 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     @InjectView((R.id.txtViewProfile))
     TextView txtViewProfile;
 
+    TextView txtViewItemName;
+    TextView txtViewItemPrice;
+
+    ImageView imgViewItem;
+
+    RelativeLayout relLayItem;
 
     TableRow tableRow;
     View child;
@@ -101,8 +110,6 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         createCategoryItem();
 
         //getOutletItems();
-
-        getIntentData();
 
         setTableLayout();
 
@@ -159,11 +166,13 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         arrayListItems = new ArrayList<ItemOutlet>();
         if (getIntent().hasExtra("arraylistitem")) {
             Bundle bundle = getIntent().getExtras();
+
+            arrayListItems=(ArrayList<ItemOutlet>)bundle.getSerializable("arraylistitem");
         }
     }
 
     private void setTableLayout() {
-
+        getIntentData();
         int row;
         int length = arrayListItems.size();
         if (length % 2 == 0) {
@@ -196,10 +205,13 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
             }
 
             // inner for loop
-            for (int j = 1; j <= cols; j++) {
+            for (int j = 0; j <cols; j++) {
 
                 child = getLayoutInflater().inflate(R.layout.item_category, null);
+                child.setPadding(0,0,10,0);
                 child.setId(childId++);
+                getItemId();
+                inflateData(j);
                 child.setOnClickListener(this);
 
                 row.addView(child);
@@ -208,6 +220,36 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
             tableLayoutItems.addView(row);
 
         }
+    }
+
+    private void getItemId()
+    {
+       relLayItem=(RelativeLayout) child.findViewById(R.id.relLayItem);
+
+        imgViewItem=(ImageView) child.findViewById(R.id.imgViewItem);
+
+        txtViewItemName=(TextView) child.findViewById(R.id.txtViewItemName);
+        txtViewItemPrice=(TextView) child.findViewById(R.id.txtViewItemPrice);
+
+        initializeLayoutWidth();
+    }
+
+    private void initializeLayoutWidth() {
+        ViewGroup.LayoutParams paramsLeft = imgViewItem.getLayoutParams();
+
+        // Changes the height and width to the specified *pixels*
+        paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+       paramsLeft.width=340;
+    }
+    private void inflateData(int pos)
+    {
+        ItemOutlet itemOutlet=arrayListItems.get(pos);
+
+       // txtViewItemName.setText(itemOutlet.getName());
+       // txtViewItemPrice.setText("$"+itemOutlet.getPrice());
+
+        //Load Image
+       // Picasso.with(this).load(itemOutlet.getItem_image()).into(imgViewItem);
     }
 
     public void createCategoryItem() {
