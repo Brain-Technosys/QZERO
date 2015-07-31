@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by braintech on 13-Jul-15.
@@ -83,7 +85,12 @@ public class ProfileInfoFragment extends Fragment {
     @InjectView(R.id.tv_updated_on)
     TextView updatedOnTextView;
 
+    @InjectView(R.id.btn_edit)
+    Button editButton;
+
     CheckInternetHelper internetHelper;
+
+    Bundle profileBundle;
 
     @Nullable
     @Override
@@ -103,7 +110,7 @@ public class ProfileInfoFragment extends Fragment {
             new GetProfileInfo().execute();
         } else {
             AlertDialogHelper.showAlertDialog(getActivity(),
-                    "Please connect to working Internet connection", "Alert");
+                    getString(R.string.internet_connection_message), "Alert");
         }
         return view;
     }
@@ -182,6 +189,20 @@ public class ProfileInfoFragment extends Fragment {
         }
     }
 
+    // Click event ot Edit button
+    @OnClick(R.id.btn_edit)
+    public void edit() {
+
+
+
+        EditProfileFragment fragment = new EditProfileFragment();
+        fragment.setArguments(profileBundle);
+        this.getFragmentManager().beginTransaction()
+                .replace(R.id.flContent, fragment, "Edit Profile")
+                .addToBackStack(null)
+                .commit();
+    }
+
     // Method to set values on TextView
     private void setTextValues() {
         firstNameTextView.setText(firstName);
@@ -197,5 +218,22 @@ public class ProfileInfoFragment extends Fragment {
         countryTextView.setText(country);
         pincodeTextView.setText(pincode);
         updatedOnTextView.setText(updatedOn);
+
+        profileBundle = new Bundle();
+        profileBundle.putString(Const.TAG_FIRST_NAME,firstName);
+        profileBundle.putString(Const.TAG_LAST_NAME,lastName);
+        profileBundle.putString(Const.TAG_USER_NAME,userSession.getUserName());
+
+        profileBundle.putString(Const.TAG_EMAIL,email);
+        profileBundle.putString(Const.TAG_PHONE,phoneNo);
+        profileBundle.putString(Const.TAG_MOBILE,mobileNo);
+        profileBundle.putString(Const.TAG_ADDRESS,addressString);
+        profileBundle.putString(Const.TAG_CITY,city);
+        profileBundle.putString(Const.TAG_STATE,state);
+        profileBundle.putString(Const.TAG_COUNTRY,country);
+        profileBundle.putString(Const.TAG_PIN_CODE,pincode);
+
     }
+
+
 }

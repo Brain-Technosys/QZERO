@@ -25,6 +25,7 @@ public class Const {
     public static String DASHBOARD_URL = "Dashboard";
     public static String PROFILE_INFO_URL = "ProfileInfo";
     public static String CHANGE_PASSWORD_URL = "Account/ChangePassword";
+    public static String UPDATE_PROFILE_URL = "ProfileInfo";
 
     //Intialize jsonArray parameter
 
