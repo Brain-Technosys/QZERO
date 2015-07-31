@@ -46,7 +46,6 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawer;
 
-
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -59,6 +58,9 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     @InjectView((R.id.txtViewProfile))
     TextView txtViewProfile;
 
+    @InjectView(R.id.txtViewSubHeading)
+    TextView txtViewSubHeading;
+
     TextView txtViewItemName;
     TextView txtViewItemPrice;
 
@@ -66,29 +68,30 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
     RelativeLayout relLayItem;
 
+    LinearLayout categoryLayout;
+
     TableRow tableRow;
+
     View child;
     View child2;
     int childId = 2000;
 
-    ActionBar actionBar;
-    ActionBarDrawerToggle drawerToggle;
-
-    String[] menu = {"Beverage", "Sea Food", "Continental"};
-    String[] submenu = {"Chinese", "Fish", "Chicken"};
-
-    LinearLayout categoryLayout;
-
     ArrayAdapter adapter;
-
-    ListView[] lists = new ListView[menu.length];
 
     int list;
     int length = 11;
 
+    ActionBar actionBar;
+    ActionBarDrawerToggle drawerToggle;
+
     ArrayList<ItemOutlet> arrayListItems;
 
     UserSession  userSession;
+
+    String[] menu = {"Beverage", "Sea Food", "Continental"};
+    String[] submenu = {"Chinese", "Fish", "Chicken"};
+
+    ListView[] lists = new ListView[menu.length];
 
 
     @Override
@@ -104,6 +107,8 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         setSupportActionBar(toolbar);
 
         drawerToggle = setupDrawerToggle();
+
+        getIntentData();
 
         setIconsToActionBar();
 
@@ -166,13 +171,13 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         arrayListItems = new ArrayList<ItemOutlet>();
         if (getIntent().hasExtra("arraylistitem")) {
             Bundle bundle = getIntent().getExtras();
-
             arrayListItems=(ArrayList<ItemOutlet>)bundle.getSerializable("arraylistitem");
+            txtViewSubHeading.setText(bundle.getString("title"));
         }
     }
 
     private void setTableLayout() {
-        getIntentData();
+
         int row;
         int length = arrayListItems.size();
         if (length % 2 == 0) {
@@ -235,7 +240,7 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     }
 
     private void initializeLayoutWidth() {
-        ViewGroup.LayoutParams paramsLeft = imgViewItem.getLayoutParams();
+        ViewGroup.LayoutParams paramsLeft = relLayItem.getLayoutParams();
 
         // Changes the height and width to the specified *pixels*
         paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -363,9 +368,6 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         tableRow.addView(child);
     }
 
-    @OnClick(R.id.changeOutlet)
-    public void selectOutlet() {
-    }
 
     @OnClick(R.id.relLayProfile)
     void navigate()

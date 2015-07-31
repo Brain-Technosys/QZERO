@@ -401,7 +401,8 @@ public class OutletActivity extends Activity {
     @OnClick(R.id.relLayDesc)
     void categoryData(View v) {
 
-        Log.e("inside","category");
+        TextView txtViewTitle = (TextView) v.findViewById(R.id.txtViewTitleLandscape);
+        outletTitle = txtViewTitle.getText().toString();
 
         getCategoryValues(v);
 
@@ -411,21 +412,23 @@ public class OutletActivity extends Activity {
     @OnClick(R.id.relLayDescOutletLeft)
     void getCategoryData(View v) {
 
-        Log.e("inside","left");
+        TextView txtViewTitle = (TextView) v.findViewById(R.id.txtViewtitlePotraitLeft);
+        outletTitle = txtViewTitle.getText().toString();
+
         getCategoryValues(v);
     }
 
     @OnClick(R.id.relLayDescOutletRight)
     void getCategory(View v) {
 
-        Log.e("inside","right");
+        TextView txtViewTitle = (TextView) v.findViewById(R.id.txtViewtitlePotraitRight);
+        outletTitle = txtViewTitle.getText().toString();
         getCategoryValues(v);
     }
 
     public void getCategoryValues(View view) {
         outletId = view.getTag().toString();
-        TextView txtViewTitle = (TextView) view.findViewById(R.id.txtViewtitlePotraitRight);
-        outletTitle = txtViewTitle.getText().toString();
+
         getOutletItems();
     }
 
@@ -532,6 +535,7 @@ public class OutletActivity extends Activity {
         Intent intent = new Intent(OutletActivity.this, OutletCategoryActivity.class);
         Bundle bundle=new Bundle();
         bundle.putSerializable("arraylistitem",arrayListItem);
+        bundle.putString("title",outletTitle);
         intent.putExtras(bundle);
         startActivity(intent);
     }
