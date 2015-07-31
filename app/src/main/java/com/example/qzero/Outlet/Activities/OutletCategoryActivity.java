@@ -1,6 +1,5 @@
 package com.example.qzero.Outlet.Activities;
 
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -23,13 +22,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
-
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
-
 import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -41,8 +37,8 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     DrawerLayout mDrawer;
 
 
-   /* @InjectView(R.id.toolbar)
-    Toolbar toolbar;*/
+    @InjectView(R.id.toolbar)
+    Toolbar tool_bar;
 
     @InjectView(R.id.navigationView)
     LinearLayout navigationView;
@@ -73,8 +69,6 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
     ArrayList<ItemOutlet> arrayListItems;
 
-    Toolbar toolbar;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,9 +77,7 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
         ButterKnife.inject(this);
 
-              toolbar=(Toolbar) findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
+        setSupportActionBar(tool_bar);
 
         drawerToggle = setupDrawerToggle();
 
@@ -102,9 +94,8 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     }//end of onCreate()
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        return new ActionBarDrawerToggle(this, mDrawer, tool_bar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
-
     private void setIconsToActionBar() {
         //getting left side menu image
         actionBar = getSupportActionBar();

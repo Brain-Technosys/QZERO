@@ -140,6 +140,10 @@ public class OutletActivity extends Activity {
 
         //Set title
         txtViewHeading.setText("Outlets");
+        Intent intent = new Intent(OutletActivity.this, OutletCategoryActivity.class);
+        startActivity(intent);
+
+
     }
 
     private void setFonts() {
@@ -173,15 +177,12 @@ public class OutletActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
 
-            Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.GET_OUTLETS + "?venueId=" + venue_id;
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
-
-            Log.e("json", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -190,25 +191,27 @@ public class OutletActivity extends Activity {
 
                     arrayListOutlet = new ArrayList<Outlet>(jsonObject.length());
 
-                    /*status = jsonObject.getInt("status");
-                    message = jsonObject.getString("message");*/
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+                    message = jsonObject.getString(Const.TAG_MESSAGE);
 
-                    //Log.d("status", "" + status);
-                    //if (status == 1) {
+                    if (status == 1) {
 
-                    jsonArray = new JSONArray();
-                    jsonArray = jsonObject.getJSONArray("outlets");
+                        JSONObject jsonObj=jsonObject.getJSONObject(Const.TAG_JsonObj);
+
+                        jsonArray = new JSONArray();
+                        jsonArray = jsonObj.getJSONArray(Const.TAG_JsonOutletObj);
 
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                        String outlet_id = jsonObj.getString(Const.TAG_OUTLET_ID);
-                        String outlet_name = jsonObj.getString(Const.TAG_NAME);
-                        Boolean isActive = jsonObj.getBoolean(Const.TAG_OUTLET_ACTIVE);
+                        JSONObject outletObj = jsonArray.getJSONObject(i);
+
+                        String outlet_id = outletObj.getString(Const.TAG_OUTLET_ID);
+                        String outlet_name = outletObj.getString(Const.TAG_NAME);
+                        Boolean isActive = outletObj.getBoolean(Const.TAG_OUTLET_ACTIVE);
                         Outlet outlet = new Outlet(outlet_id, outlet_name, isActive);
                         arrayListOutlet.add(outlet);
                     }
-                    //}
+                    }
 
                 }
 
@@ -228,25 +231,19 @@ public class OutletActivity extends Activity {
 
             ProgresBar.stop();
 
-            Log.e("inside", "postexecute");
-
-            jsonLength = jsonArray.length();
-
-            setLayout();
+            if (status == 1) {
+                jsonLength = jsonArray.length();
+                setLayout();
 
 
-            // if (status == 1) {
+            } else if (status == 0) {
 
-            // passIntent();
+            AlertDialogHelper.showAlertDialog(OutletActivity.this, "message", "Alert");
 
-            //} else if (status == 0) {
-
-            //  AlertDialogHelper.showAlertDialog(OutletActivity.this, "message", "Alert");
-
-            //} else {
-            //AlertDialogHelper.showAlertDialog(OutletActivity.this,
-            // getString(R.string.server_message), "Alert");
-            //}
+            } else {
+            AlertDialogHelper.showAlertDialog(OutletActivity.this,
+             getString(R.string.server_message), "Alert");
+            }
         }
     }
 
@@ -468,28 +465,29 @@ public class OutletActivity extends Activity {
 
                     arrayListItem= new ArrayList<ItemOutlet>(jsonObject.length());
 
-                    /*status = jsonObject.getInt("status");
+                    status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
 
-                    Log.d("status", "" + status);*/
-                  //  if (status == 1) {
+                    Log.d("status", "" + status);
+                  if (status == 1) {
 
+                      JSONObject jsonObj=jsonObject.getJSONObject(Const.TAG_JsonObj);
                         jsonArray = new JSONArray();
-                        jsonArray = jsonObject.getJSONArray(Const.TAG_JsonItemObj);
+                        jsonArray = jsonObj.getJSONArray(Const.TAG_JsonItemObj);
 
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObj = jsonArray.getJSONObject(i);
+                            JSONObject jsonObjItem = jsonArray.getJSONObject(i);
 
-                            String item_id = jsonObj.getString(Const.TAG_ITEM_ID);
-                            String item_name = jsonObj.getString(Const.TAG_ITEM_NAME);
-                            String item_price = jsonObj.getString(Const.TAG_PRICE);
-                            String item_desc = jsonObj.getString(Const.TAG_DESC);
-                            //String item_image = jsonObj.getString(Const.TAG_IMAGE);
-                            String sub_item_id = jsonObj.getString(Const.TAG_SUB_ID);
+                            String item_id = jsonObjItem.getString(Const.TAG_ITEM_ID);
+                            String item_name = jsonObjItem.getString(Const.TAG_ITEM_NAME);
+                            String item_price = jsonObjItem.getString(Const.TAG_PRICE);
+                            String item_desc = jsonObjItem.getString(Const.TAG_DESC);
+                            String sub_item_id = jsonObjItem.getString(Const.TAG_SUB_ID);
+                            String item_image =Const.BASE_URL+Const.IMAGE_URL+item_id;
 
-                            ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name, item_price, item_desc,sub_item_id);
+                            ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name,item_image,item_price, item_desc,sub_item_id);
                             arrayListItem.add(ItemOutlet);
-                       // }
+                       }
                     }
 
                 }
