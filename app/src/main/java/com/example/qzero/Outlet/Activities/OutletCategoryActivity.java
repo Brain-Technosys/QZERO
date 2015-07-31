@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -41,7 +42,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 
-public class OutletCategoryActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
+public class OutletCategoryActivity extends AppCompatActivity {
 
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawer;
@@ -61,8 +62,17 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     @InjectView(R.id.txtViewSubHeading)
     TextView txtViewSubHeading;
 
+    @InjectView(R.id.txtViewUserName)
+    TextView txtViewUserName;
+
+    @InjectView(R.id.txtViewLogout)
+    TextView txtViewLogout;
+
     TextView txtViewItemName;
+
     TextView txtViewItemPrice;
+
+    TextView txtViewTitleOverlay;
 
     ImageView imgViewItem;
 
@@ -80,13 +90,14 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
     int list;
     int length = 11;
+    int pos = 0;
 
     ActionBar actionBar;
     ActionBarDrawerToggle drawerToggle;
 
     ArrayList<ItemOutlet> arrayListItems;
 
-    UserSession  userSession;
+    UserSession userSession;
 
     String[] menu = {"Beverage", "Sea Food", "Continental"};
     String[] submenu = {"Chinese", "Fish", "Chicken"};
@@ -102,7 +113,7 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         ButterKnife.inject(this);
 
         //Initialize user session
-        userSession=new UserSession(this);
+        userSession = new UserSession(this);
 
         setSupportActionBar(toolbar);
 
@@ -114,8 +125,6 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
         createCategoryItem();
 
-        //getOutletItems();
-
         setTableLayout();
 
     }//end of onCreate()
@@ -123,6 +132,7 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
+
     private void setIconsToActionBar() {
         //getting left side menu image
         actionBar = getSupportActionBar();
@@ -171,7 +181,7 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         arrayListItems = new ArrayList<ItemOutlet>();
         if (getIntent().hasExtra("arraylistitem")) {
             Bundle bundle = getIntent().getExtras();
-            arrayListItems=(ArrayList<ItemOutlet>)bundle.getSerializable("arraylistitem");
+            arrayListItems = (ArrayList<ItemOutlet>) bundle.getSerializable("arraylistitem");
             txtViewSubHeading.setText(bundle.getString("title"));
         }
     }
@@ -210,14 +220,14 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
             }
 
             // inner for loop
-            for (int j = 0; j <cols; j++) {
+            for (int j = 0; j < cols; j++) {
 
                 child = getLayoutInflater().inflate(R.layout.item_category, null);
-                child.setPadding(0,0,10,0);
+                child.setPadding(0, 0, 10, 0);
                 child.setId(childId++);
                 getItemId();
-                inflateData(j);
-                child.setOnClickListener(this);
+                inflateData();
+                // child.setOnClickListener(this);
 
                 row.addView(child);
             }
@@ -227,14 +237,14 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void getItemId()
-    {
-       relLayItem=(RelativeLayout) child.findViewById(R.id.relLayItem);
+    private void getItemId() {
+        relLayItem = (RelativeLayout) child.findViewById(R.id.relLayItem);
 
-        imgViewItem=(ImageView) child.findViewById(R.id.imgViewItem);
+        imgViewItem = (ImageView) child.findViewById(R.id.imgViewItem);
 
-        txtViewItemName=(TextView) child.findViewById(R.id.txtViewItemName);
-        txtViewItemPrice=(TextView) child.findViewById(R.id.txtViewItemPrice);
+        txtViewItemName = (TextView) child.findViewById(R.id.txtViewItemName);
+        txtViewTitleOverlay=(TextView) child.findViewById(R.id.txtViewTitleOverlay);
+        txtViewItemPrice = (TextView) child.findViewById(R.id.txtViewItemPrice);
 
         initializeLayoutWidth();
     }
@@ -244,17 +254,20 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
         // Changes the height and width to the specified *pixels*
         paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-       paramsLeft.width=340;
+        paramsLeft.width = 340;
     }
-    private void inflateData(int pos)
-    {
-        ItemOutlet itemOutlet=arrayListItems.get(pos);
 
-       // txtViewItemName.setText(itemOutlet.getName());
-       // txtViewItemPrice.setText("$"+itemOutlet.getPrice());
+    private void inflateData() {
+
+        ItemOutlet itemOutlet = arrayListItems.get(pos);
+
+        txtViewItemName.setText(itemOutlet.getName());
+        txtViewTitleOverlay.setText(itemOutlet.getName());
+        txtViewItemPrice.setText("$" + itemOutlet.getPrice());
+        pos++;
 
         //Load Image
-       // Picasso.with(this).load(itemOutlet.getItem_image()).into(imgViewItem);
+        //Picasso.with(this).load(itemOutlet.getItem_image()).into(imgViewItem);
     }
 
     public void createCategoryItem() {
@@ -285,28 +298,26 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
             lists[i].setAdapter(adapter);
             categoryLayout.addView(lists[i], params);
 
-            menuItem.setOnClickListener(this);
-            lists[i].setOnItemClickListener(this);
+            // menuItem.setOnClickListener(this);
+            // lists[i].setOnItemClickListener(this);
 
         }
 
     }// end of create category Item
 
-    private void checkUserSession()
-    {
+    private void checkUserSession() {
 
-        if(userSession.isUserLoggedIn())
-        {
-           //do nothing
+        if (userSession.isUserLoggedIn()) {
 
-        }
-        else
-        {
+            txtViewUserName.setText(userSession.getUserName());
+
+        } else {
             txtViewProfile.setText("Login");
+            txtViewLogout.setVisibility(View.GONE);
         }
     }
 
-    @Override
+   /* @Override
     public void onClick(View v) {
         int viewId = v.getId();
 
@@ -332,59 +343,33 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
 
         }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        mDrawer.closeDrawer(Gravity.LEFT);
-        int mod = length % 2;
-        int time = length / 2;
-
-        for (int i = 0; i < (time); i++) {
-            addTableRowItem();
-
-            child2 = getLayoutInflater().inflate(R.layout.item_category, null);
-            child2.setId(childId++);
-            child2.setOnClickListener(this);
-            tableRow.addView(child2);
-            //tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        }
-
-        if (mod == 1) {
-            addTableRowItem();
-            // tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        }
-
-    }
-
-    public void addTableRowItem() {
-
-        tableRow = new TableRow(OutletCategoryActivity.this);
-        tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-        child = getLayoutInflater().inflate(R.layout.item_category, null);
-        child.setId(childId++);
-        child.setOnClickListener(this);
-        tableRow.addView(child);
-    }
+    }*/
 
 
     @OnClick(R.id.relLayProfile)
-    void navigate()
-    {
-        if(userSession.isUserLoggedIn())
-        {
-            Intent intent=new Intent(this, DashBoardActivity.class);
+    void navigate() {
+        if (userSession.isUserLoggedIn()) {
+            Intent intent = new Intent(this, DashBoardActivity.class);
             startActivity(intent);
-        }
-        else
-        {
-            Intent intent=new Intent(this,HomeActivity.class);
-            startActivity(intent);
+            finish();
+        } else {
+
+            passIntentHome();
         }
     }
 
+    @OnClick(R.id.txtViewLogout)
+    void logout() {
+        userSession.ClearUserName();
+        passIntentHome();
 
+    }
+
+    private void passIntentHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 
 }

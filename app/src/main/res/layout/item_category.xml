@@ -24,19 +24,20 @@
 
             <ImageView
                 android:id="@+id/imgViewItem"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/darker_gray"
                 android:src="@drawable/q2x"
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/txtOutletItemTitleoverImg"
+                android:id="@+id/txtViewTitleOverlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Chicken"
                 android:layout_marginBottom="15dp"
                 android:layout_gravity="bottom"
+                android:padding="3dp"
                 android:gravity="center_horizontal"
                 android:background="@color/oulet_image_strip"
                 android:textColor="@android:color/white" />
