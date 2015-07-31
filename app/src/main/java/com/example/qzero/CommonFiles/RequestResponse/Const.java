@@ -24,6 +24,7 @@ public class Const {
     public static String GET_ITEMS = "venue/getitems/";
     public static String DASHBOARD_URL = "Dashboard";
     public static String PROFILE_INFO_URL = "ProfileInfo";
+    public static String CHANGE_PASSWORD_URL = "Account/ChangePassword";
 
     //Intialize jsonArray parameter
 
