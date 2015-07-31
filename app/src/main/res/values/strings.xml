@@ -55,6 +55,7 @@
 
     <!-- Outlet Activity -->
 
+    <string name="title_outlet">Outlets</string>
     <string name="all_outlet">All Outlets</string>
 
     <!-- Navigation Drawer -->

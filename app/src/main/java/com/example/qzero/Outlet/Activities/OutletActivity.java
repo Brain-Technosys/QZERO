@@ -140,10 +140,6 @@ public class OutletActivity extends Activity {
 
         //Set title
         txtViewHeading.setText("Outlets");
-        Intent intent = new Intent(OutletActivity.this, OutletCategoryActivity.class);
-        startActivity(intent);
-
-
     }
 
     private void setFonts() {
@@ -201,16 +197,16 @@ public class OutletActivity extends Activity {
                         jsonArray = new JSONArray();
                         jsonArray = jsonObj.getJSONArray(Const.TAG_JsonOutletObj);
 
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
 
-                        JSONObject outletObj = jsonArray.getJSONObject(i);
+                            JSONObject outletObj = jsonArray.getJSONObject(i);
 
-                        String outlet_id = outletObj.getString(Const.TAG_OUTLET_ID);
-                        String outlet_name = outletObj.getString(Const.TAG_NAME);
-                        Boolean isActive = outletObj.getBoolean(Const.TAG_OUTLET_ACTIVE);
-                        Outlet outlet = new Outlet(outlet_id, outlet_name, isActive);
-                        arrayListOutlet.add(outlet);
-                    }
+                            String outlet_id = outletObj.getString(Const.TAG_OUTLET_ID);
+                            String outlet_name = outletObj.getString(Const.TAG_NAME);
+                            Boolean isActive = outletObj.getBoolean(Const.TAG_OUTLET_ACTIVE);
+                            Outlet outlet = new Outlet(outlet_id, outlet_name, isActive);
+                            arrayListOutlet.add(outlet);
+                        }
                     }
 
                 }
@@ -231,18 +227,20 @@ public class OutletActivity extends Activity {
 
             ProgresBar.stop();
 
+            jsonLength = jsonArray.length();
+
             if (status == 1) {
-                jsonLength = jsonArray.length();
+
                 setLayout();
 
 
             } else if (status == 0) {
 
-            AlertDialogHelper.showAlertDialog(OutletActivity.this, "message", "Alert");
+                AlertDialogHelper.showAlertDialog(OutletActivity.this,message, "Alert");
 
             } else {
-            AlertDialogHelper.showAlertDialog(OutletActivity.this,
-             getString(R.string.server_message), "Alert");
+                AlertDialogHelper.showAlertDialog(OutletActivity.this,
+                        getString(R.string.server_message), "Alert");
             }
         }
     }
@@ -400,8 +398,10 @@ public class OutletActivity extends Activity {
         });
     }
 
-    @OnClick(R.id.relLayDescOutletRight)
+    @OnClick(R.id.relLayDesc)
     void categoryData(View v) {
+
+        Log.e("inside","category");
 
         getCategoryValues(v);
 
@@ -410,11 +410,15 @@ public class OutletActivity extends Activity {
 
     @OnClick(R.id.relLayDescOutletLeft)
     void getCategoryData(View v) {
+
+        Log.e("inside","left");
         getCategoryValues(v);
     }
 
     @OnClick(R.id.relLayDescOutletRight)
     void getCategory(View v) {
+
+        Log.e("inside","right");
         getCategoryValues(v);
     }
 
@@ -456,7 +460,7 @@ public class OutletActivity extends Activity {
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("json", jsonString);
+            Log.e("jsonvenue", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -469,9 +473,9 @@ public class OutletActivity extends Activity {
                     message = jsonObject.getString("message");
 
                     Log.d("status", "" + status);
-                  if (status == 1) {
+                    if (status == 1) {
 
-                      JSONObject jsonObj=jsonObject.getJSONObject(Const.TAG_JsonObj);
+                        JSONObject jsonObj=jsonObject.getJSONObject(Const.TAG_JsonObj);
                         jsonArray = new JSONArray();
                         jsonArray = jsonObj.getJSONArray(Const.TAG_JsonItemObj);
 
@@ -487,7 +491,7 @@ public class OutletActivity extends Activity {
 
                             ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name,item_image,item_price, item_desc,sub_item_id);
                             arrayListItem.add(ItemOutlet);
-                       }
+                        }
                     }
 
                 }
@@ -510,18 +514,17 @@ public class OutletActivity extends Activity {
 
             Log.e("inside", "postexecute");
 
-           // if (status == 1) {
+            if (status == 1) {
 
-                passIntent();
+            passIntent();
 
-           //} else if (status == 0) {
+            } else if (status == 0) {
 
-                AlertDialogHelper.showAlertDialog(OutletActivity.this, "message", "Alert");
+           AlertDialogHelper.showAlertDialog(OutletActivity.this,message, "Alert");
 
-           // } else {
-             //   AlertDialogHelper.showAlertDialog(OutletActivity.this,
-                        //getString(R.string.server_message), "Alert");
-           // }
+            } else {
+                AlertDialogHelper.showAlertDialog(OutletActivity.this, getString(R.string.server_message), "Alert");
+             }
         }
     }
     public void passIntent() {

@@ -65,7 +65,7 @@
 
     <!-- The navigation drawer -->
     <include
-        layout="@layout/navigation_activity"
+        layout="@layout/nav_drawer_cat"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="start" />

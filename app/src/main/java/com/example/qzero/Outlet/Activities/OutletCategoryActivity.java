@@ -1,5 +1,7 @@
 package com.example.qzero.Outlet.Activities;
 
+
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -22,10 +24,15 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableRow.LayoutParams;
+
+import com.example.qzero.CommonFiles.Sessions.UserSession;
+import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
+
 import java.util.ArrayList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -38,13 +45,16 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
 
     @InjectView(R.id.toolbar)
-    Toolbar tool_bar;
+    Toolbar toolbar;
 
     @InjectView(R.id.navigationView)
     LinearLayout navigationView;
 
     @InjectView(R.id.tableLayoutItems)
     TableLayout tableLayoutItems;
+
+    @InjectView((R.id.txtViewProfile))
+    TextView txtViewProfile;
 
 
     TableRow tableRow;
@@ -69,6 +79,8 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
     ArrayList<ItemOutlet> arrayListItems;
 
+    UserSession  userSession;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +89,10 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
 
         ButterKnife.inject(this);
 
-        setSupportActionBar(tool_bar);
+        //Initialize user session
+        userSession=new UserSession(this);
+
+        setSupportActionBar(toolbar);
 
         drawerToggle = setupDrawerToggle();
 
@@ -94,7 +109,7 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     }//end of onCreate()
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, tool_bar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
     private void setIconsToActionBar() {
         //getting left side menu image
@@ -196,6 +211,10 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     }
 
     public void createCategoryItem() {
+
+        //Check if a user is logged in or not
+        checkUserSession();
+
         categoryLayout = (LinearLayout) findViewById(R.id.navigationView);
         adapter = new ArrayAdapter(this, R.layout.list_subitem_category, R.id.tv, submenu);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -225,6 +244,20 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
         }
 
     }// end of create category Item
+
+    private void checkUserSession()
+    {
+
+        if(userSession.isUserLoggedIn())
+        {
+           //do nothing
+
+        }
+        else
+        {
+            txtViewProfile.setText("Login");
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -292,13 +325,22 @@ public class OutletCategoryActivity extends AppCompatActivity implements View.On
     public void selectOutlet() {
     }
 
-    @OnClick(R.id.changeProfile)
-    public void changeProfile() {
+    @OnClick(R.id.relLayProfile)
+    void navigate()
+    {
+        if(userSession.isUserLoggedIn())
+        {
+            Intent intent=new Intent(this, DashBoardActivity.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Intent intent=new Intent(this,HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
-    public void addItemsToTable() {
 
-    }
 
 
 }
