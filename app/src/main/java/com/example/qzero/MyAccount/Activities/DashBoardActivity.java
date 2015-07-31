@@ -22,6 +22,7 @@ import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Fragments.DashboardFragment;
 import com.example.qzero.MyAccount.Fragments.OrderFragment;
 import com.example.qzero.MyAccount.Fragments.ProfileInfoFragment;
+import com.example.qzero.MyAccount.Fragments.SettingFragment;
 import com.example.qzero.MyAccount.Fragments.WalletFragment;
 import com.example.qzero.R;
 
@@ -137,6 +138,9 @@ public class DashBoardActivity extends AppCompatActivity {
                 break;
             case id.nav_profile_fragment:
                 fragmentClass = ProfileInfoFragment.class;
+                break;
+            case id.nav_setting:
+                fragmentClass = SettingFragment.class;
                 break;
             default:
                 fragmentClass = DashboardFragment.class;
