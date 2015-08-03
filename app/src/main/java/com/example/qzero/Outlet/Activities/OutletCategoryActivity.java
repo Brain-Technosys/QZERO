@@ -4,6 +4,8 @@ package com.example.qzero.Outlet.Activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -30,6 +32,9 @@ import android.widget.TableRow.LayoutParams;
 
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
+import com.example.qzero.Outlet.Fragments.AddCartFragment;
+import com.example.qzero.Outlet.Fragments.CategoryItemFragment;
+import com.example.qzero.Outlet.Fragments.SearchTabFragment;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
@@ -53,14 +58,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @InjectView(R.id.navigationView)
     LinearLayout navigationView;
 
-    @InjectView(R.id.tableLayoutItems)
-    TableLayout tableLayoutItems;
-
     @InjectView((R.id.txtViewProfile))
     TextView txtViewProfile;
-
-    @InjectView(R.id.txtViewSubHeading)
-    TextView txtViewSubHeading;
 
     @InjectView(R.id.txtViewUserName)
     TextView txtViewUserName;
@@ -68,29 +67,17 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @InjectView(R.id.txtViewLogout)
     TextView txtViewLogout;
 
-    TextView txtViewItemName;
-
-    TextView txtViewItemPrice;
-
-    TextView txtViewTitleOverlay;
-
-    ImageView imgViewItem;
-
-    RelativeLayout relLayItem;
 
     LinearLayout categoryLayout;
 
-    TableRow tableRow;
-
-    View child;
     View child2;
     int childId = 2000;
 
     ArrayAdapter adapter;
 
     int list;
-    int length = 11;
-    int pos = 0;
+
+    String title;
 
     ActionBar actionBar;
     ActionBarDrawerToggle drawerToggle;
@@ -98,6 +85,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
     ArrayList<ItemOutlet> arrayListItems;
 
     UserSession userSession;
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     String[] menu = {"Beverage", "Sea Food", "Continental"};
     String[] submenu = {"Chinese", "Fish", "Chicken"};
@@ -121,11 +111,11 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         getIntentData();
 
+        addItemFragment();
+
         setIconsToActionBar();
 
         createCategoryItem();
-
-        setTableLayout();
 
     }//end of onCreate()
 
@@ -182,93 +172,34 @@ public class OutletCategoryActivity extends AppCompatActivity {
         if (getIntent().hasExtra("arraylistitem")) {
             Bundle bundle = getIntent().getExtras();
             arrayListItems = (ArrayList<ItemOutlet>) bundle.getSerializable("arraylistitem");
-            txtViewSubHeading.setText(bundle.getString("title"));
+            title = bundle.getString("title");
         }
     }
 
-    private void setTableLayout() {
-
-        int row;
-        int length = arrayListItems.size();
-        if (length % 2 == 0) {
-            row = length / 2;
-
-        } else {
-            row = length / 2 + 1;
-
-        }
-        tableLayoutItems.removeAllViews();
-        BuildTable(row, 2);
-
+    public void addItemFragment() {
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager
+                .beginTransaction();
+        CategoryItemFragment categoryItemFragment = new CategoryItemFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("arraylistitem", arrayListItems);
+        bundle.putString("title", title);
+        categoryItemFragment.setArguments(bundle);
+        fragmentTransaction.add(R.id.frameLayItem, categoryItemFragment, "item");
+        fragmentTransaction.commit();
     }
 
-    private void BuildTable(int rows, int cols) {
-
-        // outer for loop
-        for (int i = 1; i <= rows; i++) {
-
-            TableRow row = new TableRow(this);
-            row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.WRAP_CONTENT));
-
-            if (length % 2 != 0) {
-                if (i == rows) {
-                    cols = 1;
-                }
-            } else {
-                cols = 2;
-            }
-
-            // inner for loop
-            for (int j = 0; j < cols; j++) {
-
-                child = getLayoutInflater().inflate(R.layout.item_category, null);
-                child.setPadding(0, 0, 10, 0);
-                child.setId(childId++);
-                getItemId();
-                inflateData();
-                // child.setOnClickListener(this);
-
-                row.addView(child);
-            }
-
-            tableLayoutItems.addView(row);
-
-        }
+    public void replaceFragment()
+    {
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager
+                .beginTransaction();
+        AddCartFragment addCartFragment = new AddCartFragment();
+        fragmentTransaction.replace(R.id.frameLayItem, addCartFragment,
+                "addcart");
+        fragmentTransaction.commit();
     }
 
-    private void getItemId() {
-        relLayItem = (RelativeLayout) child.findViewById(R.id.relLayItem);
-
-        imgViewItem = (ImageView) child.findViewById(R.id.imgViewItem);
-
-        txtViewItemName = (TextView) child.findViewById(R.id.txtViewItemName);
-        txtViewTitleOverlay=(TextView) child.findViewById(R.id.txtViewTitleOverlay);
-        txtViewItemPrice = (TextView) child.findViewById(R.id.txtViewItemPrice);
-
-        initializeLayoutWidth();
-    }
-
-    private void initializeLayoutWidth() {
-        ViewGroup.LayoutParams paramsLeft = relLayItem.getLayoutParams();
-
-        // Changes the height and width to the specified *pixels*
-        paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        paramsLeft.width = 340;
-    }
-
-    private void inflateData() {
-
-        ItemOutlet itemOutlet = arrayListItems.get(pos);
-
-        txtViewItemName.setText(itemOutlet.getName());
-        txtViewTitleOverlay.setText(itemOutlet.getName());
-        txtViewItemPrice.setText("$" + itemOutlet.getPrice());
-        pos++;
-
-        //Load Image
-        //Picasso.with(this).load(itemOutlet.getItem_image()).into(imgViewItem);
-    }
 
     public void createCategoryItem() {
 

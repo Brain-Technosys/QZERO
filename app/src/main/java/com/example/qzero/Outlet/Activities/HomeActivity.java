@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
+import com.example.qzero.Outlet.Fragments.AddCartFragment;
 import com.example.qzero.Outlet.Fragments.LoginTabFragment;
 import com.example.qzero.Outlet.Fragments.SearchTabFragment;
 import com.example.qzero.Outlet.SlidingUpPanel.SlidingUpPanelLayout;

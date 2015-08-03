@@ -15,51 +15,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" />
 
-        <RelativeLayout
-            android:id="@+id/relLayTitle"
+        <FrameLayout
+            android:id="@+id/frameLayItem"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_below="@+id/toolbar"
-            android:background="@android:color/white">
-
-            <TextView
-                android:id="@+id/txtViewSubHeading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:text="@string/all_outlet"
-                android:textColor="@color/color_tab_text_selected"
-                android:textSize="@dimen/outlet_heading_size" />
-
-        </RelativeLayout>
-
-        <ScrollView
-            android:id="@+id/outlet_scrollView"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/advertisement"
-            android:layout_below="@+id/relLayTitle"
-            android:layout_gravity="center_horizontal">
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/advertisement">
 
-            <TableLayout
-                android:id="@+id/tableLayoutItems"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:stretchColumns="0,1"
+        </FrameLayout>
 
-            />
-
-
-        </ScrollView>
 
         <ImageView
             android:id="@+id/advertisement"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
             android:background="@android:color/darker_gray">
 
         </ImageView>
