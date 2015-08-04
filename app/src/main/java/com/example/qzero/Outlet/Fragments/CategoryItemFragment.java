@@ -12,13 +12,12 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
+import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
+import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.Outlet.Activities.OutletCategoryActivity;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.R;
-
 import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -77,6 +76,7 @@ public class CategoryItemFragment extends Fragment {
             arrayListItems = (ArrayList<ItemOutlet>) getArguments().getSerializable("arraylistitem");
             Log.e("arraylistlen", "" + arrayListItems.size());
             txtViewSubHeading.setText(getArguments().getString("title"));
+            FontHelper.setFontFace(txtViewSubHeading,FontType.FONT,getActivity());
         }
 
     }
@@ -143,9 +143,16 @@ public class CategoryItemFragment extends Fragment {
         txtViewItemName = (TextView) child.findViewById(R.id.txtViewItemName);
         txtViewTitleOverlay = (TextView) child.findViewById(R.id.txtViewTitleOverlay);
         txtViewItemPrice = (TextView) child.findViewById(R.id.txtViewItemPrice);
-
+        setFonts();
         initializeLayoutWidth();
         setOnClick();
+    }
+
+    private void setFonts()
+    {
+        FontHelper.setFontFace(txtViewItemName,FontType.FONT,getActivity());
+        FontHelper.setFontFace(txtViewTitleOverlay,FontType.FONT,getActivity());
+        FontHelper.setFontFace(txtViewItemPrice,FontType.FONT,getActivity());
     }
 
     private void initializeLayoutWidth() {

@@ -3,13 +3,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#DFDFDF"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/alertbox_title_layout_design" >
+        android:background="@drawable/alertbox_title_layout_design">
 
         <TextView
             android:id="@+id/txtViewTitle"
@@ -17,9 +17,9 @@
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
-            android:textColor="@android:color/white"
             android:text="Select Modifiers"
-            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
 
             android:textStyle="bold" />
     </LinearLayout>
@@ -28,20 +28,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#DFDFDF" >
+        android:background="#DFDFDF">
 
-       <ScrollView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
 
-           <LinearLayout
-               android:id="@+id/linLayChckBox"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/linLayChckBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-           </LinearLayout>
-       </ScrollView>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/color_background"
-        android:gravity="right" >
+        android:gravity="right">
 
         <TextView
             android:id="@+id/txtViewCancel"
@@ -60,9 +60,8 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/selector_alertbox_button"
             android:gravity="right"
-            android:paddingRight="15dp"
             android:paddingTop="2dp"
-            android:text="cancel"
+            android:text="@string/alertbox_cancel"
             android:textColor="@color/color_tab_text_selected"
             android:textSize="15sp"
             android:textStyle="bold" />
