@@ -165,7 +165,13 @@ public class CategoryItemFragment extends Fragment {
 
     public void setOnClick()
     {
-        ((OutletCategoryActivity)getActivity()).replaceFragment();
+        relLayItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((OutletCategoryActivity) getActivity()).replaceFragment();
+            }
+        });
+
     }
 
     private void inflateData() {

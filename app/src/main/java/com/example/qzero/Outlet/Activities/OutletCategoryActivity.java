@@ -35,6 +35,7 @@ import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.Fragments.AddCartFragment;
 import com.example.qzero.Outlet.Fragments.CategoryItemFragment;
 import com.example.qzero.Outlet.Fragments.SearchTabFragment;
+import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
@@ -83,6 +84,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     ActionBarDrawerToggle drawerToggle;
 
     ArrayList<ItemOutlet> arrayListItems;
+    ArrayList<Category> arrayListCat;
 
     UserSession userSession;
 
@@ -172,6 +174,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         if (getIntent().hasExtra("arraylistitem")) {
             Bundle bundle = getIntent().getExtras();
             arrayListItems = (ArrayList<ItemOutlet>) bundle.getSerializable("arraylistitem");
+            arrayListCat=(ArrayList<Category>) bundle.getSerializable("arrayListCat");
             title = bundle.getString("title");
         }
     }
@@ -189,7 +192,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void replaceFragment()
+   public void replaceFragment()
     {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
@@ -209,18 +212,11 @@ public class OutletCategoryActivity extends AppCompatActivity {
         categoryLayout = (LinearLayout) findViewById(R.id.navigationView);
         adapter = new ArrayAdapter(this, R.layout.list_subitem_category, R.id.tv, submenu);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         //dynamically adding category item as TextView
-        for (int i = 0; i < menu.length; i++) {
-            TextView menuItem = new TextView(this);
-            menuItem.setText(menu[i]);
-            menuItem.setTag(i);
-            menuItem.setId(i);
-            menuItem.setTextSize(18);
-            menuItem.setTextColor(getResources().getColor(R.color.primary_material_dark));
-            menuItem.setPadding(120, 20, 0, 20);
-            menuItem.setTextColor(getResources().getColor(R.color.navigation_text_color));
-            menuItem.setBackgroundResource(R.drawable.selector_navigation_menu_item);
-            categoryLayout.addView(menuItem, params);
+        for (int i = 0; i < arrayListCat.size(); i++) {
+
+            createCategories(i,params);
 
             //dynamically add LismenuItemiew to show subItem of different Category
             lists[i] = new ListView(this);
@@ -246,6 +242,20 @@ public class OutletCategoryActivity extends AppCompatActivity {
             txtViewProfile.setText("Login");
             txtViewLogout.setVisibility(View.GONE);
         }
+    }
+
+    private void createCategories(int pos,LinearLayout.LayoutParams params)
+    {
+        TextView txtViewCategory = new TextView(this);
+        txtViewCategory.setText(arrayListCat.get(pos).getCategory_name());
+        txtViewCategory.setTag(pos);
+        txtViewCategory.setTextSize(18);
+        txtViewCategory.setTextColor(getResources().getColor(R.color.primary_material_dark));
+        txtViewCategory.setPadding(120, 20, 0, 20);
+        txtViewCategory.setTextColor(getResources().getColor(R.color.navigation_text_color));
+        txtViewCategory.setBackgroundResource(R.drawable.selector_navigation_menu_item);
+        categoryLayout.addView(txtViewCategory, params);
+
     }
 
    /* @Override

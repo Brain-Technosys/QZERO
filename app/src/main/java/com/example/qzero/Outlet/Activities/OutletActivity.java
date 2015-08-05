@@ -21,6 +21,7 @@ import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Outlet;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
@@ -86,7 +87,6 @@ public class OutletActivity extends Activity {
     TextView txtViewHeading;
     TextView txtViewSubHeading;
 
-
     String venue_id;
     String outletId;
     String outletTitle;
@@ -98,8 +98,9 @@ public class OutletActivity extends Activity {
     String message;
 
     ArrayList<Outlet> arrayListOutlet;
-
     ArrayList<ItemOutlet> arrayListItem;
+    ArrayList<Category> arrayListCat;
+
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -192,7 +193,7 @@ public class OutletActivity extends Activity {
 
                     if (status == 1) {
 
-                        JSONObject jsonObj=jsonObject.getJSONObject(Const.TAG_JsonObj);
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
 
                         jsonArray = new JSONArray();
                         jsonArray = jsonObj.getJSONArray(Const.TAG_JsonOutletObj);
@@ -203,12 +204,12 @@ public class OutletActivity extends Activity {
 
                             String outlet_id = outletObj.getString(Const.TAG_OUTLET_ID);
                             String outlet_name = outletObj.getString(Const.TAG_NAME);
-                            String outlet_desc=outletObj.getString(Const.TAG_OUTLET_DESC);
-                            String phone_num=outletObj.getString(Const.TAG_PH_NUM);
-                            String mobile_num=outletObj.getString(Const.TAG_MOB_NUM);
+                            String outlet_desc = outletObj.getString(Const.TAG_OUTLET_DESC);
+                            String phone_num = outletObj.getString(Const.TAG_PH_NUM);
+                            String mobile_num = outletObj.getString(Const.TAG_MOB_NUM);
                             Boolean isActive = outletObj.getBoolean(Const.TAG_OUTLET_ACTIVE);
 
-                            Outlet outlet = new Outlet(outlet_id, outlet_name,outlet_desc,phone_num,mobile_num,isActive);
+                            Outlet outlet = new Outlet(outlet_id, outlet_name, outlet_desc, phone_num, mobile_num, isActive);
                             arrayListOutlet.add(outlet);
                         }
                     }
@@ -240,7 +241,7 @@ public class OutletActivity extends Activity {
 
             } else if (status == 0) {
 
-                AlertDialogHelper.showAlertDialog(OutletActivity.this,message, "Alert");
+                AlertDialogHelper.showAlertDialog(OutletActivity.this, message, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(OutletActivity.this,
@@ -446,16 +447,14 @@ public class OutletActivity extends Activity {
     }
 
     public void getOutletItems() {
-        if (CheckInternetHelper.checkInternetConnection(this))
-        {
+        if (CheckInternetHelper.checkInternetConnection(this)) {
             new GetOutletItems().execute();
         } else {
             AlertDialogHelper.showAlertDialog(this, getString(R.string.internet_connection_message), "Alert");
         }
     }
 
-    public class GetOutletItems extends AsyncTask<String,String,String>
-    {
+    public class GetOutletItems extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -470,7 +469,7 @@ public class OutletActivity extends Activity {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS +venue_id+"/?outletId=" + outletId + "&itemId=" + ""
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" + ""
                     + "&subCatId=" + "";
 
 
@@ -482,9 +481,11 @@ public class OutletActivity extends Activity {
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                    Log.e("inside","json");
+                    Log.e("inside", "json");
 
-                    arrayListItem= new ArrayList<ItemOutlet>(jsonObject.length());
+                    arrayListItem = new ArrayList<ItemOutlet>(jsonObject.length());
+
+                    arrayListCat=new ArrayList<Category>(jsonObject.length());
 
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     message = jsonObject.getString(Const.TAG_MESSAGE);
@@ -492,22 +493,41 @@ public class OutletActivity extends Activity {
                     Log.d("status", "" + status);
                     if (status == 1) {
 
-                        JSONObject jsonObj=jsonObject.getJSONObject(Const.TAG_JsonObj);
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
+
+                        //Get json Array for items
                         jsonArray = new JSONArray();
                         jsonArray = jsonObj.getJSONArray(Const.TAG_JsonItemObj);
+
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObjItem = jsonArray.getJSONObject(i);
 
                             String item_id = jsonObjItem.getString(Const.TAG_ITEM_ID);
-                            String item_name = jsonObjItem.getString(Const.TAG_CAT_IETM_NAME);
+                            String item_name = jsonObjItem.getString(Const.TAG_CAT_ITEM_NAME);
                             String item_price = jsonObjItem.getString(Const.TAG_PRICE);
                             String item_desc = jsonObjItem.getString(Const.TAG_DESC);
                             String sub_item_id = jsonObjItem.getString(Const.TAG_SUB_ID);
-                            String item_image =Const.BASE_URL+Const.IMAGE_URL+item_id;
+                            String item_image = Const.BASE_URL + Const.IMAGE_URL + item_id;
 
-                            ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name,item_image,item_price,item_desc,sub_item_id);
+                            ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name, item_image, item_price, item_desc, sub_item_id);
                             arrayListItem.add(ItemOutlet);
+                        }
+
+                        //Get json array for categories
+                        JSONArray jsonArrayCategory = new JSONArray();
+
+                        jsonArrayCategory = jsonObj.getJSONArray(Const.TAG_JsonCatObj);
+
+                        for(int i=0;i<jsonArrayCategory.length();i++)
+                        {
+                            JSONObject jsonObjCat=jsonArrayCategory.getJSONObject(i);
+
+                            String category_id=jsonObjCat.getString(Const.TAG_CAT_ID);
+                            String category_name=jsonObjCat.getString(Const.TAG_CAT_NAME);
+
+                            Category category=new Category(category_id,category_name);
+                            arrayListCat.add(category);
                         }
                     }
 
@@ -533,22 +553,24 @@ public class OutletActivity extends Activity {
 
             if (status == 1) {
 
-            passIntent();
+                passIntent();
 
             } else if (status == 0) {
 
-           AlertDialogHelper.showAlertDialog(OutletActivity.this,message, "Alert");
+                AlertDialogHelper.showAlertDialog(OutletActivity.this, message, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(OutletActivity.this, getString(R.string.server_message), "Alert");
-             }
+            }
         }
     }
+
     public void passIntent() {
         Intent intent = new Intent(OutletActivity.this, OutletCategoryActivity.class);
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("arraylistitem",arrayListItem);
-        bundle.putString("title",outletTitle);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("arraylistitem", arrayListItem);
+        bundle.putSerializable("arrayListCat",arrayListCat);
+        bundle.putString("title", outletTitle);
         intent.putExtras(bundle);
         startActivity(intent);
     }
