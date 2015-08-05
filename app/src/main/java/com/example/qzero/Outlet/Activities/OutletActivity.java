@@ -203,8 +203,12 @@ public class OutletActivity extends Activity {
 
                             String outlet_id = outletObj.getString(Const.TAG_OUTLET_ID);
                             String outlet_name = outletObj.getString(Const.TAG_NAME);
+                            String outlet_desc=outletObj.getString(Const.TAG_OUTLET_DESC);
+                            String phone_num=outletObj.getString(Const.TAG_PH_NUM);
+                            String mobile_num=outletObj.getString(Const.TAG_MOB_NUM);
                             Boolean isActive = outletObj.getBoolean(Const.TAG_OUTLET_ACTIVE);
-                            Outlet outlet = new Outlet(outlet_id, outlet_name, isActive);
+
+                            Outlet outlet = new Outlet(outlet_id, outlet_name,outlet_desc,phone_num,mobile_num,isActive);
                             arrayListOutlet.add(outlet);
                         }
                     }
@@ -332,6 +336,9 @@ public class OutletActivity extends Activity {
         getValues();
         relLayDesc.setTag(outlet.getOutlet_id());
         txtViewTitleLandscape.setText(outlet.getOutlet_name());
+        txtViewDescLand.setText(outlet.getOutlet_desc());
+        txtViewPhnoneLand.setText(outlet.getPhone_num());
+        txtViewMobLand.setText(outlet.getMobile_num());
         setOutletFonts();
     }
 
@@ -339,6 +346,9 @@ public class OutletActivity extends Activity {
         getValues();
         relLayDescOutletLeft.setTag(outlet.getOutlet_id());
         txtViewtitlePotraitLeft.setText(outlet.getOutlet_name());
+        txtViewDesPotLeft.setText(outlet.getOutlet_desc());
+        txtViewPhPotLeft.setText(outlet.getPhone_num());
+        txtViewPhPotLeft.setText(outlet.getPhone_num());
         setOutletFonts();
 
     }
@@ -347,6 +357,9 @@ public class OutletActivity extends Activity {
         getValues();
         relLayDescOutletRight.setTag(outlet.getOutlet_id());
         txtViewtitlePotraitRight.setText(outlet.getOutlet_name());
+        txtViewDesPotRight.setText(outlet.getOutlet_desc());
+        txtViewPhPotRight.setText(outlet.getPhone_num());
+        txtViewPhPotRight.setText(outlet.getPhone_num());
         setOutletFonts();
     }
 

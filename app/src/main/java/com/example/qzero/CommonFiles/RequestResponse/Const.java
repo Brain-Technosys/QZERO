@@ -70,6 +70,9 @@ public class Const {
     //Initialze outlet activity variables
     public static String TAG_OUTLET_ID = "outletId";
     public static String TAG_NAME = "name";
+    public static String TAG_OUTLET_DESC="outletHeading";
+    public static String TAG_PH_NUM="phoneNumber";
+    public static String TAG_MOB_NUM="mobileNumber";
     public static String TAG_OUTLET_ACTIVE = "isActive";
 
     //Initialize item variables
