@@ -32,6 +32,7 @@ import android.widget.TableRow.LayoutParams;
 
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
+import com.example.qzero.Outlet.Adapters.SubCategoryAdapter;
 import com.example.qzero.Outlet.Fragments.AddCartFragment;
 import com.example.qzero.Outlet.Fragments.CategoryItemFragment;
 import com.example.qzero.Outlet.Fragments.SearchTabFragment;
@@ -42,6 +43,7 @@ import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -69,11 +71,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
     TextView txtViewLogout;
 
 
-    LinearLayout categoryLayout;
-
-    View child2;
-    int childId = 2000;
-
     ArrayAdapter adapter;
 
     int list;
@@ -86,6 +83,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
     ArrayList<ItemOutlet> arrayListItems;
     ArrayList<Category> arrayListCat;
 
+    ArrayList<HashMap<Integer,String>> arrayListSubCat;
+
     UserSession userSession;
 
     FragmentManager fragmentManager;
@@ -94,8 +93,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     String[] menu = {"Beverage", "Sea Food", "Continental"};
     String[] submenu = {"Chinese", "Fish", "Chicken"};
 
-    ListView[] lists = new ListView[menu.length];
-
+    ListView[] subCatListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -171,10 +169,17 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     private void getIntentData() {
         arrayListItems = new ArrayList<ItemOutlet>();
+
+        arrayListSubCat=new ArrayList<HashMap<Integer, String>>();
+
         if (getIntent().hasExtra("arraylistitem")) {
             Bundle bundle = getIntent().getExtras();
             arrayListItems = (ArrayList<ItemOutlet>) bundle.getSerializable("arraylistitem");
-            arrayListCat=(ArrayList<Category>) bundle.getSerializable("arrayListCat");
+            arrayListCat = (ArrayList<Category>) bundle.getSerializable("arrayListCat");
+
+            arrayListSubCat=(ArrayList<HashMap<Integer,String>>) bundle.getSerializable("arrayListSubCat");
+
+
             title = bundle.getString("title");
         }
     }
@@ -192,8 +197,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-   public void replaceFragment()
-    {
+    public void replaceFragment() {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
                 .beginTransaction();
@@ -206,27 +210,20 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     public void createCategoryItem() {
 
+        subCatListView = new ListView[arrayListCat.size()];
         //Check if a user is logged in or not
         checkUserSession();
 
-        categoryLayout = (LinearLayout) findViewById(R.id.navigationView);
-        adapter = new ArrayAdapter(this, R.layout.list_subitem_category, R.id.tv, submenu);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         //dynamically adding category item as TextView
         for (int i = 0; i < arrayListCat.size(); i++) {
 
-            createCategories(i,params);
+            //Create categories
+            createCategories(i, params);
 
-            //dynamically add LismenuItemiew to show subItem of different Category
-            lists[i] = new ListView(this);
-            lists[i].setVisibility(View.GONE);
-            lists[i].setId(i + 1000);
-            lists[i].setAdapter(adapter);
-            categoryLayout.addView(lists[i], params);
-
-            // menuItem.setOnClickListener(this);
-            // lists[i].setOnItemClickListener(this);
+            //Create sub cateory listview
+            createSubCaList(i, params);
 
         }
 
@@ -244,8 +241,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         }
     }
 
-    private void createCategories(int pos,LinearLayout.LayoutParams params)
-    {
+    private void createCategories(int pos, LinearLayout.LayoutParams params) {
         TextView txtViewCategory = new TextView(this);
         txtViewCategory.setText(arrayListCat.get(pos).getCategory_name());
         txtViewCategory.setTag(pos);
@@ -254,37 +250,54 @@ public class OutletCategoryActivity extends AppCompatActivity {
         txtViewCategory.setPadding(120, 20, 0, 20);
         txtViewCategory.setTextColor(getResources().getColor(R.color.navigation_text_color));
         txtViewCategory.setBackgroundResource(R.drawable.selector_navigation_menu_item);
-        categoryLayout.addView(txtViewCategory, params);
+        navigationView.addView(txtViewCategory, params);
+
+        subCatListView[pos] = new ListView(this);
+
+        txtViewCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int tag = Integer.parseInt(view.getTag().toString());
+
+                if(arrayListSubCat.isEmpty())
+                {
+                    Log.e("empty","empty");
+                }
+                else
+                {
+                  //  Log.e("array",arrayListSubCat.get(0).get(0));
+                }
+
+               /* Log.e("inside",""+tag);
+                subCatListView[tag].setVisibility(View.VISIBLE);*/
+
+            }
+        });
 
     }
 
-   /* @Override
-    public void onClick(View v) {
-        int viewId = v.getId();
+    private void createSubCaList(int pos, LinearLayout.LayoutParams params) {
 
-        //Click listener for TextView Menu
-        if (viewId < 1000) {
-            for (int i = 0; i < menu.length; i++) {
-                list = v.getId();
-                if (i == v.getId()) {
 
-                    if (lists[v.getId()].getVisibility() == View.GONE)
-                        lists[v.getId()].setVisibility(View.VISIBLE);
-                    else
-                        lists[v.getId()].setVisibility(View.GONE);
-                } else lists[i].setVisibility(View.GONE);
+        //dynamically add LismenuItemiew to show subItem of different Category
+
+
+        subCatListView[pos].setTag(pos);
+        subCatListView[pos].setVisibility(View.GONE);
+
+        subCatListView[pos].setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
-        }
-        if (viewId > 1000 && viewId < 2000) {
-            return;
+        });
 
-        }
-        //Click listener for latmenu Items
-        if (viewId >= 2000) {
-
-
-        }
-    }*/
+        //add adapter to listview
+        SubCategoryAdapter subCatAdapter = new SubCategoryAdapter(this, arrayListCat);
+        subCatListView[pos].setAdapter(subCatAdapter);
+        navigationView.addView(subCatListView[pos], params);
+    }
 
 
     @OnClick(R.id.relLayProfile)

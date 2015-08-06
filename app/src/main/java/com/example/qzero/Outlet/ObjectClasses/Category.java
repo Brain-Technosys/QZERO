@@ -26,7 +26,10 @@ public class Category implements Serializable {
         return category_id;
     }
 
-    public void setCategory_id(String category_id) {
+    public void setCategory_id(String category_id)
+    {
         this.category_id = category_id;
     }
+
+
 }

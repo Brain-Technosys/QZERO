@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/phone" />
+                        android:src="@drawable/mobile" />
 
                     <TextView
                         android:id="@+id/txtViewMobLand"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/phone" />
+                        android:src="@drawable/call" />
 
                     <TextView
                         android:id="@+id/txtViewPhnoneLand"
@@ -179,7 +179,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/phone" />
+                            android:src="@drawable/mobile" />
 
                         <TextView
                             android:id="@+id/txtViewMobPotLeft"
@@ -206,7 +206,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/phone" />
+                            android:src="@drawable/call" />
 
                         <TextView
                             android:id="@+id/txtViewPhPotLeft"
@@ -292,7 +292,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/phone" />
+                            android:src="@drawable/mobile" />
 
                         <TextView
                             android:id="@+id/txtViewMobPotRight"
@@ -319,7 +319,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/phone" />
+                            android:src="@drawable/call" />
 
                         <TextView
                             android:id="@+id/txtViewPhPotRight"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv"
+    android:id="@+id/txtViewSubCategory"
     android:textColor="@android:color/white"
     android:layout_width="match_parent"
     android:background="@drawable/selector_navigation_menu_item"

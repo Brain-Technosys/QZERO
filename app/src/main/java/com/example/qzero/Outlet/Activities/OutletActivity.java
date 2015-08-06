@@ -24,6 +24,7 @@ import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Outlet;
+import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
 
@@ -31,7 +32,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -101,6 +105,7 @@ public class OutletActivity extends Activity {
     ArrayList<ItemOutlet> arrayListItem;
     ArrayList<Category> arrayListCat;
 
+    HashMap<Integer,ArrayList<SubCategory>> hashMapSubCat;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -109,6 +114,7 @@ public class OutletActivity extends Activity {
     View child;
 
     Outlet outlet;
+    Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -485,7 +491,9 @@ public class OutletActivity extends Activity {
 
                     arrayListItem = new ArrayList<ItemOutlet>(jsonObject.length());
 
-                    arrayListCat=new ArrayList<Category>(jsonObject.length());
+                    arrayListCat = new ArrayList<Category>(jsonObject.length());
+
+                    hashMapSubCat=new HashMap<Integer,ArrayList<SubCategory>>();
 
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     message = jsonObject.getString(Const.TAG_MESSAGE);
@@ -519,15 +527,37 @@ public class OutletActivity extends Activity {
 
                         jsonArrayCategory = jsonObj.getJSONArray(Const.TAG_JsonCatObj);
 
-                        for(int i=0;i<jsonArrayCategory.length();i++)
-                        {
-                            JSONObject jsonObjCat=jsonArrayCategory.getJSONObject(i);
+                        for (int i = 0; i < jsonArrayCategory.length(); i++) {
+                            JSONObject jsonObjCat = jsonArrayCategory.getJSONObject(i);
 
-                            String category_id=jsonObjCat.getString(Const.TAG_CAT_ID);
-                            String category_name=jsonObjCat.getString(Const.TAG_CAT_NAME);
+                            String category_id = jsonObjCat.getString(Const.TAG_CAT_ID);
+                            String category_name = jsonObjCat.getString(Const.TAG_CAT_NAME);
 
-                            Category category=new Category(category_id,category_name);
+                            category = new Category(category_id, category_name);
+
                             arrayListCat.add(category);
+
+                            JSONArray jsonArraySubCat = jsonObjCat.getJSONArray(Const.TAG_JsonSubCatObj);
+
+
+
+
+
+                            ArrayList<SubCategory> subCatArrayList=new ArrayList<SubCategory>();
+
+                            for (int j = 0; j < jsonArraySubCat.length(); j++) {
+                                JSONObject jsonObjSubCat = jsonArraySubCat.getJSONObject(j);
+                                String sub_cat_id = jsonObjSubCat.getString(Const.TAG_SUB_CAT_ID);
+                                String sub_cat_name = jsonObjSubCat.getString(Const.TAG_SUB_CAT_NAME);
+
+                                SubCategory subCategory=new SubCategory(sub_cat_id,sub_cat_name);
+                                subCatArrayList.add(subCategory);
+
+
+                            }
+
+                            hashMapSubCat.put(i,subCatArrayList);
+
                         }
                     }
 
@@ -566,10 +596,19 @@ public class OutletActivity extends Activity {
     }
 
     public void passIntent() {
+
+        if(hashMapSubCat.isEmpty())
+        {
+            Log.e("outlet","empty");
+        }
+        else {
+
+        }
         Intent intent = new Intent(OutletActivity.this, OutletCategoryActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("arraylistitem", arrayListItem);
-        bundle.putSerializable("arrayListCat",arrayListCat);
+        bundle.putSerializable("arrayListCat", arrayListCat);
+       // bundle.putSerializable("arrayListSubCat",arrayListSubCat);
         bundle.putString("title", outletTitle);
         intent.putExtras(bundle);
         startActivity(intent);

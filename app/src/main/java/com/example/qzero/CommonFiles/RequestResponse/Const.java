@@ -34,6 +34,8 @@ public class Const {
     public static String TAG_JsonItemObj = "items";
     public static String TAG_JsonOutletObj = "outlets";
     public static String TAG_JsonCatObj="categories";
+    public static String TAG_JsonSubCatObj="subCategoryModels";
+
 
     //Initialize message and status parameter
 
@@ -86,6 +88,11 @@ public class Const {
     //Initialize categories variables
     public static String TAG_CAT_ID = "categoryId";
     public static String TAG_CAT_NAME= "name";
+
+    //Initialize sub categories variables
+    public static String TAG_SUB_CAT_ID = "subCategoryId";
+    public static String TAG_SUB_CAT_NAME= "name";
+
 
     //Initialize profile variables
     public static String TAG_STATE = "state";

@@ -19,6 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="32dp"
+                card_view:cardElevation="20dp"
                 card_view:cardBackgroundColor="#FFFFFF">
 
                 <RelativeLayout
