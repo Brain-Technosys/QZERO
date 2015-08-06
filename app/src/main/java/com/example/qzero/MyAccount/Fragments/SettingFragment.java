@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -53,14 +54,16 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setting, container,false);
+        View view = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.inject(this, view);
 
+        getActivity().setTitle(getString(R.string.setting_title));
+        setFonts();
+
         return view;
-
-
     }
 
+    // Click event of save password button
     @OnClick(R.id.btn_save)
     public void savePassword() {
         oldPassword = oldPasswordEditText.getText().toString();
@@ -123,6 +126,13 @@ public class SettingFragment extends Fragment {
         }
 
         return params.toString();
+    }
+
+    // Method to set fonts
+    private void setFonts() {
+        FontHelper.applyFont(getActivity(), oldPasswordEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), newPasswordEditText, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), cnfPasswordEditText, FontHelper.FontType.FONT);
     }
 
     // Method to validate password

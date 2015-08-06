@@ -62,14 +62,15 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, null);
         ButterKnife.inject(this, view);
 
+        getActivity().setTitle(getString(R.string.dashboard_title));
+
         internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());
 
         // Setting fonts
         setFont();
 
-        if(internetHelper.checkInternetConnection(getActivity()))
-        {
+        if (internetHelper.checkInternetConnection(getActivity())) {
             // Getting counts of Order, Wallet etc
             new GetCounts().execute();
 
@@ -77,9 +78,7 @@ public class DashboardFragment extends Fragment {
             if (userSession.isUserLoggedIn()) {
                 userIDString = userSession.getUserID();
             }
-        }
-        else
-        {
+        } else {
             AlertDialogHelper.showAlertDialog(getActivity(),
                     getActivity().getString(R.string.internet_connection_message), "Alert");
         }
