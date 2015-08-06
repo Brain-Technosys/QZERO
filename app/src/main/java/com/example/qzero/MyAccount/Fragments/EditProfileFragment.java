@@ -15,6 +15,7 @@ import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.R;
 
@@ -76,24 +77,21 @@ public class EditProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         ButterKnife.inject(this, view);
 
-        internetHelper = new CheckInternetHelper();
+        // Setting title of activity
+        getActivity().setTitle(getString(R.string.edit_profile_title));
+        userSession = new UserSession(getActivity().getApplicationContext());
+        userID = userSession.getUserID();
+
+
         setValues();
         setFonts();
-
-        if (internetHelper.checkInternetConnection(getActivity())) {
-            userSession = new UserSession(getActivity().getApplicationContext());
-            userID = userSession.getUserID();
-
-        } else {
-            AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.internet_connection_message), "Alert");
-        }
 
 
         return view;
     }
 
     // Asynchronous class to fetch user info
-    private class FetchUserInfo extends AsyncTask {
+    private class UpdateUserInfo extends AsyncTask {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -102,6 +100,10 @@ public class EditProfileFragment extends Fragment {
 
         @Override
         protected Object doInBackground(Object[] params) {
+            JsonParser jsonParser = new JsonParser();
+            String url = Const.BASE_URL + Const.PROFILE_INFO_URL;
+            String json = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, userID);
+
             return null;
         }
 
@@ -112,11 +114,20 @@ public class EditProfileFragment extends Fragment {
         }
     }
 
+    // Click event of update button
     @OnClick(R.id.btn_update)
     public void updateInfo() {
+        internetHelper = new CheckInternetHelper();
+        if (internetHelper.checkInternetConnection(getActivity())) {
+            userSession = new UserSession(getActivity().getApplicationContext());
+            userID = userSession.getUserID();
 
+        } else {
+            AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.internet_connection_message), "Alert");
+        }
     }
 
+    // Method to set values of EditText, values are coming from profile fragment
     private void setValues() {
         profileBundle = getArguments();
         userNameEditText.setText(profileBundle.getString(Const.TAG_USER_NAME));
@@ -132,8 +143,8 @@ public class EditProfileFragment extends Fragment {
         mobileEditText.setText(profileBundle.getString(Const.TAG_MOBILE));
     }
 
-    private void setFonts()
-    {
+    // Method to set the fonts
+    private void setFonts() {
         FontHelper.applyFont(getActivity(), userNameEditText, FontHelper.FontType.FONT);
         FontHelper.applyFont(getActivity(), emailEditText, FontHelper.FontType.FONT);
         FontHelper.applyFont(getActivity(), firstNameEditText, FontHelper.FontType.FONT);

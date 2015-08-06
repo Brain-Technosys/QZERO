@@ -2,58 +2,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@drawable/texture_bg"
+    android:padding="10dp"
     tools:context="com.example.qzero.MyAccount.Fragments.SettingFragment">
 
 
     <EditText
         android:id="@+id/et_old_password"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/background_editext"
-        android:ems="10"
+        android:layout_height="wrap_content"
+
         android:gravity="center"
+
         android:hint="@string/old_password"
         android:inputType="textPassword"
         android:singleLine="true"
-        android:textColor="@color/color_edittext_background"
-        android:textColorHint="@color/color_edittext_background" />
+        android:textSize="@dimen/textSize"
+
+        />
 
 
     <EditText
         android:id="@+id/et_new_password"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/et_old_password"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/background_editext"
-        android:ems="10"
         android:gravity="center"
         android:hint="@string/new_password"
         android:inputType="textPassword"
         android:singleLine="true"
-        android:textColor="@color/color_edittext_background"
-        android:textColorHint="@color/color_edittext_background" />
+        android:textSize="@dimen/textSize" />
 
 
     <EditText
         android:id="@+id/et_cnf_password"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/et_new_password"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/background_editext"
-        android:ems="10"
         android:gravity="center"
+        android:textSize="@dimen/textSize"
         android:hint="@string/cnf_password"
         android:inputType="textPassword"
-        android:singleLine="true"
-        android:textColor="@color/color_edittext_background"
-        android:textColorHint="@color/color_edittext_background" />
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/btn_save"

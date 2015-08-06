@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/texture_bg"
-        android:padding="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,15 +20,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+
                 android:text="User Name:" />
 
             <EditText
                 android:id="@+id/et_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="20dp"
                 android:inputType="text"
-                android:layout_marginTop="5dp" />
+                android:enabled="false"
+                android:singleLine="true"
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -38,6 +42,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:layout_height="wrap_content"
                 android:text="Email:" />
 
@@ -45,9 +50,11 @@
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="20dp"
                 android:inputType="textEmailAddress"
-                android:layout_marginTop="5dp" />
+                android:enabled="false"
+                android:singleLine="true"
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -58,15 +65,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:text="First Name:" />
 
             <EditText
                 android:id="@+id/et_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:layout_marginTop="20dp"
                 android:inputType="text"
-                android:layout_marginTop="5dp" />
+                android:singleLine="true"
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -76,6 +85,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:layout_height="wrap_content"
                 android:text="Last Name:" />
 
@@ -83,9 +93,10 @@
                 android:id="@+id/et_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:inputType="text"
                 android:singleLine="true"
-                android:layout_marginTop="5dp" />
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -96,16 +107,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address:"
-                />
+                android:layout_marginLeft="4dp"
+                android:text="Address:" />
 
             <EditText
                 android:id="@+id/et_address"
                 android:layout_width="match_parent"
-                android:lines="3"
-                android:inputType="text"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="20dp"
+                android:inputType="text"
+                android:lines="3"
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -116,13 +128,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:text="City:" />
 
             <EditText
                 android:id="@+id/et_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="20dp"
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -133,15 +147,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:text="State:" />
 
             <EditText
                 android:id="@+id/et_state"
                 android:layout_width="match_parent"
-                android:singleLine="true"
-                android:inputType="text"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="20dp"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -152,15 +168,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:text="Contry:" />
 
             <EditText
                 android:id="@+id/et_country"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:inputType="text"
                 android:singleLine="true"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -171,15 +189,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:text="Zip Code:" />
 
             <EditText
                 android:id="@+id/et_zip_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:inputType="number"
                 android:singleLine="true"
-                android:layout_marginTop="5dp" />
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -189,6 +209,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:layout_height="wrap_content"
                 android:text="Phone No.:" />
 
@@ -196,9 +217,10 @@
                 android:id="@+id/et_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:inputType="number"
                 android:singleLine="true"
-                android:layout_marginTop="5dp" />
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -209,21 +231,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:text="Mobile No.:" />
 
             <EditText
                 android:id="@+id/et_mobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:inputType="number"
                 android:singleLine="true"
-                android:layout_marginTop="5dp" />
+                android:textSize="@dimen/textSize" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/btn_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update"/>
+            android:text="Update" />
     </LinearLayout>
 </ScrollView>
