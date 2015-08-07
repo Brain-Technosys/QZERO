@@ -87,6 +87,13 @@ public class DashboardFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOrderNotClicked = true;
+        isProfileNotClicked = true;
+    }
+
     // Click event of Profile
     @OnClick(R.id.layout_profile)
     void openProfile() {

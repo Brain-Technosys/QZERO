@@ -91,6 +91,12 @@ public class EditProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isUpdateNotClicked = true;
+    }
+
     // Asynchronous class to fetch user info
     private class UpdateUserInfo extends AsyncTask {
         @Override
