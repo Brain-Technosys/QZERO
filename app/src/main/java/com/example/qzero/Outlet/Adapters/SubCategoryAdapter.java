@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.qzero.Outlet.ObjectClasses.Category;
+import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
 
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.ArrayList;
 public class SubCategoryAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Category> rowItems;
+    ArrayList<SubCategory> rowItems;
 
     public SubCategoryAdapter(Context context,
-                              ArrayList<Category> rowItems) {
+                              ArrayList<SubCategory> rowItems) {
 
 
         this.context = context;
@@ -64,9 +65,9 @@ public class SubCategoryAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Category category = rowItems.get(position);
+        SubCategory subCategory = rowItems.get(position);
 
-       // holder.txtViewSubCategory.setText(category.getSub_cat_name());
+         holder.txtViewSubCategory.setText(subCategory.getSub_cat_name());
 
         return convertView;
     }

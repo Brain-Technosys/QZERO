@@ -3,7 +3,6 @@
     android:id="@+id/txtViewSubCategory"
     android:textColor="@android:color/white"
     android:layout_width="match_parent"
-    android:background="@drawable/selector_navigation_menu_item"
     android:singleLine="true"
     android:textSize="18sp"
     android:paddingTop="10dp"

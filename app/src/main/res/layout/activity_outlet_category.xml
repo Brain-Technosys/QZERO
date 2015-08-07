@@ -35,7 +35,6 @@
         </ImageView>
     </RelativeLayout>
 
-
     <!-- The navigation drawer -->
     <include
         layout="@layout/nav_drawer_cat"

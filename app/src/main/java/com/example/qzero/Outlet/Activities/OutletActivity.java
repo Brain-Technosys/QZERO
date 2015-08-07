@@ -597,18 +597,11 @@ public class OutletActivity extends Activity {
 
     public void passIntent() {
 
-        if(hashMapSubCat.isEmpty())
-        {
-            Log.e("outlet","empty");
-        }
-        else {
-
-        }
         Intent intent = new Intent(OutletActivity.this, OutletCategoryActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
-       // bundle.putSerializable("arrayListSubCat",arrayListSubCat);
+        bundle.putSerializable("hashMapSubCat",hashMapSubCat);
         bundle.putString("title", outletTitle);
         intent.putExtras(bundle);
         startActivity(intent);
