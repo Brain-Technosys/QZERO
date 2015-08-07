@@ -4,27 +4,58 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/relLayCategories"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:background="@drawable/selector_navigation_menu_item">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Beverage"
-        android:textSize="18sp"
         android:layout_alignParentLeft="true"
-        android:textColor="@android:color/white" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:src="@drawable/arrow"/>
+        android:background="@drawable/selector_navigation_menu_item"
+        android:paddingBottom="15dp">
+
+
+        <ImageView
+            android:id="@+id/img_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_icon" />
+
+        <TextView
+
+            android:id="@+id/txtViewCategories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/img_profile"
+            android:gravity="start"
+            android:layout_marginLeft="3dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:text="My Profile"
+            android:textColor="@color/navigation_text_color"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imgViewArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+           android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/arrow" />
+
+
 
     </RelativeLayout>
+
 
 </RelativeLayout>

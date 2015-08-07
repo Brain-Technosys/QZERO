@@ -22,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -54,9 +55,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @InjectView(R.id.navigationView)
     LinearLayout navigationView;
 
-   /* @InjectView(R.id.linLayCatogries)
-    LinearLayout linLayCatogries;
-*/
     @InjectView((R.id.txtViewProfile))
     TextView txtViewProfile;
 
@@ -244,20 +242,20 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         //Create textview dynamically
 
-        TextView txtViewCategory = new TextView(this);
-        txtViewCategory.setText(arrayListCat.get(pos).getCategory_name());
-        txtViewCategory.setTag(pos);
-        txtViewCategory.setTextSize(18);
-        txtViewCategory.setTextColor(getResources().getColor(R.color.primary_material_dark));
-        txtViewCategory.setPadding(120, 20, 0, 20);
-        txtViewCategory.setTextColor(getResources().getColor(R.color.navigation_text_color));
-        txtViewCategory.setBackgroundResource(R.drawable.selector_navigation_menu_item);
+        View child = getLayoutInflater().inflate(R.layout.item_nav_categories, null);
+        navigationView.addView(child);
 
-        navigationView.addView(txtViewCategory, params);
+        RelativeLayout relLayCategories=(RelativeLayout) child.findViewById(R.id.relLayCategories);
+
+        TextView txtViewCategories=(TextView) child.findViewById(R.id.txtViewCategories);
+
+        txtViewCategories.setText(arrayListCat.get(pos).getCategory_name());
+
+        relLayCategories.setTag(pos);
 
         subCatListView[pos] = new ExpandableListView(this);
 
-        txtViewCategory.setOnClickListener(new View.OnClickListener() {
+        relLayCategories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int tag = Integer.parseInt(view.getTag().toString());
