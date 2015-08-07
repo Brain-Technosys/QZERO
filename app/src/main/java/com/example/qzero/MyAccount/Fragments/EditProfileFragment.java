@@ -69,6 +69,7 @@ public class EditProfileFragment extends Fragment {
     String userID;
 
     Bundle profileBundle;
+    boolean isUpdateNotClicked = true;
 
     @Nullable
     @Override
@@ -121,6 +122,13 @@ public class EditProfileFragment extends Fragment {
         if (internetHelper.checkInternetConnection(getActivity())) {
             userSession = new UserSession(getActivity().getApplicationContext());
             userID = userSession.getUserID();
+
+            if (isUpdateNotClicked)
+            {
+                // call API
+
+                isUpdateNotClicked = !isUpdateNotClicked;
+            }
 
         } else {
             AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.internet_connection_message), "Alert");
