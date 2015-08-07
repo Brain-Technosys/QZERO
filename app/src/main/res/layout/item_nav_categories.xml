@@ -22,7 +22,7 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_icon" />
+            android:src="@drawable/transparent" />
 
         <TextView
 
@@ -42,7 +42,7 @@
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/imgViewArrow"
+            android:id="@+id/imgViewDownArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -52,6 +52,19 @@
            android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/arrow" />
+
+        <ImageView
+            android:id="@+id/imgViewUpArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/downarrow"
+            android:visibility="gone"/>
 
 
 

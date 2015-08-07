@@ -249,6 +249,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         TextView txtViewCategories=(TextView) child.findViewById(R.id.txtViewCategories);
 
+
         txtViewCategories.setText(arrayListCat.get(pos).getCategory_name());
 
         relLayCategories.setTag(pos);
@@ -258,17 +259,29 @@ public class OutletCategoryActivity extends AppCompatActivity {
         relLayCategories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                ImageView imgViewUpArrow=(ImageView) view.findViewById(R.id.imgViewUpArrow);
+                ImageView imgViewDownArrow=(ImageView) view.findViewById(R.id.imgViewDownArrow);
+
+
                 int tag = Integer.parseInt(view.getTag().toString());
                 if(lastPos!=tag) {
                     subCatListView[lastPos].setVisibility(View.GONE);
+                    imgViewUpArrow.setVisibility(View.GONE);
+                    imgViewDownArrow.setVisibility(View.VISIBLE);
+
 
                 }
                 lastPos = tag;
                 if (subCatListView[tag].getVisibility() == View.VISIBLE) {
                     subCatListView[tag].setVisibility(View.GONE);
+                    imgViewUpArrow.setVisibility(View.GONE);
+                    imgViewDownArrow.setVisibility(View.VISIBLE);
                 } else {
 
                     subCatListView[tag].setVisibility(View.VISIBLE);
+                    imgViewDownArrow.setVisibility(View.GONE);
+                    imgViewUpArrow.setVisibility(View.VISIBLE);
                 }
 
             }
