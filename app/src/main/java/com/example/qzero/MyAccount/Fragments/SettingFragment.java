@@ -51,6 +51,8 @@ public class SettingFragment extends Fragment {
     String newPassword;
     String cnfPassowrd;
 
+    boolean isSaveNotClicked = true;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,7 +76,11 @@ public class SettingFragment extends Fragment {
         if (internetHelper.checkInternetConnection(getActivity())) {
             userSession = new UserSession(getActivity().getApplicationContext());
             if (isValid()) {
-                new ChangePassword().execute();
+                if(isSaveNotClicked){
+                    new ChangePassword().execute();
+                    isSaveNotClicked = !isSaveNotClicked;
+                }
+
             } else {
                 AlertDialogHelper.showAlertDialog(getActivity(), "Not valid", "Alert");
             }

@@ -45,6 +45,7 @@ public class ProfileInfoFragment extends Fragment {
     String createdOn;
     String updatedOn;
     boolean isActive;
+    boolean isEditNotClicked;
 
     @InjectView(R.id.tv_firstName)
     TextView firstNameTextView;
@@ -98,7 +99,7 @@ public class ProfileInfoFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_profile, null);
         ButterKnife.inject(this, view);
-getActivity().setTitle(getString(R.string.profile_title));
+        getActivity().setTitle(getString(R.string.profile_title));
         internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());
 
@@ -113,6 +114,12 @@ getActivity().setTitle(getString(R.string.profile_title));
                     getString(R.string.internet_connection_message), "Alert");
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isEditNotClicked = true;
     }
 
     class GetProfileInfo extends AsyncTask<String, String, String> {
@@ -193,14 +200,17 @@ getActivity().setTitle(getString(R.string.profile_title));
     @OnClick(R.id.btn_edit)
     public void edit() {
 
+        if (isEditNotClicked) {
+            EditProfileFragment fragment = new EditProfileFragment();
+            fragment.setArguments(profileBundle);
+            this.getFragmentManager().beginTransaction()
+                    .replace(R.id.flContent, fragment, "Edit Profile")
+                    .addToBackStack(null)
+                    .commit();
+            isEditNotClicked = !isEditNotClicked;
+        }
 
 
-        EditProfileFragment fragment = new EditProfileFragment();
-        fragment.setArguments(profileBundle);
-        this.getFragmentManager().beginTransaction()
-                .replace(R.id.flContent, fragment, "Edit Profile")
-                .addToBackStack(null)
-                .commit();
     }
 
     // Method to set values on TextView
@@ -220,18 +230,18 @@ getActivity().setTitle(getString(R.string.profile_title));
         updatedOnTextView.setText(updatedOn);
 
         profileBundle = new Bundle();
-        profileBundle.putString(Const.TAG_FIRST_NAME,firstName);
-        profileBundle.putString(Const.TAG_LAST_NAME,lastName);
-        profileBundle.putString(Const.TAG_USER_NAME,userSession.getUserName());
+        profileBundle.putString(Const.TAG_FIRST_NAME, firstName);
+        profileBundle.putString(Const.TAG_LAST_NAME, lastName);
+        profileBundle.putString(Const.TAG_USER_NAME, userSession.getUserName());
 
-        profileBundle.putString(Const.TAG_EMAIL,email);
-        profileBundle.putString(Const.TAG_PHONE,phoneNo);
-        profileBundle.putString(Const.TAG_MOBILE,mobileNo);
-        profileBundle.putString(Const.TAG_ADDRESS,addressString);
-        profileBundle.putString(Const.TAG_CITY,city);
-        profileBundle.putString(Const.TAG_STATE,state);
-        profileBundle.putString(Const.TAG_COUNTRY,country);
-        profileBundle.putString(Const.TAG_PIN_CODE,pincode);
+        profileBundle.putString(Const.TAG_EMAIL, email);
+        profileBundle.putString(Const.TAG_PHONE, phoneNo);
+        profileBundle.putString(Const.TAG_MOBILE, mobileNo);
+        profileBundle.putString(Const.TAG_ADDRESS, addressString);
+        profileBundle.putString(Const.TAG_CITY, city);
+        profileBundle.putString(Const.TAG_STATE, state);
+        profileBundle.putString(Const.TAG_COUNTRY, country);
+        profileBundle.putString(Const.TAG_PIN_CODE, pincode);
 
     }
 

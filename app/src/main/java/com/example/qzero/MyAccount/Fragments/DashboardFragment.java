@@ -52,7 +52,8 @@ public class DashboardFragment extends Fragment {
     String walletAmount;
     String clubsount;
     String orderCount;
-
+    boolean isProfileNotClicked = true;
+    boolean isOrderNotClicked = true;
     CheckInternetHelper internetHelper;
 
     @Nullable
@@ -86,21 +87,36 @@ public class DashboardFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOrderNotClicked = true;
+        isProfileNotClicked = true;
+    }
+
     // Click event of Profile
     @OnClick(R.id.layout_profile)
     void openProfile() {
-        ProfileInfoFragment nextFrag = new ProfileInfoFragment();
-        this.getFragmentManager().beginTransaction()
-                .replace(R.id.flContent, nextFrag, "Profile")
-                .addToBackStack(null)
-                .commit();
+        if (isProfileNotClicked) {
+            ProfileInfoFragment nextFrag = new ProfileInfoFragment();
+            this.getFragmentManager().beginTransaction()
+                    .replace(R.id.flContent, nextFrag, "Profile")
+                    .addToBackStack(null)
+                    .commit();
+            isProfileNotClicked = !isProfileNotClicked;
+        }
+
+
     }
 
     // Click event of Order
     @OnClick(R.id.ll_order)
     void openOrder() {
-        OrderFragment fragment = new OrderFragment();
-        this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, "Order").addToBackStack(null).commit();
+        if (isOrderNotClicked) {
+            OrderFragment fragment = new OrderFragment();
+            this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, "Order").addToBackStack(null).commit();
+            isOrderNotClicked = !isOrderNotClicked;
+        }
     }
 
     // Method to set Fonts
