@@ -123,12 +123,12 @@ public class LoginRegisterFragment extends Fragment {
 
 
     public void authenticateRegister() {
-        fname = edtFname.getText().toString();
-        lname = edtLname.getText().toString();
-        email = edtEmail.getText().toString();
+        fname = edtFname.getText().toString().trim();
+        lname = edtLname.getText().toString().trim();
+        email = edtEmail.getText().toString().trim();
         password = edtPass.getText().toString();
         confPassword = edtConfPass.getText().toString();
-        username = edtUname.getText().toString();
+        username = edtUname.getText().toString().trim();
 
         if (chkAgreement.isChecked()) {
             agreement = true;

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -18,6 +19,8 @@ import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.R;
+
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -87,7 +90,6 @@ public class EditProfileFragment extends Fragment {
         setValues();
         setFonts();
 
-
         return view;
     }
 
@@ -95,30 +97,6 @@ public class EditProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         isUpdateNotClicked = true;
-    }
-
-    // Asynchronous class to fetch user info
-    private class UpdateUserInfo extends AsyncTask {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            ProgresBar.start(getActivity());
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            JsonParser jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.PROFILE_INFO_URL;
-            String json = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, userID);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            ProgresBar.stop();
-        }
     }
 
     // Click event of update button
@@ -129,9 +107,14 @@ public class EditProfileFragment extends Fragment {
             userSession = new UserSession(getActivity().getApplicationContext());
             userID = userSession.getUserID();
 
-            if (isUpdateNotClicked)
-            {
-                // call API
+            if (isUpdateNotClicked) {
+                // Getting values from Edit Text and validating
+                if (isValid(getUpdatedValues())) {
+                    // Call API
+                    Toast.makeText(getActivity(), "Call API Now", Toast.LENGTH_SHORT).show();
+                } else {
+                    //
+                }
 
                 isUpdateNotClicked = !isUpdateNotClicked;
             }
@@ -171,5 +154,89 @@ public class EditProfileFragment extends Fragment {
         FontHelper.applyFont(getActivity(), phoneEditText, FontHelper.FontType.FONT);
         FontHelper.applyFont(getActivity(), mobileEditText, FontHelper.FontType.FONT);
 
+    }
+
+    private HashMap<String, String> getUpdatedValues() {
+        HashMap<String, String> updatedValues = new HashMap<String, String>();
+        updatedValues.put(Const.TAG_FIRST_NAME, firstNameEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_ADDRESS, addressEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_LAST_NAME, lastNameEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_CITY, cityEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_STATE, stateEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_COUNTRY, countryEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_ZIP, zipcodeEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_PHONE, phoneEditText.getText().toString().trim());
+        updatedValues.put(Const.TAG_MOBILE, mobileEditText.getText().toString().trim());
+        return updatedValues;
+    }
+
+    // Method to validate data
+    private boolean isValid(HashMap<String, String> data) {
+        if (data.get(Const.TAG_FIRST_NAME).length() == 0) {
+            firstNameEditText.setError("Please enter First Name.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_ADDRESS).length() == 0) {
+            addressEditText.setError("Please enter Address.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_LAST_NAME).length() == 0) {
+            lastNameEditText.setError("Please enter Last Name.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_CITY).length() == 0) {
+            cityEditText.setError("Please enter City.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_STATE).length() == 0) {
+            stateEditText.setError("Please enter State.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_COUNTRY).length() == 0) {
+            countryEditText.setError("Please enter Country.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_ZIP).length() == 0) {
+            zipcodeEditText.setError("Please enter ZIP Code.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_PHONE).length() == 0) {
+            phoneEditText.setError("Please enter Phone No.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_MOBILE).length() == 0) {
+            mobileEditText.setError("Please enter Mobile No.");
+            isUpdateNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_MOBILE).length() > 11 || data.get(Const.TAG_MOBILE).length() < 10) {
+            mobileEditText.setError("Mobile No. is not valid.");
+            isUpdateNotClicked = false;
+            return false;
+        }
+        return true;
+    }
+
+    // Asynchronous class to fetch user info
+    private class UpdateUserInfo extends AsyncTask {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(getActivity());
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            JsonParser jsonParser = new JsonParser();
+            String url = Const.BASE_URL + Const.PROFILE_INFO_URL;
+            String json = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, userID);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            ProgresBar.stop();
+        }
     }
 }
