@@ -82,6 +82,8 @@
 
     <!--OutLet Catogery Activity-->
     <string name="category">Category</string>
+    <string name="Tag">0</string>
+    <string name="ID">1</string>
 
     <!-- Profile Info-->
     <string name="response_failure">Server is not responding!</string>

@@ -475,7 +475,7 @@ public class OutletActivity extends Activity {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" + ""
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" +""
                     + "&subCatId=" + "";
 
 
@@ -603,6 +603,8 @@ public class OutletActivity extends Activity {
         bundle.putSerializable("arrayListCat", arrayListCat);
         bundle.putSerializable("hashMapSubCat",hashMapSubCat);
         bundle.putString("title", outletTitle);
+        bundle.putString("venue_id",venue_id);
+        bundle.putString("outlet_id",outletId);
         intent.putExtras(bundle);
         startActivity(intent);
     }

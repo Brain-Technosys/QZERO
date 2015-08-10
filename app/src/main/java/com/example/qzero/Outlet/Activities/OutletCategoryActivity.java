@@ -4,6 +4,7 @@ package com.example.qzero.Outlet.Activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.Adapters.SubCategoryAdapter;
@@ -35,6 +41,10 @@ import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,13 +74,20 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @InjectView(R.id.txtViewLogout)
     TextView txtViewLogout;
 
+    ImageView imgViewUpArrow;
+    ImageView imgViewDownArrow;
 
     ArrayAdapter adapter;
 
     int list;
     int lastPos;
+    int noSubCatPos;
 
     String title;
+    String venue_id;
+    String outlet_id;
+    String categoryId;
+    String subCategoryId;
 
     ActionBar actionBar;
     ActionBarDrawerToggle drawerToggle;
@@ -86,12 +103,11 @@ public class OutletCategoryActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    String[] menu = {"Beverage", "Sea Food", "Continental"};
-    String[] submenu = {"Chinese", "Fish", "Chicken"};
-
     ExpandableListView[] subCatListView;
 
     LinearLayout.LayoutParams params;
+
+    View child[];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +115,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_outlet_category);
 
         ButterKnife.inject(this);
+
 
         //Initialize user session
         userSession = new UserSession(this);
@@ -108,6 +125,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
         drawerToggle = setupDrawerToggle();
 
         getIntentData();
+
+        child = new View[arrayListCat.size()];
 
         addItemFragment();
 
@@ -179,6 +198,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
 
             title = bundle.getString("title");
+            venue_id=bundle.getString("venue_id");
+            outlet_id=bundle.getString("outlet_id");
         }
     }
 
@@ -242,17 +263,18 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         //Create textview dynamically
 
-        View child = getLayoutInflater().inflate(R.layout.item_nav_categories, null);
-        navigationView.addView(child);
+        child[pos] = getLayoutInflater().inflate(R.layout.item_nav_categories, null);
+        navigationView.addView(child[pos]);
 
-        RelativeLayout relLayCategories=(RelativeLayout) child.findViewById(R.id.relLayCategories);
+        RelativeLayout relLayCategories = (RelativeLayout) child[pos].findViewById(R.id.relLayCategories);
 
-        TextView txtViewCategories=(TextView) child.findViewById(R.id.txtViewCategories);
+        TextView txtViewCategories = (TextView) child[pos].findViewById(R.id.txtViewCategories);
 
 
         txtViewCategories.setText(arrayListCat.get(pos).getCategory_name());
 
-        relLayCategories.setTag(pos);
+        relLayCategories.setTag(R.string.Tag, pos);
+        relLayCategories.setTag(R.string.ID,arrayListCat.get(pos).getCategory_id());
 
         subCatListView[pos] = new ExpandableListView(this);
 
@@ -260,31 +282,46 @@ public class OutletCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ImageView imgViewUpArrow=(ImageView) view.findViewById(R.id.imgViewUpArrow);
-                ImageView imgViewDownArrow=(ImageView) view.findViewById(R.id.imgViewDownArrow);
+                categoryId = view.getTag(R.string.ID).toString();
 
+                Log.e("id", categoryId);
+                int tag = Integer.parseInt(view.getTag(R.string.Tag).toString());
 
-                int tag = Integer.parseInt(view.getTag().toString());
-                if(lastPos!=tag) {
+                if (lastPos != tag) {
+
                     subCatListView[lastPos].setVisibility(View.GONE);
+
+                    imgViewUpArrow = (ImageView) child[lastPos].findViewById(R.id.imgViewUpArrow);
+                    imgViewDownArrow = (ImageView) child[lastPos].findViewById(R.id.imgViewDownArrow);
+
                     imgViewUpArrow.setVisibility(View.GONE);
                     imgViewDownArrow.setVisibility(View.VISIBLE);
-
-
                 }
+
+
                 lastPos = tag;
+
+
                 if (subCatListView[tag].getVisibility() == View.VISIBLE) {
                     subCatListView[tag].setVisibility(View.GONE);
+
+                    imgViewUpArrow = (ImageView) child[tag].findViewById(R.id.imgViewUpArrow);
+                    imgViewDownArrow = (ImageView) child[tag].findViewById(R.id.imgViewDownArrow);
+
                     imgViewUpArrow.setVisibility(View.GONE);
                     imgViewDownArrow.setVisibility(View.VISIBLE);
                 } else {
 
                     subCatListView[tag].setVisibility(View.VISIBLE);
+
+                    imgViewUpArrow = (ImageView) child[tag].findViewById(R.id.imgViewUpArrow);
+                    imgViewDownArrow = (ImageView) child[tag].findViewById(R.id.imgViewDownArrow);
+
                     imgViewDownArrow.setVisibility(View.GONE);
                     imgViewUpArrow.setVisibility(View.VISIBLE);
                 }
-
             }
+
 
         });
 
@@ -293,8 +330,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     private void createSubCaList(int pos) {
 
         //dynamically add LismenuItemview to show subItem of different Category
-
-        subCatListView[pos].setTag(pos);
+        subCatListView[pos].setTag(R.string.Tag,pos);
         subCatListView[pos].setBackgroundColor(Color.parseColor("#4b4b4b"));
         subCatListView[pos].setVisibility(View.GONE);
 
@@ -302,6 +338,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                TextView txtViewSubCategory=(TextView)view.findViewById(R.id.txtViewSubCategory);
+
+                subCategoryId=txtViewSubCategory.getTag(R.string.ID).toString();
+
+                Log.e("item",subCategoryId);
+
+                setItemsInFragment();
             }
         });
 
@@ -309,12 +352,26 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         arrayListSubCat = hashMapSubCat.get(pos);
 
+      /*  //If categories have no sub categories hide the arrow
+        if (arrayListSubCat.size() == 0) {
+            imgViewDownArrow = (ImageView) child[pos].findViewById(R.id.imgViewDownArrow);
+            imgViewDownArrow.setVisibility(View.GONE);
+
+            //Capture the position of categories containing no sub categories
+            noSubCatPos = pos;
+        }*/
+
         //add adapter to listview
         SubCategoryAdapter subCatAdapter = new SubCategoryAdapter(this, arrayListSubCat);
         subCatListView[pos].setAdapter(subCatAdapter);
         navigationView.addView(subCatListView[pos], params);
     }
 
+    public void setItemsInFragment()
+    {
+        CategoryItemFragment categoryFragment = (CategoryItemFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayItem);
+        categoryFragment.getSubCatItems(venue_id,outlet_id,categoryId,subCategoryId);
+    }
 
     @OnClick(R.id.relLayProfile)
     void navigate() {

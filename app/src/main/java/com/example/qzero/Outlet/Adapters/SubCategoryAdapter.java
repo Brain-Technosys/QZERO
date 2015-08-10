@@ -57,6 +57,8 @@ public class SubCategoryAdapter extends BaseAdapter {
 
             holder.txtViewSubCategory = (TextView) convertView.findViewById(R.id.txtViewSubCategory);
 
+
+
            // FontHelper.setFontFace(holder.txtViewSubCategory, FontHelper.FontType.FONTSANSBOLD, context);
 
 
@@ -68,6 +70,7 @@ public class SubCategoryAdapter extends BaseAdapter {
         SubCategory subCategory = rowItems.get(position);
 
          holder.txtViewSubCategory.setText(subCategory.getSub_cat_name());
+        holder.txtViewSubCategory.setTag(R.string.ID,subCategory.getSub_cat_id() );
 
         return convertView;
     }
