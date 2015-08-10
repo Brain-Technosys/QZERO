@@ -23,6 +23,9 @@ import com.example.qzero.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -31,6 +34,9 @@ import butterknife.OnClick;
  * Created by Braintech on 7/31/2015.
  */
 public class SettingFragment extends Fragment {
+
+    public final Pattern PASSWORD_PATTERN = Pattern
+            .compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!^&*~)(@#$%]).{6,20}");
 
     @InjectView(R.id.et_old_password)
     EditText oldPasswordEditText;
@@ -75,14 +81,15 @@ public class SettingFragment extends Fragment {
         // Checking Internet connectivity
         if (internetHelper.checkInternetConnection(getActivity())) {
             userSession = new UserSession(getActivity().getApplicationContext());
-            if (isValid()) {
-                if(isSaveNotClicked){
+            // Getting values from Edit Text and validating
+            if (isValid(getValues())) {
+                if (isSaveNotClicked) {
                     new ChangePassword().execute();
                     isSaveNotClicked = !isSaveNotClicked;
                 }
 
             } else {
-                AlertDialogHelper.showAlertDialog(getActivity(), "Not valid", "Alert");
+                //AlertDialogHelper.showAlertDialog(getActivity(), "Not valid", "Alert");
             }
 
 
@@ -141,8 +148,34 @@ public class SettingFragment extends Fragment {
         FontHelper.applyFont(getActivity(), cnfPasswordEditText, FontHelper.FontType.FONT);
     }
 
+    private HashMap<String, String> getValues() {
+        HashMap<String, String> values = new HashMap<String, String>();
+        values.put(Const.TAG_OLD_PASSWORD, oldPasswordEditText.getText().toString().trim());
+        values.put(Const.TAG_NEW_PASSWORD, newPasswordEditText.getText().toString().trim());
+        values.put(Const.TAG_CNF_PASSWORD, cnfPasswordEditText.getText().toString().trim());
+        return values;
+    }
+
     // Method to validate password
-    private boolean isValid() {
+    private boolean isValid(HashMap<String, String> data) {
+        if (data.get(Const.TAG_OLD_PASSWORD).length() == 0) {
+            oldPasswordEditText.setError("Please enter Old Password.");
+            isSaveNotClicked = false;
+            return false;
+        } else if (data.get(Const.TAG_NEW_PASSWORD).length() == 0) {
+            newPasswordEditText.setError("Please enter New Password.");
+            isSaveNotClicked = false;
+            return false;
+        } else if (!PASSWORD_PATTERN.matcher(data.get(Const.TAG_NEW_PASSWORD)).matches()) {
+            newPasswordEditText.setError(getString(R.string.password_pattern_error));
+            isSaveNotClicked = false;
+            return false;
+
+        } else if (data.get(Const.TAG_CNF_PASSWORD).length() == 0) {
+            cnfPasswordEditText.setError("Please enter Confirm Password.");
+            isSaveNotClicked = false;
+            return false;
+        }
         return true;
     }
 }

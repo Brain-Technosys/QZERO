@@ -33,8 +33,8 @@ public class Const {
 
     public static String TAG_JsonItemObj = "items";
     public static String TAG_JsonOutletObj = "outlets";
-    public static String TAG_JsonCatObj="categories";
-    public static String TAG_JsonSubCatObj="subCategoryModels";
+    public static String TAG_JsonCatObj = "categories";
+    public static String TAG_JsonSubCatObj = "subCategoryModels";
 
 
     //Initialize message and status parameter
@@ -73,9 +73,9 @@ public class Const {
     //Initialze outlet activity variables
     public static String TAG_OUTLET_ID = "outletId";
     public static String TAG_NAME = "name";
-    public static String TAG_OUTLET_DESC="outletHeading";
-    public static String TAG_PH_NUM="phoneNumber";
-    public static String TAG_MOB_NUM="mobileNumber";
+    public static String TAG_OUTLET_DESC = "outletHeading";
+    public static String TAG_PH_NUM = "phoneNumber";
+    public static String TAG_MOB_NUM = "mobileNumber";
     public static String TAG_OUTLET_ACTIVE = "isActive";
 
     //Initialize item variables
@@ -87,11 +87,11 @@ public class Const {
 
     //Initialize categories variables
     public static String TAG_CAT_ID = "categoryId";
-    public static String TAG_CAT_NAME= "name";
+    public static String TAG_CAT_NAME = "name";
 
     //Initialize sub categories variables
     public static String TAG_SUB_CAT_ID = "subCategoryId";
-    public static String TAG_SUB_CAT_NAME= "name";
+    public static String TAG_SUB_CAT_NAME = "name";
 
 
     //Initialize profile variables
@@ -110,5 +110,8 @@ public class Const {
     public static String TAG_USER_PROFILE_ID = "userProfileId";
     public static String TAG_USER_DETAIL_ID = "userDetailId";
 
-
+    // Initialize change password variable
+    public static String TAG_OLD_PASSWORD = "oldPassword";
+    public static String TAG_NEW_PASSWORD = "newPassword";
+    public static String TAG_CNF_PASSWORD = "confirmPassword";
 }
