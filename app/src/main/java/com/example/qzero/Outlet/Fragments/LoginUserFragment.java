@@ -137,13 +137,13 @@ public class LoginUserFragment extends Fragment {
             String jsonString = jsonParser.executePost(url, urlParameters,
                     Const.TIME_OUT);
 
-            Log.e("json", jsonString);
+
 
             try {
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-
+                    Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
                     if (status == 1) {
                         user_id = jsonObject.getString("userId");
@@ -154,9 +154,11 @@ public class LoginUserFragment extends Fragment {
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
+                status = -1;
             } catch (JSONException e) {
 
                 e.printStackTrace();
+                status = -1;
             }
             return null;
         }
