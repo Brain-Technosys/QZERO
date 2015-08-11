@@ -69,6 +69,12 @@ public class CategoryItemFragment extends Fragment {
     JSONObject jsonObject;
     JSONArray jsonArray;
 
+    String venue_id;
+    String outlet_id;
+    String category_id;
+    String sub_cat_id;
+
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,8 +108,12 @@ public class CategoryItemFragment extends Fragment {
     }
 
     public void getSubCatItems(String venue_id, String outlet_id, String category_id, String sub_cat_id) {
-        arrayListItems = new ArrayList<ItemOutlet>();
-        new GetItems().execute(venue_id, outlet_id, category_id, sub_cat_id);
+        this.venue_id=venue_id;
+        this.outlet_id=outlet_id;
+        this.category_id=category_id;
+        this.sub_cat_id=sub_cat_id;
+
+        new GetItems().execute();
     }
 
     public class GetItems extends AsyncTask<String, String, String> {
@@ -122,20 +132,21 @@ public class CategoryItemFragment extends Fragment {
 
             Log.e("inside", "do in");
             status = -1;
+            pos=0;
 
-            String venue_id = params[0];
+          /*  String venue_id = params[0];
             String outletId = params[1];
             String itemId = params[2];
-            String subCatId = params[3];
+            String subCatId = params[3];*/
 
-            Log.e("venue", venue_id);
+            /*Log.e("venue", venue_id);
             Log.e("outletId", outletId);
             Log.e("itemId", itemId);
-            Log.e("subCatId", subCatId);
+            Log.e("subCatId", subCatId);*/
 
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" + itemId
-                    + "&subCatId=" + subCatId;
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId="+ outlet_id + "&itemId="+ category_id
+                    + "&subCatId="+ sub_cat_id;
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
@@ -166,6 +177,8 @@ public class CategoryItemFragment extends Fragment {
 
 
                         for (int i = 0; i < jsonArray.length(); i++) {
+
+                            Log.e("ijson",""+i);
                             JSONObject jsonObjItem = jsonArray.getJSONObject(i);
 
                             String item_id = jsonObjItem.getString(Const.TAG_ITEM_ID);
