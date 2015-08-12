@@ -396,6 +396,12 @@ public class OutletCategoryActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.relLayChangeOutlet)
+    void changeOutlet()
+    {
+        finish();
+    }
+
     @OnClick(R.id.txtViewLogout)
     void logout() {
         userSession.ClearUserName();
