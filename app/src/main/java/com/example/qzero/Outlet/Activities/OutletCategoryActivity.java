@@ -89,6 +89,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
     String categoryId;
     String subCategoryId;
 
+    Boolean isSubCatPresent;
+
     ActionBar actionBar;
     ActionBarDrawerToggle drawerToggle;
 
@@ -287,38 +289,45 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 Log.e("id", categoryId);
                 int tag = Integer.parseInt(view.getTag(R.string.Tag).toString());
 
-                if (lastPos != tag) {
+                if(noSubCatPos!=lastPos) {
+                    if (lastPos != tag) {
 
-                    subCatListView[lastPos].setVisibility(View.GONE);
 
-                    imgViewUpArrow = (ImageView) child[lastPos].findViewById(R.id.imgViewUpArrow);
-                    imgViewDownArrow = (ImageView) child[lastPos].findViewById(R.id.imgViewDownArrow);
+                        subCatListView[lastPos].setVisibility(View.GONE);
 
-                    imgViewUpArrow.setVisibility(View.GONE);
-                    imgViewDownArrow.setVisibility(View.VISIBLE);
+                        imgViewUpArrow = (ImageView) child[lastPos].findViewById(R.id.imgViewUpArrow);
+                        imgViewDownArrow = (ImageView) child[lastPos].findViewById(R.id.imgViewDownArrow);
+
+                        imgViewUpArrow.setVisibility(View.GONE);
+                        imgViewDownArrow.setVisibility(View.VISIBLE);
+
+                    }
                 }
 
 
                 lastPos = tag;
 
+                if (noSubCatPos != tag) {
 
-                if (subCatListView[tag].getVisibility() == View.VISIBLE) {
-                    subCatListView[tag].setVisibility(View.GONE);
 
-                    imgViewUpArrow = (ImageView) child[tag].findViewById(R.id.imgViewUpArrow);
-                    imgViewDownArrow = (ImageView) child[tag].findViewById(R.id.imgViewDownArrow);
+                    if (subCatListView[tag].getVisibility() == View.VISIBLE) {
+                        subCatListView[tag].setVisibility(View.GONE);
 
-                    imgViewUpArrow.setVisibility(View.GONE);
-                    imgViewDownArrow.setVisibility(View.VISIBLE);
-                } else {
+                        imgViewUpArrow = (ImageView) child[tag].findViewById(R.id.imgViewUpArrow);
+                        imgViewDownArrow = (ImageView) child[tag].findViewById(R.id.imgViewDownArrow);
 
-                    subCatListView[tag].setVisibility(View.VISIBLE);
+                        imgViewUpArrow.setVisibility(View.GONE);
+                        imgViewDownArrow.setVisibility(View.VISIBLE);
+                    } else {
 
-                    imgViewUpArrow = (ImageView) child[tag].findViewById(R.id.imgViewUpArrow);
-                    imgViewDownArrow = (ImageView) child[tag].findViewById(R.id.imgViewDownArrow);
+                        subCatListView[tag].setVisibility(View.VISIBLE);
 
-                    imgViewDownArrow.setVisibility(View.GONE);
-                    imgViewUpArrow.setVisibility(View.VISIBLE);
+                        imgViewUpArrow = (ImageView) child[tag].findViewById(R.id.imgViewUpArrow);
+                        imgViewDownArrow = (ImageView) child[tag].findViewById(R.id.imgViewDownArrow);
+
+                        imgViewDownArrow.setVisibility(View.GONE);
+                        imgViewUpArrow.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -352,14 +361,16 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         arrayListSubCat = hashMapSubCat.get(pos);
 
-      /*  //If categories have no sub categories hide the arrow
+       //If categories have no sub categories hide the arrow
         if (arrayListSubCat.size() == 0) {
             imgViewDownArrow = (ImageView) child[pos].findViewById(R.id.imgViewDownArrow);
             imgViewDownArrow.setVisibility(View.GONE);
 
             //Capture the position of categories containing no sub categories
             noSubCatPos = pos;
-        }*/
+
+            isSubCatPresent=false;
+        }
 
         //add adapter to listview
         SubCategoryAdapter subCatAdapter = new SubCategoryAdapter(this, arrayListSubCat);
