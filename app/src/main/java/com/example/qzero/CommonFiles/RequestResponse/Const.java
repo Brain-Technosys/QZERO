@@ -26,6 +26,7 @@ public class Const {
     public static String PROFILE_INFO_URL = "ProfileInfo";
     public static String CHANGE_PASSWORD_URL = "Account/ChangePassword";
     public static String UPDATE_PROFILE_URL = "ProfileInfo";
+    public static String GET_ORDER_URL = "Order";
 
     //Intialize jsonArray parameter
 
@@ -114,4 +115,15 @@ public class Const {
     public static String TAG_OLD_PASSWORD = "oldPassword";
     public static String TAG_NEW_PASSWORD = "newPassword";
     public static String TAG_CNF_PASSWORD = "confirmPassword";
+
+    // Creating Order Constant
+    public static String TAG_ORDER_ID = "orderId";
+    public static String TAG_PURCHASE_DATE= "purchaseDate";
+    public static String TAG_IS_SHIPPED = "isShipped";
+    public static String TAG_ORDER_STATUS = "orderStatus";
+    public static String TAG_ITEM_COUNT = "itemsCount";
+    public static String TAG_CUSTOMER = "customer";
+    public static String TAG_SHIPPING_ADDRESS = "shippingAdress";
+    public static String TAG_BILLING_ADDRESS = "orderBillingAdress";
+
 }

@@ -14,7 +14,8 @@ import java.util.ArrayList;
 /**
  * Created by braintech on 16-Jun-15.
  */
-public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder> {
+public class
+        TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder> {
     private ArrayList<String> dataset;
 
     public TransactionHistoryAdapter(ArrayList<String> data) {
