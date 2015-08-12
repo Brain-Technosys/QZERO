@@ -102,4 +102,9 @@
     <string name="profile_title">Profile</string>
     <string name="edit_profile_title">Edit Profile</string>
     <string name="setting_title">Setting</string>
+    <!-- Order Items -->
+    <string name="billing_address">Billing Address:</string>
+    <string name="shipping_address">Shipping Address:</string>
+    <!-- Dummy texts-->
+    <string name="address">G-84, Sector-63, NOIDA, U.P. 201301</string>
 </resources>
