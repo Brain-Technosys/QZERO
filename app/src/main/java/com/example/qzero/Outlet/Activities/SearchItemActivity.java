@@ -1,6 +1,7 @@
 package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -8,18 +9,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.Outlet.Adapters.CustomAdapterItem;
 import com.example.qzero.Outlet.Adapters.CustomAdapterVenue;
+import com.example.qzero.Outlet.ObjectClasses.Category;
+import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Items;
+import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,10 +59,12 @@ public class SearchItemActivity extends Activity {
         rowItems = new ArrayList<Items>();
 
 
-        setFont();
-        setText();
+        //setFont();
+        //setText();
 
-        getItemData();
+        //getItemData();
+
+      //  getDemoData();
 
 
 
@@ -93,6 +105,63 @@ public class SearchItemActivity extends Activity {
     void finishAct() {
         finish();
     }
+
+    public void getDemoData()
+    {
+        new MyAsyncTask().execute();
+    }
+
+    public class MyAsyncTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(SearchItemActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            Log.e("inside", "do in");
+
+           JsonParser jsonParser = new JsonParser();
+            String url =Const.BASE_URL+Const.GET_ITEMS;
+
+            JSONObject jsonObj=new JSONObject();
+            try {
+                jsonObj.put("EmailID","neht12@hmm.com");
+                jsonObj.put("UserName","neh");
+                jsonObj.put("Password","123");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            String jsonString = jsonParser.executePostJson(url, jsonObj.toString(), Const.TIME_OUT);
+
+            Log.e("jsonvenue", jsonString);
+
+
+
+
+
+
+            return null;}
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+
+            ProgresBar.stop();
+
+            Log.e("inside", "postexecute");
+
+
+        }
+    }
+
 
 
 }
