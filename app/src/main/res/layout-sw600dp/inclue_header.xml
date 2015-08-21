@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/header">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/imgViewBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/txtViewHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          android:layout_toRightOf="@+id/imgViewBack"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/heading_fot_size"
+            android:text="@string/search_venue"
+            android:layout_marginLeft="5dp"
+            android:textColor="@android:color/white"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

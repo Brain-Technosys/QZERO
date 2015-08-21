@@ -175,6 +175,8 @@ public class LoginUserFragment extends Fragment {
                 userSession = new UserSession(getActivity().getApplicationContext());
                 userSession.createUserSession(user_id,name);
 
+                clearFields();
+
                 Intent intent = new Intent(getActivity(),
                         DashBoardActivity.class);
                 intent.putExtra("name", name);
@@ -193,6 +195,7 @@ public class LoginUserFragment extends Fragment {
 
     public void editTextActionDone() {
 
+
         edtTxtPassword.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId,
@@ -205,6 +208,12 @@ public class LoginUserFragment extends Fragment {
             }
         });
 
+    }
+
+    public void clearFields()
+    {
+        edtTextUserName.setText("");
+        edtTxtPassword.setText("");
     }
 
 }

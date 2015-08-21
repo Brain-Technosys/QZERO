@@ -16,6 +16,11 @@ android {
     }
     productFlavors {
     }
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res', 'src/main/res/layout_sw600dp', 'src/main/res/layout-sw600dp', 'src/main/res/layout-sw720dp']
+        }
+    }
 }
 
 dependencies {

@@ -122,13 +122,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
         //Initialize user session
         userSession = new UserSession(this);
 
+        child = new View[arrayListCat.size()];
+
         setSupportActionBar(toolbar);
 
         drawerToggle = setupDrawerToggle();
 
         getIntentData();
-
-        child = new View[arrayListCat.size()];
 
         addItemFragment();
 
@@ -338,7 +338,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     private void createSubCaList(int pos) {
 
-        //dynamically add LismenuItemview to show subItem of different Category
+        //dynamically add List View to show subItem of different Category
         subCatListView[pos].setTag(R.string.Tag,pos);
         subCatListView[pos].setBackgroundColor(Color.parseColor("#4b4b4b"));
         subCatListView[pos].setVisibility(View.GONE);

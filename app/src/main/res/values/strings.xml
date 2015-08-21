@@ -14,7 +14,7 @@
     <string name="password_error">Passwords do not match</string>
     <string name="chkbox_error">Please accept user agreement </string>
     <string name="reg_success">Registration Successful </string>
-    <string name="password_pattern_error">Password should contain one digit, one capital letter, one small letter and a symbol</string>
+    <string name="password_pattern_error">Password should be atleast 6 digits and must contain atleast a digit,capital letter,small letter and a symbol</string>
     <string name="alertbox_ok">OK</string>
     <string name="alertbox_cancel">CANCEL</string>
 

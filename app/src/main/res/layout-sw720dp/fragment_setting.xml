@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/texture_bg"
+    android:padding="10dp"
+    tools:context="com.example.qzero.MyAccount.Fragments.SettingFragment">
+
+
+    <EditText
+        android:id="@+id/et_old_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+
+        android:hint="@string/old_password"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textSize="@dimen/textSize"
+
+        />
+
+
+    <EditText
+        android:id="@+id/et_new_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_old_password"
+        android:gravity="center"
+        android:hint="@string/new_password"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textSize="@dimen/textSize" />
+
+
+    <EditText
+        android:id="@+id/et_cnf_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_new_password"
+        android:gravity="center"
+        android:textSize="@dimen/textSize"
+        android:hint="@string/cnf_password"
+        android:inputType="textPassword"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_cnf_password"
+        android:layout_centerHorizontal="true"
+        android:text="@string/save" />
+
+
+</RelativeLayout>
