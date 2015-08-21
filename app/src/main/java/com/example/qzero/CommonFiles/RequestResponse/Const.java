@@ -125,5 +125,7 @@ public class Const {
     public static String TAG_CUSTOMER = "customer";
     public static String TAG_SHIPPING_ADDRESS = "shippingAdress";
     public static String TAG_BILLING_ADDRESS = "orderBillingAdress";
+    public static String TAG_DISCOUNT = "dicountAmount";
+    public static String TAG_AMOUNT = "orderAmount";
 
 }

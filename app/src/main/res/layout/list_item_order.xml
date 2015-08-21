@@ -27,7 +27,8 @@
                     android:layout_height="wrap_content"
                     android:text="Order ID:"
                     android:textColor="@android:color/black"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtOrderID"
@@ -39,14 +40,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txtStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="Status"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
+
             </RelativeLayout>
 
 
@@ -62,9 +56,10 @@
                     android:id="@+id/lblDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Purchased On:"
+                    android:text="Purchase Date:"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtDate"
@@ -76,15 +71,6 @@
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txtItemCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="3 Items"
-                    android:textColor="@color/black"
-
-                    android:textSize="15sp" />
 
             </RelativeLayout>
 
@@ -97,13 +83,68 @@
 
 
                 <TextView
-                    android:id="@+id/lblDiscount"
+                    android:id="@+id/lblItems"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Discount:"
+                    android:layout_alignParentLeft="true"
+                    android:text="Items:"
+
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/txtItemCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/lblItems"
+                    android:text="3"
+                    android:layout_marginLeft="5dp"
                     android:textColor="@color/black"
 
                     android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/lblStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/txtStatus"
+                    android:text="Status:"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Status"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_row_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_row_2"
+                android:layout_marginTop="5dp">
+
+
+                <TextView
+                    android:id="@+id/lblDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Discount:"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -112,9 +153,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/lblDiscount"
-                    android:text="Discount:"
+                    android:text="Discount"
                     android:textColor="@color/black"
+                    android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/lblAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toLeftOf="@+id/txtAmount"
+                    android:text="Amount:"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
                 <TextView
@@ -122,7 +173,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="500.00"
+                    android:layout_marginLeft="5dp"
+                    android:text="$500.00"
                     android:textColor="@color/color_red"
                     android:textSize="15sp" />
 

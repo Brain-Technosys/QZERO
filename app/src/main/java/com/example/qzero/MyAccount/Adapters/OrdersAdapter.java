@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.Utility;
+import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.Outlet.ObjectClasses.Order;
 import com.example.qzero.R;
 
@@ -39,6 +41,11 @@ public class OrdersAdapter extends BaseAdapter {
             holder.txtPurchaseDate = (TextView) convertView.findViewById(R.id.txtDate);
             holder.txtStatus = (TextView) convertView.findViewById(R.id.txtStatus);
             holder.txtItemCount = (TextView) convertView.findViewById(R.id.txtItemCount);
+            holder.txtDiscount = (TextView) convertView.findViewById(R.id.txtDiscount);
+            holder.txtAmount =  (TextView) convertView.findViewById(R.id.txtAmount);
+
+            setFonts(holder);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -51,12 +58,15 @@ public class OrdersAdapter extends BaseAdapter {
         String pDate = order.getPurchaseDate();
         String status = order.getOrderStatus();
         String itemCount = String.valueOf(order.getItemsCount());
+        String discount = order.getDiscount();
+        String amount = order.getAmount();
 
         holder.txtOrderId.setText(String.valueOf(order.getOrderId()));
         holder.txtPurchaseDate.setText(order.getPurchaseDate());
         holder.txtStatus.setText(order.getOrderStatus());
-        holder.txtItemCount.setText(String.valueOf(order.getItemsCount())+" Items");
-
+        holder.txtItemCount.setText(String.valueOf(order.getItemsCount()));
+        holder.txtDiscount.setText(Utility.formateCurrency(discount));
+        holder.txtAmount.setText(Utility.formateCurrency(amount));
         return convertView;
     }
 
@@ -82,12 +92,18 @@ public class OrdersAdapter extends BaseAdapter {
         TextView txtPurchaseDate;
         TextView txtStatus;
         TextView txtItemCount;
-        TextView txtViewPhone;
-        TextView txtViewMobile;
+        TextView txtDiscount;
+        TextView txtAmount;
+
     }
 
-    private void setFonts()
+    private void setFonts(ViewHolder viewHolder)
     {
-
+        FontHelper.applyFont(context, viewHolder.txtOrderId, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, viewHolder.txtPurchaseDate, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, viewHolder.txtStatus, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, viewHolder.txtItemCount, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, viewHolder.txtDiscount, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, viewHolder.txtAmount, FontHelper.FontType.FONT);
     }
 }

@@ -16,13 +16,15 @@ public class Order{
     String customer;
     String shippingAddress;
     String orderBillingAddress;
+    String discount;
+    String amount;
 
     // Default Constructor
     public Order() {
     }
 
     // Parametrised constructor
-    public Order(int orderId, String purchaseDate, boolean isShipped, String orderStatus, int itemsCount, String customer, String shippingAdress, String orderBillingAdress) {
+    public Order(int orderId, String purchaseDate, boolean isShipped, String orderStatus, int itemsCount, String customer, String shippingAdress, String orderBillingAdress,String discount, String amount) {
         this.orderId = orderId;
         this.purchaseDate = purchaseDate;
         this.isShipped = isShipped;
@@ -31,6 +33,8 @@ public class Order{
         this.customer = customer;
         this.shippingAddress = shippingAdress;
         this.orderBillingAddress = orderBillingAdress;
+        this.discount = discount;
+        this.amount = amount;
     }
 
     // Setters
@@ -67,6 +71,13 @@ public class Order{
         this.orderBillingAddress = orderBillingAddress;
     }
 
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
 
     // Getters
     public int getOrderId() {
@@ -99,5 +110,13 @@ public class Order{
 
     public String getOrderBillingAddress() {
         return this.orderBillingAddress;
+    }
+
+    public String getDiscount() {
+        return this.discount;
+    }
+
+    public String getAmount() {
+        return this.amount;
     }
 }
