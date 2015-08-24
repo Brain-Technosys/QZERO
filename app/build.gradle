@@ -18,7 +18,7 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs = ['src/main/res', 'src/main/res/layout_sw600dp', 'src/main/res/layout-sw600dp', 'src/main/res/layout-sw720dp']
+            res.srcDirs = ['src/main/res', 'src/main/res/layout_sw600dp', 'src/main/res/layout-sw600dp', 'src/main/res/layout-sw720dp', 'src/main/res/drawable-large-mdpi', 'src/main/res/drawable-xlarge-mdpi', 'src/main/res/drawable-large-hdpi']
         }
     }
 }
