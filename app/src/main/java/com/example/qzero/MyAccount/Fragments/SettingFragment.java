@@ -85,7 +85,7 @@ public class SettingFragment extends Fragment {
             if (isValid(getValues())) {
                 if (isSaveNotClicked) {
                     new ChangePassword().execute();
-                    isSaveNotClicked = !isSaveNotClicked;
+
                 }
 
             } else {
@@ -100,6 +100,9 @@ public class SettingFragment extends Fragment {
 
     // Asynchronous class to change password
     private class ChangePassword extends AsyncTask {
+        String message;
+        int status = 0;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -110,11 +113,27 @@ public class SettingFragment extends Fragment {
         @Override
         protected Object doInBackground(Object[] params) {
             JsonParser jsonParser = new JsonParser();
-            int status;
+
             String url = Const.BASE_URL + Const.CHANGE_PASSWORD_URL;
             String json = jsonParser.executePost(url, getURLParams(oldPassword, newPassword, cnfPassowrd), userSession.getUserID(), Const.TIME_OUT);
             if (json != null) {
+                Log.v("SettingF", "API URL : " + url);
                 Log.v("SettingF", "JSON: " + json);
+                Log.v("SettingF", "OLD PWD : " + oldPassword);
+                Log.v("SettingF", "New PWD " + newPassword);
+                Log.v("SettingF", "CNF PWD " + cnfPassowrd);
+                try {
+
+                    JSONObject jsonObject = new JSONObject(json);
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+                    if (status == 0) {
+                        message = jsonObject.getString(Const.TAG_MESSAGE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    status = -1;
+                }
+
             } else {
                 status = -1;
             }
@@ -125,6 +144,28 @@ public class SettingFragment extends Fragment {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             ProgresBar.stop();
+
+
+            switch (status) {
+                case 1:
+                    AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.password_change_success), "Alert");
+                    // clearing edit text
+                    oldPasswordEditText.setText("");
+                    newPasswordEditText.setText("");
+                    cnfPasswordEditText.setText("");
+                    // Enabling
+                   // isSaveNotClicked = !isSaveNotClicked;
+                    break;
+                case 0:
+                    AlertDialogHelper.showAlertDialog(getActivity(), message, "Alert");
+                    break;
+                case -1:
+                    AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.response_failure), "Alert");
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 
@@ -137,7 +178,7 @@ public class SettingFragment extends Fragment {
             params.put("confirmPassword", cnfPassword);
         } catch (JSONException e) {
         }
-
+        Log.v("PARAMS: ", params.toString());
         return params.toString();
     }
 

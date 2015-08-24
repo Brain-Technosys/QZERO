@@ -108,8 +108,9 @@ public class OrderFragment extends Fragment {
                             String customer = orderJson.getString(Const.TAG_CUSTOMER);
                             String shippingAddress = orderJson.getString(Const.TAG_SHIPPING_ADDRESS);
                             String billingAddress = orderJson.getString(Const.TAG_BILLING_ADDRESS);
-
-                            Order order = new Order(orderId, purchaseDate, isShipped, orderStatus, itemCount, customer, shippingAddress, billingAddress);
+                            String discount = orderJson.getString(Const.TAG_DISCOUNT);
+                            String amount  = orderJson.getString(Const.TAG_AMOUNT);
+                            Order order = new Order(orderId, purchaseDate, isShipped, orderStatus, itemCount, customer, shippingAddress, billingAddress,discount,amount);
                             orderArrayList.add(order);
 
                         }
