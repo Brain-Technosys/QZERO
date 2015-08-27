@@ -18,5 +18,6 @@
     <color name="background_outlet">#ECEDF1</color>
     <color name="background_cat_outlet">#D2D2D2</color>
     <color name="oulet_image_strip">#CC583F</color>
+    <color name="account_background">#9c564e</color>
 
 </resources>

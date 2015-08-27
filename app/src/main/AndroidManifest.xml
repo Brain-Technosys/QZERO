@@ -57,6 +57,10 @@
             android:name=".Outlet.Activities.OutletCategoryActivity"
             android:label="@string/title_activity_outlet_catogery"
             android:screenOrientation="portrait">
+        </activity>\
+        <activity
+            android:name=".MyAccount.Activities.OrderedItemActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

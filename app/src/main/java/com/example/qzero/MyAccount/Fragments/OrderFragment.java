@@ -1,5 +1,6 @@
 package com.example.qzero.MyAccount.Fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
+import com.example.qzero.MyAccount.Activities.OrderedItemActivity;
 import com.example.qzero.MyAccount.Adapters.OrdersAdapter;
 import com.example.qzero.Outlet.ObjectClasses.Order;
 import com.example.qzero.R;
@@ -66,6 +68,15 @@ public class OrderFragment extends Fragment {
     @OnItemClick(R.id.orderListView)
     void onItemClick(int pos) {
 
+        Order order=orderArrayList.get(pos);
+
+        String orderId=String.valueOf(order.getOrderId());
+
+        Log.e("order",""+orderId);
+
+        Intent intent=new Intent(getActivity(), OrderedItemActivity.class);
+        intent.putExtra("order_id",orderId);
+        startActivity(intent);
     }
 
     // Async Task to fetch orders of user

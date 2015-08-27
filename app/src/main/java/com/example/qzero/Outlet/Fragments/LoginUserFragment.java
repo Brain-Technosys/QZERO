@@ -147,6 +147,8 @@ public class LoginUserFragment extends Fragment {
                     status = jsonObject.getInt("status");
                     if (status == 1) {
                         user_id = jsonObject.getString("userId");
+
+                        Log.e("user",user_id);
                         name = jsonObject.getString("name");
                     }
 

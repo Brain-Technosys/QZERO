@@ -1,9 +1,11 @@
 package com.example.qzero.MyAccount.Fragments;
 
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,9 @@ import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -70,6 +75,9 @@ public class EditProfileFragment extends Fragment {
     UserSession userSession;
 
     String userID;
+    String message;
+
+    int userProfileId;
 
     Bundle profileBundle;
     boolean isUpdateNotClicked = true;
@@ -111,7 +119,7 @@ public class EditProfileFragment extends Fragment {
                 // Getting values from Edit Text and validating
                 if (isValid(getUpdatedValues())) {
                     // Call API
-                    Toast.makeText(getActivity(), "Call API Now", Toast.LENGTH_SHORT).show();
+                    updateProfile();
                 } else {
                     //
                 }
@@ -127,6 +135,7 @@ public class EditProfileFragment extends Fragment {
     // Method to set values of EditText, values are coming from profile fragment
     private void setValues() {
         profileBundle = getArguments();
+
         userNameEditText.setText(profileBundle.getString(Const.TAG_USER_NAME));
         emailEditText.setText(profileBundle.getString(Const.TAG_EMAIL));
         firstNameEditText.setText(profileBundle.getString(Const.TAG_FIRST_NAME));
@@ -158,6 +167,7 @@ public class EditProfileFragment extends Fragment {
 
     private HashMap<String, String> getUpdatedValues() {
         HashMap<String, String> updatedValues = new HashMap<String, String>();
+
         updatedValues.put(Const.TAG_FIRST_NAME, firstNameEditText.getText().toString().trim());
         updatedValues.put(Const.TAG_ADDRESS, addressEditText.getText().toString().trim());
         updatedValues.put(Const.TAG_LAST_NAME, lastNameEditText.getText().toString().trim());
@@ -216,8 +226,16 @@ public class EditProfileFragment extends Fragment {
         return true;
     }
 
+    private void updateProfile() {
+        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
+            new UpdateUserInfo().execute();
+        }
+    }
+
     // Asynchronous class to fetch user info
     private class UpdateUserInfo extends AsyncTask {
+
+        int status=-1;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -228,7 +246,43 @@ public class EditProfileFragment extends Fragment {
         protected Object doInBackground(Object[] params) {
             JsonParser jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.PROFILE_INFO_URL;
-            String json = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, userID);
+
+            HashMap<String, String> data = getUpdatedValues();
+
+            JSONObject jsonObj = new JSONObject();
+            try {
+
+                userProfileId = Integer.parseInt(profileBundle.getString(Const.TAG_USER_PROFILE_ID));
+                jsonObj.put(Const.TAG_USER_PROFILE_ID, userProfileId);
+                jsonObj.put(Const.TAG_ADDRESS, data.get(Const.TAG_ADDRESS));
+                jsonObj.put(Const.TAG_CITY, data.get(Const.TAG_CITY));
+                jsonObj.put(Const.TAG_STATE, data.get(Const.TAG_STATE));
+                jsonObj.put(Const.TAG_PIN_CODE, data.get(Const.TAG_ZIP));
+                jsonObj.put(Const.TAG_PHONE, data.get(Const.TAG_PHONE));
+                jsonObj.put(Const.TAG_MOBILE, data.get(Const.TAG_MOBILE));
+                jsonObj.put(Const.TAG_COUNTRY, data.get(Const.TAG_COUNTRY));
+                jsonObj.put(Const.TAG_USER_NAME, data.get(Const.TAG_USER_NAME));
+                jsonObj.put(Const.TAG_FIRST_NAME, data.get(Const.TAG_FIRST_NAME));
+                jsonObj.put(Const.TAG_LAST_NAME, data.get(Const.TAG_LAST_NAME));
+                jsonObj.put(Const.TAG_EMAIL, data.get(Const.TAG_EMAIL));
+
+                String json = jsonParser.executePost(url, jsonObj.toString(), userID, Const.TIME_OUT);
+
+                JSONObject jsonObject=new JSONObject(json);
+
+                status=jsonObject.getInt(Const.TAG_STATUS);
+                message=jsonObject.getString(Const.TAG_MESSAGE);
+
+                Log.e("json", json);
+            }
+            catch(NullPointerException ex)
+            {
+                ex.printStackTrace();
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
 
             return null;
         }
@@ -237,6 +291,14 @@ public class EditProfileFragment extends Fragment {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             ProgresBar.stop();
+
+            if(status==0||status==1) {
+                AlertDialogHelper.showAlertDialog(getActivity(),message,"Alert");
+            }
+            else
+            {
+                AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.internet_connection_message),"Alert");
+            }
         }
     }
 }

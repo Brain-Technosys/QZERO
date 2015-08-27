@@ -33,6 +33,7 @@ public class ProfileInfoFragment extends Fragment {
     UserSession userSession;
     String userIdString;
     String addressString;
+    String userProfileId;
     String city;
     String state;
     String country;
@@ -149,6 +150,7 @@ public class ProfileInfoFragment extends Fragment {
                         status = 1;
                         JSONObject result = jsonObject.getJSONObject(Const.TAG_RESULT);
 
+                        userProfileId = result.getString(Const.TAG_USER_PROFILE_ID);
                         addressString = result.getString(Const.TAG_ADDRESS);
                         city = result.getString(Const.TAG_CITY);
                         state = result.getString(Const.TAG_STATE);
@@ -233,7 +235,7 @@ public class ProfileInfoFragment extends Fragment {
         profileBundle.putString(Const.TAG_FIRST_NAME, firstName);
         profileBundle.putString(Const.TAG_LAST_NAME, lastName);
         profileBundle.putString(Const.TAG_USER_NAME, userSession.getUserName());
-
+        profileBundle.putString(Const.TAG_USER_PROFILE_ID,userProfileId);
         profileBundle.putString(Const.TAG_EMAIL, email);
         profileBundle.putString(Const.TAG_PHONE, phoneNo);
         profileBundle.putString(Const.TAG_MOBILE, mobileNo);

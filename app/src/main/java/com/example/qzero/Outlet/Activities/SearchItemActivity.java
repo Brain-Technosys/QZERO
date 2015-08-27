@@ -97,72 +97,11 @@ public class SearchItemActivity extends Activity {
         CustomAdapterItem adapter = new CustomAdapterItem(this, rowItems);
 
         itemListView.setAdapter(adapter);
-
-
     }
 
     @OnClick(R.id.imgViewBack)
     void finishAct() {
         finish();
     }
-
-    public void getDemoData()
-    {
-        new MyAsyncTask().execute();
-    }
-
-    public class MyAsyncTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            ProgresBar.start(SearchItemActivity.this);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            Log.e("inside", "do in");
-
-           JsonParser jsonParser = new JsonParser();
-            String url =Const.BASE_URL+Const.GET_ITEMS;
-
-            JSONObject jsonObj=new JSONObject();
-            try {
-                jsonObj.put("EmailID","neht12@hmm.com");
-                jsonObj.put("UserName","neh");
-                jsonObj.put("Password","123");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            String jsonString = jsonParser.executePostJson(url, jsonObj.toString(), Const.TIME_OUT);
-
-            Log.e("jsonvenue", jsonString);
-
-
-
-
-
-
-            return null;}
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            super.onPostExecute(result);
-
-            ProgresBar.stop();
-
-            Log.e("inside", "postexecute");
-
-
-        }
-    }
-
-
-
 }
 

@@ -27,6 +27,7 @@ public class Const {
     public static String CHANGE_PASSWORD_URL = "Account/ChangePassword";
     public static String UPDATE_PROFILE_URL = "ProfileInfo";
     public static String GET_ORDER_URL = "Order";
+    public static String GET_ORDER_ITEM = "Order/OrderItems";
 
     //Intialize jsonArray parameter
 
@@ -108,6 +109,7 @@ public class Const {
     public static String TAG_IS_ACTIVE = "isActive";
     public static String TAG_PHONE = "phoneNumber";
     public static String TAG_MOBILE = "mobileNumber";
+    public static String TAG_USER_ADDRESS = "address";
     public static String TAG_USER_PROFILE_ID = "userProfileId";
     public static String TAG_USER_DETAIL_ID = "userDetailId";
 
@@ -127,5 +129,12 @@ public class Const {
     public static String TAG_BILLING_ADDRESS = "orderBillingAdress";
     public static String TAG_DISCOUNT = "dicountAmount";
     public static String TAG_AMOUNT = "orderAmount";
+
+    //Create odered items constant
+    public static String TAG_TIMINGS="timing";
+    public static String TAG_ITEM_STATUS="itemStatus";
+    public static String TAG_ITEM_PRICE="itemPrice";
+    public static String TAG_REMARKS="remarks";
+    public static String TAG_ITEM_CODE="itemCode";
 
 }
