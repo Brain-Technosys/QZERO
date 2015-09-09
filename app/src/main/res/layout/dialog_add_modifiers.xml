@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#DFDFDF"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
-            android:text="Select Modifiers"
+            android:text="@string/add_more"
             android:textColor="@android:color/white"
             android:textSize="17sp"
 
@@ -32,15 +33,121 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="160dp">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/linLayChckBox"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtViewQuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:padding="2dp"
+                    android:text="Quantity"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+
+                <LinearLayout
+                    android:id="@+id/linLayAddCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtViewQuan"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgViewAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/add" />
+
+                    <TextView
+                        android:id="@+id/txtViewQty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="7dp"
+                        android:text="1"
+                        android:textColor="@android:color/black"
+                        android:textSize="18dp" />
+
+                    <ImageView
+                        android:id="@+id/imgViewSub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sub" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtViewAddMod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linLayAddCart"
+                    android:layout_marginTop="20dp"
+                    android:background="#9c9c9c"
+                    android:padding="5dp"
+                    android:text="Add Modifiers"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/linLayModifiers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtViewAddMod"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Freezr/Frying"
+                        android:textColor="@android:color/black" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Extra fry with butter"
+                            android:textColor="@android:color/black" />
+
+
+                    </RadioGroup>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Boiled"
+                        android:textColor="@android:color/black" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Steak"
+                            android:textColor="@android:color/black" />
+
+
+                    </RadioGroup>
+
+                </LinearLayout>
+            </RelativeLayout>
         </ScrollView>
     </LinearLayout>
 

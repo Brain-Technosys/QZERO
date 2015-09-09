@@ -96,6 +96,7 @@
     <string name="password_change_success">Password has been changed successfully.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!-- Screen Titles -->
     <string name="dashboard_title">Dashboard</string>
     <string name="home_title">Home</string>
@@ -103,11 +104,18 @@
     <string name="profile_title">Profile</string>
     <string name="edit_profile_title">Edit Profile</string>
     <string name="setting_title">Setting</string>
+
     <!-- Orders -->
 
     <!-- Order Items -->
     <string name="billing_address">Billing Address:</string>
     <string name="shipping_address">Shipping Address:</string>
+
     <!-- Dummy texts-->
     <string name="address">G-84, Sector-63, NOIDA, U.P. 201301</string>
+
+    <!--Item description Screen-->
+    <string name="item_price">Price:</string>
+    <string name="item_discount">Discount:</string>
+    <string name="add_more">Add Item</string>
 </resources>

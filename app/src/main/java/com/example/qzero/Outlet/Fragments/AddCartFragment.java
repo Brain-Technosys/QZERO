@@ -9,13 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.Outlet.Adapters.ItemDetailAdapter;
+import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
 import com.example.qzero.R;
 
 import butterknife.ButterKnife;
@@ -24,11 +28,11 @@ import butterknife.OnClick;
 
 public class AddCartFragment extends Fragment {
 
+   @InjectView(R.id.listViewItem)
+   ExpandableListView listViewItem;
+
     @InjectView(R.id.txtViewItemName)
     TextView txtViewItemName;
-
-    @InjectView(R.id.txtViewQty)
-    TextView txtViewQty;
 
     @InjectView(R.id.txtViewModifiers)
     TextView txtViewModifiers;
@@ -52,6 +56,8 @@ public class AddCartFragment extends Fragment {
 
     CheckBox checkBox;
 
+    String[] items={"ghg","hjgjg"};
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,11 +72,12 @@ public class AddCartFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         setFonts();
+
+        listViewItem.setAdapter(new ItemDetailAdapter(getActivity(),items));
     }
 
     private void setFonts() {
         FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONT, getActivity());
-        FontHelper.setFontFace(txtViewQty, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewModifiers, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewAddCart, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewTitleDesc, FontHelper.FontType.FONT, getActivity());
@@ -87,7 +94,7 @@ public class AddCartFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_modifiers);
 
-        getDialogIds();
+       /* getDialogIds();
 
         for (int i = 0; i < 5; i++) {
             checkBox = new CheckBox(getActivity());
@@ -104,7 +111,7 @@ public class AddCartFragment extends Fragment {
             });
 
             linLayChckBox.addView(checkBox);
-        }
+        }*/
         dialog.show();
 
     }

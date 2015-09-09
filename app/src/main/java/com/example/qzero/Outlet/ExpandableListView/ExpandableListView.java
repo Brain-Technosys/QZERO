@@ -9,6 +9,8 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.jar.Attributes;
+
 public class ExpandableListView extends ListView implements View.OnTouchListener, AbsListView.OnScrollListener {
 
     private int listViewTouchAction;
@@ -20,6 +22,14 @@ public class ExpandableListView extends ListView implements View.OnTouchListener
         setOnScrollListener(this);
         setOnTouchListener(this);
     }
+
+    public ExpandableListView(Context context,AttributeSet attr) {
+        super(context,attr);
+        listViewTouchAction = -1;
+        setOnScrollListener(this);
+        setOnTouchListener(this);
+    }
+
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,

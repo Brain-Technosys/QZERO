@@ -122,7 +122,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         //Initialize user session
         userSession = new UserSession(this);
 
-        child = new View[arrayListCat.size()];
+
 
         setSupportActionBar(toolbar);
 
@@ -203,6 +203,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
             venue_id=bundle.getString("venue_id");
             outlet_id=bundle.getString("outlet_id");
         }
+
+        child = new View[arrayListCat.size()];
     }
 
     public void addItemFragment() {
