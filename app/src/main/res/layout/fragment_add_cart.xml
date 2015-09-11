@@ -16,7 +16,7 @@
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cardView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
@@ -41,16 +41,33 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/q2x" />
 
+                    <TextView
+                        android:id="@+id/txtViewAddToCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="15dp"
+                        android:background="#742314"
+                        android:gravity="center"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:text="Add to Cart"
+                        android:textSize="20dp" />
+
 
                     <TextView
                         android:id="@+id/txtViewItemName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtViewAddToCart"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@+id/imgViewItem"
                         android:gravity="center"
                         android:text="Chicken"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/imgViewItem"
                         android:textColor="@android:color/black"
                         android:textSize="18sp" />
 
@@ -58,48 +75,49 @@
                         android:id="@+id/linLayQty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/imgViewItem"
                         android:layout_below="@+id/txtViewItemName"
                         android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/imgViewItem"
                         android:orientation="vertical">
 
                         <LinearLayout
-                        android:id="@+id/linLayPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal">
-
-
-                        <TextView
+                            android:id="@+id/linLayPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/item_price"
-                            android:textColor="#000000"
-                            android:textSize="15sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="$70"
-                            android:textColor="#000000"
-                            android:layout_marginLeft="3dp"
-                            android:background="@drawable/drawable_strikethrough"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="$60"
-                            android:textColor="#000000"
-                            android:layout_marginLeft="3dp"
-                            android:textSize="13sp" />
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
 
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/item_price"
+                                android:textColor="#000000"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:background="@drawable/drawable_strikethrough"
+                                android:text="$70"
+                                android:textColor="#000000"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:text="$60"
+                                android:textColor="#000000"
+                                android:textSize="13sp" />
+
+
+                        </LinearLayout>
+
                         <LinearLayout
 
                             android:layout_width="wrap_content"
@@ -120,66 +138,25 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
                                 android:text="$70"
                                 android:textColor="#000000"
-                                android:layout_marginLeft="3dp"
                                 android:textSize="13sp" />
                         </LinearLayout>
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txtViewModifiers"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/linLayQty"
-                        android:layout_marginTop="15dp"
-                        android:background="#742314"
-                        android:gravity="center"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/imgViewItem"
-                        android:text="@string/add_more"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/txtViewAddCart"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtViewModifiers"
-                        android:layout_toRightOf="@+id/imgViewItem"
-                        android:layout_marginTop="5dp"
-                        android:background="#742314"
-                        android:gravity="center"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:text="Add To Cart"
-                        android:textSize="20dp" />
 
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-            <com.example.qzero.Outlet.ExpandableListView.ExpandableListView
-                android:id="@+id/listViewItem"
+            <LinearLayout
+                android:id="@+id/linLayDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardView"
-                android:background="#FFFFFF"/>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/listViewItem"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@android:color/white"
                 android:orientation="vertical">
 
@@ -202,6 +179,31 @@
 
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtViewAddItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/linLayDesc"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="15dp"
+                android:background="#742314"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:text="@string/add_more"
+                android:textSize="20dp" />
+
+            <LinearLayout
+                android:id="@+id/linLayItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtViewAddItem"
+                android:orientation="vertical"
+                android:background="#FFFFFF" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

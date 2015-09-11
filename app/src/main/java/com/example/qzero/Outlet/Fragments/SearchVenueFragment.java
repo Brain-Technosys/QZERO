@@ -142,7 +142,7 @@ public class SearchVenueFragment extends Fragment {
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-//            Log.e("json", jsonString);
+           Log.e("json", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -201,7 +201,7 @@ public class SearchVenueFragment extends Fragment {
 
             } else if (status == 0) {
 
-                AlertDialogHelper.showAlertDialog(getActivity(), "message", "Alert");
+                AlertDialogHelper.showAlertDialog(getActivity(),message, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(getActivity(),

@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,23 +34,23 @@ import butterknife.OnClick;
 
 public class AddCartFragment extends Fragment {
 
-   @InjectView(R.id.listViewItem)
-   ExpandableListView listViewItem;
-
     @InjectView(R.id.txtViewItemName)
     TextView txtViewItemName;
-
-    @InjectView(R.id.txtViewModifiers)
-    TextView txtViewModifiers;
-
-    @InjectView(R.id.txtViewAddCart)
-    TextView txtViewAddCart;
 
     @InjectView(R.id.txtViewTitleDesc)
     TextView txtViewTitleDesc;
 
     @InjectView(R.id.txtViewDesc)
     TextView txtViewDesc;
+
+    @InjectView(R.id.txtViewAddItem)
+    TextView txtViewAddItem;
+
+    @InjectView(R.id.linLayItem)
+    LinearLayout linLayItem;
+
+
+    TableLayout tableLayoutModifiers;
 
     Dialog dialog;
 
@@ -54,9 +60,14 @@ public class AddCartFragment extends Fragment {
     TextView txtViewCancel;
     TextView txtViewOk;
 
-    CheckBox checkBox;
+    TextView txtViewModList;
 
-    String[] items={"ghg","hjgjg"};
+    TextView txtViewTotal;
+    TextView txtViewPrice;
+
+    CheckBox checkBox;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +75,8 @@ public class AddCartFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_add_cart,
                 container, false);
         ButterKnife.inject(this, rootView);
+
+
         return rootView;
     }
 
@@ -73,20 +86,48 @@ public class AddCartFragment extends Fragment {
 
         setFonts();
 
-        listViewItem.setAdapter(new ItemDetailAdapter(getActivity(),items));
+        inflateQtyLayout();
     }
 
     private void setFonts() {
         FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONT, getActivity());
-        FontHelper.setFontFace(txtViewModifiers, FontHelper.FontType.FONT, getActivity());
-        FontHelper.setFontFace(txtViewAddCart, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewTitleDesc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDesc, FontHelper.FontType.FONT, getActivity());
     }
 
-    @OnClick(R.id.txtViewModifiers)
-    void openModifiersDialog() {
-        openDialog();
+
+    @OnClick(R.id.txtViewAddItem)
+    void addItem() {
+        addItemLayout();
+    }
+
+    private void addItemLayout() {
+
+        inflateQtyLayout();
+    }
+
+    private void inflateQtyLayout() {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.list_addcart, null);
+        linLayItem.addView(view);
+
+        TextView txtViewAddModifiers = (TextView) view.findViewById(R.id.txtViewAddModifiers);
+
+        txtViewAddModifiers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+
+        tableLayoutModifiers = (TableLayout) view.findViewById(R.id.tableLayoutModifiers);
+
+        txtViewModList = (TextView) view.findViewById(R.id.txtViewModList);
+
+        txtViewTotal = (TextView) view.findViewById(R.id.txtViewTotal);
+
+        txtViewPrice = (TextView) view.findViewById(R.id.txtViewPrice);
+
+        FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTROBOLD, getActivity());
     }
 
     private void openDialog() {
@@ -94,9 +135,9 @@ public class AddCartFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_modifiers);
 
-       /* getDialogIds();
+        getDialogIds();
 
-        for (int i = 0; i < 5; i++) {
+       /* for (int i = 0; i < 5; i++) {
             checkBox = new CheckBox(getActivity());
             checkBox.setTag(i);
             checkBox.setText("Soda Masala");
@@ -122,6 +163,12 @@ public class AddCartFragment extends Fragment {
         txtViewCancel = (TextView) dialog.findViewById(R.id.txtViewCancel);
         txtViewOk = (TextView) dialog.findViewById(R.id.txtViewOk);
 
+        checkBox = (CheckBox) dialog.findViewById(R.id.chckBox);
+
+        radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGrp);
+
+        radioButton = (RadioButton) dialog.findViewById(R.id.radioBtn);
+
         setDialogFonts();
         setOnClick();
     }
@@ -143,8 +190,59 @@ public class AddCartFragment extends Fragment {
         txtViewOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BuildTable(1);
+
                 dialog.dismiss();
             }
         });
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    radioButton.setChecked(true);
+                } else {
+                    radioButton.setChecked(false);
+                }
+            }
+        });
     }
+
+    private void BuildTable(int rows) {
+
+        txtViewModList.setVisibility(View.VISIBLE);
+
+        FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTROBOLD, getActivity());
+        // outer for loop
+        for (int i = 1; i <= rows; i++) {
+
+            TableRow row = new TableRow(getActivity());
+            row.setPadding(10, 10, 10, 10);
+
+            row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
+
+
+            TextView txtView = new TextView(getActivity());
+
+            txtView.setText("Extra fry with butter");
+            txtView.setTextColor(Color.parseColor("#000000"));
+            txtView.setGravity(Gravity.LEFT);
+
+            row.addView(txtView);
+
+            TextView txtView1 = new TextView(getActivity());
+
+            txtView1.setText("$10");
+            txtView.setGravity(Gravity.CENTER);
+            txtView1.setPadding(20, 0, 0, 0);
+            txtView1.setTextColor(Color.parseColor("#000000"));
+
+            row.addView(txtView1);
+
+            tableLayoutModifiers.addView(row);
+
+        }
+    }
+
 }

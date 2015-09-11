@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#DFDFDF"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="250dp"
+        android:id="@+id/linLayTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/alertbox_title_layout_design">
+        android:background="@color/item_detail">
 
         <TextView
             android:id="@+id/txtViewTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:text="@string/add_more"
@@ -26,9 +27,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linLayModList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/linLayTitle"
         android:background="#DFDFDF">
 
         <ScrollView
@@ -39,85 +42,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-                <TextView
-                    android:id="@+id/txtViewQuan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:padding="2dp"
-                    android:text="Quantity"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
-
-                <LinearLayout
-                    android:id="@+id/linLayAddCart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtViewQuan"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imgViewAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/add" />
-
-                    <TextView
-                        android:id="@+id/txtViewQty"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="7dp"
-                        android:text="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="18dp" />
-
-                    <ImageView
-                        android:id="@+id/imgViewSub"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/sub" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txtViewAddMod"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linLayAddCart"
-                    android:layout_marginTop="20dp"
-                    android:background="#9c9c9c"
-                    android:padding="5dp"
-                    android:text="Add Modifiers"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
                 <LinearLayout
                     android:id="@+id/linLayModifiers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtViewAddMod"
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical">
 
                     <CheckBox
+                        android:id="@+id/chckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Freezr/Frying"
                         android:textColor="@android:color/black" />
 
                     <RadioGroup
+                        android:id="@+id/radioGrp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp">
 
                         <RadioButton
+                            android:id="@+id/radioBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Extra fry with butter"
@@ -156,38 +102,34 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/color_background"
-        android:gravity="right">
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtViewCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/selector_alertbox_button"
-            android:gravity="right"
-            android:paddingTop="2dp"
+            android:layout_weight="1"
+            android:background="@color/item_detail"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
             android:text="@string/alertbox_cancel"
-            android:textColor="@color/color_tab_text_selected"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtViewOk"
-            android:layout_width="50dp"
-            android:layout_height="25dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/selector_alertbox_button"
-            android:gravity="right"
-            android:paddingRight="15dp"
-            android:paddingTop="2dp"
-            android:text="@string/alertbox_ok"
-            android:textColor="@color/color_tab_text_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@color/item_detail"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            android:text="Submit"
             android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
