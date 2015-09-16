@@ -17,6 +17,9 @@
         android:normalScreens="true"
         android:smallScreens="true" />
 
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -56,11 +59,16 @@
         <activity
             android:name=".Outlet.Activities.OutletCategoryActivity"
             android:label="@string/title_activity_outlet_catogery"
-            android:screenOrientation="portrait">
-        </activity>\
+            android:screenOrientation="portrait" >
+        </activity>
+\
         <activity
             android:name=".MyAccount.Activities.OrderedItemActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Outlet.Activities.ForgotPasswordActivity"
+            android:label="@string/title_activity_forgot_password" >
         </activity>
     </application>
 

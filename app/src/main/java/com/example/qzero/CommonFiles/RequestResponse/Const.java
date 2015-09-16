@@ -28,6 +28,7 @@ public class Const {
     public static String UPDATE_PROFILE_URL = "ProfileInfo";
     public static String GET_ORDER_URL = "Order";
     public static String GET_ORDER_ITEM = "Order/OrderItems";
+    public static String FORGOT_PASSWORD = "Account/ForgotPassword";
 
     //Intialize jsonArray parameter
 
@@ -136,5 +137,7 @@ public class Const {
     public static String TAG_ITEM_PRICE="itemPrice";
     public static String TAG_REMARKS="remarks";
     public static String TAG_ITEM_CODE="itemCode";
+
+
 
 }

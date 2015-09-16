@@ -81,7 +81,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     int list;
     int lastPos;
-    int noSubCatPos;
+    int noSubCatPos=-1;
 
     String title;
     String venue_id;

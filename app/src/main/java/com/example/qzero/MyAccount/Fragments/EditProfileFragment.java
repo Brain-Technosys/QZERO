@@ -136,17 +136,105 @@ public class EditProfileFragment extends Fragment {
     private void setValues() {
         profileBundle = getArguments();
 
-        userNameEditText.setText(profileBundle.getString(Const.TAG_USER_NAME));
-        emailEditText.setText(profileBundle.getString(Const.TAG_EMAIL));
-        firstNameEditText.setText(profileBundle.getString(Const.TAG_FIRST_NAME));
-        lastNameEditText.setText(profileBundle.getString(Const.TAG_LAST_NAME));
-        addressEditText.setText(profileBundle.getString(Const.TAG_ADDRESS));
-        cityEditText.setText(profileBundle.getString(Const.TAG_CITY));
-        stateEditText.setText(profileBundle.getString(Const.TAG_STATE));
-        countryEditText.setText(profileBundle.getString(Const.TAG_COUNTRY));
-        zipcodeEditText.setText(profileBundle.getString(Const.TAG_PIN_CODE));
-        phoneEditText.setText(profileBundle.getString(Const.TAG_PHONE));
-        mobileEditText.setText(profileBundle.getString(Const.TAG_MOBILE));
+        if (profileBundle.getString(Const.TAG_USER_NAME).equals("null") || profileBundle.getString(Const.TAG_USER_NAME)== null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+
+            userNameEditText.setText(profileBundle.getString(Const.TAG_USER_NAME));
+        }
+
+        if (profileBundle.getString(Const.TAG_EMAIL).equals("null") || profileBundle.getString(Const.TAG_EMAIL) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            emailEditText.setText(profileBundle.getString(Const.TAG_EMAIL));
+        }
+
+        if (profileBundle.getString(Const.TAG_FIRST_NAME).equals("null") || profileBundle.getString(Const.TAG_FIRST_NAME) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            firstNameEditText.setText(profileBundle.getString(Const.TAG_FIRST_NAME));
+        }
+
+        if (profileBundle.getString(Const.TAG_LAST_NAME).equals("null") || profileBundle.getString(Const.TAG_LAST_NAME) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            lastNameEditText.setText(profileBundle.getString(Const.TAG_LAST_NAME));
+        }
+
+        if (profileBundle.getString(Const.TAG_ADDRESS).equals("null") || profileBundle.getString(Const.TAG_ADDRESS) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            addressEditText.setText(profileBundle.getString(Const.TAG_ADDRESS));
+        }
+
+        if (profileBundle.getString(Const.TAG_CITY).equals("null") || profileBundle.getString(Const.TAG_CITY) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            cityEditText.setText(profileBundle.getString(Const.TAG_CITY));
+        }
+        if (profileBundle.getString(Const.TAG_STATE).equals("null") || profileBundle.getString(Const.TAG_STATE) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+
+            stateEditText.setText(profileBundle.getString(Const.TAG_STATE));
+        }
+
+        if (profileBundle.getString(Const.TAG_COUNTRY).equals("null") || profileBundle.getString(Const.TAG_COUNTRY) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            countryEditText.setText(profileBundle.getString(Const.TAG_COUNTRY));
+        }
+
+        if (profileBundle.getString(Const.TAG_PIN_CODE).equals("null") || profileBundle.getString(Const.TAG_PIN_CODE) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            zipcodeEditText.setText(profileBundle.getString(Const.TAG_PIN_CODE));
+        }
+
+        if (profileBundle.getString(Const.TAG_PHONE).equals("null") || profileBundle.getString(Const.TAG_PHONE) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            phoneEditText.setText(profileBundle.getString(Const.TAG_PHONE));
+        }
+
+        if (profileBundle.getString(Const.TAG_MOBILE).equals("null") || profileBundle.getString(Const.TAG_MOBILE) == null)
+        {
+            //do not inflate the editext
+        }
+        else
+        {
+            mobileEditText.setText(profileBundle.getString(Const.TAG_MOBILE));
+        }
     }
 
     // Method to set the fonts
@@ -235,7 +323,8 @@ public class EditProfileFragment extends Fragment {
     // Asynchronous class to fetch user info
     private class UpdateUserInfo extends AsyncTask {
 
-        int status=-1;
+        int status = -1;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -268,18 +357,15 @@ public class EditProfileFragment extends Fragment {
 
                 String json = jsonParser.executePost(url, jsonObj.toString(), userID, Const.TIME_OUT);
 
-                JSONObject jsonObject=new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(json);
 
-                status=jsonObject.getInt(Const.TAG_STATUS);
-                message=jsonObject.getString(Const.TAG_MESSAGE);
+                status = jsonObject.getInt(Const.TAG_STATUS);
+                message = jsonObject.getString(Const.TAG_MESSAGE);
 
                 Log.e("json", json);
-            }
-            catch(NullPointerException ex)
-            {
+            } catch (NullPointerException ex) {
                 ex.printStackTrace();
-            }
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -292,12 +378,10 @@ public class EditProfileFragment extends Fragment {
             super.onPostExecute(o);
             ProgresBar.stop();
 
-            if(status==0||status==1) {
-                AlertDialogHelper.showAlertDialog(getActivity(),message,"Alert");
-            }
-            else
-            {
-                AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.internet_connection_message),"Alert");
+            if (status == 0 || status == 1) {
+                AlertDialogHelper.showAlertDialog(getActivity(), message, "Alert");
+            } else {
+                AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.internet_connection_message), "Alert");
             }
         }
     }

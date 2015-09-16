@@ -46,7 +46,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="5dp"
                         android:layout_marginTop="15dp"
                         android:background="#742314"
                         android:gravity="center"
@@ -149,61 +148,59 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/linLayDesc"
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/txtViewTitleDesc"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardView"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
-                android:background="@android:color/white"
-                android:orientation="vertical">
+                android:text="Description"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtViewTitleDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtViewDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtViewTitleDesc"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="3dp"
+                android:text="Vegetables are an integral part of our food and we consume them in a number of ways."
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txtViewDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:text="Vegetables are an integral part of our food and we consume them in a number of ways."
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp" />
-
-
-            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/relLayAddItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtViewDesc">
 
             <TextView
                 android:id="@+id/txtViewAddItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/linLayDesc"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
                 android:background="#742314"
-                android:gravity="center"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="@string/add_more"
                 android:textSize="20dp" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/linLayItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewAddItem"
-                android:orientation="vertical"
-                android:background="#FFFFFF" />
+                android:layout_below="@+id/relLayAddItem"
+                android:background="#FFFFFF"
+                android:orientation="vertical" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:padding="5dp"
         android:background="@color/item_detail">
 
         <TextView
@@ -30,79 +31,33 @@
         android:id="@+id/linLayModList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
         android:layout_below="@+id/linLayTitle"
+        android:layout_gravity="center_horizontal"
         android:background="#DFDFDF">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/linLayModifiers"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/linLayModifiers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical">
+            </LinearLayout>
 
-                    <CheckBox
-                        android:id="@+id/chckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Freezr/Frying"
-                        android:textColor="@android:color/black" />
-
-                    <RadioGroup
-                        android:id="@+id/radioGrp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp">
-
-                        <RadioButton
-                            android:id="@+id/radioBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Extra fry with butter"
-                            android:textColor="@android:color/black" />
-
-
-                    </RadioGroup>
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Boiled"
-                        android:textColor="@android:color/black" />
-
-                    <RadioGroup
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp">
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Steak"
-                            android:textColor="@android:color/black" />
-
-
-                    </RadioGroup>
-
-                </LinearLayout>
-            </RelativeLayout>
         </ScrollView>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:background="@color/color_background"
-        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:padding="5dp">
 

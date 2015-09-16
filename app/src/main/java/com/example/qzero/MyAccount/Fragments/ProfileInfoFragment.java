@@ -217,19 +217,118 @@ public class ProfileInfoFragment extends Fragment {
 
     // Method to set values on TextView
     private void setTextValues() {
-        firstNameTextView.setText(firstName);
-        lastNameTextView.setText(lastName);
+
+        //Check the strings for null before setting the text
+        if((firstName.equals("null")||firstName==null))
+        {
+            firstNameTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            firstNameTextView.setText(firstName);
+        }
+
+        if((lastName.equals("null")||lastName==null))
+        {
+            lastNameTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            lastNameTextView.setText(lastName);
+        }
+
+        if((createdOn.equals("null")||createdOn==null))
+        {
+            createOnTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            createOnTextView.setText(createdOn);
+        }
+
+        if((email.equals("null")||email==null)) {
+            emailTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            emailTextView.setText(email);
+        }
+
+
+        if((phoneNo.equals("null")||phoneNo==null))
+        {
+            phoneNoTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            phoneNoTextView.setText(phoneNo);
+        }
+
+        if((mobileNo.equals("null")||mobileNo==null))
+        {
+            mobileNoTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            mobileNoTextView.setText(mobileNo);
+        }
+
+        if((addressString.equals("null")||addressString==null))
+        {
+            addressTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            addressTextView.setText(addressString);
+        }
+
+        if((city.equals("null")||city==null))
+        {
+            cityTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            cityTextView.setText(city);
+        }
+
+        if((state.equals("null")||state==null))
+        {
+            stateTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            stateTextView.setText(state);
+        }
+
+        if((country.equals("null")||country==null))
+        {
+            countryTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            countryTextView.setText(country);
+        }
+
+        if((pincode.equals("null")||pincode==null))
+        {
+            pincodeTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            pincodeTextView.setText(pincode);
+        }
+
+        if((updatedOn.equals("null")||updatedOn==null))
+        {
+            updatedOnTextView.setText(getString(R.string.null_error));
+        }
+        else
+        {
+            updatedOnTextView.setText(updatedOn);
+        }
+
+
         userNameTextView.setText(userSession.getUserName());
-        createOnTextView.setText(createdOn);
-        emailTextView.setText(email);
-        phoneNoTextView.setText(phoneNo);
-        mobileNoTextView.setText(mobileNo);
-        addressTextView.setText(addressString);
-        cityTextView.setText(city);
-        stateTextView.setText(state);
-        countryTextView.setText(country);
-        pincodeTextView.setText(pincode);
-        updatedOnTextView.setText(updatedOn);
 
         profileBundle = new Bundle();
         profileBundle.putString(Const.TAG_FIRST_NAME, firstName);

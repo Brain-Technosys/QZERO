@@ -24,6 +24,7 @@ import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
+import com.example.qzero.Outlet.Activities.ForgotPasswordActivity;
 import com.example.qzero.R;
 
 
@@ -44,6 +45,9 @@ public class LoginUserFragment extends Fragment {
 
     @InjectView(R.id.edtTxtPassword)
     EditText edtTxtPassword;
+
+    @InjectView(R.id.txtViewForgotPass)
+    TextView txtViewForgotPass;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -138,7 +142,6 @@ public class LoginUserFragment extends Fragment {
                     Const.TIME_OUT);
 
 
-
             try {
                 jsonObject = new JSONObject(jsonString);
 
@@ -148,7 +151,7 @@ public class LoginUserFragment extends Fragment {
                     if (status == 1) {
                         user_id = jsonObject.getString("userId");
 
-                        Log.e("user",user_id);
+                        Log.e("user", user_id);
                         name = jsonObject.getString("name");
                     }
 
@@ -175,7 +178,7 @@ public class LoginUserFragment extends Fragment {
 
                 // Creating User session
                 userSession = new UserSession(getActivity().getApplicationContext());
-                userSession.createUserSession(user_id,name);
+                userSession.createUserSession(user_id, name);
 
                 clearFields();
 
@@ -212,10 +215,16 @@ public class LoginUserFragment extends Fragment {
 
     }
 
-    public void clearFields()
-    {
+    public void clearFields() {
         edtTextUserName.setText("");
         edtTxtPassword.setText("");
+    }
+
+    @OnClick(R.id.txtViewForgotPass)
+    void forgotPassword()
+    {
+        Intent intent=new Intent(getActivity(), ForgotPasswordActivity.class);
+        startActivity(intent);
     }
 
 }

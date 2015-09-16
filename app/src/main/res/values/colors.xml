@@ -20,5 +20,6 @@
     <color name="oulet_image_strip">#CC583F</color>
     <color name="account_background">#9c564e</color>
     <color name="item_detail">#742314</color>
+    <color name="color_rounded_border">#DCDCDC</color>
 
 </resources>

@@ -87,6 +87,7 @@
 
     <!-- Profile Info-->
     <string name="response_failure">Server is not responding!</string>
+    <string name="null_error">Not available</string>
 
     <!-- Setting-->
     <string name="old_password">Old Password</string>
@@ -118,4 +119,13 @@
     <string name="item_price">Price:</string>
     <string name="item_discount">Discount:</string>
     <string name="add_more">Add Item</string>
+    <string name="title_activity_forgot_password">ForgotPassword</string>
+
+    <!-- Forgot Password-->
+    <string name="title_forgot">Forgot Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_text">Forgot your password?</string>
+    <string name="email">Email:</string>
+    <string name="email_link">Email Link</string>
+    <string name="success_message">A link has been sent to your email id</string>
 </resources>

@@ -54,7 +54,7 @@ public class AddCartFragment extends Fragment {
 
     Dialog dialog;
 
-    LinearLayout linLayChckBox;
+    LinearLayout linLayModifiers;
 
     TextView txtViewTitle;
     TextView txtViewCancel;
@@ -65,9 +65,15 @@ public class AddCartFragment extends Fragment {
     TextView txtViewTotal;
     TextView txtViewPrice;
 
-    CheckBox checkBox;
-    RadioGroup radioGroup;
-    RadioButton radioButton;
+    Boolean isRadioButtonClicked = false;
+    Boolean isCheckBoxClicked = false;
+
+    CheckBox checkBox[];
+    RadioGroup radioGroup[];
+    RadioButton radioButton[];
+
+    String[] modifier_title = {"Freeze/Frying", "Boiled"};
+    String[] modifier = {"Extra fry with butter", "Steak"};
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,7 +133,8 @@ public class AddCartFragment extends Fragment {
 
         txtViewPrice = (TextView) view.findViewById(R.id.txtViewPrice);
 
-        FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTROBOLD, getActivity());
+        setAddItemFonts();
+
     }
 
     private void openDialog() {
@@ -137,41 +144,133 @@ public class AddCartFragment extends Fragment {
 
         getDialogIds();
 
-       /* for (int i = 0; i < 5; i++) {
-            checkBox = new CheckBox(getActivity());
-            checkBox.setTag(i);
-            checkBox.setText("Soda Masala");
-            checkBox.setTextColor(Color.parseColor("#000000"));
-            FontHelper.setFontFace(checkBox, FontHelper.FontType.FONT, getActivity());
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    Toast.makeText(getActivity(), "check", Toast.LENGTH_LONG);
-                }
-            });
-
-            linLayChckBox.addView(checkBox);
-        }*/
         dialog.show();
 
     }
 
     private void getDialogIds() {
-        linLayChckBox = (LinearLayout) dialog.findViewById(R.id.linLayChckBox);
+
+        linLayModifiers = (LinearLayout) dialog.findViewById(R.id.linLayModifiers);
+
         txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
         txtViewCancel = (TextView) dialog.findViewById(R.id.txtViewCancel);
         txtViewOk = (TextView) dialog.findViewById(R.id.txtViewOk);
 
-        checkBox = (CheckBox) dialog.findViewById(R.id.chckBox);
-
-        radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGrp);
-
-        radioButton = (RadioButton) dialog.findViewById(R.id.radioBtn);
-
         setDialogFonts();
+
+        createModifierLayout();
+
         setOnClick();
     }
+
+    //create dynamic checkbox and radiogroup
+    private void createModifierLayout() {
+
+
+        checkBox = new CheckBox[modifier_title.length];
+
+        radioGroup = new RadioGroup[modifier_title.length];
+
+        radioButton = new RadioButton[modifier.length];
+
+        for (int i = 0; i < modifier_title.length; i++) {
+
+            createCheckBox(i);
+
+            for (int j = 0; j < modifier.length; j++) {
+
+                createRadioButton(i, j);
+            }
+        }
+
+    }
+
+    private void createCheckBox(final int i) {
+
+
+        checkBox[i] = new CheckBox(getActivity());
+
+        checkBox[i].setTag(i);
+        checkBox[i].setText(modifier_title[i]);
+        checkBox[i].setTextColor(Color.parseColor("#000000"));
+        FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
+        checkBox[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+                if (checkBox[i].isChecked()) {
+
+                    Log.e("chck", checkBox[i].getText().toString());
+
+                    if (radioGroup[i].getCheckedRadioButtonId() == -1) {
+                        radioGroup[i].check(radioButton[0].getId());
+                    }
+
+                } else {
+                    radioGroup[i].clearCheck();
+
+                    Log.e("notcheck", "check" + i);
+
+                }
+
+            }
+        });
+
+        linLayModifiers.addView(checkBox[i]);
+
+        //Create radio group in linear layout
+        radioGroup[i] = new RadioGroup(getActivity());
+        radioGroup[i].setTag(i);
+        radioGroup[i].setPadding(15, 0, 0, 0);
+
+        radioGroup[i].setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                if (radioGroup[i].getCheckedRadioButtonId() != -1) {
+                    Log.e("inside", "check");
+                    try {
+                        int radioButtonID = radioGroup[i].getCheckedRadioButtonId();
+                        RadioButton radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
+                        Log.e("textradio", radioBtn.getText().toString());
+                    } catch (NullPointerException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    if (checkBox[i].isChecked()) {
+                        //do nothing
+                    } else {
+                        checkBox[i].setChecked(true);
+                    }
+                } else {
+                    checkBox[i].setChecked(false);
+                }
+
+            }
+        });
+
+
+        //Add radiogroup to linear layout
+        linLayModifiers.addView(radioGroup[i]);
+    }
+
+    private void createRadioButton(final int i, final int j) {
+
+
+        //Create radio buttons
+        radioButton[j] = new RadioButton(getActivity());
+        radioButton[j].setText(modifier[j]);
+        radioButton[j].setTextColor(Color.parseColor("#000000"));
+        radioButton[j].setId(j);
+        radioButton[j].setTag(i);
+        FontHelper.setFontFace(radioButton[j], FontHelper.FontType.FONT, getActivity());
+
+        radioGroup[i].addView(radioButton[j]);
+    }
+
 
     private void setDialogFonts() {
         FontHelper.setFontFace(txtViewTitle, FontHelper.FontType.FONT, getActivity());
@@ -196,16 +295,10 @@ public class AddCartFragment extends Fragment {
             }
         });
 
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    radioButton.setChecked(true);
-                } else {
-                    radioButton.setChecked(false);
-                }
-            }
-        });
+    }
+
+    private void setAddItemFonts() {
+        FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTROBOLD, getActivity());
     }
 
     private void BuildTable(int rows) {
