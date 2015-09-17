@@ -216,7 +216,5 @@ public class DashBoardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        Log.e("backpressed", "pressed");
     }
 }
