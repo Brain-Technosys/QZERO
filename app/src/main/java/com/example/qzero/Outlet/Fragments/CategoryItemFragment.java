@@ -164,7 +164,6 @@ public class CategoryItemFragment extends Fragment {
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     Const.TAG_MESSAGE = jsonObject.getString(Const.TAG_MESSAGE);
 
-                    Log.d("status", "" + status);
                     if (status == 1) {
 
                         JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
@@ -173,12 +172,10 @@ public class CategoryItemFragment extends Fragment {
                         jsonArray = new JSONArray();
                         jsonArray = jsonObj.getJSONArray(Const.TAG_JsonItemObj);
 
-                        Log.e("jsonarray", "" + jsonArray.length());
+
 
 
                         for (int i = 0; i < jsonArray.length(); i++) {
-
-                            Log.e("ijson",""+i);
                             JSONObject jsonObjItem = jsonArray.getJSONObject(i);
 
                             String item_id = jsonObjItem.getString(Const.TAG_ITEM_ID);

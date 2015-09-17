@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +48,8 @@ public class DashBoardActivity extends AppCompatActivity {
     TextView userNameTextView;
 
     String userNameString;
+
+    Boolean isDashboard=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +133,7 @@ public class DashBoardActivity extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case id.nav_home_fragment:
                 fragmentClass = DashboardFragment.class;
+                isDashboard=true;
                 break;
             case id.nav_wallet_fragment:
                 fragmentClass = WalletFragment.class;
@@ -144,6 +149,7 @@ public class DashBoardActivity extends AppCompatActivity {
                 break;
             default:
                 fragmentClass = DashboardFragment.class;
+                isDashboard=true;
         }
 
         try {
@@ -154,7 +160,12 @@ public class DashBoardActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(id.flContent, fragment).commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(id.flContent, fragment);
+        if (!isDashboard) {
+            fragmentTransaction.addToBackStack(null);
+        }
+        fragmentTransaction .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
@@ -196,5 +207,12 @@ public class DashBoardActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Log.e("backpressed", "pressed");
     }
 }

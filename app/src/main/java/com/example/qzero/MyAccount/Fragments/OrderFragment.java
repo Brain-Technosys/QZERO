@@ -49,6 +49,8 @@ public class OrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.inject(this, view);
 
+        getActivity().setTitle(getString(R.string.order_title));
+
         session = new UserSession(getActivity().getApplicationContext());
         if (session.isUserLoggedIn())
             userID = session.getUserID();
