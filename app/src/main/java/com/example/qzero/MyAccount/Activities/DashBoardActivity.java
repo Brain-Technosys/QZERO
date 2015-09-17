@@ -137,15 +137,19 @@ public class DashBoardActivity extends AppCompatActivity {
                 break;
             case id.nav_wallet_fragment:
                 fragmentClass = WalletFragment.class;
+                isDashboard=false;
                 break;
             case id.nav_order_fragment:
                 fragmentClass = OrderFragment.class;
+                isDashboard=false;
                 break;
             case id.nav_profile_fragment:
                 fragmentClass = ProfileInfoFragment.class;
+                isDashboard=false;
                 break;
             case id.nav_setting:
                 fragmentClass = SettingFragment.class;
+                isDashboard=false;
                 break;
             default:
                 fragmentClass = DashboardFragment.class;
