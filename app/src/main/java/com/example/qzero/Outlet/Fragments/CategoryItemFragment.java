@@ -26,6 +26,7 @@ import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,7 +76,6 @@ public class CategoryItemFragment extends Fragment {
     String sub_cat_id;
 
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item,
@@ -101,17 +101,19 @@ public class CategoryItemFragment extends Fragment {
 
             arrayListItems = (ArrayList<ItemOutlet>) getArguments().getSerializable("arraylistitem");
             Log.e("arraylistlen", "" + arrayListItems.size());
+
             txtViewSubHeading.setText(getArguments().getString("title"));
+
             FontHelper.setFontFace(txtViewSubHeading, FontType.FONT, getActivity());
         }
 
     }
 
     public void getSubCatItems(String venue_id, String outlet_id, String category_id, String sub_cat_id) {
-        this.venue_id=venue_id;
-        this.outlet_id=outlet_id;
-        this.category_id=category_id;
-        this.sub_cat_id=sub_cat_id;
+        this.venue_id = venue_id;
+        this.outlet_id = outlet_id;
+        this.category_id = category_id;
+        this.sub_cat_id = sub_cat_id;
 
         new GetItems().execute();
     }
@@ -130,28 +132,21 @@ public class CategoryItemFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-            Log.e("inside", "do in");
+            //  Log.e("inside", "do in");
             status = -1;
-            pos=0;
+            pos = 0;
 
-          /*  String venue_id = params[0];
-            String outletId = params[1];
-            String itemId = params[2];
-            String subCatId = params[3];*/
-
-            /*Log.e("venue", venue_id);
-            Log.e("outletId", outletId);
-            Log.e("itemId", itemId);
-            Log.e("subCatId", subCatId);*/
 
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId="+ outlet_id + "&itemId="+ category_id
-                    + "&subCatId="+ sub_cat_id;
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outlet_id + "&itemId=" + category_id
+                    + "&subCatId=" + sub_cat_id;
+
+            Log.e("url", url);
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("jsonvenue", jsonString);
+            Log.e("jsonitem", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -162,7 +157,9 @@ public class CategoryItemFragment extends Fragment {
                     arrayListItems = new ArrayList<ItemOutlet>(jsonObject.length());
 
                     status = jsonObject.getInt(Const.TAG_STATUS);
-                    Const.TAG_MESSAGE = jsonObject.getString(Const.TAG_MESSAGE);
+
+                    Log.e("status", "" + status);
+                    //  ConstVarIntent.TAG_MESSAGE = jsonObject.getString(ConstVarIntent.TAG_MESSAGE);
 
                     if (status == 1) {
 
@@ -172,7 +169,7 @@ public class CategoryItemFragment extends Fragment {
                         jsonArray = new JSONArray();
                         jsonArray = jsonObj.getJSONArray(Const.TAG_JsonItemObj);
 
-
+                        Log.e("jsonaaa", "" + jsonArray.length());
 
 
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -251,7 +248,7 @@ public class CategoryItemFragment extends Fragment {
                     TableRow.LayoutParams.WRAP_CONTENT));
 
             if (length % 2 != 0) {
-                Log.e("odd",""+i);
+                Log.e("odd", "" + i);
 
                 if (i == rows) {
                     Log.e("i", "" + i);
@@ -311,6 +308,8 @@ public class CategoryItemFragment extends Fragment {
         relLayItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.e("tag", v.getTag().toString());
                 ((OutletCategoryActivity) getActivity()).replaceFragment();
             }
         });
@@ -321,13 +320,15 @@ public class CategoryItemFragment extends Fragment {
 
         ItemOutlet itemOutlet = arrayListItems.get(pos);
 
+        relLayItem.setTag(itemOutlet.getItem_id());
+
         txtViewItemName.setText(itemOutlet.getName());
         txtViewTitleOverlay.setText(itemOutlet.getName());
         txtViewItemPrice.setText("$" + itemOutlet.getPrice());
         pos++;
 
         //Load Image
-        //Picasso.with(this).load(itemOutlet.getItem_image()).into(imgViewItem);}
+        Picasso.with(getActivity()).load(itemOutlet.getItem_image()).into(imgViewItem);
 
     }
 }

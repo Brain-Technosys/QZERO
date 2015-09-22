@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
@@ -258,8 +259,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
             txtViewUserName.setText(userSession.getUserName());
 
         } else {
-            txtViewProfile.setText("Login");
-            txtViewLogout.setVisibility(View.GONE);
+
+            toggleLogout();
+
         }
     }
 
@@ -382,6 +384,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     public void setItemsInFragment()
     {
+        Log.e("frag","method");
         CategoryItemFragment categoryFragment = (CategoryItemFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayItem);
         categoryFragment.getSubCatItems(venue_id,outlet_id,categoryId,subCategoryId);
     }
@@ -391,7 +394,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
         if (userSession.isUserLoggedIn()) {
             Intent intent = new Intent(this, DashBoardActivity.class);
             startActivity(intent);
-            finish();
         } else {
 
             passIntentHome();
@@ -407,8 +409,14 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @OnClick(R.id.txtViewLogout)
     void logout() {
         userSession.ClearUserName();
-        passIntentHome();
+        toggleLogout();
+    }
 
+    private void toggleLogout()
+    {
+        txtViewProfile.setText("Login");
+        txtViewLogout.setVisibility(View.GONE);
+        txtViewUserName.setText(" ");
     }
 
     private void passIntentHome() {

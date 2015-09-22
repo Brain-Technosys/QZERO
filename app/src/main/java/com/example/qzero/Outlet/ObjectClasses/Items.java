@@ -7,18 +7,21 @@ public class Items implements Serializable {
     String venue_id;
     String item_name;
     String venue_name;
+    String outlet_name;
     String venue_address;
     String venue_city;
     String venue_phone;
     String venue_mobile;
 
-    public Items(String venue_id, String item_name, String venue_name, String venue_address, String venue_city,String venue_phone, String venue_mobile) {
+
+    public Items(String venue_id, String item_name, String venue_name,String outlet_name,String venue_address, String venue_city,String venue_phone, String venue_mobile) {
         this.venue_id = venue_id;
         this.item_name = item_name;
         this.venue_name = venue_name;
+        this.outlet_name=outlet_name;
+
         this.venue_address = venue_address;
         this.venue_city = venue_city;
-
         this.venue_phone = venue_phone;
         this.venue_mobile = venue_mobile;
     }
@@ -77,5 +80,13 @@ public class Items implements Serializable {
 
     public void setVenue_mobile(String venue_mobile) {
         this.venue_mobile = venue_mobile;
+    }
+
+    public String getOutlet_name() {
+        return outlet_name;
+    }
+
+    public void setOutlet_name(String outlet_name) {
+        this.outlet_name = outlet_name;
     }
 }

@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Fragments.DashboardFragment;
 import com.example.qzero.MyAccount.Fragments.OrderFragment;
@@ -50,6 +52,8 @@ public class DashBoardActivity extends AppCompatActivity {
     String userNameString;
 
     Boolean isDashboard=false;
+
+    Boolean navigationFromSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +91,6 @@ public class DashBoardActivity extends AppCompatActivity {
             nvDrawer.addHeaderView(headerLayout);
             nvDrawer.setItemIconTintList(null);
         }
-
 
         // Setup drawer view
 
@@ -134,28 +137,48 @@ public class DashBoardActivity extends AppCompatActivity {
             case id.nav_home_fragment:
                 fragmentClass = DashboardFragment.class;
                 isDashboard=true;
+                checkFragmentIns(fragmentClass,fragment);
                 break;
             case id.nav_wallet_fragment:
-                fragmentClass = WalletFragment.class;
+               finish();
                 isDashboard=false;
                 break;
             case id.nav_order_fragment:
                 fragmentClass = OrderFragment.class;
                 isDashboard=false;
+                checkFragmentIns(fragmentClass,fragment);
                 break;
             case id.nav_profile_fragment:
                 fragmentClass = ProfileInfoFragment.class;
                 isDashboard=false;
+                checkFragmentIns(fragmentClass,fragment);
                 break;
             case id.nav_setting:
                 fragmentClass = SettingFragment.class;
                 isDashboard=false;
+                checkFragmentIns(fragmentClass,fragment);
                 break;
+            case id.nav_logout:
+                userSession.ClearUserName();
+                finish();
             default:
                 fragmentClass = DashboardFragment.class;
                 isDashboard=true;
+                checkFragmentIns(fragmentClass,fragment);
         }
 
+
+
+
+
+        // Highlight the selected item, update the title, and close the drawer
+        menuItem.setChecked(true);
+        setTitle(menuItem.getTitle());
+        mDrawer.closeDrawers();
+    }
+
+    public void checkFragmentIns(Class fragmentClass,Fragment fragment)
+    {
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -170,11 +193,6 @@ public class DashBoardActivity extends AppCompatActivity {
             fragmentTransaction.addToBackStack(null);
         }
         fragmentTransaction .commit();
-
-        // Highlight the selected item, update the title, and close the drawer
-        menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
-        mDrawer.closeDrawers();
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {

@@ -217,6 +217,14 @@ public class SettingFragment extends Fragment {
             isSaveNotClicked = false;
             return false;
         }
+        else if(!data.get(Const.TAG_NEW_PASSWORD).equals(data.get(Const.TAG_CNF_PASSWORD)))
+        {
+            newPasswordEditText.setError("New and Cofirm Password do not match.");
+            cnfPasswordEditText.setError("New and Cofirm Password do not match.");
+            isSaveNotClicked = false;
+            return false;
+        }
+        isSaveNotClicked = true;
         return true;
     }
 }

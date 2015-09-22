@@ -59,15 +59,10 @@ public class SearchItemActivity extends Activity {
         rowItems = new ArrayList<Items>();
 
 
-        //setFont();
-        //setText();
+        setFont();
+        setText();
 
-        //getItemData();
-
-      //  getDemoData();
-
-
-
+        getItemData();
 
     }
 

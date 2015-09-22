@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,6 +38,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -130,6 +134,7 @@ public class OutletActivity extends Activity {
         getOutletData();
 
         onFinishActivity();
+
     }
 
     public void getIntents() {
@@ -187,6 +192,8 @@ public class OutletActivity extends Activity {
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
+            Log.e("json",jsonString);
+
             try {
                 jsonObject = new JSONObject(jsonString);
 
@@ -238,12 +245,16 @@ public class OutletActivity extends Activity {
 
             ProgresBar.stop();
 
-            jsonLength = jsonArray.length();
+
 
             if (status == 1) {
-
-                setLayout();
-
+                try {
+                    jsonLength = jsonArray.length();
+                    setLayout();
+                }catch (NullPointerException ex)
+                {
+                    ex.printStackTrace();
+                }
 
             } else if (status == 0) {
 
@@ -259,12 +270,17 @@ public class OutletActivity extends Activity {
 
     public void setLayout() {
         int mod = jsonLength % 3;
+
+        Log.e("mod",""+mod);
         if (mod == 0) {
             int length = jsonLength / 3;
+
+            Log.e("length",""+length);
 
             for (int i = 0; i < length; i++) {
 
                 inflateLayout();
+                inflateLandscapeValues();
                 inflateLeftLayout();
                 inflateRightLayout();
 
@@ -281,13 +297,13 @@ public class OutletActivity extends Activity {
 
 
                 if (i == length - 1) {
-                    if (mod == 1) {
+                    if (mod == 1) { //check if the last layout contains only one data
 
                         relLayDescOutletLeft.setVisibility(View.GONE);
                         relLayDescOutletRight.setVisibility(View.GONE);
 
                         inflateLandscapeValues();
-                    } else if (mod == 2) {
+                    } else if (mod == 2) {//check if the last layout contains only two data
 
                         relLayDescOutletRight.setVisibility(View.GONE);
 
@@ -607,5 +623,10 @@ public class OutletActivity extends Activity {
         bundle.putString("outlet_id",outletId);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 }

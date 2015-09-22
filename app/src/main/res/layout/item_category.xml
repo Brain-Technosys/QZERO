@@ -25,11 +25,11 @@
 
             <ImageView
                 android:id="@+id/imgViewItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="197dp"
+                android:layout_height="189dp"
                 android:background="@android:color/darker_gray"
                 android:src="@drawable/q2x"
-                android:scaleType="centerCrop"/>
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/txtViewTitleOverlay"

@@ -43,10 +43,6 @@ public class SearchVenueFragment extends Fragment {
     @InjectView(R.id.edtTextZip)
     EditText edtTextZip;
 
-    @InjectView(R.id.edtTextLoc)
-    EditText edtTextLoc;
-
-
     String venue;
     String city;
     String zip;
@@ -85,7 +81,6 @@ public class SearchVenueFragment extends Fragment {
         FontHelper.applyFont(getActivity(), edtTextVenue, FontType.FONT);
         FontHelper.applyFont(getActivity(), edtTextCity, FontType.FONT);
         FontHelper.applyFont(getActivity(), edtTextZip, FontType.FONT);
-        FontHelper.applyFont(getActivity(), edtTextLoc, FontType.FONT);
     }
 
     @OnClick(R.id.imgViewSubmit)
@@ -100,14 +95,12 @@ public class SearchVenueFragment extends Fragment {
         venue = edtTextVenue.getText().toString();
         city = edtTextCity.getText().toString();
         zip = edtTextZip.getText().toString();
-        location = edtTextLoc.getText().toString();
     }
 
     public void validatingVenue() {
 
         if (CheckInternetHelper.checkInternetConnection(getActivity())) {
             fetchResponse();
-            // passIntent();
         } else {
             AlertDialogHelper.showAlertDialog(getActivity(),
                     getString(R.string.internet_connection_message),
@@ -136,13 +129,11 @@ public class SearchVenueFragment extends Fragment {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.SEARCH_VENUE + "?restaurantName=" + venue + "&city=" + city
-                    + "&zipCode=" + zip + "&nearestLocation=" + location;
+            String url = Const.BASE_URL + Const.SEARCH_VENUE + "?restaurantName=" + venue.replace(" ","%20") + "&city=" + city.replace(" ","%20")
+                    + "&zipCode=" + zip;
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
-
-           Log.e("json", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);

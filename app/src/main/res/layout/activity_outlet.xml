@@ -26,6 +26,7 @@
             android:textSize="@dimen/outlet_heading_size"
             android:layout_marginLeft="10dp"
             android:textColor="@color/color_tab_text_selected"/>
+
     </RelativeLayout>
     <ScrollView
         android:id="@+id/scrollView"

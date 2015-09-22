@@ -66,7 +66,9 @@ public class HomeActivity extends FragmentActivity {
 
         addSearchFragment();
         addLoginFragment();
+
     }
+
 
     private void setFonts() {
         FontHelper.setFontFace(txtViewSearch, FontType.FONT, this);
@@ -74,8 +76,41 @@ public class HomeActivity extends FragmentActivity {
 
     }
 
+
+    private void addSearchFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        SearchTabFragment searchTabFragment = new SearchTabFragment();
+        fragmentTransaction.add(R.id.searchFrameLay, searchTabFragment,
+                "search");
+        fragmentTransaction.commit();
+
+    }
+
+    private void addLoginFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        LoginTabFragment loginTabFragment = new LoginTabFragment();
+        fragmentTransaction.add(R.id.loginFrameLay, loginTabFragment, "login");
+        fragmentTransaction.commit();
+
+    }
+
+    private void openLoginPanel()
+    {
+        isLayoutVisible = checkSearchVisibility();
+        if (isLayoutVisible) {
+            // do nothing
+        } else {
+            expandPanel();
+           // changeLoginButtons();
+        }
+    }
+
     @SuppressLint("NewApi")
-    @OnClick(R.id.imgViewSearchButton)
+    @OnClick(R.id.relLaySearch)
     void openSearchFragment() {
 
         isLayoutVisible = checkLoginVisibility();
@@ -89,7 +124,7 @@ public class HomeActivity extends FragmentActivity {
 
     }
 
-    @OnClick(R.id.imgViewLoginButton)
+    @OnClick(R.id.relLayLogin)
     void openLoginFragment() {
 
         isLayoutVisible = checkSearchVisibility();
@@ -162,25 +197,6 @@ public class HomeActivity extends FragmentActivity {
         }
     }
 
-    private void addSearchFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-                .beginTransaction();
-        SearchTabFragment searchTabFragment = new SearchTabFragment();
-        fragmentTransaction.add(R.id.searchFrameLay, searchTabFragment,
-                "search");
-        fragmentTransaction.commit();
 
-    }
-
-    private void addLoginFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-                .beginTransaction();
-        LoginTabFragment loginTabFragment = new LoginTabFragment();
-        fragmentTransaction.add(R.id.loginFrameLay, loginTabFragment, "login");
-        fragmentTransaction.commit();
-
-    }
 
 }

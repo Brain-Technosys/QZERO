@@ -3,6 +3,7 @@ package com.example.qzero.Outlet.Fragments;
 
 import android.app.Dialog;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,6 +24,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.Outlet.Adapters.ItemDetailAdapter;
 import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
@@ -92,6 +96,8 @@ public class AddCartFragment extends Fragment {
 
         setFonts();
 
+        getItemDetails();
+
         inflateQtyLayout();
     }
 
@@ -99,6 +105,40 @@ public class AddCartFragment extends Fragment {
         FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewTitleDesc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDesc, FontHelper.FontType.FONT, getActivity());
+    }
+
+    private void getItemDetails()
+    {
+        if(CheckInternetHelper.checkInternetConnection(getActivity()))
+        {
+            new GetItemDetail().execute();
+        }
+        else
+        {
+            AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.internet_connection_message),"Alert");
+        }
+    }
+
+    private class GetItemDetail extends AsyncTask<String,String,String>
+    {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(getActivity());
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            ProgresBar.stop();
+        }
     }
 
 

@@ -30,6 +30,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -81,7 +83,9 @@ public class SearchItemFragment extends Fragment {
     }
 
     private void validatingItem() {
-        itemName = edtTextItem.getText().toString();
+        String item = edtTextItem.getText().toString();
+
+        itemName = item.replace(" ", "%20");
 
         if (CheckInternetHelper.checkInternetConnection(getActivity())) {
             fetchResponse();
@@ -111,17 +115,19 @@ public class SearchItemFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-            Log.e("inside", "do in");
+            String url = null;
+
             status = -1;
+
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.SEARCH_ITEM +"/" + itemName;
+
+            url = Const.BASE_URL + Const.SEARCH_ITEM + "/" + itemName;
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("json", jsonString);
-
             try {
+                Log.e("json", jsonString);
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
@@ -142,12 +148,13 @@ public class SearchItemFragment extends Fragment {
 
                             String item_id = jsonObj.getString(Const.TAG_ITEM_ID);
                             String item_name = jsonObj.getString(Const.TAG_ITEM_NAME);
-                            String venue_name=jsonObj.getString(Const.TAG_VENUE_NAME);
+                            String venue_name = jsonObj.getString(Const.TAG_VENUE_NAME);
+                            String outlet_name=jsonObj.getString(Const.TAG_OUTLET_NAME);
                             String venue_address = jsonObj.getString(Const.TAG_ADDRESS);
                             String venue_city = jsonObj.getString(Const.TAG_CITY);
                             String venue_phone = jsonObj.getString(Const.TAG_PHONE_NO);
                             String venue_mobile = jsonObj.getString(Const.TAG_MOB_N0);
-                            Items items = new Items(item_id,item_name,venue_name,venue_address, venue_city,venue_phone, venue_mobile);
+                            Items items = new Items(item_id, item_name, venue_name,outlet_name, venue_address, venue_city, venue_phone, venue_mobile);
                             arrayListItems.add(items);
                         }
                     }
@@ -178,7 +185,7 @@ public class SearchItemFragment extends Fragment {
 
             } else if (status == 0) {
 
-                AlertDialogHelper.showAlertDialog(getActivity(),message, "Alert");
+                AlertDialogHelper.showAlertDialog(getActivity(), message, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(getActivity(),
