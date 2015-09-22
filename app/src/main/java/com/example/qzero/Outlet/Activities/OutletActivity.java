@@ -271,7 +271,7 @@ public class OutletActivity extends Activity {
     public void setLayout() {
         int mod = jsonLength % 3;
 
-        Log.e("mod",""+mod);
+        Log.e("mod", "" + mod);
         if (mod == 0) {
             int length = jsonLength / 3;
 
@@ -360,8 +360,22 @@ public class OutletActivity extends Activity {
         relLayDesc.setTag(outlet.getOutlet_id());
         txtViewTitleLandscape.setText(outlet.getOutlet_name());
         txtViewDescLand.setText(outlet.getOutlet_desc());
-        txtViewPhnoneLand.setText(outlet.getPhone_num());
-        txtViewMobLand.setText(outlet.getMobile_num());
+
+        if(outlet.getPhone_num().equals("null")||outlet.getPhone_num().equalsIgnoreCase("n/a"))
+        {
+            txtViewPhnoneLand.setVisibility(View.INVISIBLE);
+        }
+        else {
+            txtViewPhnoneLand.setText(outlet.getPhone_num());
+        }
+
+        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+            txtViewMobLand.setText(outlet.getMobile_num());
+        }
+        else
+        {
+            txtViewPhnoneLand.setText(outlet.getMobile_num());
+        }
         setOutletFonts();
     }
 
@@ -370,8 +384,21 @@ public class OutletActivity extends Activity {
         relLayDescOutletLeft.setTag(outlet.getOutlet_id());
         txtViewtitlePotraitLeft.setText(outlet.getOutlet_name());
         txtViewDesPotLeft.setText(outlet.getOutlet_desc());
-        txtViewPhPotLeft.setText(outlet.getPhone_num());
-        txtViewPhPotLeft.setText(outlet.getPhone_num());
+
+        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+            txtViewPhPotLeft.setText(outlet.getMobile_num());
+        }
+        else {
+
+            txtViewPhPotLeft.setText(outlet.getPhone_num());
+        }
+
+        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+            txtViewPhPotLeft.setText(outlet.getMobile_num());
+        }
+        else {
+            txtViewPhPotLeft.setText(outlet.getPhone_num());
+        }
         setOutletFonts();
 
     }
@@ -381,8 +408,19 @@ public class OutletActivity extends Activity {
         relLayDescOutletRight.setTag(outlet.getOutlet_id());
         txtViewtitlePotraitRight.setText(outlet.getOutlet_name());
         txtViewDesPotRight.setText(outlet.getOutlet_desc());
-        txtViewPhPotRight.setText(outlet.getPhone_num());
-        txtViewPhPotRight.setText(outlet.getPhone_num());
+        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+            txtViewPhPotRight.setText(outlet.getMobile_num());
+        }
+        else {
+            txtViewPhPotRight.setText(outlet.getPhone_num());
+        }
+
+        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+            txtViewMobPotRight.setText(outlet.getMobile_num());
+        }
+        else {
+            txtViewMobPotRight.setText(outlet.getPhone_num());
+        }
         setOutletFonts();
     }
 
