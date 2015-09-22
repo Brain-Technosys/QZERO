@@ -45,11 +45,26 @@ public class OrderedItemActivity extends Activity {
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
 
+    @InjectView(R.id.lbl_billing_address)
+    TextView lblBillingAddress;
+
+    @InjectView(R.id.lbl_shipping_address)
+    TextView lblShippingAddress;
+
+    @InjectView(R.id.txt_billing_address)
+    TextView txtBillingAddress;
+
+    @InjectView(R.id.txt_shipping_address)
+    TextView txtShippingAddress;
+
+
     @InjectView(R.id.orderListView)
     ListView orderListView;
 
     String userID;
     String orderId;
+    String billingAddress;
+    String shippingAddress;
 
     ArrayList<OrderItems> orderItemArrayList;
 
@@ -79,21 +94,24 @@ public class OrderedItemActivity extends Activity {
 
         if (bundle != null) {
             orderId = bundle.getString("order_id");
-
-            Log.e("orderact", orderId);
+            billingAddress = bundle.getString(Const.TAG_BILLING_ADDRESS);
+            shippingAddress = bundle.getString(Const.TAG_SHIPPING_ADDRESS);
+            // Log.e("orderact", orderId);
             getItemData();
         }
     }
 
-    private void setFont()
-    {
+    private void setFont() {
         txtViewHeading.setText("Order Details");
-        FontHelper.applyFont(this,txtViewHeading,FontHelper.FontType.FONT);
+        FontHelper.applyFont(this, txtViewHeading, FontHelper.FontType.FONT);
     }
 
     private void getItemData() {
         if (CheckInternetHelper.checkInternetConnection(this)) {
+
             new GetOrderedItems().execute();
+
+
         } else {
             AlertDialogHelper.showAlertDialog(this, getString(R.string.internet_connection_message), "Alert");
         }
@@ -134,15 +152,17 @@ public class OrderedItemActivity extends Activity {
 
                             int orderId = orderJson.getInt(Const.TAG_ORDER_ID);
                             int itemId = orderJson.getInt(Const.TAG_ITEM_ID);
+
                             String itemName = orderJson.getString(Const.TAG_ITEM_NAME);
                             String timing = orderJson.getString(Const.TAG_TIMINGS);
                             String itemStatus = orderJson.getString(Const.TAG_ITEM_STATUS);
                             String itemPrice = orderJson.getString(Const.TAG_ITEM_PRICE);
                             String remarks = orderJson.getString(Const.TAG_REMARKS);
                             String itemCode = orderJson.getString(Const.TAG_ITEM_CODE);
+                            String qty = orderJson.getString("items");
 
 
-                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks);
+                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty);
 
                             orderItemArrayList.add(orderItems);
                         }
@@ -165,6 +185,21 @@ public class OrderedItemActivity extends Activity {
             if (status == 1) {
                 OrderItemsAdapter adapter = new OrderItemsAdapter(OrderedItemActivity.this, orderItemArrayList);
                 orderListView.setAdapter(adapter);
+
+                if (billingAddress != null && billingAddress.length() > 0) {
+                    txtBillingAddress.setText(billingAddress);
+                } else {
+                    lblBillingAddress.setVisibility(View.GONE);
+                    txtBillingAddress.setVisibility(View.GONE);
+                }
+
+                if (shippingAddress != null && shippingAddress.length() > 0) {
+                    txtShippingAddress.setText(shippingAddress);
+                } else {
+                    lblShippingAddress.setVisibility(View.GONE);
+                    txtShippingAddress.setVisibility(View.GONE);
+                }
+
             }
         }
     }

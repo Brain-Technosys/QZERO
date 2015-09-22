@@ -78,6 +78,9 @@ public class OrderFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), OrderedItemActivity.class);
         intent.putExtra("order_id", orderId);
+        intent.putExtra(Const.TAG_BILLING_ADDRESS, order.getOrderBillingAddress());
+        intent.putExtra(Const.TAG_SHIPPING_ADDRESS, order.getShippingAddress());
+
         startActivity(intent);
     }
 
@@ -119,6 +122,7 @@ public class OrderFragment extends Fragment {
                             boolean isShipped = orderJson.getBoolean(Const.TAG_IS_SHIPPED);
                             String orderStatus = orderJson.getString(Const.TAG_ORDER_STATUS);
                             int itemCount = orderJson.getInt(Const.TAG_ITEM_COUNT);
+
                             String customer = orderJson.getString(Const.TAG_CUSTOMER);
                             String shippingAddress = orderJson.getString(Const.TAG_SHIPPING_ADDRESS);
                             String billingAddress = orderJson.getString(Const.TAG_BILLING_ADDRESS);

@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.Outlet.ObjectClasses.Items;
 import com.example.qzero.Outlet.ObjectClasses.OrderItems;
 import com.example.qzero.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -61,7 +63,7 @@ public class OrderItemsAdapter extends BaseAdapter {
             holder.tv_item_name = (TextView) convertView.findViewById(R.id.tv_item_name);
             holder.tv_item_status = (TextView) convertView.findViewById(R.id.tv_item_status);
             holder.tv_item_price = (TextView) convertView.findViewById(R.id.tv_item_price);
-
+            holder.tv_quantity = (TextView)convertView.findViewById(R.id.tv_item_qty);
             holder.itemImageView = (ImageView) convertView.findViewById(R.id.img_item);
 
             convertView.setTag(holder);
@@ -73,8 +75,11 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         holder.tv_item_name.setText(items.getItemName());
         holder.tv_item_status.setText(items.getItemStatus());
-        holder.tv_item_price.setText(items.getItemPrice());
-
+        holder.tv_item_price.setText("$ "+items.getItemPrice());
+        holder.tv_quantity.setText(items.getQuantitiy());
+        //Load Image
+        String item_image = Const.BASE_URL + Const.IMAGE_URL + items.getItemId();
+        Picasso.with(context).load(item_image).into(holder.itemImageView);
         setFonts(holder);
 
 
@@ -92,6 +97,7 @@ public class OrderItemsAdapter extends BaseAdapter {
         TextView tv_item_name;
         TextView tv_item_status;
         TextView tv_item_price;
+        TextView tv_quantity;
         ImageView itemImageView;
     }
 }
