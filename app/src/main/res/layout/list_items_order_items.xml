@@ -18,6 +18,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/img_item"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/food3" />
@@ -35,29 +36,28 @@
                 android:id="@+id/tv_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:text="Item Name (code)" />
+                android:text="Item Name (code)"
+                android:textColor="#000" />
 
 
             <TextView
                 android:id="@+id/tv_item_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:layout_marginTop="10dp"
                 android:layout_below="@+id/tv_item_name"
-                android:text="Status" />
+                android:layout_marginTop="10dp"
+                android:text="Status"
+                android:textColor="#000" />
 
 
             <TextView
                 android:id="@+id/tv_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:layout_marginTop="10dp"
                 android:layout_below="@+id/tv_item_status"
-                android:text="Quantity" />
-
+                android:layout_marginTop="10dp"
+                android:text="Quantity"
+                android:textColor="#000" />
 
 
         </RelativeLayout>

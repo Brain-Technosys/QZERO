@@ -42,7 +42,10 @@ public class OrdersAdapter extends BaseAdapter {
             holder.txtStatus = (TextView) convertView.findViewById(R.id.txtStatus);
             holder.txtItemCount = (TextView) convertView.findViewById(R.id.txtItemCount);
             holder.txtDiscount = (TextView) convertView.findViewById(R.id.txtDiscount);
-            holder.txtAmount =  (TextView) convertView.findViewById(R.id.txtAmount);
+            holder.txtAmount = (TextView) convertView.findViewById(R.id.txtAmount);
+
+            // Labels
+            holder.lblDiscount = (TextView) convertView.findViewById(R.id.lblDiscount);
 
             setFonts(holder);
 
@@ -52,7 +55,7 @@ public class OrdersAdapter extends BaseAdapter {
         }
 
         Order order = new Order();
-       order = orderArrayList.get(position);
+        order = orderArrayList.get(position);
 
         String oid = String.valueOf(order.getOrderId());
         String pDate = order.getPurchaseDate();
@@ -61,12 +64,22 @@ public class OrdersAdapter extends BaseAdapter {
         String discount = order.getDiscount();
         String amount = order.getAmount();
 
+
         holder.txtOrderId.setText(String.valueOf(order.getOrderId()));
         holder.txtPurchaseDate.setText(order.getPurchaseDate());
         holder.txtStatus.setText(order.getOrderStatus());
         holder.txtItemCount.setText(String.valueOf(order.getItemsCount()));
         holder.txtDiscount.setText(Utility.formateCurrency(discount));
         holder.txtAmount.setText(Utility.formateCurrency(amount));
+
+
+        if (Double.valueOf(discount) > 0) {
+            holder.txtDiscount.setText(Utility.formateCurrency(discount));
+        } else {
+            holder.txtDiscount.setVisibility(View.GONE);
+            holder.lblDiscount.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
@@ -95,10 +108,11 @@ public class OrdersAdapter extends BaseAdapter {
         TextView txtDiscount;
         TextView txtAmount;
 
+        TextView lblDiscount;
+
     }
 
-    private void setFonts(ViewHolder viewHolder)
-    {
+    private void setFonts(ViewHolder viewHolder) {
         FontHelper.applyFont(context, viewHolder.txtOrderId, FontHelper.FontType.FONT);
         FontHelper.applyFont(context, viewHolder.txtPurchaseDate, FontHelper.FontType.FONT);
         FontHelper.applyFont(context, viewHolder.txtStatus, FontHelper.FontType.FONT);

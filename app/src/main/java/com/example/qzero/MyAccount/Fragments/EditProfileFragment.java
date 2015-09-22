@@ -136,103 +136,70 @@ public class EditProfileFragment extends Fragment {
     private void setValues() {
         profileBundle = getArguments();
 
-        if (profileBundle.getString(Const.TAG_USER_NAME).equals("null") || profileBundle.getString(Const.TAG_USER_NAME)== null)
-        {
+        if (profileBundle.getString(Const.TAG_USER_NAME).equals("null") || profileBundle.getString(Const.TAG_USER_NAME) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
 
             userNameEditText.setText(profileBundle.getString(Const.TAG_USER_NAME));
         }
 
-        if (profileBundle.getString(Const.TAG_EMAIL).equals("null") || profileBundle.getString(Const.TAG_EMAIL) == null)
-        {
+        if (profileBundle.getString(Const.TAG_EMAIL).equals("null") || profileBundle.getString(Const.TAG_EMAIL) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             emailEditText.setText(profileBundle.getString(Const.TAG_EMAIL));
         }
 
-        if (profileBundle.getString(Const.TAG_FIRST_NAME).equals("null") || profileBundle.getString(Const.TAG_FIRST_NAME) == null)
-        {
+        if (profileBundle.getString(Const.TAG_FIRST_NAME).equals("null") || profileBundle.getString(Const.TAG_FIRST_NAME) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             firstNameEditText.setText(profileBundle.getString(Const.TAG_FIRST_NAME));
         }
 
-        if (profileBundle.getString(Const.TAG_LAST_NAME).equals("null") || profileBundle.getString(Const.TAG_LAST_NAME) == null)
-        {
+        if (profileBundle.getString(Const.TAG_LAST_NAME).equals("null") || profileBundle.getString(Const.TAG_LAST_NAME) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             lastNameEditText.setText(profileBundle.getString(Const.TAG_LAST_NAME));
         }
 
-        if (profileBundle.getString(Const.TAG_ADDRESS).equals("null") || profileBundle.getString(Const.TAG_ADDRESS) == null)
-        {
+        if (profileBundle.getString(Const.TAG_ADDRESS).equals("null") || profileBundle.getString(Const.TAG_ADDRESS) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             addressEditText.setText(profileBundle.getString(Const.TAG_ADDRESS));
         }
 
-        if (profileBundle.getString(Const.TAG_CITY).equals("null") || profileBundle.getString(Const.TAG_CITY) == null)
-        {
+        if (profileBundle.getString(Const.TAG_CITY).equals("null") || profileBundle.getString(Const.TAG_CITY) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             cityEditText.setText(profileBundle.getString(Const.TAG_CITY));
         }
-        if (profileBundle.getString(Const.TAG_STATE).equals("null") || profileBundle.getString(Const.TAG_STATE) == null)
-        {
+        if (profileBundle.getString(Const.TAG_STATE).equals("null") || profileBundle.getString(Const.TAG_STATE) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
 
             stateEditText.setText(profileBundle.getString(Const.TAG_STATE));
         }
 
-        if (profileBundle.getString(Const.TAG_COUNTRY).equals("null") || profileBundle.getString(Const.TAG_COUNTRY) == null)
-        {
+        if (profileBundle.getString(Const.TAG_COUNTRY).equals("null") || profileBundle.getString(Const.TAG_COUNTRY) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             countryEditText.setText(profileBundle.getString(Const.TAG_COUNTRY));
         }
 
-        if (profileBundle.getString(Const.TAG_PIN_CODE).equals("null") || profileBundle.getString(Const.TAG_PIN_CODE) == null)
-        {
+        if (profileBundle.getString(Const.TAG_PIN_CODE).equals("null") || profileBundle.getString(Const.TAG_PIN_CODE) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             zipcodeEditText.setText(profileBundle.getString(Const.TAG_PIN_CODE));
         }
 
-        if (profileBundle.getString(Const.TAG_PHONE).equals("null") || profileBundle.getString(Const.TAG_PHONE) == null)
-        {
+        if (profileBundle.getString(Const.TAG_PHONE).equals("null") || profileBundle.getString(Const.TAG_PHONE) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             phoneEditText.setText(profileBundle.getString(Const.TAG_PHONE));
         }
 
-        if (profileBundle.getString(Const.TAG_MOBILE).equals("null") || profileBundle.getString(Const.TAG_MOBILE) == null)
-        {
+        if (profileBundle.getString(Const.TAG_MOBILE).equals("null") || profileBundle.getString(Const.TAG_MOBILE) == null) {
             //do not inflate the editext
-        }
-        else
-        {
+        } else {
             mobileEditText.setText(profileBundle.getString(Const.TAG_MOBILE));
         }
     }
@@ -335,7 +302,7 @@ public class EditProfileFragment extends Fragment {
         protected Object doInBackground(Object[] params) {
             JsonParser jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.PROFILE_INFO_URL;
-
+            Log.e("URL ", url);
             HashMap<String, String> data = getUpdatedValues();
 
             JSONObject jsonObj = new JSONObject();
