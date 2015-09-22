@@ -374,7 +374,7 @@ public class OutletActivity extends Activity {
         }
         else
         {
-            txtViewPhnoneLand.setText(outlet.getMobile_num());
+            txtViewMobLand.setText(outlet.getMobile_num());
         }
         setOutletFonts();
     }
