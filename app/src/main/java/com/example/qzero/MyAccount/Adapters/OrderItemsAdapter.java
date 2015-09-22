@@ -68,7 +68,7 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         OrderItems items = rowItems.get(position);
 
-        holder.tv_item_name.setText(items.getItemName() + " " + "(" + items.getItemCode() + ")");
+        holder.tv_item_name.setText(items.getItemName());
         holder.tv_item_status.setText(items.getItemStatus());
         holder.tv_item_price.setText(items.getItemPrice());
 
