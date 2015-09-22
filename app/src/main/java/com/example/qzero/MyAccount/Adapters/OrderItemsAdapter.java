@@ -87,7 +87,7 @@ public class OrderItemsAdapter extends BaseAdapter {
     }
 
     private void setFonts(ViewHolder holder) {
-        FontHelper.applyFont(context, holder.tv_item_name, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, holder.tv_item_name, FontHelper.FontType.FONTROBOLD);
         FontHelper.applyFont(context, holder.tv_item_status, FontHelper.FontType.FONT);
         FontHelper.applyFont(context, holder.tv_item_price, FontHelper.FontType.FONT);
     }
