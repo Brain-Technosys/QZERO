@@ -40,7 +40,6 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center_horizontal"
                 android:maxLines="2"
-                android:text="Vegetables are an integral part of our food and we consume them in a number of ways."
                 android:textSize="14dp" />
 
 
@@ -73,7 +72,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="2dp"
-                        android:text="9898989898"
                         android:textColor="@android:color/black" />
 
                 </LinearLayout>
@@ -100,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="2dp"
-                        android:text="9898989898"
+
                         android:textColor="@android:color/black" />
 
                 </LinearLayout>
@@ -143,7 +141,6 @@
                     android:gravity="center_horizontal"
                     android:maxLines="2"
                     android:singleLine="true"
-                    android:text="CHINESE"
                     android:textSize="21dp" />
 
                 <TextView
@@ -154,7 +151,6 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
                     android:maxLines="4"
-                    android:text="Vegetables are an integral part of our food and we consume them in a number of ways."
                     android:textSize="14dp" />
 
 
@@ -187,7 +183,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="2dp"
-                            android:text="9898989898"
+
                             android:textColor="@android:color/black" />
 
                     </LinearLayout>
@@ -214,7 +210,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="2dp"
-                            android:text="9898989898"
                             android:textColor="@android:color/black" />
 
                     </LinearLayout>
@@ -255,7 +250,6 @@
                     android:gravity="center_horizontal"
                     android:maxLines="2"
                     android:singleLine="true"
-                    android:text="CHINESE"
                     android:textSize="21dp" />
 
                 <TextView
@@ -267,9 +261,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
                     android:maxLines="4"
-                    android:text="Vegetables are an integral part of our food and we consume them in a number of ways."
                     android:textSize="14dp" />
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -300,7 +292,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="2dp"
-                            android:text="9898989898"
                             android:textColor="@android:color/black" />
 
                     </LinearLayout>
@@ -327,7 +318,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="2dp"
-                            android:text="9898989898"
                             android:textColor="@android:color/black" />
 
                     </LinearLayout>

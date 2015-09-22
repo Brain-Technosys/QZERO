@@ -75,9 +75,7 @@ public class AlertDialogHelper {
             public void onClick(View view) {
                 userSession.saveAppLaunchStatus(true);
 
-                Log.e("setOnClickListener", "setOnClickListener");
                 userSession.saveUserLocationPermission(true);
-
 
                 ((HomeActivity)context).getUserLocation();
 

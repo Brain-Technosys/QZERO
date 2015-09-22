@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -82,13 +83,15 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     int list;
     int lastPos;
-    int noSubCatPos=-1;
+    int noSubCatPos = -1;
 
     String title;
     String venue_id;
     String outlet_id;
     String categoryId;
     String subCategoryId;
+
+    String outletId;
 
     Boolean isSubCatPresent;
 
@@ -112,6 +115,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     View child[];
 
+    Boolean isAddToCartOpen = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +127,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         //Initialize user session
         userSession = new UserSession(this);
-
 
 
         setSupportActionBar(toolbar);
@@ -201,14 +205,15 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
 
             title = bundle.getString("title");
-            venue_id=bundle.getString("venue_id");
-            outlet_id=bundle.getString("outlet_id");
+            venue_id = bundle.getString("venue_id");
+            outlet_id = bundle.getString("outlet_id");
         }
 
         child = new View[arrayListCat.size()];
     }
 
     public void addItemFragment() {
+        isAddToCartOpen=false;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
                 .beginTransaction();
@@ -219,9 +224,21 @@ public class OutletCategoryActivity extends AppCompatActivity {
         categoryItemFragment.setArguments(bundle);
         fragmentTransaction.add(R.id.frameLayItem, categoryItemFragment, "item");
         fragmentTransaction.commit();
+
+    }
+
+    public void replaceAddItem()
+    {
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new GetOutletItems().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(this, getString(R.string.internet_connection_message), "Alert");
+        }
     }
 
     public void replaceFragment() {
+
+        isAddToCartOpen = true;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
                 .beginTransaction();
@@ -280,7 +297,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         txtViewCategories.setText(arrayListCat.get(pos).getCategory_name());
 
         relLayCategories.setTag(R.string.Tag, pos);
-        relLayCategories.setTag(R.string.ID,arrayListCat.get(pos).getCategory_id());
+        relLayCategories.setTag(R.string.ID, arrayListCat.get(pos).getCategory_id());
 
         subCatListView[pos] = new ExpandableListView(this);
 
@@ -293,7 +310,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 Log.e("id", categoryId);
                 int tag = Integer.parseInt(view.getTag(R.string.Tag).toString());
 
-                if(noSubCatPos!=lastPos) {
+                if (noSubCatPos != lastPos) {
                     if (lastPos != tag) {
 
 
@@ -343,7 +360,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     private void createSubCaList(int pos) {
 
         //dynamically add List View to show subItem of different Category
-        subCatListView[pos].setTag(R.string.Tag,pos);
+        subCatListView[pos].setTag(R.string.Tag, pos);
         subCatListView[pos].setBackgroundColor(Color.parseColor("#4b4b4b"));
         subCatListView[pos].setVisibility(View.GONE);
 
@@ -351,13 +368,17 @@ public class OutletCategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView txtViewSubCategory=(TextView)view.findViewById(R.id.txtViewSubCategory);
+                TextView txtViewSubCategory = (TextView) view.findViewById(R.id.txtViewSubCategory);
 
-                subCategoryId=txtViewSubCategory.getTag(R.string.ID).toString();
+                subCategoryId = txtViewSubCategory.getTag(R.string.ID).toString();
 
-                Log.e("item",subCategoryId);
+                Log.e("item", subCategoryId);
 
-                setItemsInFragment();
+                if (isAddToCartOpen) {
+                    replaceAddItem();
+                } else {
+                    setItemsInFragment();
+                }
             }
         });
 
@@ -365,7 +386,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         arrayListSubCat = hashMapSubCat.get(pos);
 
-       //If categories have no sub categories hide the arrow
+        //If categories have no sub categories hide the arrow
         if (arrayListSubCat.size() == 0) {
             imgViewDownArrow = (ImageView) child[pos].findViewById(R.id.imgViewDownArrow);
             imgViewDownArrow.setVisibility(View.GONE);
@@ -373,7 +394,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
             //Capture the position of categories containing no sub categories
             noSubCatPos = pos;
 
-            isSubCatPresent=false;
+            isSubCatPresent = false;
         }
 
         //add adapter to listview
@@ -382,11 +403,10 @@ public class OutletCategoryActivity extends AppCompatActivity {
         navigationView.addView(subCatListView[pos], params);
     }
 
-    public void setItemsInFragment()
-    {
-        Log.e("frag","method");
+    public void setItemsInFragment() {
+        Log.e("frag", "method");
         CategoryItemFragment categoryFragment = (CategoryItemFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayItem);
-        categoryFragment.getSubCatItems(venue_id,outlet_id,categoryId,subCategoryId);
+        categoryFragment.getSubCatItems(venue_id, outlet_id, categoryId, subCategoryId);
     }
 
     @OnClick(R.id.relLayProfile)
@@ -401,8 +421,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.relLayChangeOutlet)
-    void changeOutlet()
-    {
+    void changeOutlet() {
         finish();
     }
 
@@ -412,8 +431,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         toggleLogout();
     }
 
-    private void toggleLogout()
-    {
+    private void toggleLogout() {
         txtViewProfile.setText("Login");
         txtViewLogout.setVisibility(View.GONE);
         txtViewUserName.setText(" ");
@@ -423,6 +441,121 @@ public class OutletCategoryActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public class GetOutletItems extends AsyncTask<String, String, String> {
+
+        int status;
+        JsonParser jsonParser;
+        JSONObject jsonObject;
+        JSONArray jsonArray;
+
+        String message;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(OutletCategoryActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            Log.e("inside", "do in");
+            status = -1;
+            jsonParser = new JsonParser();
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outlet_id + "&itemId=" + ""
+                    + "&subCatId=" + "";
+
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
+
+            Log.e("jsonvenue", jsonString);
+
+            try {
+                jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("inside", "json");
+
+                    arrayListItems = new ArrayList<ItemOutlet>(jsonObject.length());
+
+                    arrayListCat = new ArrayList<Category>(jsonObject.length());
+
+                    hashMapSubCat = new HashMap<Integer, ArrayList<SubCategory>>();
+
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+                    message = jsonObject.getString(Const.TAG_MESSAGE);
+
+                    Log.d("status", "" + status);
+                    if (status == 1) {
+
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
+
+                        //Get json Array for items
+                        jsonArray = new JSONArray();
+                        jsonArray = jsonObj.getJSONArray(Const.TAG_JsonItemObj);
+
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObjItem = jsonArray.getJSONObject(i);
+
+                            String item_id = jsonObjItem.getString(Const.TAG_ITEM_ID);
+                            String item_name = jsonObjItem.getString(Const.TAG_CAT_ITEM_NAME);
+                            String item_price = jsonObjItem.getString(Const.TAG_PRICE);
+                            String item_desc = jsonObjItem.getString(Const.TAG_DESC);
+                            String sub_item_id = jsonObjItem.getString(Const.TAG_SUB_ID);
+                            String item_image = Const.BASE_URL + Const.IMAGE_URL + item_id;
+
+                            ItemOutlet ItemOutlet = new ItemOutlet(item_id, item_name, item_image, item_price, item_desc, sub_item_id);
+                            arrayListItems.add(ItemOutlet);
+                        }
+
+                    }
+
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+
+            ProgresBar.stop();
+
+            Log.e("inside", "postexecute");
+
+            if (status == 1) {
+                isAddToCartOpen=false;
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager
+                        .beginTransaction();
+                CategoryItemFragment categoryItemFragment = new CategoryItemFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("arraylistitem", arrayListItems);
+                bundle.putString("title", title);
+                categoryItemFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.frameLayItem, categoryItemFragment, "item");
+                fragmentTransaction.commit();
+
+            } else if (status == 0) {
+
+                AlertDialogHelper.showAlertDialog(OutletCategoryActivity.this, message, "Alert");
+
+            } else {
+                AlertDialogHelper.showAlertDialog(OutletCategoryActivity.this, getString(R.string.server_message), "Alert");
+            }
+        }
     }
 
 

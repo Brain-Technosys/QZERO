@@ -125,7 +125,7 @@
     <!--Item description Screen-->
     <string name="item_price">Price:</string>
     <string name="item_discount">Discount:</string>
-    <string name="add_more">Add Item</string>
+    <string name="add_more">Add More Item</string>
     <string name="title_activity_forgot_password">ForgotPassword</string>
 
     <!-- Forgot Password-->
