@@ -119,6 +119,7 @@ public class OrderedItemActivity extends Activity {
             jsonParser = new JsonParser();
             json = jsonParser.executePost(url, "", userID, Const.TIME_OUT);
             if (json != null && json.length() != 0) {
+                Log.e("order detail url: ", url);
                 Log.e("Order Fragment: ", json);
 
                 try {

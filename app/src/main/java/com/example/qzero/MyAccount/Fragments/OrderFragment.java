@@ -70,14 +70,14 @@ public class OrderFragment extends Fragment {
     @OnItemClick(R.id.orderListView)
     void onItemClick(int pos) {
 
-        Order order=orderArrayList.get(pos);
+        Order order = orderArrayList.get(pos);
 
-        String orderId=String.valueOf(order.getOrderId());
+        String orderId = String.valueOf(order.getOrderId());
 
-        Log.e("order",""+orderId);
+        Log.e("order", "" + orderId);
 
-        Intent intent=new Intent(getActivity(), OrderedItemActivity.class);
-        intent.putExtra("order_id",orderId);
+        Intent intent = new Intent(getActivity(), OrderedItemActivity.class);
+        intent.putExtra("order_id", orderId);
         startActivity(intent);
     }
 
@@ -100,6 +100,7 @@ public class OrderFragment extends Fragment {
             jsonParser = new JsonParser();
             json = jsonParser.executePost(url, "", userID, Const.TIME_OUT);
             if (json != null && json.length() != 0) {
+                Log.v("Order URL: ", url);
                 Log.v("Order Fragment: ", json);
 
                 try {
@@ -122,8 +123,8 @@ public class OrderFragment extends Fragment {
                             String shippingAddress = orderJson.getString(Const.TAG_SHIPPING_ADDRESS);
                             String billingAddress = orderJson.getString(Const.TAG_BILLING_ADDRESS);
                             String discount = orderJson.getString(Const.TAG_DISCOUNT);
-                            String amount  = orderJson.getString(Const.TAG_AMOUNT);
-                            Order order = new Order(orderId, purchaseDate, isShipped, orderStatus, itemCount, customer, shippingAddress, billingAddress,discount,amount);
+                            String amount = orderJson.getString(Const.TAG_AMOUNT);
+                            Order order = new Order(orderId, purchaseDate, isShipped, orderStatus, itemCount, customer, shippingAddress, billingAddress, discount, amount);
                             orderArrayList.add(order);
 
                         }

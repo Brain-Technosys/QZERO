@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -61,6 +62,8 @@ public class OrderItemsAdapter extends BaseAdapter {
             holder.tv_item_status = (TextView) convertView.findViewById(R.id.tv_item_status);
             holder.tv_item_price = (TextView) convertView.findViewById(R.id.tv_item_price);
 
+            holder.itemImageView = (ImageView) convertView.findViewById(R.id.img_item);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -89,5 +92,6 @@ public class OrderItemsAdapter extends BaseAdapter {
         TextView tv_item_name;
         TextView tv_item_status;
         TextView tv_item_price;
+        ImageView itemImageView;
     }
 }
