@@ -18,6 +18,7 @@ import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Activities.SearchVenueActivity;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
@@ -59,6 +60,8 @@ public class SearchVenueFragment extends Fragment {
 
     ArrayList<Venue> arrayListVenue;
 
+    UserSession userSession;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +69,13 @@ public class SearchVenueFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_venue, null);
 
         ButterKnife.inject(this, view);
+
+
+
+        userSession =new UserSession(getActivity().getApplicationContext());
+
+
+
         return view;
     }
 
@@ -73,8 +83,21 @@ public class SearchVenueFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
+
+        setCityName();
+
         setFonts();
     }
+
+
+    public void setCityName(){
+        if(userSession.getUserLocation()!=null){
+
+            edtTextCity.setText(userSession.getUserLocation());
+
+        }
+    }
+
 
     public void setFonts() {
 

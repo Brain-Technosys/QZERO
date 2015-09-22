@@ -18,7 +18,13 @@ public class UserSession {
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "is_user_logged_in";
     public static final String KEY_USER_ID = "user_id";
-    public static final String KEY_NAME= "name";
+    public static final String KEY_NAME = "name";
+
+    //Search Tab fragment get users location permission
+    public static final String KEY_LOCATION_PERM = "location_permission";
+    public static final String KEY_APP_LAUNCH = "launch";
+
+    public static final String KEY_USER_LOCATION = "user_loc";
 
     public UserSession(Context _context) {
         this.context = _context;
@@ -29,7 +35,7 @@ public class UserSession {
     /**
      * Create login session
      */
-    public void createUserSession(String userID,String name) {
+    public void createUserSession(String userID, String name) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
         // Storing name in pref
@@ -44,10 +50,42 @@ public class UserSession {
     public String getUserID() {
         return pref.getString(KEY_USER_ID, null);
     }
+
     /* Get User Name */
     public String getUserName() {
         return pref.getString(KEY_NAME, null);
     }
+
+    // save user permission
+    public void saveUserLocationPermission(boolean status) {
+        editor.putBoolean(KEY_LOCATION_PERM, status);
+        editor.commit();
+    }
+
+    //Check that , app launch first time or not
+    public void saveAppLaunchStatus(boolean status) {
+        editor.putBoolean(KEY_APP_LAUNCH, status);
+        editor.commit();
+    }
+
+
+    public void saveUserLocation(String city) {
+        editor.putString(KEY_USER_LOCATION, city);
+        editor.commit();
+    }
+
+    public boolean getUserPermissionLoc() {
+        return pref.getBoolean(KEY_LOCATION_PERM, true);
+    }
+
+    public boolean getAppLaunchStatus() {
+        return pref.getBoolean(KEY_APP_LAUNCH, false);
+    }
+
+    public String getUserLocation() {
+        return pref.getString(KEY_USER_LOCATION, "");
+    }
+
     /**
      * Clear session details
      */

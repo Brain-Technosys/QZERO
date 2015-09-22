@@ -17,10 +17,17 @@
     <string name="password_pattern_error">Password should be atleast 6 digits and must contain atleast a digit,capital letter,small letter and a symbol</string>
     <string name="alertbox_ok">OK</string>
     <string name="alertbox_cancel">CANCEL</string>
+    <string name="alertbox_allow">ALLOW</string>
+    <string name="alertbox_block">BLOCK</string>
+
 
     <!-- Home Activty -->
     <string name="txt_search">Search</string>
     <string name="txt_login">Login</string>
+    <string name="msg_perm_get_location">QZERO want to know your location</string>
+    <string name="title_perm_get_location">Location Permission</string>
+    <string name="wifi_mobile_network_error">No network found, please turn on your wifi or mobile network.</string>
+
 
     <!-- -Login user tab -->
     <string name="hint_username">UserName</string>

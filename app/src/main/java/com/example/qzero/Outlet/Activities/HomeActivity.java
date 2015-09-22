@@ -1,25 +1,43 @@
 package com.example.qzero.Outlet.Activities;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
-import com.example.qzero.Outlet.Fragments.AddCartFragment;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Fragments.LoginTabFragment;
 import com.example.qzero.Outlet.Fragments.SearchTabFragment;
+import com.example.qzero.Outlet.Fragments.SearchVenueFragment;
 import com.example.qzero.Outlet.SlidingUpPanel.SlidingUpPanelLayout;
 import com.example.qzero.Outlet.SlidingUpPanel.SlidingUpPanelLayout.PanelState;
 import com.example.qzero.R;
 
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -53,7 +71,15 @@ public class HomeActivity extends FragmentActivity {
 
     Boolean isLayoutVisible;
 
+    UserSession userSession;
+
     private static final String TAG = "HomeActivity";
+
+    Geocoder geocoder;
+    List<Address> addresses;
+
+    Double latitude, longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,49 +90,33 @@ public class HomeActivity extends FragmentActivity {
 
         setFonts();
 
-        addSearchFragment();
-        addLoginFragment();
+        userSession = new UserSession(HomeActivity.this);
 
+        openPopUpWindowToGetPermissionAbtLoc();
+
+        addLoginFragment();
     }
 
+    private void openPopUpWindowToGetPermissionAbtLoc() {
+
+        if (!userSession.getAppLaunchStatus()) {
+            AlertDialogHelper.showAlertBoxLocationPermission(this, getString(R.string.msg_perm_get_location),
+                    getString(R.string.title_perm_get_location));
+        } else {
+            getUserLocation();
+        }
+    }
+
+    public void getUserLocation() {
+        if (userSession.getUserPermissionLoc()) {
+            setUserLocation();
+        }
+    }
 
     private void setFonts() {
         FontHelper.setFontFace(txtViewSearch, FontType.FONT, this);
         FontHelper.setFontFace(txtViewLogin, FontType.FONT, this);
 
-    }
-
-
-    private void addSearchFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-                .beginTransaction();
-        SearchTabFragment searchTabFragment = new SearchTabFragment();
-        fragmentTransaction.add(R.id.searchFrameLay, searchTabFragment,
-                "search");
-        fragmentTransaction.commit();
-
-    }
-
-    private void addLoginFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-                .beginTransaction();
-        LoginTabFragment loginTabFragment = new LoginTabFragment();
-        fragmentTransaction.add(R.id.loginFrameLay, loginTabFragment, "login");
-        fragmentTransaction.commit();
-
-    }
-
-    private void openLoginPanel()
-    {
-        isLayoutVisible = checkSearchVisibility();
-        if (isLayoutVisible) {
-            // do nothing
-        } else {
-            expandPanel();
-           // changeLoginButtons();
-        }
     }
 
     @SuppressLint("NewApi")
@@ -117,12 +127,12 @@ public class HomeActivity extends FragmentActivity {
         if (isLayoutVisible) {
             // do nothing
         } else {
-
+            addSearchFragment();
             expandPanel();
             changeSearchButtons();
         }
-
     }
+
 
     @OnClick(R.id.relLayLogin)
     void openLoginFragment() {
@@ -172,6 +182,7 @@ public class HomeActivity extends FragmentActivity {
         }
     }
 
+
     private void changeLoginButtons() {
 
         isLayoutVisible = checkLoginVisibility();
@@ -197,6 +208,89 @@ public class HomeActivity extends FragmentActivity {
         }
     }
 
+    private void addSearchFragment() {
+        Log.e("addSearchFragment", "addSearchFragment");
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        SearchTabFragment searchTabFragment = new SearchTabFragment();
+        fragmentTransaction.add(R.id.searchFrameLay, searchTabFragment,
+                "search");
+        fragmentTransaction.commit();
+
+    }
+
+    private void addLoginFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        LoginTabFragment loginTabFragment = new LoginTabFragment();
+        fragmentTransaction.add(R.id.loginFrameLay, loginTabFragment, "login");
+        fragmentTransaction.commit();
+
+    }
+
+    private void setUserLocation() {
+
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+
+            LocationManager location_manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            LocationListener listner = new MyLocationListener();
+            location_manager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER, 2000, 2000, listner);
+            location_manager
+                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        } else {
+
+            Toast.makeText(this, getString(R.string.wifi_mobile_network_error), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public class MyLocationListener implements LocationListener {
+
+        StringBuilder str;
+
+
+        @Override
+        public void onLocationChanged(Location arg0) {
+
+            latitude = arg0.getLatitude();
+            longitude = arg0.getLongitude();
+
+            try {
+
+                geocoder = new Geocoder(HomeActivity.this, Locale.ENGLISH);
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+                if (geocoder.isPresent()) {
+
+                    Address returnAddress = addresses.get(0);
+
+                    String city = returnAddress.getLocality();
+
+                    userSession.saveUserLocation(city);
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onProviderDisabled(String arg0) {
+        }
+
+        @Override
+        public void onProviderEnabled(String arg0) {
+        }
+
+        @Override
+        public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+        }
+    }
 
 
 }
