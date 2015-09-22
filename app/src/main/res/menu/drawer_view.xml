@@ -15,7 +15,7 @@
         <item
             android:id="@+id/nav_order_fragment"
             android:icon="@drawable/ic_order"
-            android:title="Order" />
+            android:title="Orders" />
 
         <!--<item-->
             <!--android:id="@+id/nav_payment_fragment"-->

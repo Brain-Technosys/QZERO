@@ -28,6 +28,7 @@ import com.example.qzero.MyAccount.Fragments.OrderFragment;
 import com.example.qzero.MyAccount.Fragments.ProfileInfoFragment;
 import com.example.qzero.MyAccount.Fragments.SettingFragment;
 import com.example.qzero.MyAccount.Fragments.WalletFragment;
+import com.example.qzero.Outlet.Activities.HomeActivity;
 import com.example.qzero.R;
 
 import butterknife.ButterKnife;
@@ -160,7 +161,8 @@ public class DashBoardActivity extends AppCompatActivity {
                 break;
             case id.nav_logout:
                 userSession.ClearUserName();
-                finish();
+                Intent intent=new Intent(this, HomeActivity.class);
+                startActivity(intent);
             default:
                 fragmentClass = DashboardFragment.class;
                 isDashboard=true;
