@@ -95,6 +95,14 @@ public class UserSession {
         editor.commit();
     }
 
+    public void logout() { // Clearing all data from Shared
+
+        editor.remove(IS_LOGIN);
+        editor.remove(KEY_USER_ID);
+        editor.remove(KEY_NAME);
+        editor.commit();
+    }
+
     /**
      * Quick check for login
      * *

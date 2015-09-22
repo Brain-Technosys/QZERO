@@ -160,7 +160,7 @@ public class DashBoardActivity extends AppCompatActivity {
                 checkFragmentIns(fragmentClass,fragment);
                 break;
             case id.nav_logout:
-                userSession.ClearUserName();
+                userSession.logout();
                 Intent intent=new Intent(this, HomeActivity.class);
                 startActivity(intent);
             default:
