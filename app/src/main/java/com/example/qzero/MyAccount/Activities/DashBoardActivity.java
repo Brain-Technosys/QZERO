@@ -3,6 +3,7 @@ package com.example.qzero.MyAccount.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
@@ -43,6 +45,7 @@ public class DashBoardActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private LinearLayout headerLayout;
+    boolean isBackPressedOnce = false;
 
     UserSession userSession;
     // Edited on 16-Jul-2015 by Ashish
@@ -52,7 +55,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     String userNameString;
 
-    Boolean isDashboard=false;
+    Boolean isDashboard = false;
 
     Boolean navigationFromSearch;
 
@@ -96,7 +99,7 @@ public class DashBoardActivity extends AppCompatActivity {
         // Setup drawer view
 
         setupDrawerContent(nvDrawer);
-
+        setupDrawerToggle();
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(drawable.ic_menu);
@@ -137,40 +140,37 @@ public class DashBoardActivity extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case id.nav_home_fragment:
                 fragmentClass = DashboardFragment.class;
-                isDashboard=true;
-                checkFragmentIns(fragmentClass,fragment);
+                isDashboard = true;
+                checkFragmentIns(fragmentClass, fragment);
                 break;
             case id.nav_wallet_fragment:
-               finish();
-                isDashboard=false;
+                finish();
+                isDashboard = false;
                 break;
             case id.nav_order_fragment:
                 fragmentClass = OrderFragment.class;
-                isDashboard=false;
-                checkFragmentIns(fragmentClass,fragment);
+                isDashboard = false;
+                checkFragmentIns(fragmentClass, fragment);
                 break;
             case id.nav_profile_fragment:
                 fragmentClass = ProfileInfoFragment.class;
-                isDashboard=false;
-                checkFragmentIns(fragmentClass,fragment);
+                isDashboard = false;
+                checkFragmentIns(fragmentClass, fragment);
                 break;
             case id.nav_setting:
                 fragmentClass = SettingFragment.class;
-                isDashboard=false;
-                checkFragmentIns(fragmentClass,fragment);
+                isDashboard = false;
+                checkFragmentIns(fragmentClass, fragment);
                 break;
             case id.nav_logout:
                 userSession.ClearUserName();
-                Intent intent=new Intent(this, HomeActivity.class);
+                Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
             default:
                 fragmentClass = DashboardFragment.class;
-                isDashboard=true;
-                checkFragmentIns(fragmentClass,fragment);
+                isDashboard = true;
+                checkFragmentIns(fragmentClass, fragment);
         }
-
-
-
 
 
         // Highlight the selected item, update the title, and close the drawer
@@ -179,8 +179,7 @@ public class DashBoardActivity extends AppCompatActivity {
         mDrawer.closeDrawers();
     }
 
-    public void checkFragmentIns(Class fragmentClass,Fragment fragment)
-    {
+    public void checkFragmentIns(Class fragmentClass, Fragment fragment) {
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -194,47 +193,40 @@ public class DashBoardActivity extends AppCompatActivity {
         if (!isDashboard) {
             fragmentTransaction.addToBackStack(null);
         }
-        fragmentTransaction .commit();
+        fragmentTransaction.commit();
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, string.openDrawer, string.closeDrawer);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.action_settings:
-                return true;
-        }
-
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        mDrawer.closeDrawers();
+        if (isBackPressedOnce || getSupportFragmentManager().getBackStackEntryCount() != 0) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.isBackPressedOnce = true;
+        Toast.makeText(DashBoardActivity.this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                isBackPressedOnce = false;
+            }
+        }, 2000);
+
+        //TO Expand
+        // expandOrCollapse(layoutCart, "expand");
     }
 }

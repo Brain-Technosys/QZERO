@@ -6,21 +6,65 @@
 
     <include
         android:id="@+id/header"
+        layout="@layout/inclue_header"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
-        layout="@layout/inclue_header"/>
+        android:layout_alignParentTop="true" />
+
 
     <ListView
         android:id="@+id/orderListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_address_layout"
         android:layout_below="@+id/header"
-        android:listSelector="@android:color/transparent"
         android:divider="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
         android:scrollbars="none">
 
     </ListView>
 
+    <RelativeLayout
+        android:id="@+id/rl_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFF"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/lbl_billing_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Billing Address:"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_billing_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_billing_address"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/lbl_shipping_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_billing_address"
+            android:text="Shipping Address:"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_shipping_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_shipping_address"
+            android:textColor="#000" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

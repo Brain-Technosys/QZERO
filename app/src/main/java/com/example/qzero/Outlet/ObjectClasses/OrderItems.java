@@ -12,8 +12,9 @@ public class OrderItems {
     String itemStatus;
     String itemPrice;
     String remarks;
+    String quantitiy;
 
-    public OrderItems(int orderId, int itemId, String itemCode, String itemName, String timing, String itemStatus, String itemPrice, String remarks) {
+    public OrderItems(int orderId, int itemId, String itemCode, String itemName, String timing, String itemStatus, String itemPrice, String remarks, String quantitiy) {
         this.orderId = orderId;
         this.itemId = itemId;
         this.itemCode = itemCode;
@@ -22,6 +23,7 @@ public class OrderItems {
         this.itemStatus = itemStatus;
         this.itemPrice = itemPrice;
         this.remarks = remarks;
+        this.quantitiy = quantitiy;
     }
 
     public int getOrderId() {
@@ -86,5 +88,13 @@ public class OrderItems {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getQuantitiy() {
+        return quantitiy;
+    }
+
+    public void setQuantitiy(String quantitiy) {
+        this.quantitiy = quantitiy;
     }
 }
