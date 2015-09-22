@@ -92,6 +92,29 @@ public class OutletActivity extends Activity {
     @InjectView((R.id.relLayDescOutletRight))
     RelativeLayout relLayDescOutletRight;
 
+    @InjectView(R.id.linLayPhLand)
+            LinearLayout linLayPhLand;
+
+
+    @InjectView(R.id.linLayMobLand)
+    LinearLayout linLayMobLand;
+
+
+    @InjectView(R.id.linLayPhoneLeft)
+    LinearLayout linLayPhLeft;
+
+
+    @InjectView(R.id.linLayPhoneRight)
+    LinearLayout linLayPhoneRight;
+
+
+    @InjectView(R.id.linLayMobRight)
+    LinearLayout linLayMobRight;
+
+
+    @InjectView(R.id.linLayMobLeft)
+    LinearLayout linLayMobLeft;
+
     TextView txtViewHeading;
     TextView txtViewSubHeading;
 
@@ -363,14 +386,14 @@ public class OutletActivity extends Activity {
 
         if(outlet.getPhone_num().equals("null")||outlet.getPhone_num().equalsIgnoreCase("n/a"))
         {
-            txtViewPhnoneLand.setVisibility(View.INVISIBLE);
+            linLayPhLand.setVisibility(View.INVISIBLE);
         }
         else {
             txtViewPhnoneLand.setText(outlet.getPhone_num());
         }
 
         if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
-            txtViewMobLand.setVisibility(View.INVISIBLE);
+            linLayMobLand.setVisibility(View.INVISIBLE);
         }
         else
         {
@@ -386,15 +409,15 @@ public class OutletActivity extends Activity {
         txtViewDesPotLeft.setText(outlet.getOutlet_desc());
 
         if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
-            txtViewPhPotLeft.setVisibility(View.INVISIBLE);
+            linLayMobLeft.setVisibility(View.INVISIBLE);
         }
         else {
 
-            txtViewPhPotLeft.setText(outlet.getPhone_num());
+            txtViewMobPotLeft.setText(outlet.getMobile_num());
         }
 
-        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
-            txtViewPhPotLeft.setVisibility(View.INVISIBLE);
+        if(outlet.getPhone_num().equals("null")||outlet.getPhone_num().equalsIgnoreCase("n/a")) {
+            linLayPhLeft.setVisibility(View.INVISIBLE);
         }
         else {
             txtViewPhPotLeft.setText(outlet.getPhone_num());
@@ -408,18 +431,18 @@ public class OutletActivity extends Activity {
         relLayDescOutletRight.setTag(outlet.getOutlet_id());
         txtViewtitlePotraitRight.setText(outlet.getOutlet_name());
         txtViewDesPotRight.setText(outlet.getOutlet_desc());
-        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
-            txtViewPhPotRight.setVisibility(View.INVISIBLE);
+        if(outlet.getPhone_num().equals("null")||outlet.getPhone_num().equalsIgnoreCase("n/a")||outlet.getPhone_num().equalsIgnoreCase("na")) {
+            linLayPhoneRight.setVisibility(View.INVISIBLE);
         }
         else {
             txtViewPhPotRight.setText(outlet.getPhone_num());
         }
 
-        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
-            txtViewMobPotRight.setVisibility(View.INVISIBLE);
+        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")||outlet.getMobile_num().equalsIgnoreCase("na")) {
+            linLayMobRight.setVisibility(View.INVISIBLE);
         }
         else {
-            txtViewMobPotRight.setText(outlet.getPhone_num());
+            txtViewMobPotRight.setText(outlet.getMobile_num());
         }
         setOutletFonts();
     }
