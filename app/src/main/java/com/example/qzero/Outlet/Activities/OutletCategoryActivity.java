@@ -131,6 +131,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle("Outlet Items");
+
         drawerToggle = setupDrawerToggle();
 
         getIntentData();
@@ -147,6 +149,10 @@ public class OutletCategoryActivity extends AppCompatActivity {
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
 
+    public void setSupportActionBar(Toolbar toolbar) {
+        getDelegate().setSupportActionBar(toolbar);
+    }
+
     private void setIconsToActionBar() {
         //getting left side menu image
         actionBar = getSupportActionBar();
@@ -159,6 +165,10 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         LayoutInflater inflater = LayoutInflater.from(OutletCategoryActivity.this);
         View inflatedLayout = inflater.inflate(R.layout.action_bar_layout, null, false);
+
+        TextView txtViewTitle= (TextView) inflatedLayout.findViewById(R.id.txtViewTitle);
+
+        txtViewTitle.setText("Outlet Items");
 
         actionBar.setCustomView(inflatedLayout);
 

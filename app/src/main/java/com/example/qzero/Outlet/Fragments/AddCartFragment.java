@@ -28,9 +28,13 @@ import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.Outlet.Adapters.CustomAdapterAddItems;
 import com.example.qzero.Outlet.Adapters.ItemDetailAdapter;
 import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
+import com.example.qzero.Outlet.ObjectClasses.AddItems;
 import com.example.qzero.R;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,8 +54,11 @@ public class AddCartFragment extends Fragment {
     @InjectView(R.id.txtViewAddItem)
     TextView txtViewAddItem;
 
-    @InjectView(R.id.linLayItem)
-    LinearLayout linLayItem;
+   /* @InjectView(R.id.linLayItem)
+    LinearLayout linLayItem;*/
+
+    @InjectView(R.id.listViewItems)
+    ExpandableListView listViewItems;
 
 
     TableLayout tableLayoutModifiers;
@@ -75,6 +82,12 @@ public class AddCartFragment extends Fragment {
     CheckBox checkBox[];
     RadioGroup radioGroup[];
     RadioButton radioButton[];
+
+    int count=0;
+
+    ArrayList<AddItems> arrayListAddItems;
+
+    CustomAdapterAddItems adapter;
 
     String[] modifier_title = {"Freeze/Frying", "Boiled"};
     String[] modifier = {"Extra fry with butter", "Steak"};
@@ -107,20 +120,15 @@ public class AddCartFragment extends Fragment {
         FontHelper.setFontFace(txtViewDesc, FontHelper.FontType.FONT, getActivity());
     }
 
-    private void getItemDetails()
-    {
-        if(CheckInternetHelper.checkInternetConnection(getActivity()))
-        {
+    private void getItemDetails() {
+        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
             new GetItemDetail().execute();
-        }
-        else
-        {
-            AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.internet_connection_message),"Alert");
+        } else {
+            AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.internet_connection_message), "Alert");
         }
     }
 
-    private class GetItemDetail extends AsyncTask<String,String,String>
-    {
+    private class GetItemDetail extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -149,11 +157,25 @@ public class AddCartFragment extends Fragment {
 
     private void addItemLayout() {
 
-        inflateQtyLayout();
+        count++;
+        String[] modifiers={};
+
+        AddItems md = new AddItems(modifiers,String.valueOf(count),"10");
+
+        arrayListAddItems.add(0,md);
+        //modelList.add(md);
+        adapter.notifyDataSetChanged();
+        //inflateQtyLayout();
     }
 
     private void inflateQtyLayout() {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.list_addcart, null);
+
+        arrayListAddItems = new ArrayList<AddItems>();
+
+        adapter = new CustomAdapterAddItems(getActivity(),arrayListAddItems);
+        listViewItems.setAdapter(adapter);
+
+       /* View view = getActivity().getLayoutInflater().inflate(R.layout.list_addcart, null);
         linLayItem.addView(view);
 
         TextView txtViewAddModifiers = (TextView) view.findViewById(R.id.txtViewAddModifiers);
@@ -173,7 +195,7 @@ public class AddCartFragment extends Fragment {
 
         txtViewPrice = (TextView) view.findViewById(R.id.txtViewPrice);
 
-        setAddItemFonts();
+        setAddItemFonts();*/
 
     }
 

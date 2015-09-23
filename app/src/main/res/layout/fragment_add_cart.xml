@@ -195,13 +195,12 @@
                 android:textSize="20dp" />
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/linLayItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relLayAddItem"
-                android:background="#FFFFFF"
-                android:orientation="vertical" />
+           <com.example.qzero.Outlet.ExpandableListView.ExpandableListView
+               android:id="@+id/listViewItems"
+               android:layout_width="match_parent"
+               android:layout_below="@+id/relLayAddItem"
+               android:layout_height="wrap_content">
+           </com.example.qzero.Outlet.ExpandableListView.ExpandableListView>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

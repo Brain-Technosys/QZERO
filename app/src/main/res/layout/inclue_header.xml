@@ -24,7 +24,7 @@
             android:id="@+id/txtViewHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-          android:layout_toRightOf="@+id/imgViewBack"
+            android:layout_toRightOf="@+id/imgViewBack"
             android:layout_centerInParent="true"
             android:textSize="@dimen/heading_fot_size"
             android:text="@string/search_venue"
