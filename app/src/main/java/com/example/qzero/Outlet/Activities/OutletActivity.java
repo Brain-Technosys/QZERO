@@ -93,7 +93,7 @@ public class OutletActivity extends Activity {
     RelativeLayout relLayDescOutletRight;
 
     @InjectView(R.id.linLayPhLand)
-            LinearLayout linLayPhLand;
+    LinearLayout linLayPhLand;
 
 
     @InjectView(R.id.linLayMobLand)
@@ -134,7 +134,7 @@ public class OutletActivity extends Activity {
     ArrayList<ItemOutlet> arrayListItem;
     ArrayList<Category> arrayListCat;
 
-    HashMap<Integer,ArrayList<SubCategory>> hashMapSubCat;
+    HashMap<Integer, ArrayList<SubCategory>> hashMapSubCat;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -217,7 +217,7 @@ public class OutletActivity extends Activity {
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("json",jsonString);
+            Log.e("json", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -271,13 +271,11 @@ public class OutletActivity extends Activity {
             ProgresBar.stop();
 
 
-
             if (status == 1) {
                 try {
                     jsonLength = jsonArray.length();
                     setLayout();
-                }catch (NullPointerException ex)
-                {
+                } catch (NullPointerException ex) {
                     ex.printStackTrace();
                 }
 
@@ -300,7 +298,7 @@ public class OutletActivity extends Activity {
         if (mod == 0) {
             int length = jsonLength / 3;
 
-            Log.e("length",""+length);
+            Log.e("length", "" + length);
 
             for (int i = 0; i < length; i++) {
 
@@ -384,21 +382,21 @@ public class OutletActivity extends Activity {
         getValues();
         relLayDesc.setTag(outlet.getOutlet_id());
         txtViewTitleLandscape.setText(outlet.getOutlet_name());
-        txtViewDescLand.setText(outlet.getOutlet_desc());
 
-        if(outlet.getPhone_num().equals("null")||outlet.getPhone_num().equalsIgnoreCase("n/a"))
-        {
+        if (outlet.getOutlet_desc().equals("null")) {
+
+        } else
+            txtViewDescLand.setText(outlet.getOutlet_desc());
+
+        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")) {
             linLayPhLand.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             txtViewPhnoneLand.setText(outlet.getPhone_num());
         }
 
-        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")) {
             linLayMobLand.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
+        } else {
             txtViewMobLand.setText(outlet.getMobile_num());
         }
         setOutletFonts();
@@ -408,20 +406,22 @@ public class OutletActivity extends Activity {
         getValues();
         relLayDescOutletLeft.setTag(outlet.getOutlet_id());
         txtViewtitlePotraitLeft.setText(outlet.getOutlet_name());
-        txtViewDesPotLeft.setText(outlet.getOutlet_desc());
 
-        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+        if (outlet.getOutlet_desc().equals("null")) {
+
+        } else
+            txtViewDesPotLeft.setText(outlet.getOutlet_desc());
+
+        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")) {
             linLayMobLeft.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
 
             txtViewMobPotLeft.setText(outlet.getMobile_num());
         }
 
-        if(outlet.getPhone_num().equals("null")||outlet.getPhone_num().equalsIgnoreCase("n/a")) {
+        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")) {
             linLayPhLeft.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             txtViewPhPotLeft.setText(outlet.getPhone_num());
         }
         setOutletFonts();
@@ -432,18 +432,22 @@ public class OutletActivity extends Activity {
         getValues();
         relLayDescOutletRight.setTag(outlet.getOutlet_id());
         txtViewtitlePotraitRight.setText(outlet.getOutlet_name());
-        txtViewDesPotRight.setText(outlet.getOutlet_desc());
-        if(outlet.getPhone_num().equals("null")||outlet.getPhone_num().equalsIgnoreCase("n/a")||outlet.getPhone_num().equalsIgnoreCase("na")) {
+
+        if (outlet.getOutlet_desc().equals("null")) {
+
+        } else
+            txtViewDesPotRight.setText(outlet.getOutlet_desc());
+
+
+        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a") || outlet.getPhone_num().equalsIgnoreCase("na")) {
             linLayPhoneRight.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             txtViewPhPotRight.setText(outlet.getPhone_num());
         }
 
-        if(outlet.getMobile_num().equals("null")||outlet.getMobile_num().equalsIgnoreCase("n/a")||outlet.getMobile_num().equalsIgnoreCase("na")) {
+        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a") || outlet.getMobile_num().equalsIgnoreCase("na")) {
             linLayMobRight.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             txtViewMobPotRight.setText(outlet.getMobile_num());
         }
         setOutletFonts();
@@ -555,8 +559,8 @@ public class OutletActivity extends Activity {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" +itemId
-                    + "&subCatId=" +subCatId;
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" + itemId
+                    + "&subCatId=" + subCatId;
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
@@ -573,7 +577,7 @@ public class OutletActivity extends Activity {
 
                     arrayListCat = new ArrayList<Category>(jsonObject.length());
 
-                    hashMapSubCat=new HashMap<Integer,ArrayList<SubCategory>>();
+                    hashMapSubCat = new HashMap<Integer, ArrayList<SubCategory>>();
 
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     message = jsonObject.getString(Const.TAG_MESSAGE);
@@ -620,23 +624,20 @@ public class OutletActivity extends Activity {
                             JSONArray jsonArraySubCat = jsonObjCat.getJSONArray(Const.TAG_JsonSubCatObj);
 
 
-
-
-
-                            ArrayList<SubCategory> subCatArrayList=new ArrayList<SubCategory>();
+                            ArrayList<SubCategory> subCatArrayList = new ArrayList<SubCategory>();
 
                             for (int j = 0; j < jsonArraySubCat.length(); j++) {
                                 JSONObject jsonObjSubCat = jsonArraySubCat.getJSONObject(j);
                                 String sub_cat_id = jsonObjSubCat.getString(Const.TAG_SUB_CAT_ID);
                                 String sub_cat_name = jsonObjSubCat.getString(Const.TAG_SUB_CAT_NAME);
 
-                                SubCategory subCategory=new SubCategory(sub_cat_id,sub_cat_name);
+                                SubCategory subCategory = new SubCategory(sub_cat_id, sub_cat_name);
                                 subCatArrayList.add(subCategory);
 
 
                             }
 
-                            hashMapSubCat.put(i,subCatArrayList);
+                            hashMapSubCat.put(i, subCatArrayList);
 
                         }
                     }
@@ -679,12 +680,12 @@ public class OutletActivity extends Activity {
 
         Intent intent = new Intent(OutletActivity.this, OutletCategoryActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putString("venue_id", venue_id);
+        bundle.putString("outlet_id", outletId);
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
-        bundle.putSerializable("hashMapSubCat",hashMapSubCat);
+        bundle.putSerializable("hashMapSubCat", hashMapSubCat);
         bundle.putString("title", outletTitle);
-        bundle.putString("venue_id",venue_id);
-        bundle.putString("outlet_id",outletId);
         intent.putExtras(bundle);
         startActivity(intent);
     }

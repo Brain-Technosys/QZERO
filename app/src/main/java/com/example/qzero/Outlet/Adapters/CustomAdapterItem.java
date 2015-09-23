@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -66,6 +67,9 @@ public class CustomAdapterItem extends BaseAdapter {
             holder.txtViewPhone = (TextView) convertView.findViewById(R.id.txtViewPhone);
             holder.txtViewMobile = (TextView) convertView.findViewById(R.id.txtViewMobile);
 
+            holder.imgViewPhone = (ImageView) convertView.findViewById(R.id.imgViewPhone);
+            holder.imgViewMobile = (ImageView) convertView.findViewById(R.id.imgViewMobile);
+
 
             FontHelper.setFontFace(holder.txtViewName, FontType.FONTSANSBOLD, context);
             FontHelper.setFontFace(holder.txtViewVenue, FontType.FONTSANSREGULAR, context);
@@ -87,8 +91,22 @@ public class CustomAdapterItem extends BaseAdapter {
         holder.txtViewAddress.setText(items.getVenue_address());
         holder.txtViewCity.setText(items.getVenue_city());
 
-        holder.txtViewPhone.setText(items.getVenue_phone());
-        holder.txtViewMobile.setText(items.getVenue_mobile());
+        if(items.getVenue_phone().equals("null"))
+        {
+            holder.imgViewPhone.setVisibility(View.INVISIBLE);
+        }
+        else {
+            holder.txtViewPhone.setText(items.getVenue_phone());
+        }
+
+        if(items.getVenue_mobile().equals("null"))
+        {
+            holder.imgViewMobile.setVisibility(View.INVISIBLE);
+        }
+        else {
+            holder.txtViewMobile.setText(items.getVenue_mobile());
+        }
+
         return convertView;
     }
 
@@ -102,5 +120,9 @@ public class CustomAdapterItem extends BaseAdapter {
 
         TextView txtViewPhone;
         TextView txtViewMobile;
+
+        ImageView imgViewPhone;
+        ImageView imgViewMobile;
+
     }
 }

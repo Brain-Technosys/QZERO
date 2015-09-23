@@ -240,7 +240,7 @@ public class LoginRegisterFragment extends Fragment {
 
             } else if (status == 0) {
 
-                AlertDialogHelper.showAlertDialog(getActivity(), "message", "Alert");
+                AlertDialogHelper.showAlertDialog(getActivity(),message, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(getActivity(),

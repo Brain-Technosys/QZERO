@@ -309,8 +309,10 @@ public class CategoryItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                String item_id=v.getTag().toString();
+
                 Log.e("tag", v.getTag().toString());
-                ((OutletCategoryActivity) getActivity()).replaceFragment();
+                ((OutletCategoryActivity) getActivity()).replaceFragment(venue_id,outlet_id,item_id);
             }
         });
 

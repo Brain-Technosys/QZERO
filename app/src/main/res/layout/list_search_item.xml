@@ -109,9 +109,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
-
-                        android:text="Phone No"
-
                         android:textColor="@color/black" />
                 </LinearLayout>
 
@@ -138,7 +135,6 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="7dp"
                         android:layout_marginTop="2dp"
-                        android:text="Mobile No"
                         android:textColor="@color/black" />
                 </LinearLayout>
 

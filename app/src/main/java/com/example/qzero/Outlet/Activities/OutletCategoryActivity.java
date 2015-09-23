@@ -90,6 +90,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     String outlet_id;
     String categoryId;
     String subCategoryId;
+    String item_id;
 
     String outletId;
 
@@ -246,7 +247,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         }
     }
 
-    public void replaceFragment() {
+    public void replaceFragment(String venue_id,String outlet_id,String item_id) {
 
         isAddToCartOpen = true;
         fragmentManager = getSupportFragmentManager();
@@ -255,6 +256,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
         AddCartFragment addCartFragment = new AddCartFragment();
         fragmentTransaction.replace(R.id.frameLayItem, addCartFragment,
                 "addcart");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("venue_id", venue_id);
+        bundle.putString("outlet_id", outlet_id);
+        bundle.putString("item_id", item_id);
+        addCartFragment.setArguments(bundle);
+
         fragmentTransaction.commit();
     }
 
@@ -476,7 +484,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outlet_id + "&itemId=" + ""
+            String url = Const.BASE_URL + Const.GET_ITEMS+"/"+venue_id + "/?outletId=" + outlet_id + "&itemId=" + ""
                     + "&subCatId=" + "";
 
 
@@ -552,6 +560,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
                         .beginTransaction();
                 CategoryItemFragment categoryItemFragment = new CategoryItemFragment();
                 Bundle bundle = new Bundle();
+                bundle.putString("venue_id", venue_id);
+                bundle.putString("outlet_id", outlet_id);
                 bundle.putSerializable("arraylistitem", arrayListItems);
                 bundle.putString("title", title);
                 categoryItemFragment.setArguments(bundle);

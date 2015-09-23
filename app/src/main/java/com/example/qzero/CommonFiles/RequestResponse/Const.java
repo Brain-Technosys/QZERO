@@ -29,6 +29,7 @@ public class Const {
     public static String GET_ORDER_URL = "Order";
     public static String GET_ORDER_ITEM = "Order/OrderItems";
     public static String FORGOT_PASSWORD = "Account/ForgotPassword";
+    public static String GET_ITEM_DETAILS = "venue/getitemdetails";
 
     //Intialize jsonArray parameter
 
@@ -38,6 +39,9 @@ public class Const {
     public static String TAG_JsonOutletObj = "outlets";
     public static String TAG_JsonCatObj = "categories";
     public static String TAG_JsonSubCatObj = "subCategoryModels";
+    public static String TAG_JsonDetailObj = "itemDetails";
+    public static String TAG_JsonChoiceObj = "choiceGroups";
+    public static String TAG_JsonModObj = "modifiers";
 
 
     //Initialize message and status parameter
@@ -137,6 +141,13 @@ public class Const {
     public static String TAG_ITEM_PRICE="itemPrice";
     public static String TAG_REMARKS="remarks";
     public static String TAG_ITEM_CODE="itemCode";
+
+    //Create getItemDetails constant
+    public static String TAG_DISC_DETAIL="discountDescription";
+    public static String TAG_AFTER_DISC="afterDiscount";
+
+
+
 
 
 

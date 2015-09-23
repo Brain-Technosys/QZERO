@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -28,13 +29,24 @@ import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.Outlet.Adapters.CustomAdapterAddItems;
 import com.example.qzero.Outlet.Adapters.ItemDetailAdapter;
 import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
 import com.example.qzero.Outlet.ObjectClasses.AddItems;
+import com.example.qzero.Outlet.ObjectClasses.Category;
+import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
+import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -53,6 +65,18 @@ public class AddCartFragment extends Fragment {
 
     @InjectView(R.id.txtViewAddItem)
     TextView txtViewAddItem;
+
+    @InjectView(R.id.txtViewOrigPrice)
+    TextView txtViewOrigPrice;
+
+    @InjectView(R.id.txtViewDiscount)
+    TextView txtViewDiscount;
+
+    @InjectView(R.id.txtViewDiscPrice)
+    TextView txtViewDiscPrice;
+
+    @InjectView(R.id.imgViewItem)
+    ImageView imgViewItem;
 
    /* @InjectView(R.id.linLayItem)
     LinearLayout linLayItem;*/
@@ -89,8 +113,33 @@ public class AddCartFragment extends Fragment {
 
     CustomAdapterAddItems adapter;
 
-    String[] modifier_title = {"Freeze/Frying", "Boiled"};
-    String[] modifier = {"Extra fry with butter", "Steak"};
+    int status;
+    int jsonLength;
+    int pos = 0;
+
+    String message;
+
+    JsonParser jsonParser;
+    JSONObject jsonObject;
+    JSONArray jsonArray;
+
+    String venue_id;
+    String itemId;
+    String outletId;
+    String subCatId;
+
+    String item_name;
+    String item_desc;
+    String item_price;
+    String discount_details;
+    String item_image;
+
+    String[] modifier_title;
+    String[] modifier;
+    String[] mod_price;
+
+    String discountDesc;
+    String afterDiscPrice;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,15 +158,32 @@ public class AddCartFragment extends Fragment {
 
         setFonts();
 
+        getArgData();
+
         getItemDetails();
 
-        inflateQtyLayout();
+
     }
 
     private void setFonts() {
         FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewTitleDesc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDesc, FontHelper.FontType.FONT, getActivity());
+        FontHelper.setFontFace(txtViewOrigPrice, FontHelper.FontType.FONT, getActivity());
+        FontHelper.setFontFace(txtViewDiscount, FontHelper.FontType.FONT, getActivity());
+        FontHelper.setFontFace(txtViewDiscPrice, FontHelper.FontType.FONT, getActivity());
+
+    }
+
+    public void getArgData()
+    {
+        Bundle args=getArguments();
+        if(args!=null)
+        {
+            venue_id=args.getString("venue_id");
+            outletId=args.getString("outlet_id");
+            itemId=args.getString("item_id");
+        }
     }
 
     private void getItemDetails() {
@@ -138,7 +204,88 @@ public class AddCartFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
+            Log.e("inside", "do in");
+            status = -1;
+            jsonParser = new JsonParser();
+            String url = Const.BASE_URL + Const.GET_ITEM_DETAILS+"/"+venue_id + "/?outletId=" + outletId + "&itemId=" +itemId
+                    + "&subCatId=" +subCatId;
+
+            Log.e("url",url);
+
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
+
+            Log.e("jsonvenue", jsonString);
+
+            try {
+                jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("inside", "json");
+
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+                    message = jsonObject.getString(Const.TAG_MESSAGE);
+                    afterDiscPrice=jsonObject.getString(Const.TAG_AFTER_DISC);
+                    discountDesc=jsonObject.getString(Const.TAG_DISC_DETAIL);
+
+                    Log.d("status", "" + status);
+                    if (status == 1) {
+
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
+
+                        //Get json Array for items
+                        jsonArray = new JSONArray();
+                        jsonArray = jsonObj.getJSONArray(Const.TAG_JsonDetailObj);
+
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObjItem = jsonArray.getJSONObject(i);
+
+
+                            String item_id=jsonObjItem.getString(Const.TAG_ITEM_ID);
+                            item_name = jsonObjItem.getString(Const.TAG_NAME);
+                            item_price = jsonObjItem.getString(Const.TAG_PRICE);
+                            item_desc = jsonObjItem.getString(Const.TAG_DESC);
+                            item_image = Const.BASE_URL + Const.IMAGE_URL + item_id;
+
+                        }
+
+                        //Get json array for categories
+                        JSONArray jsonArrayModifiers = new JSONArray();
+
+                        jsonArrayModifiers = jsonObj.getJSONArray(Const.TAG_JsonChoiceObj);
+
+                        modifier_title=new String[jsonArrayModifiers.length()];
+
+                        for (int i = 0; i < jsonArrayModifiers.length(); i++) {
+                            JSONObject jsonObjGroup = jsonArrayModifiers.getJSONObject(i);
+
+                            modifier_title[i] = jsonObjGroup.getString(Const.TAG_NAME);
+
+                            JSONArray jsonArrayMod = jsonObjGroup.getJSONArray(Const.TAG_JsonModObj);
+
+                            modifier=new String[jsonArrayMod.length()];
+                            mod_price=new String[jsonArrayMod.length()];
+
+                            for (int j = 0; j < jsonArrayMod.length(); j++) {
+                                JSONObject jsonObjSubCat = jsonArrayMod.getJSONObject(j);
+                                modifier[i] = jsonObjSubCat.getString(Const.TAG_NAME);
+                                mod_price[i] = jsonObjSubCat.getString(Const.TAG_PRICE);
+                            }
+                        }
+                    }
+
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
             return null;
+
+
         }
 
         @Override
@@ -146,6 +293,8 @@ public class AddCartFragment extends Fragment {
             super.onPostExecute(s);
 
             ProgresBar.stop();
+
+            inflateQtyLayout();
         }
     }
 
@@ -162,7 +311,7 @@ public class AddCartFragment extends Fragment {
 
         AddItems md = new AddItems(modifiers,String.valueOf(count),"10");
 
-        arrayListAddItems.add(0,md);
+        arrayListAddItems.add(0, md);
         //modelList.add(md);
         adapter.notifyDataSetChanged();
         //inflateQtyLayout();
@@ -170,194 +319,27 @@ public class AddCartFragment extends Fragment {
 
     private void inflateQtyLayout() {
 
+        setLayout();
+
         arrayListAddItems = new ArrayList<AddItems>();
 
-        adapter = new CustomAdapterAddItems(getActivity(),arrayListAddItems);
+        adapter = new CustomAdapterAddItems(getActivity(),arrayListAddItems,modifier_title,modifier,mod_price);
         listViewItems.setAdapter(adapter);
+    }
 
-       /* View view = getActivity().getLayoutInflater().inflate(R.layout.list_addcart, null);
-        linLayItem.addView(view);
+    public void setLayout()
+    {
+        txtViewItemName.setText(item_name);
+        txtViewDesc.setText(item_desc);
+        txtViewOrigPrice.setText(item_price);
+        txtViewDiscount.setText(discountDesc);
+        txtViewDiscPrice.setText(afterDiscPrice);
 
-        TextView txtViewAddModifiers = (TextView) view.findViewById(R.id.txtViewAddModifiers);
-
-        txtViewAddModifiers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-            }
-        });
-
-        tableLayoutModifiers = (TableLayout) view.findViewById(R.id.tableLayoutModifiers);
-
-        txtViewModList = (TextView) view.findViewById(R.id.txtViewModList);
-
-        txtViewTotal = (TextView) view.findViewById(R.id.txtViewTotal);
-
-        txtViewPrice = (TextView) view.findViewById(R.id.txtViewPrice);
-
-        setAddItemFonts();*/
+        //Load Image
+        Picasso.with(getActivity()).load(item_image).error(R.drawable.q2x).into(imgViewItem);
 
     }
 
-    private void openDialog() {
-        dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_modifiers);
-
-        getDialogIds();
-
-
-        dialog.show();
-
-    }
-
-    private void getDialogIds() {
-
-        linLayModifiers = (LinearLayout) dialog.findViewById(R.id.linLayModifiers);
-
-        txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
-        txtViewCancel = (TextView) dialog.findViewById(R.id.txtViewCancel);
-        txtViewOk = (TextView) dialog.findViewById(R.id.txtViewOk);
-
-        setDialogFonts();
-
-        createModifierLayout();
-
-        setOnClick();
-    }
-
-    //create dynamic checkbox and radiogroup
-    private void createModifierLayout() {
-
-
-        checkBox = new CheckBox[modifier_title.length];
-
-        radioGroup = new RadioGroup[modifier_title.length];
-
-        radioButton = new RadioButton[modifier.length];
-
-        for (int i = 0; i < modifier_title.length; i++) {
-
-            createCheckBox(i);
-
-            for (int j = 0; j < modifier.length; j++) {
-
-                createRadioButton(i, j);
-            }
-        }
-
-    }
-
-    private void createCheckBox(final int i) {
-
-
-        checkBox[i] = new CheckBox(getActivity());
-
-        checkBox[i].setTag(i);
-        checkBox[i].setText(modifier_title[i]);
-        checkBox[i].setTextColor(Color.parseColor("#000000"));
-        FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
-        checkBox[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-
-                if (checkBox[i].isChecked()) {
-
-                    Log.e("chck", checkBox[i].getText().toString());
-
-                    if (radioGroup[i].getCheckedRadioButtonId() == -1) {
-                        radioGroup[i].check(radioButton[0].getId());
-                    }
-
-                } else {
-                    radioGroup[i].clearCheck();
-
-                    Log.e("notcheck", "check" + i);
-
-                }
-
-            }
-        });
-
-        linLayModifiers.addView(checkBox[i]);
-
-        //Create radio group in linear layout
-        radioGroup[i] = new RadioGroup(getActivity());
-        radioGroup[i].setTag(i);
-        radioGroup[i].setPadding(15, 0, 0, 0);
-
-        radioGroup[i].setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                if (radioGroup[i].getCheckedRadioButtonId() != -1) {
-                    Log.e("inside", "check");
-                    try {
-                        int radioButtonID = radioGroup[i].getCheckedRadioButtonId();
-                        RadioButton radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
-                        Log.e("textradio", radioBtn.getText().toString());
-                    } catch (NullPointerException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    if (checkBox[i].isChecked()) {
-                        //do nothing
-                    } else {
-                        checkBox[i].setChecked(true);
-                    }
-                } else {
-                    checkBox[i].setChecked(false);
-                }
-
-            }
-        });
-
-
-        //Add radiogroup to linear layout
-        linLayModifiers.addView(radioGroup[i]);
-    }
-
-    private void createRadioButton(final int i, final int j) {
-
-
-        //Create radio buttons
-        radioButton[j] = new RadioButton(getActivity());
-        radioButton[j].setText(modifier[j]);
-        radioButton[j].setTextColor(Color.parseColor("#000000"));
-        radioButton[j].setId(j);
-        radioButton[j].setTag(i);
-        FontHelper.setFontFace(radioButton[j], FontHelper.FontType.FONT, getActivity());
-
-        radioGroup[i].addView(radioButton[j]);
-    }
-
-
-    private void setDialogFonts() {
-        FontHelper.setFontFace(txtViewTitle, FontHelper.FontType.FONT, getActivity());
-        FontHelper.setFontFace(txtViewCancel, FontHelper.FontType.FONT, getActivity());
-        FontHelper.setFontFace(txtViewOk, FontHelper.FontType.FONT, getActivity());
-    }
-
-    private void setOnClick() {
-        txtViewCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        txtViewOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BuildTable(1);
-
-                dialog.dismiss();
-            }
-        });
-
-    }
 
     private void setAddItemFonts() {
         FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTROBOLD, getActivity());

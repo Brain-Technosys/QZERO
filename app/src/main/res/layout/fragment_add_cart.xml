@@ -36,8 +36,8 @@
 
                     <ImageView
                         android:id="@+id/imgViewItem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="197dp"
+                        android:layout_height="189dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/q2x" />
 
@@ -99,6 +99,7 @@
                                 android:textSize="15sp" />
 
                             <TextView
+                                android:id="@+id/txtViewOrigPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
@@ -108,6 +109,7 @@
                                 android:textSize="13sp" />
 
                             <TextView
+                                android:id="@+id/txtViewDiscPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
@@ -136,6 +138,7 @@
                                 android:textSize="15sp" />
 
                             <TextView
+                               android:id="@+id/txtViewDiscount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"

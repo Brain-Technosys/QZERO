@@ -39,12 +39,12 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imgViewAdd"
+                    android:id="@+id/imgViewSub"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/sub" />
 
                 <TextView
                     android:id="@+id/txtViewQty"
@@ -58,11 +58,11 @@
                     android:textSize="18dp" />
 
                 <ImageView
-                    android:id="@+id/imgViewSub"
+                    android:id="@+id/imgViewAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sub" />
+                    android:src="@drawable/add" />
             </LinearLayout>
 
             <TextView
