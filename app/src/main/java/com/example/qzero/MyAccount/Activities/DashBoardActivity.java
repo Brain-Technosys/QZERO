@@ -165,7 +165,6 @@ public class DashBoardActivity extends AppCompatActivity {
             case id.nav_logout:
 
                 userSession.logout();
-                userSession.ClearUserName();
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
             default:
