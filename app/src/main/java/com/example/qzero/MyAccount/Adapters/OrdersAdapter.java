@@ -128,9 +128,15 @@ public class OrdersAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-
+                orderArrayList = (ArrayList<Order>) results.values;
+                notifyDataSetChanged();
             }
         };
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 
     static class ViewHolder {

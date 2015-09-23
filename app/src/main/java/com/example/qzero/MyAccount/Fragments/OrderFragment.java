@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,12 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        return false;
+        if (TextUtils.isEmpty(newText)) {
+            orderListView.clearTextFilter();
+        } else {
+            orderListView.setFilterText(newText);
+        }
+        return true;
     }
 
     @Override
@@ -118,7 +124,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
-        searchView.setQueryHint("Search Here");
+        searchView.setQueryHint("Order Id");
     }
 
     // Async Task to fetch orders of user
