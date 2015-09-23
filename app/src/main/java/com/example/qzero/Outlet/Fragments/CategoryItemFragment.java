@@ -312,7 +312,7 @@ public class CategoryItemFragment extends Fragment {
                 String item_id=v.getTag().toString();
 
                 Log.e("tag", v.getTag().toString());
-              //`  ((OutletCategoryActivity) getActivity()).replaceFragment(venue_id,outlet_id,item_id);
+              //((OutletCategoryActivity) getActivity()).replaceFragment(venue_id,outlet_id,item_id);
             }
         });
 

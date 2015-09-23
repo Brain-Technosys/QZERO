@@ -388,13 +388,13 @@ public class OutletActivity extends Activity {
         } else
             txtViewDescLand.setText(outlet.getOutlet_desc());
 
-        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")) {
+        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")||outlet.getPhone_num().equalsIgnoreCase("na")) {
             linLayPhLand.setVisibility(View.INVISIBLE);
         } else {
             txtViewPhnoneLand.setText(outlet.getPhone_num());
         }
 
-        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")||outlet.getMobile_num().equalsIgnoreCase("na")) {
             linLayMobLand.setVisibility(View.INVISIBLE);
         } else {
             txtViewMobLand.setText(outlet.getMobile_num());
@@ -412,14 +412,14 @@ public class OutletActivity extends Activity {
         } else
             txtViewDesPotLeft.setText(outlet.getOutlet_desc());
 
-        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")) {
+        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")||outlet.getMobile_num().equalsIgnoreCase("na")) {
             linLayMobLeft.setVisibility(View.INVISIBLE);
         } else {
 
             txtViewMobPotLeft.setText(outlet.getMobile_num());
         }
 
-        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")) {
+        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")||outlet.getPhone_num().equalsIgnoreCase("na")) {
             linLayPhLeft.setVisibility(View.INVISIBLE);
         } else {
             txtViewPhPotLeft.setText(outlet.getPhone_num());

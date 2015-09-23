@@ -95,6 +95,7 @@ public class CustomAdapterVenue extends BaseAdapter {
         }
         else {
             holder.txtViewPhone.setText(venue.getVenue_phone());
+            holder.imgViewPhone.setVisibility(View.VISIBLE);
         }
 
         if(venue.getVenue_mobile().equals("null"))
@@ -103,6 +104,7 @@ public class CustomAdapterVenue extends BaseAdapter {
         }
         else {
             holder.txtViewMobile.setText(venue.getVenue_mobile());
+            holder.imgViewMobile.setVisibility(View.VISIBLE);
         }
 
 
