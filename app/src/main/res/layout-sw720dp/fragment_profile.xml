@@ -35,7 +35,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/color_red"
+                        android:background="@color/primary_color"
                         android:padding="5dp"
                         android:text="Personal Info" />
 
@@ -152,7 +152,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/color_red"
+                        android:background="@color/primary_color"
                         android:padding="5dp"
                         android:text="Contact Info" />
 
@@ -254,7 +254,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/color_red"
+                        android:background="@color/primary_color"
                         android:padding="5dp"
                         android:text="Address Info" />
 

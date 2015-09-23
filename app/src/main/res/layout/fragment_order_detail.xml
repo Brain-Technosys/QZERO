@@ -16,9 +16,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_weight="0"
         android:layout_above="@+id/rl_addresses"
         android:layout_below="@+id/orderListView"
+        android:layout_weight="0"
         android:background="@color/color_red"></View>
 
     <RelativeLayout
@@ -80,7 +80,7 @@
         android:id="@+id/img_banner"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:layout_weight="0"
         android:layout_alignParentBottom="true"
+        android:layout_weight="0"
         android:background="#ffde665d" />
 </LinearLayout>

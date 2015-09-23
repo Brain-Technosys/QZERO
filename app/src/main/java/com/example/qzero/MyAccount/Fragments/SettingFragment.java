@@ -153,6 +153,11 @@ public class SettingFragment extends Fragment {
                     oldPasswordEditText.setText("");
                     newPasswordEditText.setText("");
                     cnfPasswordEditText.setText("");
+
+                    oldPasswordEditText.setError(null);
+                    newPasswordEditText.setError(null);
+                    cnfPasswordEditText.setError(null);
+
                     // Enabling
                    // isSaveNotClicked = !isSaveNotClicked;
                     break;
