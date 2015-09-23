@@ -82,8 +82,10 @@ public class OrderedItemActivity extends Activity {
         if (session.isUserLoggedIn())
             userID = session.getUserID();
 
+        // getting data from intent
         getIntentData();
 
+        // Setting Fonts and title
         setFont();
 
 
@@ -101,9 +103,14 @@ public class OrderedItemActivity extends Activity {
         }
     }
 
+    // Method to set the required font and activity title.
     private void setFont() {
         txtViewHeading.setText("Order Details");
         FontHelper.applyFont(this, txtViewHeading, FontHelper.FontType.FONT);
+        FontHelper.applyFont(OrderedItemActivity.this, lblBillingAddress, FontHelper.FontType.FONTROBOLD);
+        FontHelper.applyFont(OrderedItemActivity.this, lblShippingAddress, FontHelper.FontType.FONTROBOLD);
+        FontHelper.applyFont(OrderedItemActivity.this, txtBillingAddress, FontHelper.FontType.FONT);
+        FontHelper.applyFont(OrderedItemActivity.this, txtShippingAddress, FontHelper.FontType.FONT);
     }
 
     private void getItemData() {
@@ -208,5 +215,6 @@ public class OrderedItemActivity extends Activity {
     void finishAct() {
         finish();
     }
+
 
 }
