@@ -45,6 +45,9 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
     @InjectView(R.id.orderListView)
     ListView orderListView;
 
+    @InjectView(R.id.searchView)
+    SearchView searchView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         ButterKnife.inject(this, view);
 
         getActivity().setTitle(getString(R.string.order_title));
+
+        orderListView.setTextFilterEnabled(true);
+        setupSearchView();
 
         session = new UserSession(getActivity().getApplicationContext());
         if (session.isUserLoggedIn())
@@ -108,7 +114,12 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
     }
 
-
+    private void setupSearchView() {
+        searchView.setIconifiedByDefault(false);
+        searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setQueryHint("Search Here");
+    }
 
     // Async Task to fetch orders of user
     class GetOrders extends AsyncTask<String, String, String> {
