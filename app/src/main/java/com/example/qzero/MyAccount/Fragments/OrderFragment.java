@@ -101,7 +101,9 @@ public class OrderFragment extends Fragment {
         protected String doInBackground(String... params) {
             String url = Const.BASE_URL + Const.GET_ORDER_URL;
             jsonParser = new JsonParser();
+
             json = jsonParser.executePost(url, "", userID, Const.TIME_OUT);
+
             if (json != null && json.length() != 0) {
                 Log.v("Order URL: ", url);
                 Log.v("Order Fragment: ", json);
