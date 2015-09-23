@@ -120,6 +120,8 @@ public class OutletActivity extends Activity {
 
     String venue_id;
     String outletId;
+    String itemId;
+    String subCatId;
     String outletTitle;
 
     int status;
@@ -537,6 +539,7 @@ public class OutletActivity extends Activity {
         }
     }
 
+    //Get outlet items on outlet click
     public class GetOutletItems extends AsyncTask<String, String, String> {
 
         @Override
@@ -552,8 +555,8 @@ public class OutletActivity extends Activity {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" +""
-                    + "&subCatId=" + "";
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" +itemId
+                    + "&subCatId=" +subCatId;
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);

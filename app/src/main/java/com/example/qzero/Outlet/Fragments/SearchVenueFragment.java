@@ -184,7 +184,8 @@ public class SearchVenueFragment extends Fragment {
                             String venue_zip = jsonObj.getString(Const.TAG_ZIP);
                             String venue_phone = jsonObj.getString(Const.TAG_PHONE_NO);
                             String venue_mobile = jsonObj.getString(Const.TAG_MOB_N0);
-                            Venue venue = new Venue(venue_id, venue_name, venue_address, venue_city, venue_zip, venue_phone, venue_mobile);
+                            String outlet_id="";
+                            Venue venue = new Venue(venue_id,outlet_id,venue_name, venue_address, venue_city, venue_zip, venue_phone, venue_mobile);
                             arrayListVenue.add(venue);
                         }
                     }

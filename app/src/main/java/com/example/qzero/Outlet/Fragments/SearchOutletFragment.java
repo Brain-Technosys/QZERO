@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
@@ -169,13 +170,14 @@ public class SearchOutletFragment extends Fragment {
                             JSONObject jsonObj = jsonArray.getJSONObject(i);
 
                             String venue_id = jsonObj.getString(Const.TAG_VENUE_ID);
+                            String outlet_id=jsonObj.getString(Const.TAG_OUTLET_ID);
                             String outlet_name = jsonObj.getString(Const.TAG_OUTLET_NAME);
                             String venue_address = jsonObj.getString(Const.TAG_ADDRESS);
                             String venue_city = jsonObj.getString(Const.TAG_CITY);
                             String venue_zip = jsonObj.getString(Const.TAG_ZIP);
                             String venue_phone = jsonObj.getString(Const.TAG_PHONE_NO);
                             String venue_mobile = jsonObj.getString(Const.TAG_MOB_N0);
-                            Venue venue = new Venue(venue_id, outlet_name, venue_address, venue_city, venue_zip, venue_phone, venue_mobile);
+                            Venue venue = new Venue(venue_id,outlet_id,outlet_name, venue_address, venue_city, venue_zip, venue_phone, venue_mobile);
                             arrayListVenue.add(venue);
                         }
                     }
@@ -220,8 +222,8 @@ public class SearchOutletFragment extends Fragment {
 
         //pass values
         Bundle bundle = new Bundle();
-        bundle.putString("classname","Outlet Details");
-        bundle.putSerializable("arrayListVenue", arrayListVenue);
+        bundle.putString(ConstVarIntent.TAG_CLASSNAME,"Outlet Details");
+        bundle.putSerializable(ConstVarIntent.TAG_LIST_VENUE, arrayListVenue);
         intent.putExtras(bundle);
 
         startActivity(intent);
