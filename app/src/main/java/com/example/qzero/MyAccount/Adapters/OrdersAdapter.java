@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.Utility;
@@ -18,9 +20,10 @@ import java.util.ArrayList;
 /**
  * Created by Braintech on 8/12/2015.
  */
-public class OrdersAdapter extends BaseAdapter {
+public class OrdersAdapter extends BaseAdapter implements Filterable {
     Context context;
     ArrayList<Order> orderArrayList;
+    public ArrayList<Order> orig;
 
     public OrdersAdapter(Context context, ArrayList<Order> orderArrayList) {
         this.context = context;
@@ -96,6 +99,44 @@ public class OrdersAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         return orderArrayList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                final FilterResults oReturn = new FilterResults();
+                final ArrayList<Order> results = new ArrayList<Order>();
+
+                if (orig == null)
+                    orig = orderArrayList;
+
+
+                if (constraint != null) {
+                    if (orig != null && orig.size() > 0) {
+                        for (final Order order : orig) {
+                            if (String.valueOf(order.getOrderId()).toLowerCase()
+                                    .contains(constraint.toString()))
+                                results.add(order);
+                        }
+                    }
+                    oReturn.values = results;
+                }
+                return oReturn;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                orderArrayList = (ArrayList<Order>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 
     static class ViewHolder {

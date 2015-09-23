@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDFDF">
+    android:background="#DFDFDF"
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/orderListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rl_addresses"></ListView>
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        android:foregroundGravity="top"></ListView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_weight="0"
         android:layout_above="@+id/rl_addresses"
+        android:layout_below="@+id/orderListView"
         android:background="@color/color_red"></View>
 
     <RelativeLayout
@@ -21,12 +26,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/img_banner"
+        android:layout_weight="0"
         android:padding="10dp">
 
         <LinearLayout
             android:id="@+id/ll_billing_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -73,6 +80,7 @@
         android:id="@+id/img_banner"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
+        android:layout_weight="0"
         android:layout_alignParentBottom="true"
         android:background="#ffde665d" />
-</RelativeLayout>
+</LinearLayout>
