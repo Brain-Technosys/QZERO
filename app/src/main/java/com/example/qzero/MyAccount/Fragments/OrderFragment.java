@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -34,7 +37,7 @@ import butterknife.OnItemClick;
 /**
  * Created by braintech on 13-Jul-15.
  */
-public class OrderFragment extends Fragment {
+public class OrderFragment extends Fragment implements SearchView.OnQueryTextListener {
     UserSession session;
     String userID;
     ArrayList<Order> orderArrayList;
@@ -63,7 +66,24 @@ public class OrderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new GetOrders().execute();
+        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
+            new GetOrders().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.internet_connection_message),
+                    "Alert");
+        }
+
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
     // Item click event of order list view
@@ -76,13 +96,19 @@ public class OrderFragment extends Fragment {
 
         Log.e("order", "" + orderId);
 
-        Intent intent = new Intent(getActivity(), OrderedItemActivity.class);
-        intent.putExtra("order_id", orderId);
-        intent.putExtra(Const.TAG_BILLING_ADDRESS, order.getOrderBillingAddress());
-        intent.putExtra(Const.TAG_SHIPPING_ADDRESS, order.getShippingAddress());
+        Bundle bundle = new Bundle();
+        bundle.putString(Const.TAG_ORDER_ID, orderId);
+        bundle.putString(Const.TAG_BILLING_ADDRESS, order.getOrderBillingAddress());
+        bundle.putString(Const.TAG_SHIPPING_ADDRESS, order.getShippingAddress());
 
-        startActivity(intent);
+        OrderDetailFragment fragment = new OrderDetailFragment();
+        fragment.setArguments(bundle);
+        this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, "OrderDetail").addToBackStack(null).commit();
+
+
     }
+
+
 
     // Async Task to fetch orders of user
     class GetOrders extends AsyncTask<String, String, String> {

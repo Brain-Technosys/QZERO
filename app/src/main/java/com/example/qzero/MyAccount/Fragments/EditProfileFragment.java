@@ -285,6 +285,12 @@ public class EditProfileFragment extends Fragment {
         if (CheckInternetHelper.checkInternetConnection(getActivity())) {
             new UpdateUserInfo().execute();
         }
+        else
+        {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.internet_connection_message),
+                    "Alert");
+        }
     }
 
     // Asynchronous class to fetch user info

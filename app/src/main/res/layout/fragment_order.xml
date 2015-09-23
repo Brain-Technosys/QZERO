@@ -3,11 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Order Id" />
+
     <ListView
         android:id="@+id/orderListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/searchView"
         android:divider="@android:color/transparent"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none" />
+
+
+    <ImageView
+        android:id="@+id/img_banner"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ffde665d" />
+
+
 </RelativeLayout>

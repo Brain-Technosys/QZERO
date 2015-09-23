@@ -114,7 +114,7 @@
     <string name="setting_title">Setting</string>
 
     <!-- Orders -->
-
+    <string name="search_hint">Order Id</string>
     <!-- Order Items -->
     <string name="billing_address">Billing Address:</string>
     <string name="shipping_address">Shipping Address:</string>
