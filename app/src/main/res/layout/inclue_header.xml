@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/imgViewBack"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/heading_fot_size"
+            android:textSize="20sp"
             android:text="@string/search_venue"
             android:layout_marginLeft="5dp"
             android:textColor="@android:color/white"
