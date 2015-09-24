@@ -51,7 +51,7 @@ public class CustomAdapterVenue extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null) {
+       // if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.list_item_venue, null);
@@ -60,8 +60,8 @@ public class CustomAdapterVenue extends BaseAdapter {
 
             holder.txtViewName = (TextView) convertView.findViewById(R.id.txtViewName);
             holder.txtViewAddress = (TextView) convertView.findViewById(R.id.txtViewAddress);
-            holder.txtViewCity = (TextView) convertView.findViewById(R.id.txtViewCity);
-            holder.txtViewZip = (TextView) convertView.findViewById(R.id.txtViewZip);
+            //holder.txtViewCity = (TextView) convertView.findViewById(R.id.txtViewCity);
+            // holder.txtViewZip = (TextView) convertView.findViewById(R.id.txtViewZip);
             holder.txtViewPhone = (TextView) convertView.findViewById(R.id.txtViewPhone);
             holder.txtViewMobile = (TextView) convertView.findViewById(R.id.txtViewMobile);
 
@@ -71,38 +71,41 @@ public class CustomAdapterVenue extends BaseAdapter {
 
             FontHelper.setFontFace(holder.txtViewName, FontType.FONTSANSBOLD, context);
             FontHelper.setFontFace(holder.txtViewAddress, FontType.FONTSANSREGULAR, context);
-            FontHelper.setFontFace(holder.txtViewCity, FontType.FONTSANSREGULAR, context);
-            FontHelper.setFontFace(holder.txtViewZip, FontType.FONTSANSREGULAR, context);
+            //  FontHelper.setFontFace(holder.txtViewCity, FontType.FONTSANSREGULAR, context);
+            //  FontHelper.setFontFace(holder.txtViewZip, FontType.FONTSANSREGULAR, context);
             FontHelper.setFontFace(holder.txtViewPhone, FontType.FONTSANSREGULAR, context);
             FontHelper.setFontFace(holder.txtViewMobile, FontType.FONTSANSREGULAR, context);
 
             convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+//        } else {
+//            holder = (ViewHolder) convertView.getTag();
+//        }
 
         Venue venue = rowItems.get(position);
 
-
-        holder.txtViewName.setText(venue.getVenue_name());
-        holder.txtViewAddress.setText(venue.getVenue_address());
-        holder.txtViewCity.setText(venue.getVenue_city());
-        holder.txtViewZip.setText(venue.getVenue_zip());
-
-        if(venue.getVenue_phone().equals("null"))
-        {
-            holder.imgViewPhone.setVisibility(View.INVISIBLE);
+        String fullAddress = venue.getVenue_address().trim();
+        if (venue.getVenue_city().trim().length() != 0) {
+            fullAddress = fullAddress + ", " + venue.getVenue_city().trim();
         }
-        else {
+
+        if (venue.getVenue_zip().trim().length() != 0) {
+            fullAddress = fullAddress + ", " + venue.getVenue_zip().trim();
+        }
+        holder.txtViewName.setText(venue.getVenue_name());
+        holder.txtViewAddress.setText(fullAddress);
+        // holder.txtViewCity.setText(venue.getVenue_city());
+        // holder.txtViewZip.setText(venue.getVenue_zip());
+
+        if (venue.getVenue_phone().equals("null")) {
+            holder.imgViewPhone.setVisibility(View.INVISIBLE);
+        } else {
             holder.txtViewPhone.setText(venue.getVenue_phone());
             holder.imgViewPhone.setVisibility(View.VISIBLE);
         }
 
-        if(venue.getVenue_mobile().equals("null"))
-        {
+        if (venue.getVenue_mobile().equals("null")) {
             holder.imgViewMobile.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             holder.txtViewMobile.setText(venue.getVenue_mobile());
             holder.imgViewMobile.setVisibility(View.VISIBLE);
         }
@@ -116,8 +119,8 @@ public class CustomAdapterVenue extends BaseAdapter {
 
         TextView txtViewName;
         TextView txtViewAddress;
-        TextView txtViewCity;
-        TextView txtViewZip;
+        // TextView txtViewCity;
+        //  TextView txtViewZip;
         TextView txtViewPhone;
         TextView txtViewMobile;
 

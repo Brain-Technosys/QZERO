@@ -46,7 +46,6 @@
                     android:id="@+id/imgViewAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:scaleType="centerCrop"
                     android:src="@drawable/location" />
 
@@ -54,19 +53,19 @@
                     android:id="@+id/txtViewAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+
                     android:layout_marginLeft="5dp"
                     android:text="Address"
                     android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/txtViewCity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <!-- <TextView
+                     android:id="@+id/txtViewCity"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
 
-                    android:layout_marginLeft="14dp"
-                    android:text="City"
-                    android:textColor="@color/black" />
+                     android:layout_marginLeft="14dp"
+                     android:text="City"
+                     android:textColor="@color/black" />-->
 
             </LinearLayout>
 
@@ -86,11 +85,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/vw_line"
                 android:layout_marginTop="1dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
@@ -117,6 +118,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
@@ -125,7 +127,7 @@
                         android:id="@+id/imgViewMobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+
                         android:scaleType="centerCrop"
                         android:src="@drawable/mobile" />
 
@@ -134,7 +136,7 @@
                         android:id="@+id/txtViewMobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+
                         android:layout_marginLeft="7dp"
                         android:layout_marginTop="2dp"
                         android:textColor="@color/black" />
