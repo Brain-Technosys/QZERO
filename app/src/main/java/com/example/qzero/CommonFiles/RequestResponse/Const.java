@@ -29,7 +29,7 @@ public class Const {
     public static String GET_ORDER_URL = "Order";
     public static String GET_ORDER_ITEM = "Order/OrderItems";
     public static String FORGOT_PASSWORD = "Account/ForgotPassword";
-    public static String GET_ITEM_DETAILS = "venue/getitemdetails";
+    public static String GET_ITEM_DETAIL = "venue/getitemdetail";
 
     //Intialize jsonArray parameter
 
@@ -145,6 +145,12 @@ public class Const {
     //Create getItemDetails constant
     public static String TAG_DISC_DETAIL="discountDescription";
     public static String TAG_AFTER_DISC="afterDiscount";
+
+    //Constant for choice group
+    public static String TAG_IS_COMPULSORY="isCompulsory";
+
+    //Constant for modifiers
+    public static String TAG_IS_DEFAULT="isDefault";
 
 
 

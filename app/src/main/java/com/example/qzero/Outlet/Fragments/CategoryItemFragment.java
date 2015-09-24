@@ -76,6 +76,7 @@ public class CategoryItemFragment extends Fragment {
     String sub_cat_id;
 
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item,
@@ -98,6 +99,10 @@ public class CategoryItemFragment extends Fragment {
         arrayListItems = new ArrayList<ItemOutlet>();
 
         if (getArguments().containsKey("arraylistitem")) {
+
+            venue_id=getArguments().getString("venue_id");
+             outlet_id= getArguments().getString("outlet_id");
+
 
             arrayListItems = (ArrayList<ItemOutlet>) getArguments().getSerializable("arraylistitem");
             Log.e("arraylistlen", "" + arrayListItems.size());
@@ -312,7 +317,7 @@ public class CategoryItemFragment extends Fragment {
                 String item_id=v.getTag().toString();
 
                 Log.e("tag", v.getTag().toString());
-              //((OutletCategoryActivity) getActivity()).replaceFragment(venue_id,outlet_id,item_id);
+               ((OutletCategoryActivity) getActivity()).replaceFragment(venue_id,outlet_id,item_id);
             }
         });
 

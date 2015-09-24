@@ -132,12 +132,11 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Outlet Items");
-
         drawerToggle = setupDrawerToggle();
 
         getIntentData();
 
+        //Add category item initially
         addItemFragment();
 
         setIconsToActionBar();
@@ -229,9 +228,11 @@ public class OutletCategoryActivity extends AppCompatActivity {
         fragmentTransaction = fragmentManager
                 .beginTransaction();
         CategoryItemFragment categoryItemFragment = new CategoryItemFragment();
+
         Bundle bundle = new Bundle();
-        bundle.putSerializable("arraylistitem", arrayListItems);
-        bundle.putString("title", title);
+//call method to put string into bundle
+        createBundle(bundle);
+
         categoryItemFragment.setArguments(bundle);
         fragmentTransaction.add(R.id.frameLayItem, categoryItemFragment, "item");
         fragmentTransaction.commit();
@@ -559,11 +560,10 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 fragmentTransaction = fragmentManager
                         .beginTransaction();
                 CategoryItemFragment categoryItemFragment = new CategoryItemFragment();
+
                 Bundle bundle = new Bundle();
-                bundle.putString("venue_id", venue_id);
-                bundle.putString("outlet_id", outlet_id);
-                bundle.putSerializable("arraylistitem", arrayListItems);
-                bundle.putString("title", title);
+                createBundle(bundle);
+
                 categoryItemFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.frameLayItem, categoryItemFragment, "item");
                 fragmentTransaction.commit();
@@ -576,6 +576,14 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 AlertDialogHelper.showAlertDialog(OutletCategoryActivity.this, getString(R.string.server_message), "Alert");
             }
         }
+    }
+
+    private void createBundle( Bundle bundle)
+    {
+        bundle.putString("venue_id", venue_id);
+        bundle.putString("outlet_id", outlet_id);
+        bundle.putSerializable("arraylistitem", arrayListItems);
+        bundle.putString("title", title);
     }
 
 
