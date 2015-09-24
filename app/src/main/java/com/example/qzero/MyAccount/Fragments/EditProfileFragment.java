@@ -123,8 +123,6 @@ public class EditProfileFragment extends Fragment {
                 } else {
                     //
                 }
-
-                isUpdateNotClicked = !isUpdateNotClicked;
             }
 
         } else {

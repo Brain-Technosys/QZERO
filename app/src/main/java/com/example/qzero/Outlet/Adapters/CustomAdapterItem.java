@@ -52,7 +52,7 @@ public class CustomAdapterItem extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null) {
+      //  if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.list_search_item, null);
@@ -79,9 +79,9 @@ public class CustomAdapterItem extends BaseAdapter {
             FontHelper.setFontFace(holder.txtViewMobile, FontType.FONTSANSREGULAR, context);
 
             convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+//        } else {
+//            holder = (ViewHolder) convertView.getTag();
+//        }
 
         Items items = rowItems.get(position);
 

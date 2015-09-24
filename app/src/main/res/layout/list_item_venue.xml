@@ -122,7 +122,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
-                        android:layout_marginLeft="5dp"
                         android:src="@drawable/mobile" />
 
 

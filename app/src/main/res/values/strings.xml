@@ -111,7 +111,8 @@
     <string name="order_title">Order</string>
     <string name="profile_title">Profile</string>
     <string name="edit_profile_title">Edit Profile</string>
-    <string name="setting_title">Setting</string>
+    <string name="setting_title">Change Password</string>
+    <string name="log_out">Log out</string>
 
     <!-- Orders -->
     <string name="search_hint">Order Id</string>

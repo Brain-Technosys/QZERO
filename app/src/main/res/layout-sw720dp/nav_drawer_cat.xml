@@ -45,7 +45,7 @@
                     android:layout_gravity="center_vertical"
                     android:padding="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/profile_icon" />
+                    android:src="@drawable/ic_profile" />
 
                 <TextView
 

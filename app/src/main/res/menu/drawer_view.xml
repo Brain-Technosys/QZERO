@@ -7,15 +7,15 @@
             android:id="@+id/nav_home_fragment"
             android:icon="@drawable/ic_dashboard"
             android:checked="true"
-            android:title="Dashboard" />
+            android:title="@string/dashboard_title" />
         <item
             android:id="@+id/nav_wallet_fragment"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="@string/home_title" />
         <item
             android:id="@+id/nav_order_fragment"
             android:icon="@drawable/ic_order"
-            android:title="Orders" />
+            android:title="@string/order_title" />
 
         <!--<item-->
             <!--android:id="@+id/nav_payment_fragment"-->
@@ -24,16 +24,16 @@
         <item
             android:id="@+id/nav_profile_fragment"
             android:icon="@drawable/ic_profile"
-            android:title="Profile" />
+            android:title="@string/profile_title" />
 
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_setting"
-            android:title="Change Password" />
+            android:title="@string/setting_title" />
 
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
-            android:title="Log out" />
+            android:title="@string/log_out" />
     </group>
 </menu>
