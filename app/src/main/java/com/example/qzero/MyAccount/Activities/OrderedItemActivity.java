@@ -169,9 +169,9 @@ public class OrderedItemActivity extends Activity {
                             String qty = orderJson.getString("items");
 
 
-                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty);
-
-                            orderItemArrayList.add(orderItems);
+//                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty,dis);
+//
+//                            orderItemArrayList.add(orderItems);
                         }
 
                     }

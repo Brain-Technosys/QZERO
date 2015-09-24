@@ -163,7 +163,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
                             JSONObject orderJson = resultJsonArray.getJSONObject(i);
 
                             int orderId = orderJson.getInt(Const.TAG_ORDER_ID);
-                            String purchaseDate = orderJson.getString(Const.TAG_PURCHASE_DATE);
+                            String purchaseDate = orderJson.getString(Const.TAG_FORMATTED_DATE);
                             boolean isShipped = orderJson.getBoolean(Const.TAG_IS_SHIPPED);
                             String orderStatus = orderJson.getString(Const.TAG_ORDER_STATUS);
                             int itemCount = orderJson.getInt(Const.TAG_ITEM_COUNT);

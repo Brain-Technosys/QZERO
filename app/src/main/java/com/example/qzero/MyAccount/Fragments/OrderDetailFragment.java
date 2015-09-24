@@ -38,7 +38,6 @@ import butterknife.InjectView;
 public class OrderDetailFragment extends Fragment {
 
 
-
     @InjectView(R.id.lbl_billing_address)
     TextView lblBillingAddress;
 
@@ -68,7 +67,7 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_order_detail, container,false);
+        View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         ButterKnife.inject(this, view);
 
         session = new UserSession(getActivity().getApplicationContext());
@@ -108,7 +107,6 @@ public class OrderDetailFragment extends Fragment {
 
         }
     }
-
 
 
     // Method to set the required font and activity title.
@@ -163,9 +161,13 @@ public class OrderDetailFragment extends Fragment {
                             String remarks = orderJson.getString(Const.TAG_REMARKS);
                             String itemCode = orderJson.getString(Const.TAG_ITEM_CODE);
                             String qty = orderJson.getString("items");
+                            String discount = orderJson.getString(Const.TAG_DISC);
+                            String discountAmount = orderJson.getString(Const.TAG_DISCOUNT_AMOUNT);
+                            String totalAmount = orderJson.getString(Const.TAG_TOTAL_AMOUNT);
+                            String netAmount = orderJson.getString(Const.TAG_NET_AMOUNT);
 
 
-                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty);
+                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty, discount, discountAmount, totalAmount, netAmount);
 
                             orderItemArrayList.add(orderItems);
                         }

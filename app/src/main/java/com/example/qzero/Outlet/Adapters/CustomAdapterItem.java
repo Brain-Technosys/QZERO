@@ -70,6 +70,8 @@ public class CustomAdapterItem extends BaseAdapter {
         holder.imgViewPhone = (ImageView) convertView.findViewById(R.id.imgViewPhone);
         holder.imgViewMobile = (ImageView) convertView.findViewById(R.id.imgViewMobile);
 
+        holder.dividerView = (View) convertView.findViewById(R.id.vw_line);
+
 
         FontHelper.setFontFace(holder.txtViewName, FontType.FONTSANSBOLD, context);
         FontHelper.setFontFace(holder.txtViewVenue, FontType.FONTSANSREGULAR, context);
@@ -97,17 +99,23 @@ public class CustomAdapterItem extends BaseAdapter {
         //  holder.txtViewCity.setText(items.getVenue_city());
 
         if (items.getVenue_phone().equals("null")) {
-            holder.imgViewPhone.setVisibility(View.INVISIBLE);
+            holder.imgViewPhone.setVisibility(View.GONE);
         } else {
             holder.txtViewPhone.setText(items.getVenue_phone());
             holder.imgViewPhone.setVisibility(View.VISIBLE);
         }
 
         if (items.getVenue_mobile().equals("null")) {
-            holder.imgViewMobile.setVisibility(View.INVISIBLE);
+            holder.imgViewMobile.setVisibility(View.GONE);
         } else {
             holder.txtViewMobile.setText(items.getVenue_mobile());
             holder.imgViewMobile.setVisibility(View.VISIBLE);
+        }
+
+        if (items.getVenue_phone().equals("null") && items.getVenue_mobile().equals("null")) {
+            holder.dividerView.setVisibility(View.GONE);
+        } else {
+            holder.dividerView.setVisibility(View.VISIBLE);
         }
 
         return convertView;
@@ -126,6 +134,8 @@ public class CustomAdapterItem extends BaseAdapter {
 
         ImageView imgViewPhone;
         ImageView imgViewMobile;
+
+        View dividerView;
 
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -63,8 +64,20 @@ public class OrderItemsAdapter extends BaseAdapter {
             holder.tv_item_name = (TextView) convertView.findViewById(R.id.tv_item_name);
             holder.tv_item_status = (TextView) convertView.findViewById(R.id.tv_item_status);
             holder.tv_item_price = (TextView) convertView.findViewById(R.id.tv_item_price);
-            holder.tv_quantity = (TextView)convertView.findViewById(R.id.tv_item_qty);
+            holder.tv_quantity = (TextView) convertView.findViewById(R.id.tv_item_qty);
+            holder.discountTextView = (TextView) convertView.findViewById(R.id.tv_discount);
+            holder.discountAmountTextView = (TextView) convertView.findViewById(R.id.tv_discountAmount);
+            holder.totalAmountTextView = (TextView) convertView.findViewById(R.id.tv_totalAmount);
+            holder.netAmountTextView = (TextView) convertView.findViewById(R.id.tv_netAmount);
+
             holder.itemImageView = (ImageView) convertView.findViewById(R.id.img_item);
+
+
+            holder.discontLayout = (LinearLayout) convertView.findViewById(R.id.ll_discount);
+            holder.discontAmountLayout = (LinearLayout) convertView.findViewById(R.id.ll_discountAmount);
+            holder.totalAmountLayout = (LinearLayout) convertView.findViewById(R.id.ll_totalAmount);
+            holder.netAmountLayout = (LinearLayout) convertView.findViewById(R.id.ll_netAmount);
+
 
             convertView.setTag(holder);
         } else {
@@ -73,13 +86,19 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         OrderItems items = rowItems.get(position);
 
-        holder.tv_item_name.setText(items.getItemName());
-        holder.tv_item_status.setText(items.getItemStatus());
-        holder.tv_item_price.setText("$ "+items.getItemPrice());
-        holder.tv_quantity.setText(items.getQuantitiy());
         //Load Image
         String item_image = Const.BASE_URL + Const.IMAGE_URL + items.getItemId();
         Picasso.with(context).load(item_image).into(holder.itemImageView);
+
+        holder.tv_item_name.setText(items.getItemName());
+        holder.tv_item_status.setText(items.getItemStatus());
+        holder.tv_item_price.setText("$ " + items.getItemPrice());
+        holder.tv_quantity.setText(items.getQuantitiy());
+
+        holder.discountTextView.setText("$ " + items.getDiscount());
+        holder.discountAmountTextView.setText("$ " + items.getDiscountAmount());
+        holder.totalAmountTextView.setText("$ " + items.getTotalAmount());
+        holder.netAmountTextView.setText("$ " + items.getNetAmount());
         setFonts(holder);
 
 
@@ -90,6 +109,11 @@ public class OrderItemsAdapter extends BaseAdapter {
         FontHelper.applyFont(context, holder.tv_item_name, FontHelper.FontType.FONTROBOLD);
         FontHelper.applyFont(context, holder.tv_item_status, FontHelper.FontType.FONT);
         FontHelper.applyFont(context, holder.tv_item_price, FontHelper.FontType.FONT);
+
+        FontHelper.applyFont(context, holder.discountTextView, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, holder.discountAmountTextView, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, holder.totalAmountTextView, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, holder.netAmountTextView, FontHelper.FontType.FONT);
     }
 
     static class ViewHolder {
@@ -98,6 +122,16 @@ public class OrderItemsAdapter extends BaseAdapter {
         TextView tv_item_status;
         TextView tv_item_price;
         TextView tv_quantity;
+        TextView discountTextView;
+        TextView discountAmountTextView;
+        TextView totalAmountTextView;
+        TextView netAmountTextView;
+
         ImageView itemImageView;
+
+        LinearLayout discontLayout;
+        LinearLayout discontAmountLayout;
+        LinearLayout totalAmountLayout;
+        LinearLayout netAmountLayout;
     }
 }

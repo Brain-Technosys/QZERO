@@ -125,7 +125,7 @@ public class Const {
 
     // Creating Order Constant
     public static String TAG_ORDER_ID = "orderId";
-    public static String TAG_PURCHASE_DATE= "purchaseDate";
+    public static String TAG_PURCHASE_DATE = "purchaseDate";
     public static String TAG_IS_SHIPPED = "isShipped";
     public static String TAG_ORDER_STATUS = "orderStatus";
     public static String TAG_ITEM_COUNT = "itemsCount";
@@ -134,21 +134,25 @@ public class Const {
     public static String TAG_BILLING_ADDRESS = "orderBillingAdress";
     public static String TAG_DISCOUNT = "dicountAmount";
     public static String TAG_AMOUNT = "orderAmount";
+    public static String TAG_FORMATTED_DATE = "formatedPurchaseDate";
+    public static String TAG_TOTAL_AMOUNT = "totalAmount";
+    public static String TAG_NET_AMOUNT = "netAmount";
+    public static String TAG_QUANTITY = "quantity";
+    public static String TAG_DISC = "discount";
+    public static String TAG_DISCOUNT_AMOUNT = "discountAmount";
+
+
 
     //Create odered items constant
-    public static String TAG_TIMINGS="timing";
-    public static String TAG_ITEM_STATUS="itemStatus";
-    public static String TAG_ITEM_PRICE="itemPrice";
-    public static String TAG_REMARKS="remarks";
-    public static String TAG_ITEM_CODE="itemCode";
+    public static String TAG_TIMINGS = "timing";
+    public static String TAG_ITEM_STATUS = "itemStatus";
+    public static String TAG_ITEM_PRICE = "itemPrice";
+    public static String TAG_REMARKS = "remarks";
+    public static String TAG_ITEM_CODE = "itemCode";
 
     //Create getItemDetails constant
-    public static String TAG_DISC_DETAIL="discountDescription";
-    public static String TAG_AFTER_DISC="afterDiscount";
-
-
-
-
+    public static String TAG_DISC_DETAIL = "discountDescription";
+    public static String TAG_AFTER_DISC = "afterDiscount";
 
 
 }
