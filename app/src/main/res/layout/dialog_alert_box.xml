@@ -25,7 +25,7 @@
 
     <LinearLayout
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/alertbox_text_layout_border" >
 
@@ -33,15 +33,15 @@
             android:id="@+id/txtViewAlertMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+           android:padding="25dp"
+            android:text="Sample text"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="250dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/color_background"
         android:gravity="right" >
@@ -49,14 +49,13 @@
         <TextView
             android:id="@+id/txtViewOk"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/selector_alertbox_button"
             android:gravity="right"
-            android:paddingRight="15dp"
-            android:paddingTop="2dp"
+            android:padding="10dp"
             android:text="@string/alertbox_ok"
             android:textColor="@color/color_tab_text_selected"
             android:textSize="15sp"
@@ -65,14 +64,13 @@
         <TextView
             android:id="@+id/txtViewCancel"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/selector_alertbox_button"
             android:gravity="right"
-            android:paddingRight="15dp"
-            android:paddingTop="2dp"
+            android:padding="10dp"
             android:text="@string/alertbox_cancel"
             android:textColor="@color/color_tab_text_selected"
             android:textSize="15sp"

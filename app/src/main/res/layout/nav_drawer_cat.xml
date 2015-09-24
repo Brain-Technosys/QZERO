@@ -41,7 +41,7 @@
                     android:layout_gravity="center_vertical"
                     android:padding="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/profile_icon" />
+                    android:src="@drawable/ic_profile" />
 
                 <TextView
 
@@ -76,7 +76,7 @@
                     android:layout_centerVertical="true"
                     android:padding="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/home_icon" />
+                    android:src="@drawable/ic_home" />
 
 
                 <TextView

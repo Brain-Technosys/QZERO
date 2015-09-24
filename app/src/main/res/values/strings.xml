@@ -14,7 +14,7 @@
     <string name="password_error">Passwords do not match</string>
     <string name="chkbox_error">Please accept user agreement </string>
     <string name="reg_success">Registration Successful </string>
-    <string name="password_pattern_error">Password should be atleast 6 digits and must contain atleast a digit,capital letter,small letter and a symbol</string>
+    <string name="password_pattern_error">Password should be at least 6 digits and must contain at least a digit, capital letter, small letter and a symbol.</string>
     <string name="alertbox_ok">OK</string>
     <string name="alertbox_cancel">CANCEL</string>
     <string name="alertbox_allow">ALLOW</string>
@@ -24,7 +24,7 @@
     <!-- Home Activty -->
     <string name="txt_search">Search</string>
     <string name="txt_login">Login</string>
-    <string name="msg_perm_get_location">QZERO want to know your location</string>
+    <string name="msg_perm_get_location">QZERO want to know your location.</string>
     <string name="title_perm_get_location">Location Permission</string>
     <string name="wifi_mobile_network_error">No network found, please turn on your wifi or mobile network.</string>
 
@@ -111,13 +111,17 @@
     <string name="order_title">Order</string>
     <string name="profile_title">Profile</string>
     <string name="edit_profile_title">Edit Profile</string>
-    <string name="setting_title">Setting</string>
+    <string name="setting_title">Change Password</string>
+    <string name="log_out">Log out</string>
 
     <!-- Orders -->
     <string name="search_hint">Order Id</string>
     <!-- Order Items -->
     <string name="billing_address">Billing Address:</string>
     <string name="shipping_address">Shipping Address:</string>
+    <string name="discount_amount">Discount Amount:</string>
+    <string name="total_amount">Total Amount:</string>
+    <string name="net_amount">Net Amount:</string>
 
     <!-- Dummy texts-->
     <string name="address">G-84, Sector-63, NOIDA, U.P. 201301</string>

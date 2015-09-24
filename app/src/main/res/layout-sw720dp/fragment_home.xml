@@ -2,6 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/texture_bg">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -10,8 +11,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/bottom"
-            android:paddingLeft="10dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:paddingLeft="10dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
-                            android:src="@drawable/profile" />
+                            android:src="@drawable/ic_profile" />
 
                         <TextView
                             android:id="@+id/tv_profile"
@@ -50,7 +51,6 @@
                             android:textSize="16sp" />
 
 
-
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -59,7 +59,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rl_first_row"
                     android:layout_marginTop="-16dp">
-
 
 
                     <LinearLayout

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +46,6 @@ import butterknife.OnClick;
 
 public class HomeActivity extends FragmentActivity {
 
-    @InjectView(R.id.frameLaySliding)
-    FrameLayout frameLaySliding;
-
     @InjectView(R.id.txtViewSearch)
     TextView txtViewSearch;
 
@@ -68,6 +66,9 @@ public class HomeActivity extends FragmentActivity {
 
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout sliding_layout;
+
+    @InjectView(R.id.relLaySearch)
+    RelativeLayout relLaySearch;
 
     Boolean isLayoutVisible;
 
@@ -124,6 +125,8 @@ public class HomeActivity extends FragmentActivity {
     void openSearchFragment() {
 
         isLayoutVisible = checkLoginVisibility();
+
+
         if (isLayoutVisible) {
             // do nothing
         } else {
@@ -187,12 +190,12 @@ public class HomeActivity extends FragmentActivity {
 
         isLayoutVisible = checkLoginVisibility();
         if (!isLayoutVisible) {
-
+            relLaySearch.setVisibility(View.GONE);
             loginFrameLay.setVisibility(View.VISIBLE);
             imgViewLoginButton.setImageResource(R.drawable.upbutton_selector);
         } else {
-
             loginFrameLay.setVisibility(View.GONE);
+            relLaySearch.setVisibility(View.VISIBLE);
             imgViewLoginButton
                     .setImageResource(R.drawable.down_button_selector);
         }

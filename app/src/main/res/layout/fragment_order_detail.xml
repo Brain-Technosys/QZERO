@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDFDF"
+    android:background="@drawable/texture_bg"
     android:orientation="vertical">
 
     <ListView
@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/img_banner"
         android:layout_weight="0"
+        android:background="#FFF"
         android:padding="10dp">
 
         <LinearLayout

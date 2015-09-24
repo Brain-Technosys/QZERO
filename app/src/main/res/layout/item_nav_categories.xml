@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/selector_navigation_menu_item"
-        android:paddingBottom="15dp">
+       >
 
 
         <ImageView
@@ -39,7 +39,7 @@
             android:paddingLeft="10dp"
             android:text="My Profile"
             android:textColor="@color/navigation_text_color"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/imgViewDownArrow"

@@ -13,8 +13,12 @@ public class OrderItems {
     String itemPrice;
     String remarks;
     String quantitiy;
+    String discount;
+    String discountAmount;
+    String totalAmount;
+    String netAmount;
 
-    public OrderItems(int orderId, int itemId, String itemCode, String itemName, String timing, String itemStatus, String itemPrice, String remarks, String quantitiy) {
+    public OrderItems(int orderId, int itemId, String itemCode, String itemName, String timing, String itemStatus, String itemPrice, String remarks, String quantitiy,String discount, String discountAmount, String totalAmount, String netAmount) {
         this.orderId = orderId;
         this.itemId = itemId;
         this.itemCode = itemCode;
@@ -24,6 +28,11 @@ public class OrderItems {
         this.itemPrice = itemPrice;
         this.remarks = remarks;
         this.quantitiy = quantitiy;
+        this.discount = discount;
+        this.discountAmount = discountAmount;
+        this.totalAmount = totalAmount;
+        this.netAmount = netAmount;
+
     }
 
     public int getOrderId() {
@@ -96,5 +105,37 @@ public class OrderItems {
 
     public void setQuantitiy(String quantitiy) {
         this.quantitiy = quantitiy;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(String discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getNetAmount() {
+        return netAmount;
+    }
+
+    public void setNetAmount(String netAmount) {
+        this.netAmount = netAmount;
     }
 }
