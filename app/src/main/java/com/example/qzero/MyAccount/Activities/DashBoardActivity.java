@@ -181,18 +181,23 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void checkFragmentIns(Class fragmentClass, Fragment fragment) {
+        String backStateName = null;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+            backStateName = fragment.getClass().getName();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = this.getSupportFragmentManager();
+        boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStateName, 0);
+
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(id.flContent, fragment);
         if (!isDashboard) {
-            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.addToBackStack(backStateName);
         }
         fragmentTransaction.commit();
     }

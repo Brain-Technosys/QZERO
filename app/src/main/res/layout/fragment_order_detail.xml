@@ -8,74 +8,22 @@
     <ListView
         android:id="@+id/orderListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_weight="1"
         android:foregroundGravity="top"></ListView>
 
-    <View
+
+
+  <!--  <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/rl_addresses"
         android:layout_below="@+id/orderListView"
         android:layout_weight="0"
-        android:background="@color/color_red"></View>
+        android:background="@color/color_red"></View>-->
 
-    <RelativeLayout
-        android:id="@+id/rl_addresses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/img_banner"
-        android:layout_weight="0"
-        android:background="#FFF"
-        android:padding="10dp">
 
-        <LinearLayout
-            android:id="@+id/ll_billing_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/lbl_billing_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/billing_address"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_billing_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/address"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_billing_address"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/lbl_shipping_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/shipping_address"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_shipping_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/address"
-                android:textColor="@color/black" />
-        </LinearLayout>
-    </RelativeLayout>
 
     <ImageView
         android:id="@+id/img_banner"
