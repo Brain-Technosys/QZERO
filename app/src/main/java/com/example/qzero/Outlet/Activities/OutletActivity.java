@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -91,6 +92,12 @@ public class OutletActivity extends Activity {
 
     @InjectView((R.id.relLayDescOutletRight))
     RelativeLayout relLayDescOutletRight;
+
+    @InjectView(R.id.viewOutlet)
+    CardView viewOutlet;
+
+    @InjectView(R.id.viewOutletRight)
+    CardView viewOutletRight;
 
     @InjectView(R.id.linLayPhLand)
     LinearLayout linLayPhLand;
@@ -322,13 +329,13 @@ public class OutletActivity extends Activity {
                 if (i == length - 1) {
                     if (mod == 1) { //check if the last layout contains only one data
 
-                        relLayDescOutletLeft.setVisibility(View.GONE);
-                        relLayDescOutletRight.setVisibility(View.GONE);
+                        viewOutlet.setVisibility(View.GONE);
+                        viewOutletRight.setVisibility(View.GONE);
 
                         inflateLandscapeValues();
                     } else if (mod == 2) {//check if the last layout contains only two data
 
-                        relLayDescOutletRight.setVisibility(View.GONE);
+                        viewOutletRight.setVisibility(View.GONE);
 
                         inflateLandscapeValues();
                         inflateLeftLayout();

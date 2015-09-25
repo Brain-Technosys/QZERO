@@ -48,7 +48,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -109,6 +114,8 @@ public class AddCartFragment extends Fragment {
 
     ArrayList<AddItems> arrayListAddItems;
     ArrayList<Modifier> modifierList;
+
+    ArrayList<Modifier> choosenModList;
 
     int status;
     int jsonLength;
@@ -205,8 +212,8 @@ public class AddCartFragment extends Fragment {
 
     @OnClick(R.id.txtViewAddItem)
     void addItem() {
-        inflateQtyLayout();
         countLength++;
+        inflateQtyLayout();
     }
 
 
@@ -242,6 +249,7 @@ public class AddCartFragment extends Fragment {
                 }
             });
 
+
             TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
 
             TextView txtViewModList = (TextView) view[i].findViewById(R.id.txtViewModList);
@@ -249,6 +257,18 @@ public class AddCartFragment extends Fragment {
             txtViewTotal = (TextView) view[i].findViewById(R.id.txtViewTotal);
 
             txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
+
+            if (hashMapChoosenMod.size() != 0) {
+                if (hashMapChoosenMod.containsKey(i)) {
+                    choosenModList = hashMapChoosenMod.get(i);
+
+                    if (choosenModList.size() == 0) {
+                        //do nothing
+                    } else {
+                        BuildTable(tableLayoutModifiers, txtViewModList, i);
+                    }
+                }
+            }
 
 
         }
@@ -281,7 +301,6 @@ public class AddCartFragment extends Fragment {
 
         createModifierLayout();
 
-        hashMapChoosenMod.put(index, modifierList);
 
         setOnClick();
     }
@@ -314,6 +333,7 @@ public class AddCartFragment extends Fragment {
 
     private void createCheckBox(final int i) {
 
+        choosenModList = new ArrayList<Modifier>();
 
         checkBox[i] = new CheckBox(getActivity());
 
@@ -355,7 +375,6 @@ public class AddCartFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                modifierList = new ArrayList<Modifier>();
 
                 if (radioGroup[i].getCheckedRadioButtonId() != -1) {
                     Log.e("inside", "check");
@@ -363,8 +382,17 @@ public class AddCartFragment extends Fragment {
                         int radioButtonID = radioGroup[i].getCheckedRadioButtonId();
                         RadioButton radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
 
-                        Modifier modifier = new Modifier(radioBtn.getText().toString(), "", choice);
-                        modifierList.add(modifier);
+                        String radioChoice = radioBtn.getText().toString();
+
+                        if (choosenModList.contains(radioChoice)) {
+                              //do nohting
+                            } else {
+                                Modifier modifier = new Modifier(radioChoice, "", choice);
+                                choosenModList.add(modifier);
+                            }
+
+
+
                         Log.e("textradio", radioBtn.getText().toString());
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
@@ -419,13 +447,15 @@ public class AddCartFragment extends Fragment {
         txtViewOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* View views =
 
-                        TextView txtViewModL = (TextView) views.findViewById(R.id.txtViewModList);
+                hashMapChoosenMod.put(index, choosenModList);
 
-                TableLayout tableLayoutMod = (TableLayout) views.findViewById(R.id.tableLayoutModifiers);
-                BuildTable(hashMapChoosenMod.size(), tableLayoutMod, txtViewModL);
-*/
+                TextView txtViewModL = (TextView) view[index].findViewById(R.id.txtViewModList);
+
+                TableLayout tableLayoutMod = (TableLayout) view[index].findViewById(R.id.tableLayoutModifiers);
+
+                BuildTable(tableLayoutMod, txtViewModL, index);
+
                 dialog.dismiss();
             }
         });
@@ -462,40 +492,54 @@ public class AddCartFragment extends Fragment {
         FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTROBOLD, getActivity());
     }
 
-    private void BuildTable(int rows, TableLayout tableLayoutModifiers, TextView txtViewModList) {
+    private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, int pos) {
 
-        txtViewModList.setVisibility(View.VISIBLE);
+        choosenModList = hashMapChoosenMod.get(pos);
 
-        FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTROBOLD, getActivity());
-        // outer for loop
-        for (int i = 1; i <= rows; i++) {
-
-            TableRow row = new TableRow(getActivity());
-            row.setPadding(10, 10, 10, 10);
-
-            row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT));
+        ArrayList<Modifier> newArrayList=new ArrayList<>();
 
 
-            TextView txtView = new TextView(getActivity());
+     for(int i=0;i<choosenModList.size();i++)
+     {
 
-            txtView.setText("Extra fry with butter");
-            txtView.setTextColor(Color.parseColor("#000000"));
-            txtView.setGravity(Gravity.LEFT);
+     }
 
-            row.addView(txtView);
+        if (choosenModList.size() != 0) {
 
-            TextView txtView1 = new TextView(getActivity());
 
-            txtView1.setText("$10");
-            txtView.setGravity(Gravity.CENTER);
-            txtView1.setPadding(20, 0, 0, 0);
-            txtView1.setTextColor(Color.parseColor("#000000"));
+            txtViewModList.setVisibility(View.VISIBLE);
 
-            row.addView(txtView1);
+            FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTROBOLD, getActivity());
+            // outer for loop
+            for (int i = 1; i <= choosenModList.size(); i++) {
 
-            tableLayoutModifiers.addView(row);
+                TableRow row = new TableRow(getActivity());
+                row.setPadding(10, 10, 10, 10);
 
+                row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+
+
+                TextView txtView = new TextView(getActivity());
+
+                txtView.setText(choosenModList.get(i - 1).getMod_name());
+                txtView.setTextColor(Color.parseColor("#000000"));
+                txtView.setGravity(Gravity.LEFT);
+
+                row.addView(txtView);
+
+                TextView txtView1 = new TextView(getActivity());
+
+                txtView1.setText("$10");
+                txtView.setGravity(Gravity.CENTER);
+                txtView1.setPadding(20, 0, 0, 0);
+                txtView1.setTextColor(Color.parseColor("#000000"));
+
+                row.addView(txtView1);
+
+                tableLayoutModifiers.addView(row);
+
+            }
         }
     }
 
