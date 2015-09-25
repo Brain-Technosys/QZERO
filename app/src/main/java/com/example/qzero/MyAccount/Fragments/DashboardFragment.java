@@ -56,6 +56,7 @@ public class DashboardFragment extends Fragment {
     boolean isOrderNotClicked = true;
     CheckInternetHelper internetHelper;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

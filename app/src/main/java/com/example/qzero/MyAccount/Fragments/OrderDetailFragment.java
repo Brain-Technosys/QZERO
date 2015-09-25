@@ -1,5 +1,6 @@
 package com.example.qzero.MyAccount.Fragments;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
@@ -38,18 +40,19 @@ import butterknife.InjectView;
 public class OrderDetailFragment extends Fragment {
 
 
-    @InjectView(R.id.lbl_billing_address)
+   // @InjectView(R.id.lbl_billing_address)
     TextView lblBillingAddress;
 
-    @InjectView(R.id.lbl_shipping_address)
+   // @InjectView(R.id.lbl_shipping_address)
     TextView lblShippingAddress;
 
-    @InjectView(R.id.tv_billing_address)
+   // @InjectView(R.id.tv_billing_address)
     TextView txtBillingAddress;
 
-    @InjectView(R.id.tv_shipping_address)
+  //  @InjectView(R.id.tv_shipping_address)
     TextView txtShippingAddress;
 
+    View footerView;
 
     @InjectView(R.id.orderListView)
     ListView orderListView;
@@ -69,6 +72,15 @@ public class OrderDetailFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         ButterKnife.inject(this, view);
+
+        // Inflating footer view
+        footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_order_items, null, false);
+        orderListView.addFooterView(footerView);
+
+        lblBillingAddress = (TextView)footerView.findViewById(R.id.lbl_billing_address);
+        lblShippingAddress = (TextView)footerView.findViewById(R.id.lbl_shipping_address);
+        txtBillingAddress = (TextView)footerView.findViewById(R.id.tv_billing_address);
+        txtShippingAddress = (TextView)footerView.findViewById(R.id.tv_shipping_address);
 
         session = new UserSession(getActivity().getApplicationContext());
         if (session.isUserLoggedIn())
