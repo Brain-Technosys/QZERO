@@ -494,6 +494,8 @@ public class AddCartFragment extends Fragment {
 
     private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, int pos) {
 
+        Boolean isDuplicate=false;
+
         choosenModList = hashMapChoosenMod.get(pos);
 
         ArrayList<Modifier> newArrayList=new ArrayList<>();
@@ -501,17 +503,33 @@ public class AddCartFragment extends Fragment {
 
      for(int i=0;i<choosenModList.size();i++)
      {
+        for(int j=0;j<newArrayList.size();j++)
+        {
+            if(choosenModList.get(i).getMod_name().equals(newArrayList.get(j).getMod_name()))
+            {
+                isDuplicate=true;
+                break;
+            }
+            else
+            {
+                isDuplicate=false;
+            }
+        }
 
+         if(!isDuplicate)
+         {
+             newArrayList.add(choosenModList.get(i));
+         }
      }
 
-        if (choosenModList.size() != 0) {
+        if (newArrayList.size() != 0) {
 
 
             txtViewModList.setVisibility(View.VISIBLE);
 
             FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTROBOLD, getActivity());
             // outer for loop
-            for (int i = 1; i <= choosenModList.size(); i++) {
+            for (int i = 1; i <= newArrayList.size(); i++) {
 
                 TableRow row = new TableRow(getActivity());
                 row.setPadding(10, 10, 10, 10);
@@ -522,7 +540,7 @@ public class AddCartFragment extends Fragment {
 
                 TextView txtView = new TextView(getActivity());
 
-                txtView.setText(choosenModList.get(i - 1).getMod_name());
+                txtView.setText(newArrayList.get(i - 1).getMod_name());
                 txtView.setTextColor(Color.parseColor("#000000"));
                 txtView.setGravity(Gravity.LEFT);
 
