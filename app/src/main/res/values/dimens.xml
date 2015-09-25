@@ -1,5 +1,4 @@
 <resources>
-
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -8,7 +7,7 @@
     <dimen name="heading_fot_size">20dp</dimen>
 
     <!-- Search-->
-    <dimen name="outlet_heading_size">22dp</dimen>
+    <dimen name="outlet_heading_size">18sp</dimen>
 
     <dimen name="margins">35dp</dimen>
     <dimen name="menu_text_size">16sp</dimen>
