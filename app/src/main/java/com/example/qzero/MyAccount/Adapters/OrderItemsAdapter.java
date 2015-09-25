@@ -92,13 +92,13 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         holder.tv_item_name.setText(items.getItemName());
         holder.tv_item_status.setText(items.getItemStatus());
-        holder.tv_item_price.setText("$ " + items.getItemPrice());
+        holder.tv_item_price.setText("$" + items.getItemPrice());
         holder.tv_quantity.setText(items.getQuantitiy());
 
-        holder.discountTextView.setText("$ " + items.getDiscount());
-        holder.discountAmountTextView.setText("$ " + items.getDiscountAmount());
-        holder.totalAmountTextView.setText("$ " + items.getTotalAmount());
-        holder.netAmountTextView.setText("$ " + items.getNetAmount());
+        holder.discountTextView.setText("$" + items.getDiscount());
+        holder.discountAmountTextView.setText("$" + items.getDiscountAmount());
+        holder.totalAmountTextView.setText("$" + items.getTotalAmount());
+        holder.netAmountTextView.setText("$" + items.getNetAmount());
         setFonts(holder);
 
 
