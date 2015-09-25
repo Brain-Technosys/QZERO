@@ -11,5 +11,5 @@
     <dimen name="outlet_heading_size">22dp</dimen>
 
     <dimen name="margins">35dp</dimen>
-    <dimen name="menu_text_size">15sp</dimen>
+    <dimen name="menu_text_size">16sp</dimen>
 </resources>

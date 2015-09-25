@@ -109,8 +109,8 @@ public class Const {
     public static String TAG_FIRST_NAME = "firstName";
     public static String TAG_LAST_NAME = "lastName";
     public static String TAG_EMAIL = "email";
-    public static String TAG_CREATED_ON = "createdOn";
-    public static String TAG_UPDATED_ON = "updatedOn";
+    public static String TAG_CREATED_ON = "createdDate";
+    public static String TAG_UPDATED_ON = "updatedDate";
     public static String TAG_IS_ACTIVE = "isActive";
     public static String TAG_PHONE = "phoneNumber";
     public static String TAG_MOBILE = "mobileNumber";

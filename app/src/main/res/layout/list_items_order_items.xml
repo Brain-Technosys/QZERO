@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_toRightOf="@+id/lbl_item_qty"
-                        android:text="qty"
+
                         android:textColor="#000" />
 
                     <TextView
@@ -124,38 +124,14 @@
                 android:paddingTop="5dp">
 
                 <LinearLayout
-                    android:id="@+id/ll_discount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/item_discount"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tv_discount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="NA"
-                        android:layout_weight="0"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/ll_discountAmount"
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/ll_discount"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="@string/discount_amount"
                         android:textColor="@color/black" />
 
@@ -164,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="NA"
+
                         android:layout_weight="0"
                         android:textColor="@color/black" />
 
@@ -173,8 +149,8 @@
                 <LinearLayout
                     android:id="@+id/ll_totalAmount"
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/ll_discountAmount"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_discountAmount">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -188,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="NA"
+
                         android:layout_weight="0"
                         android:textColor="@color/black" />
 
@@ -197,8 +173,8 @@
                 <LinearLayout
                     android:id="@+id/ll_netAmount"
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/ll_totalAmount"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_totalAmount">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -212,7 +188,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="NA"
+
                         android:layout_weight="0"
                         android:textColor="@color/black" />
 

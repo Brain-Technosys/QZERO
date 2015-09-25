@@ -100,7 +100,7 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="cnf_password">Confirm Password</string>
-    <string name="save">Save</string>
+    <string name="save">Submit</string>
     <string name="password_change_success">Password has been changed successfully.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

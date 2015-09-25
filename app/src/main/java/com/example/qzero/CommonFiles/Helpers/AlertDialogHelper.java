@@ -77,7 +77,7 @@ public class AlertDialogHelper {
 
                 userSession.saveUserLocationPermission(true);
 
-                ((HomeActivity)context).getUserLocation();
+                ((HomeActivity) context).getUserLocation();
 
                 dialog.dismiss();
 

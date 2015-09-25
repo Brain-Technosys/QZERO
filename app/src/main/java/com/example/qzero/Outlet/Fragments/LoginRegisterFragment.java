@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -180,6 +181,12 @@ public class LoginRegisterFragment extends Fragment {
     public class Register extends AsyncTask<String, String, String> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(getActivity());
+        }
+
+        @Override
         protected String doInBackground(String... params) {
             status = -1;
             jsonParser = new JsonParser();
@@ -210,14 +217,13 @@ public class LoginRegisterFragment extends Fragment {
                 if (jsonObject != null) {
 
                     status = jsonObject.getInt("status");
-
+                    Log.d("URL ", "" + url);
+                    Log.d("JSON ", "" + jsonString);
                     Log.d("status", "" + status);
-                    if (status == 1) {
-                        message = jsonObject.getString("message");
-
-                    }
+                    message = jsonObject.getString("message");
 
                 }
+
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -232,15 +238,15 @@ public class LoginRegisterFragment extends Fragment {
         protected void onPostExecute(String result) {
 
             super.onPostExecute(result);
-
+            ProgresBar.stop();
             if (status == 1) {
                 Intent intent = new Intent(getActivity(),
                         DashBoardActivity.class);
                 startActivity(intent);
 
             } else if (status == 0) {
-
-                AlertDialogHelper.showAlertDialog(getActivity(),message, "Alert");
+                Log.d("message ", "" + message);
+                AlertDialogHelper.showAlertDialog(getActivity(), message, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(getActivity(),

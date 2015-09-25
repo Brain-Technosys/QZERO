@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
@@ -41,8 +42,8 @@ public class ForgotPasswordActivity extends Activity {
     @InjectView(R.id.editTextEmail)
     EditText editTextEmail;
 
-    @InjectView(R.id.btnEmailLink)
-    Button emailButton;
+    @InjectView(R.id.imgViewSubmit)
+    ImageView emailButton;
 
     public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
             .compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
@@ -72,7 +73,7 @@ public class ForgotPasswordActivity extends Activity {
         FontHelper.applyFont(this, editTextEmail, FontHelper.FontType.FONT);
     }
 
-    @OnClick(R.id.btnEmailLink)
+    @OnClick(R.id.imgViewSubmit)
     void emailLink() {
         validateEmail();
     }
