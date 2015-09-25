@@ -398,8 +398,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_address"
+                android:background="@drawable/selector"
                 android:layout_marginLeft="5dp"
-                android:text="Edit Profile" />
+                android:text="Edit" />
 
 
         </RelativeLayout>

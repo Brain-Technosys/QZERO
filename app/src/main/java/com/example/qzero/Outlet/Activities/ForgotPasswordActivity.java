@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,7 +18,6 @@ import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
-import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.R;
 
 import org.json.JSONException;
@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.concurrent.CompletionService;
+
 import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
@@ -37,14 +37,12 @@ public class ForgotPasswordActivity extends Activity {
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
 
-    @InjectView(R.id.txtViewForgotPass)
-    TextView txtViewForgotPass;
-
-    @InjectView(R.id.txtViewEmail)
-    TextView txtViewEmail;
 
     @InjectView(R.id.editTextEmail)
     EditText editTextEmail;
+
+    @InjectView(R.id.btnEmailLink)
+    Button emailButton;
 
     public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
             .compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
@@ -70,29 +68,23 @@ public class ForgotPasswordActivity extends Activity {
 
     public void setFont() {
         FontHelper.applyFont(this, txtViewHeading, FontHelper.FontType.FONT);
-        FontHelper.applyFont(this, txtViewForgotPass, FontHelper.FontType.FONT);
-        FontHelper.applyFont(this, txtViewEmail, FontHelper.FontType.FONT);
+
         FontHelper.applyFont(this, editTextEmail, FontHelper.FontType.FONT);
     }
 
     @OnClick(R.id.btnEmailLink)
-    void emailLink()
-    {
+    void emailLink() {
         validateEmail();
     }
 
-    private void validateEmail()
-    {
-        String emailid=editTextEmail.getText().toString();
+    private void validateEmail() {
+        String emailid = editTextEmail.getText().toString();
 
         //Check if emial id is valid or not
-        if(isEmailValid(emailid))
-        {
+        if (isEmailValid(emailid)) {
             sendEmailLink(emailid);
-        }
-        else
-        {
-            AlertDialogHelper.showAlertDialog(this,getString(R.string.email_error),"Alert");
+        } else {
+            AlertDialogHelper.showAlertDialog(this, getString(R.string.email_error), "Alert");
         }
     }
 
@@ -100,15 +92,11 @@ public class ForgotPasswordActivity extends Activity {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
-    private void sendEmailLink(String emailId)
-    {
-        if(CheckInternetHelper.checkInternetConnection(this))
-        {
+    private void sendEmailLink(String emailId) {
+        if (CheckInternetHelper.checkInternetConnection(this)) {
             new PostEmailId().execute(emailId);
-        }
-        else
-        {
-            AlertDialogHelper.showAlertDialog(this,getString(R.string.internet_connection_message),"Alert");
+        } else {
+            AlertDialogHelper.showAlertDialog(this, getString(R.string.internet_connection_message), "Alert");
         }
     }
 
@@ -138,7 +126,7 @@ public class ForgotPasswordActivity extends Activity {
             String jsonString = jsonParser.executePost(url, urlParameters,
                     Const.TIME_OUT);
 
-            Log.e("json",jsonString);
+            Log.e("json", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -172,11 +160,11 @@ public class ForgotPasswordActivity extends Activity {
             ProgresBar.stop();
 
             if (status == 1) {
-                AlertDialogHelper.showAlertDialog(ForgotPasswordActivity.this,getString(R.string.success_message), "Alert");
+                AlertDialogHelper.showAlertDialog(ForgotPasswordActivity.this, getString(R.string.success_message), "Alert");
 
             } else if (status == 0) {
 
-                AlertDialogHelper.showAlertDialog(ForgotPasswordActivity.this,message, "Alert");
+                AlertDialogHelper.showAlertDialog(ForgotPasswordActivity.this, message, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(ForgotPasswordActivity.this,
