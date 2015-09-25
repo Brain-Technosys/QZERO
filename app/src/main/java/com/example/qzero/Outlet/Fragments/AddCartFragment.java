@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -144,6 +145,8 @@ public class AddCartFragment extends Fragment {
 
     HashMap<Integer, ArrayList<Modifier>> hashMapChoosenMod;
 
+    ArrayList<HashMap<Integer,String>> arrayListViewData;
+
     String discountDesc;
     Double afterDiscPrice;
 
@@ -238,9 +241,51 @@ public class AddCartFragment extends Fragment {
 
             txtViewAddModifiers.setTag(i);
 
-            TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
+            final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
 
             txtViewQty.setText(String.valueOf(i));
+
+            //Decrease item count on click of subtract button
+            ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
+
+            imgViewSub.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    int qty=Integer.parseInt(txtViewQty.getText().toString());
+
+                    if(qty==1)
+                    {
+                        //do nothing
+                    }
+                    else
+                    {
+                        qty--;
+
+                        txtViewQty.setText(String.valueOf(qty));
+                    }
+
+                }
+            });
+
+
+            //Increase item count on click of subtract button
+            ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
+
+            imgViewAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    int qty=Integer.parseInt(txtViewQty.getText().toString());
+
+
+                        qty++;
+
+                        txtViewQty.setText(String.valueOf(qty));
+
+
+                }
+            });
 
             //find id of delete button
             ImageView imgViewDelete = (ImageView) view[i].findViewById(R.id.imgViewDelete);
@@ -501,6 +546,8 @@ public class AddCartFragment extends Fragment {
 
 
     public void setLayout() {
+
+       // Double formattedPrice= Utility.formatDecimalByString(item_price);
         txtViewItemName.setText(item_name);
 
         if (item_desc.equals("null") || item_desc == null) {
