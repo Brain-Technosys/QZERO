@@ -41,7 +41,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/q2x" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/txtViewAddToCart"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
