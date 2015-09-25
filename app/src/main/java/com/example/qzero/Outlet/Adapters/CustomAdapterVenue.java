@@ -68,6 +68,8 @@ public class CustomAdapterVenue extends BaseAdapter {
         holder.imgViewPhone = (ImageView) convertView.findViewById(R.id.imgViewPhone);
         holder.imgViewMobile = (ImageView) convertView.findViewById(R.id.imgViewMobile);
 
+        holder.dividerView = (View) convertView.findViewById(R.id.vw_line);
+
 
         FontHelper.setFontFace(holder.txtViewName, FontType.FONTSANSBOLD, context);
         FontHelper.setFontFace(holder.txtViewAddress, FontType.FONTSANSREGULAR, context);
@@ -82,9 +84,6 @@ public class CustomAdapterVenue extends BaseAdapter {
 //        }
 
         Venue venue = rowItems.get(position);
-
-        venue.setVenue_phone("null");
-
         String fullAddress = venue.getVenue_address().trim();
         if (venue.getVenue_city().trim().length() != 0) {
             fullAddress = fullAddress + ", " + venue.getVenue_city().trim();
@@ -98,20 +97,24 @@ public class CustomAdapterVenue extends BaseAdapter {
         // holder.txtViewCity.setText(venue.getVenue_city());
         // holder.txtViewZip.setText(venue.getVenue_zip());
 
-        if (venue.getVenue_phone().equals("null")) {
+        if (venue.getVenue_phone().trim().equals("null")) {
             holder.imgViewPhone.setVisibility(View.GONE);
         } else {
             holder.txtViewPhone.setText(venue.getVenue_phone());
             holder.imgViewPhone.setVisibility(View.VISIBLE);
         }
 
-        if (venue.getVenue_mobile().equals("null")) {
+        if (venue.getVenue_mobile().trim().equals("null")) {
             holder.imgViewMobile.setVisibility(View.GONE);
         } else {
             holder.txtViewMobile.setText(venue.getVenue_mobile());
             holder.imgViewMobile.setVisibility(View.VISIBLE);
         }
 
+        if(venue.getVenue_mobile().trim().equals("null") && venue.getVenue_phone().trim().equals("null"))
+        {
+            holder.dividerView.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
@@ -121,12 +124,11 @@ public class CustomAdapterVenue extends BaseAdapter {
 
         TextView txtViewName;
         TextView txtViewAddress;
-        // TextView txtViewCity;
-        //  TextView txtViewZip;
         TextView txtViewPhone;
         TextView txtViewMobile;
 
         ImageView imgViewPhone;
         ImageView imgViewMobile;
+        View dividerView;
     }
 }
