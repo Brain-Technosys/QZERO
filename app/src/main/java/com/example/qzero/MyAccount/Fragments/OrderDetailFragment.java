@@ -40,16 +40,16 @@ import butterknife.InjectView;
 public class OrderDetailFragment extends Fragment {
 
 
-   // @InjectView(R.id.lbl_billing_address)
+    // @InjectView(R.id.lbl_billing_address)
     TextView lblBillingAddress;
 
-   // @InjectView(R.id.lbl_shipping_address)
+    // @InjectView(R.id.lbl_shipping_address)
     TextView lblShippingAddress;
 
-   // @InjectView(R.id.tv_billing_address)
+    // @InjectView(R.id.tv_billing_address)
     TextView txtBillingAddress;
 
-  //  @InjectView(R.id.tv_shipping_address)
+    //  @InjectView(R.id.tv_shipping_address)
     TextView txtShippingAddress;
 
     View footerView;
@@ -72,15 +72,14 @@ public class OrderDetailFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         ButterKnife.inject(this, view);
-
         // Inflating footer view
         footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_order_items, null, false);
         orderListView.addFooterView(footerView);
 
-        lblBillingAddress = (TextView)footerView.findViewById(R.id.lbl_billing_address);
-        lblShippingAddress = (TextView)footerView.findViewById(R.id.lbl_shipping_address);
-        txtBillingAddress = (TextView)footerView.findViewById(R.id.tv_billing_address);
-        txtShippingAddress = (TextView)footerView.findViewById(R.id.tv_shipping_address);
+        lblBillingAddress = (TextView) footerView.findViewById(R.id.lbl_billing_address);
+        lblShippingAddress = (TextView) footerView.findViewById(R.id.lbl_shipping_address);
+        txtBillingAddress = (TextView) footerView.findViewById(R.id.tv_billing_address);
+        txtShippingAddress = (TextView) footerView.findViewById(R.id.tv_shipping_address);
 
         session = new UserSession(getActivity().getApplicationContext());
         if (session.isUserLoggedIn())
@@ -91,6 +90,7 @@ public class OrderDetailFragment extends Fragment {
 
         // Setting Fonts and title
         setFont();
+
 
         return view;
     }

@@ -216,8 +216,10 @@ public class DashBoardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+
         mDrawer.closeDrawers();
         if (isBackPressedOnce || getSupportFragmentManager().getBackStackEntryCount() != 0) {
+            
             super.onBackPressed();
             return;
         }

@@ -54,6 +54,7 @@ public class DashboardFragment extends Fragment {
     String orderCount;
     boolean isProfileNotClicked = true;
     boolean isOrderNotClicked = true;
+    boolean mIsBackbuttonisPressed;
     CheckInternetHelper internetHelper;
 
 
@@ -68,6 +69,7 @@ public class DashboardFragment extends Fragment {
 
         internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());
+
 
         // Setting fonts
         setFont();
@@ -85,7 +87,14 @@ public class DashboardFragment extends Fragment {
                     getActivity().getString(R.string.internet_connection_message), "Alert");
         }
 
+
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.setRetainInstance(true);
     }
 
     @Override
@@ -93,6 +102,12 @@ public class DashboardFragment extends Fragment {
         super.onResume();
         isOrderNotClicked = true;
         isProfileNotClicked = true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("mIsBackbuttonisPressed", mIsBackbuttonisPressed);
     }
 
     // Click event of Profile
@@ -115,7 +130,8 @@ public class DashboardFragment extends Fragment {
     void openOrder() {
         if (isOrderNotClicked) {
             OrderFragment fragment = new OrderFragment();
-            this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, "Order").addToBackStack(null).commit();
+            String backStateName = fragment.getClass().getName();
+            this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, backStateName).addToBackStack(null).commit();
             isOrderNotClicked = !isOrderNotClicked;
         }
     }

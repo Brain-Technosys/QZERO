@@ -52,15 +52,15 @@ public class SearchTabFragment extends Fragment {
 
     public void inflateLayouts() {
         tabIndicatorVenue = LayoutInflater.from(getActivity()).inflate(
-                R.layout.tabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
+                R.layout.tabtabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
                 false);
 
         tabIndicatorOutlet = LayoutInflater.from(getActivity()).inflate(
-                R.layout.tabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
+                R.layout.tabtabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
                 false);
 
         tabIndicatorItem = LayoutInflater.from(getActivity()).inflate(
-                R.layout.tabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
+                R.layout.tabtabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
                 false);
 
     }

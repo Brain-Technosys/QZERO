@@ -65,11 +65,11 @@ public class LoginTabFragment extends Fragment {
 
 	public void inflateLayouts() {
 		tabIndicatorUser = LayoutInflater.from(getActivity()).inflate(
-				R.layout.tabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
+				R.layout.tabtabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
 				false);
 
 		tabIndicatorRegister = LayoutInflater.from(getActivity()).inflate(
-				R.layout.tabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
+				R.layout.tabtabtheme_tab_indicator_holo, mTabHost.getTabWidget(),
 				false);
 	}
 
