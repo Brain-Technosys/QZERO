@@ -60,7 +60,7 @@
                                 android:id="@+id/tv_firstName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Deepak"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -80,7 +80,7 @@
                                 android:id="@+id/tv_lastName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Kumar"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -100,7 +100,7 @@
                                 android:id="@+id/tv_userName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="deepak"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -120,7 +120,7 @@
                                 android:id="@+id/tv_createdOn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="20-07-2015"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
                     </TableLayout>
@@ -177,8 +177,8 @@
                                 android:id="@+id/tv_email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
                                 android:inputType="textEmailAddress"
-                                android:text="ashish@braintechnosys.com "
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -198,7 +198,7 @@
                                 android:id="@+id/tv_phone_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8750292901"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -218,7 +218,7 @@
                                 android:id="@+id/tv_mobile_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8750292901"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -279,7 +279,7 @@
                                 android:id="@+id/tv_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Brain Technosys PVT LTD, G-84, Sector-63"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -299,7 +299,7 @@
                                 android:id="@+id/tv_city"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="NOIDA"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -319,7 +319,7 @@
                                 android:id="@+id/tv_state"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Uttar Pradesh"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -339,7 +339,7 @@
                                 android:id="@+id/tv_country"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="INDIA"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -359,7 +359,7 @@
                                 android:id="@+id/tv_zipcode"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="201301"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -379,8 +379,7 @@
                                 android:id="@+id/tv_updated_on"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
-                                android:text="7/22/2015"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -398,8 +397,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_address"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/selector"
-                android:layout_marginLeft="5dp"
                 android:text="Edit" />
 
 
