@@ -28,8 +28,12 @@ public class Utility {
         return myNumber;
     }
 
-    public static double formatDecimalByString(Double dub) {
-        Double myNum=Double.parseDouble(String.format("%.2f", dub));
+    public static String formatDecimalByString(String dub) {
+
+        Double data=Double.parseDouble(dub);
+
+        String myNum=String.format("%.2f", data);
+
         return myNum;
     }
 }

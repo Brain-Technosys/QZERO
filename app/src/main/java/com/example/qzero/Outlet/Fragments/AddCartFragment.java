@@ -139,13 +139,15 @@ public class AddCartFragment extends Fragment {
     String discount_details;
     String item_image;
 
+    String price;
+
     ArrayList<ChoiceGroup> modifier_title;
 
     HashMap<Integer, ArrayList<Modifier>> hashMapModifiers;
 
     HashMap<Integer, ArrayList<Modifier>> hashMapChoosenMod;
 
-    ArrayList<HashMap<Integer,String>> arrayListViewData;
+    HashMap<Integer, HashMap<String, String>> arrayListViewData;
 
     String discountDesc;
     Double afterDiscPrice;
@@ -159,6 +161,8 @@ public class AddCartFragment extends Fragment {
     String choice;
 
     View[] view;
+
+    Double totPrice = 0.00;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -182,6 +186,8 @@ public class AddCartFragment extends Fragment {
         getItemDetails();
 
         hashMapChoosenMod = new HashMap<Integer, ArrayList<Modifier>>();
+
+        arrayListViewData = new HashMap<Integer, HashMap<String, String>>();
 
     }
 
@@ -214,10 +220,21 @@ public class AddCartFragment extends Fragment {
     }
 
 
+    private void initalizeArrayItem(int position, String qty, String price) {
+        HashMap<String, String> hashmap = new HashMap<String, String>();
+        hashmap.put("qty", qty);
+        hashmap.put("price", price);
+
+        arrayListViewData.put(position, hashmap);
+    }
+
     @OnClick(R.id.txtViewAddItem)
     void addItem() {
+
         //increase the array size
         countLength++;
+
+        initalizeArrayItem(countLength - 1, "1", price);
 
         //Inflate the layout reverse
         inflateQtyLayout();
@@ -243,27 +260,36 @@ public class AddCartFragment extends Fragment {
 
             final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
 
-            txtViewQty.setText(String.valueOf(i));
+            HashMap<String, String> hashmap = arrayListViewData.get(i);
+
+            txtViewQty.setText(hashmap.get("qty"));
+
+            TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
+
+            txtViewPrice.setText("$" + hashmap.get("price"));
 
             //Decrease item count on click of subtract button
             ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
+
+            imgViewSub.setTag(i);
 
             imgViewSub.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    int qty=Integer.parseInt(txtViewQty.getText().toString());
+                    int tag = Integer.parseInt(v.getTag().toString());
 
-                    if(qty==1)
-                    {
+                    int qty = Integer.parseInt(txtViewQty.getText().toString());
+
+                    if (qty == 1) {
                         //do nothing
-                    }
-                    else
-                    {
+                    } else {
                         qty--;
 
                         txtViewQty.setText(String.valueOf(qty));
                     }
+
+                    initalizeArrayItem(tag, String.valueOf(qty), price);
 
                 }
             });
@@ -272,19 +298,25 @@ public class AddCartFragment extends Fragment {
             //Increase item count on click of subtract button
             ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
 
+            imgViewAdd.setTag(i);
+
             imgViewAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    int qty=Integer.parseInt(txtViewQty.getText().toString());
+                    int tag = Integer.parseInt(v.getTag().toString());
+
+                    int qty = Integer.parseInt(txtViewQty.getText().toString());
 
 
-                        qty++;
+                    qty++;
 
-                        txtViewQty.setText(String.valueOf(qty));
+                    txtViewQty.setText(String.valueOf(qty));
 
-
+                    initalizeArrayItem(tag, String.valueOf(qty), price);
                 }
+
+
             });
 
             //find id of delete button
@@ -327,8 +359,6 @@ public class AddCartFragment extends Fragment {
 
             txtViewTotal = (TextView) view[i].findViewById(R.id.txtViewTotal);
 
-            txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
-
             if (hashMapChoosenMod.size() != 0) {
                 if (hashMapChoosenMod.containsKey(i)) {
                     choosenModList = hashMapChoosenMod.get(i);
@@ -345,6 +375,7 @@ public class AddCartFragment extends Fragment {
         }
     }
 
+    //open dialog box for modifiers
     private void openDialog() {
 
 
@@ -465,7 +496,8 @@ public class AddCartFragment extends Fragment {
                         if (choosenModList.contains(radioChoice)) {
                             //do nohting
                         } else {
-                            Modifier modifier = new Modifier(radioChoice, "", false, choice);
+                            String mod_price = modifierList.get(i).getMod_price();
+                            Modifier modifier = new Modifier(radioChoice, mod_price, false, choice);
                             choosenModList.add(modifier);
                         }
 
@@ -547,7 +579,10 @@ public class AddCartFragment extends Fragment {
 
     public void setLayout() {
 
-       // Double formattedPrice= Utility.formatDecimalByString(item_price);
+        String formattedPrice = Utility.formatDecimalByString(item_price);
+
+        String formatDiscPrice = Utility.formatDecimalByString(String.valueOf(afterDiscPrice));
+
         txtViewItemName.setText(item_name);
 
         if (item_desc.equals("null") || item_desc == null) {
@@ -557,17 +592,26 @@ public class AddCartFragment extends Fragment {
 
 
         if (afterDiscPrice == 0.0) {
-            txtViewDiscPrice.setText(item_price);
+            txtViewDiscPrice.setText("$" + formattedPrice);
             txtViewOrigPrice.setVisibility(View.GONE);
             txtViewTitDisc.setVisibility(View.INVISIBLE);
+            price = formattedPrice;
+
+
         } else {
-            txtViewOrigPrice.setText(item_price);
+            txtViewOrigPrice.setText("$" + formattedPrice);
             txtViewDiscount.setText(discountDesc);
-            txtViewDiscPrice.setText(String.valueOf(afterDiscPrice));
+            txtViewDiscPrice.setText("$" + formatDiscPrice);
+
+            price = formatDiscPrice;
         }
+
+        totPrice = totPrice + Double.parseDouble(price);
 
         //Load Image
         Picasso.with(getActivity()).load(item_image).error(R.drawable.q2x).into(imgViewItem);
+
+        initalizeArrayItem(0, "1", price);
 
     }
 
@@ -616,27 +660,60 @@ public class AddCartFragment extends Fragment {
                         TableRow.LayoutParams.WRAP_CONTENT));
 
 
-                TextView txtView = new TextView(getActivity());
+                TextView txtViewName = new TextView(getActivity());
 
-                txtView.setText(newArrayList.get(i - 1).getMod_name());
-                txtView.setTextColor(Color.parseColor("#000000"));
-                txtView.setGravity(Gravity.LEFT);
+                txtViewName.setText(newArrayList.get(i - 1).getMod_name());
+                txtViewName.setTextColor(Color.parseColor("#000000"));
+                txtViewName.setGravity(Gravity.LEFT);
 
-                row.addView(txtView);
+                row.addView(txtViewName);
 
-                TextView txtView1 = new TextView(getActivity());
+                TextView txtViewPrice = new TextView(getActivity());
 
-                txtView1.setText("$10");
-                txtView.setGravity(Gravity.CENTER);
-                txtView1.setPadding(20, 0, 0, 0);
-                txtView1.setTextColor(Color.parseColor("#000000"));
+                String modifierPrice = Utility.formatDecimalByString(newArrayList.get(i - 1).getMod_price());
 
-                row.addView(txtView1);
+                txtViewPrice.setText("$" + modifierPrice);
+
+                txtViewPrice.setGravity(Gravity.CENTER);
+                txtViewPrice.setPadding(20, 0, 0, 0);
+                txtViewPrice.setTextColor(Color.parseColor("#000000"));
+
+                row.addView(txtViewPrice);
 
                 tableLayoutModifiers.addView(row);
 
+                Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
+
+                sendDataToHashMap(pos, modPrice);
             }
         }
+    }
+
+    public void sendDataToHashMap(int pos, Double modPrice) {
+
+
+        TextView txtViewTotPrice = (TextView) view[pos].findViewById(R.id.txtViewPrice);
+
+        TextView txtViewQty = (TextView) view[pos].findViewById(R.id.txtViewQty);
+
+        String tot_price = txtViewTotPrice.getText().toString();
+        int priceLen = tot_price.length();
+
+        String substrPrice = tot_price.substring(1, priceLen);
+
+        Log.e("substr",substrPrice);
+
+        Double totalPrice = Double.parseDouble(substrPrice);
+
+        totalPrice = totalPrice + modPrice;
+
+        String qty = txtViewQty.getText().toString();
+
+        String total_Price = Utility.formatDecimalByString(String.valueOf(totPrice));
+
+        txtViewTotPrice.setText("$" + totalPrice);
+
+        initalizeArrayItem(pos, qty, total_Price);
     }
 
     private class GetItemDetail extends AsyncTask<String, String, String> {
