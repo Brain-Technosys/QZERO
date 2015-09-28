@@ -1,5 +1,6 @@
 package com.example.qzero.MyAccount.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -57,7 +59,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         ButterKnife.inject(this, view);
 
         getActivity().setTitle(getString(R.string.order_title));
-
+        searchView.setFocusable(false);
         orderListView.setTextFilterEnabled(true);
         setupSearchView();
 
@@ -113,6 +115,13 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         bundle.putString(Const.TAG_BILLING_ADDRESS, order.getOrderBillingAddress());
         bundle.putString(Const.TAG_SHIPPING_ADDRESS, order.getShippingAddress());
 
+        bundle.putString(Const.TAG_PURCHASE_DATE, order.getPurchaseDate());
+        bundle.putString(Const.TAG_ITEM_COUNT, String.valueOf(order.getItemsCount()));
+        bundle.putString(Const.TAG_ORDER_STATUS, order.getOrderStatus());
+        bundle.putString(Const.TAG_DISCOUNT, order.getDiscount());
+        bundle.putString(Const.TAG_AMOUNT, order.getAmount());
+
+
         OrderDetailFragment fragment = new OrderDetailFragment();
         fragment.setArguments(bundle);
         this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, "OrderDetail").addToBackStack(null).commit();
@@ -124,7 +133,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
-        searchView.setQueryHint("Order Id");
+        searchView.setQueryHint("Order ID");
     }
 
     // Async Task to fetch orders of user

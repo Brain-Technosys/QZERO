@@ -28,6 +28,7 @@ import com.example.qzero.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -40,19 +41,20 @@ import butterknife.InjectView;
 public class OrderDetailFragment extends Fragment {
 
 
-    // @InjectView(R.id.lbl_billing_address)
     TextView lblBillingAddress;
-
-    // @InjectView(R.id.lbl_shipping_address)
     TextView lblShippingAddress;
-
-    // @InjectView(R.id.tv_billing_address)
     TextView txtBillingAddress;
-
-    //  @InjectView(R.id.tv_shipping_address)
     TextView txtShippingAddress;
+    TextView orderIDTextView;
+    TextView purchaseDateTextView;
+    TextView noOfItemsTextView;
+    TextView orderStatusTextView;
+    TextView amountTextView;
+    TextView lblDiscountTextView;
+    TextView discountTextView;
 
     View footerView;
+    View headerView;
 
     @InjectView(R.id.orderListView)
     ListView orderListView;
@@ -61,6 +63,12 @@ public class OrderDetailFragment extends Fragment {
     String orderId;
     String billingAddress;
     String shippingAddress;
+    String purchaseDate;
+    String noOfItems;
+    String orderStatus;
+    String orderAmount;
+    String orderDiscount;
+
 
     ArrayList<OrderItems> orderItemArrayList;
 
@@ -72,14 +80,28 @@ public class OrderDetailFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
         ButterKnife.inject(this, view);
-        // Inflating footer view
+
+        // Inflating header and footer view
+        headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.header_order_items, null, false);
         footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_order_items, null, false);
+        orderListView.addHeaderView(headerView);
         orderListView.addFooterView(footerView);
 
+        // Footer views
         lblBillingAddress = (TextView) footerView.findViewById(R.id.lbl_billing_address);
         lblShippingAddress = (TextView) footerView.findViewById(R.id.lbl_shipping_address);
         txtBillingAddress = (TextView) footerView.findViewById(R.id.tv_billing_address);
         txtShippingAddress = (TextView) footerView.findViewById(R.id.tv_shipping_address);
+
+        // Header views
+        orderIDTextView = (TextView) headerView.findViewById(R.id.txtOrderID);
+        purchaseDateTextView = (TextView) headerView.findViewById(R.id.txtDate);
+        noOfItemsTextView = (TextView) headerView.findViewById(R.id.txtItemCount);
+        orderStatusTextView = (TextView) headerView.findViewById(R.id.txtStatus);
+        amountTextView = (TextView) headerView.findViewById(R.id.txtAmount);
+        lblDiscountTextView = (TextView) headerView.findViewById(R.id.lblDiscount);
+        discountTextView = (TextView) headerView.findViewById(R.id.txtDiscount);
+
 
         session = new UserSession(getActivity().getApplicationContext());
         if (session.isUserLoggedIn())
@@ -103,6 +125,12 @@ public class OrderDetailFragment extends Fragment {
             orderId = bundle.getString(Const.TAG_ORDER_ID);
             billingAddress = bundle.getString(Const.TAG_BILLING_ADDRESS);
             shippingAddress = bundle.getString(Const.TAG_SHIPPING_ADDRESS);
+            purchaseDate = bundle.getString(Const.TAG_PURCHASE_DATE);
+            noOfItems = bundle.getString(Const.TAG_ITEM_COUNT);
+            orderStatus = bundle.getString(Const.TAG_ORDER_STATUS);
+            orderAmount = bundle.getString(Const.TAG_AMOUNT);
+            orderDiscount = bundle.getString(Const.TAG_DISCOUNT);
+
             Log.e("orderact", orderId);
             getItemData();
         }
@@ -215,6 +243,21 @@ public class OrderDetailFragment extends Fragment {
                 } else {
                     lblShippingAddress.setVisibility(View.GONE);
                     txtShippingAddress.setVisibility(View.GONE);
+                }
+
+                orderIDTextView.setText(orderId);
+                purchaseDateTextView.setText(purchaseDate);
+                noOfItemsTextView.setText(noOfItems);
+                orderStatusTextView.setText(orderStatus);
+                amountTextView.setText(orderAmount);
+
+                if (Double.valueOf(orderDiscount) != 0.0) {
+                    discountTextView.setVisibility(View.VISIBLE);
+                    lblDiscountTextView.setVisibility(View.VISIBLE);
+                    discountTextView.setText(orderDiscount);
+                } else {
+                    discountTextView.setVisibility(View.GONE);
+                    lblDiscountTextView.setVisibility(View.GONE);
                 }
 
             }

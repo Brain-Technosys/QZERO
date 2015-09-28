@@ -8,8 +8,8 @@
     <ScrollView
         android:id="@+id/scrollV"
         android:layout_width="match_parent"
-        android:layout_above="@+id/img_banner"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/img_banner">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="Contry:" />
+                    android:text="Country:" />
 
                 <EditText
                     android:id="@+id/et_country"
@@ -253,16 +253,19 @@
             <Button
                 android:id="@+id/btn_update"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/selector"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="Update" />
         </LinearLayout>
     </ScrollView>
 
     <ImageView
 
+        android:id="@+id/img_banner"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:id="@+id/img_banner"
         android:layout_alignParentBottom="true"
         android:background="#ffde665d" />
 </RelativeLayout>

@@ -79,7 +79,7 @@
     <!-- Dashboard -->
     <string name="wallet">Wallet</string>
     <string name="club">Club</string>
-    <string name="order">Order</string>
+    <string name="order">Orders</string>
     <string name="payment_detail">Payment Detail</string>
     <string name="club_member">Club Membership</string>
     <string name="profile_info">Profile Info</string>
@@ -97,7 +97,7 @@
     <string name="null_error">Not available</string>
 
     <!-- Setting-->
-    <string name="old_password">Old Password</string>
+    <string name="old_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="cnf_password">Confirm Password</string>
     <string name="save">Submit</string>
@@ -108,7 +108,7 @@
     <!-- Screen Titles -->
     <string name="dashboard_title">Dashboard</string>
     <string name="home_title">Home</string>
-    <string name="order_title">Order</string>
+    <string name="order_title">Orders</string>
     <string name="profile_title">Profile</string>
     <string name="edit_profile_title">Edit Profile</string>
     <string name="setting_title">Change Password</string>
