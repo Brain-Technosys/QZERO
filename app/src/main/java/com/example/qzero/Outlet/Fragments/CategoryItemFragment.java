@@ -361,19 +361,19 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
     private void initializeLayoutWidth() {
 
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
+       /* Display display = getActivity().getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics ();
         display.getMetrics(outMetrics);
 
         float density  = getResources().getDisplayMetrics().density;
         float dpHeight = outMetrics.heightPixels / density;
         int dpWidth  = (int)(outMetrics.widthPixels / density);
-
+*/
         ViewGroup.LayoutParams paramsLeft = relLayItem.getLayoutParams();
 
         // Changes the height and width to the specified *pixels*
         paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        paramsLeft.width =dpWidth/2;
+        paramsLeft.width =340;;
     }
 
     public void setOnClick() {
