@@ -1,6 +1,7 @@
 package com.example.qzero.Outlet.Activities;
 
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -92,7 +93,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     String subCategoryId;
     String item_id;
 
-    String outletId;
+    String classname;
 
     Boolean isSubCatPresent;
 
@@ -135,9 +136,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
         drawerToggle = setupDrawerToggle();
 
         getIntentData();
-
-        //Add category item initially
-        addItemFragment();
+        if (!classname.equals("items")) {
+            //Add category item initially if switching from category items
+            addItemFragment();
+        } else {
+            //Add category item initially if switching from search items
+            addCartFragment();
+        }
 
         setIconsToActionBar();
 
@@ -166,7 +171,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(OutletCategoryActivity.this);
         View inflatedLayout = inflater.inflate(R.layout.action_bar_layout, null, false);
 
-        TextView txtViewTitle= (TextView) inflatedLayout.findViewById(R.id.txtViewTitle);
+        TextView txtViewTitle = (TextView) inflatedLayout.findViewById(R.id.txtViewTitle);
 
         txtViewTitle.setText("Outlet Items");
 
@@ -205,25 +210,34 @@ public class OutletCategoryActivity extends AppCompatActivity {
         arrayListItems = new ArrayList<ItemOutlet>();
 
         hashMapSubCat = new HashMap<Integer, ArrayList<SubCategory>>();
-
+        Bundle bundle = getIntent().getExtras();
         if (getIntent().hasExtra("arraylistitem")) {
-            Bundle bundle = getIntent().getExtras();
+
             arrayListItems = (ArrayList<ItemOutlet>) bundle.getSerializable("arraylistitem");
             arrayListCat = (ArrayList<Category>) bundle.getSerializable("arrayListCat");
 
             hashMapSubCat = (HashMap<Integer, ArrayList<SubCategory>>) bundle.getSerializable("hashMapSubCat");
 
 
-            title = bundle.getString("title");
+            title = bundle.getString(Const.TAG_OUTLET_NAME);
             venue_id = bundle.getString("venue_id");
             outlet_id = bundle.getString("outlet_id");
+
+        }
+
+        if (getIntent().hasExtra(ConstVarIntent.TAG_CLASSNAME)) {
+            classname = bundle.getString(ConstVarIntent.TAG_CLASSNAME);
+        }
+
+        if (getIntent().hasExtra(Const.TAG_ITEM_ID)) {
+            item_id = bundle.getString(Const.TAG_ITEM_ID);
         }
 
         child = new View[arrayListCat.size()];
     }
 
     public void addItemFragment() {
-        isAddToCartOpen=false;
+        isAddToCartOpen = false;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
                 .beginTransaction();
@@ -239,8 +253,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     }
 
-    public void replaceAddItem()
-    {
+    public void replaceAddItem() {
         if (CheckInternetHelper.checkInternetConnection(this)) {
             new GetOutletItems().execute();
         } else {
@@ -248,7 +261,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         }
     }
 
-    public void replaceFragment(String venue_id,String outlet_id,String item_id) {
+    public void replaceFragment(String venue_id, String outlet_id, String item_id) {
 
         isAddToCartOpen = true;
         fragmentManager = getSupportFragmentManager();
@@ -256,6 +269,25 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 .beginTransaction();
         AddCartFragment addCartFragment = new AddCartFragment();
         fragmentTransaction.replace(R.id.frameLayItem, addCartFragment,
+                "addcart");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("venue_id", venue_id);
+        bundle.putString("outlet_id", outlet_id);
+        bundle.putString("item_id", item_id);
+        addCartFragment.setArguments(bundle);
+
+        fragmentTransaction.commit();
+    }
+
+    //if switching from search items add the add to cart layout
+    private void addCartFragment() {
+        isAddToCartOpen = true;
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager
+                .beginTransaction();
+        AddCartFragment addCartFragment = new AddCartFragment();
+        fragmentTransaction.add(R.id.frameLayItem, addCartFragment,
                 "addcart");
 
         Bundle bundle = new Bundle();
@@ -485,7 +517,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS+"/"+venue_id + "/?outletId=" + outlet_id + "&itemId=" + ""
+            String url = Const.BASE_URL + Const.GET_ITEMS + "/" + venue_id + "/?outletId=" + outlet_id + "&itemId=" + ""
                     + "&subCatId=" + "";
 
 
@@ -555,7 +587,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
             Log.e("inside", "postexecute");
 
             if (status == 1) {
-                isAddToCartOpen=false;
+                isAddToCartOpen = false;
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager
                         .beginTransaction();
@@ -578,8 +610,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         }
     }
 
-    private void createBundle( Bundle bundle)
-    {
+    private void createBundle(Bundle bundle) {
         bundle.putString("venue_id", venue_id);
         bundle.putString("outlet_id", outlet_id);
         bundle.putSerializable("arraylistitem", arrayListItems);

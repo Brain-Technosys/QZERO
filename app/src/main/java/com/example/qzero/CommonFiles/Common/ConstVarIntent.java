@@ -11,4 +11,5 @@ public class ConstVarIntent {
     public static String TAG_CLASSNAME="classname";
     public static String TAG_OUTLET_ID="outletid";
     public static String TAG_LIST_VENUE="arrayListVenue";
+
 }

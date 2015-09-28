@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
@@ -312,7 +313,8 @@ public class SearchVenueActivity extends Activity {
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
         bundle.putSerializable("hashMapSubCat",hashMapSubCat);
-        bundle.putString("title", outletTitle);
+        bundle.putString(ConstVarIntent.TAG_CLASSNAME, "outlet");
+        bundle.putString(Const.TAG_OUTLET_NAME,outletTitle);
         bundle.putString("venue_id",venue_id);
         bundle.putString("outlet_id",outletId);
         intent.putExtras(bundle);

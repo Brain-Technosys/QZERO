@@ -65,9 +65,6 @@ public class AddCartFragment extends Fragment {
     @InjectView(R.id.txtViewItemName)
     TextView txtViewItemName;
 
-    @InjectView(R.id.txtViewTitleDesc)
-    TextView txtViewTitleDesc;
-
     @InjectView(R.id.txtViewDesc)
     TextView txtViewDesc;
 
@@ -193,7 +190,6 @@ public class AddCartFragment extends Fragment {
 
     private void setFonts() {
         FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONT, getActivity());
-        FontHelper.setFontFace(txtViewTitleDesc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDesc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewOrigPrice, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDiscount, FontHelper.FontType.FONT, getActivity());
@@ -586,7 +582,7 @@ public class AddCartFragment extends Fragment {
         txtViewItemName.setText(item_name);
 
         if (item_desc.equals("null") || item_desc == null) {
-            txtViewTitleDesc.setVisibility(View.INVISIBLE);
+
         } else
             txtViewDesc.setText(item_desc);
 

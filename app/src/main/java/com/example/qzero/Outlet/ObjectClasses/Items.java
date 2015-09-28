@@ -4,7 +4,10 @@ package com.example.qzero.Outlet.ObjectClasses;
 import java.io.Serializable;
 
 public class Items implements Serializable {
+
     String venue_id;
+    String outlet_id;
+    String item_id;
     String item_name;
     String venue_name;
     String outlet_name;
@@ -14,8 +17,10 @@ public class Items implements Serializable {
     String venue_mobile;
 
 
-    public Items(String venue_id, String item_name, String venue_name,String outlet_name,String venue_address, String venue_city,String venue_phone, String venue_mobile) {
-        this.venue_id = venue_id;
+    public Items(String item_id,String venue_id,String outlet_id,String item_name, String venue_name,String outlet_name,String venue_address, String venue_city,String venue_phone, String venue_mobile) {
+        this.item_id = item_id;
+        this.venue_id=venue_id;
+        this.outlet_id=outlet_id;
         this.item_name = item_name;
         this.venue_name = venue_name;
         this.outlet_name=outlet_name;
@@ -26,12 +31,28 @@ public class Items implements Serializable {
         this.venue_mobile = venue_mobile;
     }
 
+    public String getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(String venue_id) {
+        this.item_id = venue_id;
+    }
+
     public String getVenue_id() {
         return venue_id;
     }
 
     public void setVenue_id(String venue_id) {
         this.venue_id = venue_id;
+    }
+
+    public String getOutlet_id() {
+        return outlet_id;
+    }
+
+    public void setOutlet_id(String outlet_id) {
+        this.outlet_id = outlet_id;
     }
 
     public String getItem_name() {

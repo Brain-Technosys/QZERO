@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
@@ -783,7 +784,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
         bundle.putSerializable("hashMapSubCat", hashMapSubCat);
-        bundle.putString("title", outletTitle);
+        bundle.putString(ConstVarIntent.TAG_CLASSNAME, "outlet");
+        bundle.putString(Const.TAG_OUTLET_NAME, outletTitle);
         intent.putExtras(bundle);
         startActivity(intent);
     }

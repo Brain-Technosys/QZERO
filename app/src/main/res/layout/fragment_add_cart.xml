@@ -148,24 +148,13 @@
 
 
             <TextView
-                android:id="@+id/txtViewTitleDesc"
+                android:id="@+id/txtViewDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardView"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:text="Description"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/txtViewDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewTitleDesc"
-                android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="7dp"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
 

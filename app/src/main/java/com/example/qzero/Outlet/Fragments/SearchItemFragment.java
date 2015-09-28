@@ -146,6 +146,8 @@ public class SearchItemFragment extends Fragment {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObj = jsonArray.getJSONObject(i);
 
+                            String venue_id=jsonObj.getString(Const.TAG_VENUE_ID);
+                            String outlet_id=jsonObj.getString(Const.TAG_OUTLET_ID);
                             String item_id = jsonObj.getString(Const.TAG_ITEM_ID);
                             String item_name = jsonObj.getString(Const.TAG_ITEM_NAME);
                             String venue_name = jsonObj.getString(Const.TAG_VENUE_NAME);
@@ -154,7 +156,9 @@ public class SearchItemFragment extends Fragment {
                             String venue_city = jsonObj.getString(Const.TAG_CITY);
                             String venue_phone = jsonObj.getString(Const.TAG_PHONE_NO);
                             String venue_mobile = jsonObj.getString(Const.TAG_MOB_N0);
-                            Items items = new Items(item_id, item_name, venue_name,outlet_name, venue_address, venue_city, venue_phone, venue_mobile);
+                            String outletName=jsonObj.getString(Const.TAG_OUTLET_NAME);
+
+                            Items items = new Items(item_id,venue_id,outlet_id,item_name, venue_name,outlet_name, venue_address, venue_city, venue_phone, venue_mobile);
                             arrayListItems.add(items);
                         }
                     }
