@@ -1,11 +1,15 @@
 package com.example.qzero.Outlet.ObjectClasses;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
 import java.io.Serializable;
 
 /**
  * Created by Braintech on 8/12/2015.
  */
-public class Order{
+public class Order {
     int orderId;
     int itemsCount;
 
@@ -24,7 +28,7 @@ public class Order{
     }
 
     // Parametrised constructor
-    public Order(int orderId, String purchaseDate, boolean isShipped, String orderStatus, int itemsCount, String customer, String shippingAdress, String orderBillingAdress,String discount, String amount) {
+    public Order(int orderId, String purchaseDate, boolean isShipped, String orderStatus, int itemsCount, String customer, String shippingAdress, String orderBillingAdress, String discount, String amount) {
         this.orderId = orderId;
         this.purchaseDate = purchaseDate;
         this.isShipped = isShipped;
@@ -37,6 +41,26 @@ public class Order{
         this.amount = amount;
     }
 
+   /* @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        Log.v("Order Class ", "writeToParcel..." + flags);
+        dest.writeInt(orderId);
+        dest.writeString(purchaseDate);
+        dest.writeByte((byte) (isShipped ? 1 : 0));
+        dest.writeString(orderStatus);
+        dest.writeInt(itemsCount);
+        dest.writeString(customer);
+        dest.writeString(shippingAddress);
+        dest.writeString(orderBillingAddress);
+        dest.writeString(discount);
+        dest.writeString(amount);
+    }*/
+
+    /*@Override
+    public int describeContents() {
+        return 0;
+    }
+*/
     // Setters
 
     public void setOrderId(int orderId) {

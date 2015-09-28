@@ -188,17 +188,15 @@ public class DashBoardActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStateName, 0);
 
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(id.flContent, fragment);
-        if (!isDashboard) {
-            fragmentTransaction.addToBackStack(backStateName);
-        }
+        fragmentTransaction.replace(id.flContent, fragment, backStateName);
+//        if (!isDashboard) {
+//            fragmentTransaction.addToBackStack(backStateName);
+//        }
         fragmentTransaction.commit();
     }
 
@@ -219,7 +217,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
         mDrawer.closeDrawers();
         if (isBackPressedOnce || getSupportFragmentManager().getBackStackEntryCount() != 0) {
-            
+
             super.onBackPressed();
             return;
         }

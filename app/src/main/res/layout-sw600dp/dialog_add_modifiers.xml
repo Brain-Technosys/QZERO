@@ -1,86 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#DFDFDF"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="250dp"
+        android:id="@+id/linLayTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/alertbox_title_layout_design">
+        android:padding="5dp"
+        android:background="@color/item_detail">
 
         <TextView
             android:id="@+id/txtViewTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
-            android:text="Select Modifiers"
+            android:text="@string/add_more"
             android:textColor="@android:color/white"
-            android:textSize="17sp"
+            android:textSize="@dimen/heading_fot_size_600"
 
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linLayModList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linLayTitle"
         android:layout_gravity="center_horizontal"
         android:background="#DFDFDF">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="160dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/linLayChckBox"
+                android:id="@+id/linLayModifiers"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
             </LinearLayout>
+
         </ScrollView>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:background="@color/color_background"
-        android:gravity="right">
+        android:gravity="center"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtViewCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/selector_alertbox_button"
-            android:gravity="right"
-            android:paddingTop="2dp"
+            android:layout_weight="1"
+            android:background="@color/item_detail"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
             android:text="@string/alertbox_cancel"
-            android:textColor="@color/color_tab_text_selected"
-            android:textSize="15sp"
+            android:textSize="@dimen/common_text_size_600"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtViewOk"
-            android:layout_width="50dp"
-            android:layout_height="25dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/selector_alertbox_button"
-            android:gravity="right"
-            android:paddingRight="15dp"
-            android:paddingTop="2dp"
-            android:text="@string/alertbox_ok"
-            android:textColor="@color/color_tab_text_selected"
-            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@color/item_detail"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            android:text="Submit"
+            android:textSize="@dimen/common_text_size_600"
             android:textStyle="bold" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

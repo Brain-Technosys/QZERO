@@ -57,7 +57,7 @@
                 android:id="@+id/relLaySearch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/color_red">
+                android:background="@color/primary_color">
 
                 <TextView
                     android:id="@+id/txtViewSearch"
@@ -95,7 +95,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/searchFrameLay"
                 android:layout_marginTop="1dp"
-                android:background="@color/color_red">
+                android:background="@color/primary_color">
 
                 <TextView
                     android:id="@+id/txtViewLogin"

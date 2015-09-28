@@ -11,4 +11,19 @@
 
     <dimen name="margins">35dp</dimen>
     <dimen name="menu_text_size">16sp</dimen>
+
+
+    <!--Tablet-600-->
+
+    <dimen name="common_text_size_600">25sp</dimen>
+    <dimen name="heading_fot_size_600">30dp</dimen>
+    <dimen name="button_text_size_600">30sp</dimen>
+    <dimen name="text_size_content_600">20sp</dimen>
+    <!-- Tablet-720-->
+    <dimen name="common_text_size_720">25sp</dimen>
+    <dimen name="heading_fot_size_720">30dp</dimen>
+    <dimen name="button_text_size_720">30sp</dimen>
+    <dimen name="text_size_content_720">20sp</dimen>
+
+
 </resources>

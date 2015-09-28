@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,13 +49,13 @@ public class DashboardFragment extends Fragment {
 
     UserSession userSession;
 
+    private Bundle savedState;
+    private boolean saved;
+    private static final String _FRAGMENT_STATE = "FRAGMENT_STATE";
+
     String userIDString;
-    String walletAmount;
-    String clubsount;
     String orderCount;
-    boolean isProfileNotClicked = true;
-    boolean isOrderNotClicked = true;
-    boolean mIsBackbuttonisPressed;
+
     CheckInternetHelper internetHelper;
 
 
@@ -70,13 +71,19 @@ public class DashboardFragment extends Fragment {
         internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());
 
-
-        // Setting fonts
-        setFont();
-
         if (internetHelper.checkInternetConnection(getActivity())) {
             // Getting counts of Order, Wallet etc
-            new GetCounts().execute();
+
+            if (savedInstanceState != null && savedState == null) {
+                savedState = savedInstanceState.getBundle("instance");
+
+            }
+            if (savedState != null) {
+                orderCountTextView.setText(savedState.getString("order_count"));
+            } else {
+                new GetCounts().execute();
+            }
+
 
             // Checking session and getting user ID from session
             if (userSession.isUserLoggedIn()) {
@@ -86,41 +93,43 @@ public class DashboardFragment extends Fragment {
             AlertDialogHelper.showAlertDialog(getActivity(),
                     getActivity().getString(R.string.internet_connection_message), "Alert");
         }
+        // Setting fonts
+        setFont();
 
+        savedState = null;
 
         return view;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setRetainInstance(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        isOrderNotClicked = true;
-        isProfileNotClicked = true;
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
+
+        //Save the fragment's instance
+        outState.putBundle("instance", (savedState != null) ? savedState : saveState());
         super.onSaveInstanceState(outState);
-        outState.putBoolean("mIsBackbuttonisPressed", mIsBackbuttonisPressed);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        savedState = saveState();
+    }
+
 
     // Click event of Profile
     @OnClick(R.id.layout_profile)
     void openProfile() {
-        if (isProfileNotClicked) {
-            ProfileInfoFragment nextFrag = new ProfileInfoFragment();
-            this.getFragmentManager().beginTransaction()
-                    .replace(R.id.flContent, nextFrag, "Profile")
-                    .addToBackStack(null)
-                    .commit();
-            isProfileNotClicked = !isProfileNotClicked;
-        }
+
+        ProfileInfoFragment nextFrag = new ProfileInfoFragment();
+        this.getFragmentManager().beginTransaction()
+                .replace(R.id.flContent, nextFrag, "Profile")
+                .addToBackStack(null)
+                .commit();
+
+//        this.getFragmentManager().beginTransaction()
+//                .hide(getFragmentManager().findFragmentByTag(this.getTag()))
+//                .add(R.id.flContent, nextFrag, nextFrag.getClass().getName())
+//                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
 
 
     }
@@ -128,12 +137,23 @@ public class DashboardFragment extends Fragment {
     // Click event of Order
     @OnClick(R.id.ll_order)
     void openOrder() {
-        if (isOrderNotClicked) {
-            OrderFragment fragment = new OrderFragment();
-            String backStateName = fragment.getClass().getName();
-            this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, backStateName).addToBackStack(null).commit();
-            isOrderNotClicked = !isOrderNotClicked;
-        }
+
+        OrderFragment fragment = new OrderFragment();
+
+        this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, fragment.getClass().getName()).addToBackStack(null).commit();
+
+//        this.getFragmentManager().beginTransaction()
+//                .hide(getFragmentManager().findFragmentByTag(this.getTag()))
+//                .add(R.id.flContent, fragment, fragment.getClass().getName())
+//                .addToBackStack(fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+
+
+    }
+
+    private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
+        Bundle state = new Bundle();
+        state.putString("order_count", orderCount);
+        return state;
     }
 
     // Method to set Fonts
