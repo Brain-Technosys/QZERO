@@ -4,12 +4,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,6 +28,7 @@ import com.example.qzero.Outlet.Activities.OutletActivity;
 import com.example.qzero.Outlet.Activities.OutletCategoryActivity;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
+import com.example.qzero.Outlet.ObjectClasses.Outlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
@@ -39,13 +44,16 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class CategoryItemFragment extends Fragment {
+public class CategoryItemFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     @InjectView(R.id.txtViewSubHeading)
     TextView txtViewSubHeading;
 
     @InjectView(R.id.tableLayoutItems)
     TableLayout tableLayoutItems;
+
+    @InjectView(R.id.search_view)
+    SearchView search_view;
 
     TextView txtViewItemName;
 
@@ -65,6 +73,7 @@ public class CategoryItemFragment extends Fragment {
     int pos = 0;
 
     ArrayList<ItemOutlet> arrayListItems;
+    ArrayList<ItemOutlet> orig;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -74,7 +83,6 @@ public class CategoryItemFragment extends Fragment {
     String outlet_id;
     String category_id;
     String sub_cat_id;
-
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +101,8 @@ public class CategoryItemFragment extends Fragment {
         getIntentData();
 
         setTableLayout();
+
+        setupSearchView();
     }
 
     private void getIntentData() {
@@ -100,8 +110,8 @@ public class CategoryItemFragment extends Fragment {
 
         if (getArguments().containsKey("arraylistitem")) {
 
-            venue_id=getArguments().getString("venue_id");
-             outlet_id= getArguments().getString("outlet_id");
+            venue_id = getArguments().getString("venue_id");
+            outlet_id = getArguments().getString("outlet_id");
 
 
             arrayListItems = (ArrayList<ItemOutlet>) getArguments().getSerializable("arraylistitem");
@@ -112,6 +122,54 @@ public class CategoryItemFragment extends Fragment {
             FontHelper.setFontFace(txtViewSubHeading, FontType.FONT, getActivity());
         }
 
+    }
+
+    private void setupSearchView() {
+        search_view.setIconifiedByDefault(false);
+        search_view.setOnQueryTextListener(this);
+        search_view.setSubmitButtonEnabled(true);
+        search_view.setQueryHint("Search Items");
+    }
+
+    public boolean onQueryTextChange(String newText) {
+
+        Log.e("newtext", newText);
+        if (TextUtils.isEmpty(newText)) {
+
+            filterJson(newText);
+
+        } else {
+
+            filterJson(newText);
+        }
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+
+        Log.e("qyuery", query);
+        return false;
+    }
+
+    public void filterJson(String newText) {
+        final ArrayList<ItemOutlet> results = new ArrayList<ItemOutlet>();
+        if (orig == null)
+            orig = arrayListItems;
+
+        if (newText != null) {
+            if (orig != null && orig.size() > 0) {
+                for (final ItemOutlet item : orig) {
+                    if (String.valueOf(item.getName()).toLowerCase()
+                            .contains(newText.toString()) || String.valueOf(item.getName())
+                            .contains(newText.toString()) )
+                        results.add(item);
+                }
+            }
+            arrayListItems = results;
+        }
+
+        pos = 0;
+        setTableLayout();
     }
 
     public void getSubCatItems(String venue_id, String outlet_id, String category_id, String sub_cat_id) {
@@ -302,11 +360,20 @@ public class CategoryItemFragment extends Fragment {
     }
 
     private void initializeLayoutWidth() {
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics ();
+        display.getMetrics(outMetrics);
+
+        float density  = getResources().getDisplayMetrics().density;
+        float dpHeight = outMetrics.heightPixels / density;
+        int dpWidth  = (int)(outMetrics.widthPixels / density);
+
         ViewGroup.LayoutParams paramsLeft = relLayItem.getLayoutParams();
 
         // Changes the height and width to the specified *pixels*
         paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        paramsLeft.width = 340;
+        paramsLeft.width =dpWidth/2;
     }
 
     public void setOnClick() {
@@ -314,10 +381,10 @@ public class CategoryItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String item_id=v.getTag().toString();
+                String item_id = v.getTag().toString();
 
                 Log.e("tag", v.getTag().toString());
-               ((OutletCategoryActivity) getActivity()).replaceFragment(venue_id,outlet_id,item_id);
+                ((OutletCategoryActivity) getActivity()).replaceFragment(venue_id, outlet_id, item_id);
             }
         });
 

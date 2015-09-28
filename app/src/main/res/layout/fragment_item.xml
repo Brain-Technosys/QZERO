@@ -22,12 +22,20 @@
 
     </RelativeLayout>
 
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/relLayTitle"
+        android:background="@color/searchbar_color"
+        android:layout_height="wrap_content"/>
+
+
     <ScrollView
         android:id="@+id/outlet_scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/advertisement"
-        android:layout_below="@+id/relLayTitle"
+        android:layout_below="@+id/search_view"
         android:layout_gravity="center_horizontal">
 
         <TableLayout

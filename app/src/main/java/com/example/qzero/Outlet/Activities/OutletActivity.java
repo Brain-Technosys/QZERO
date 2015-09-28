@@ -2,20 +2,28 @@ package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
 
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
@@ -46,7 +54,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class OutletActivity extends Activity {
+public class OutletActivity extends Activity implements SearchView.OnQueryTextListener {
 
     @InjectView(R.id.txtViewTitleLandscape)
     TextView txtViewTitleLandscape;
@@ -137,6 +145,8 @@ public class OutletActivity extends Activity {
 
     String message;
 
+    ArrayList<Outlet> orig;
+
     ArrayList<Outlet> arrayListOutlet;
     ArrayList<ItemOutlet> arrayListItem;
     ArrayList<Category> arrayListCat;
@@ -151,6 +161,9 @@ public class OutletActivity extends Activity {
 
     Outlet outlet;
     Category category;
+
+    SearchView search_view;
+    LinearLayout item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +180,7 @@ public class OutletActivity extends Activity {
 
         onFinishActivity();
 
+        setupSearchView();
     }
 
     public void getIntents() {
@@ -182,6 +196,8 @@ public class OutletActivity extends Activity {
         txtViewHeading = (TextView) findViewById(R.id.txtViewHeading);
         txtViewSubHeading = (TextView) findViewById(R.id.txtViewSubHeading);
 
+        search_view = (SearchView) findViewById(R.id.search_view);
+
         //Set title
         txtViewHeading.setText("Outlets");
     }
@@ -189,6 +205,58 @@ public class OutletActivity extends Activity {
     private void setFonts() {
         FontHelper.setFontFace(txtViewHeading, FontType.FONT, this);
         FontHelper.setFontFace(txtViewSubHeading, FontType.FONTROBOLD, this);
+    }
+
+    private void setupSearchView() {
+        search_view.setIconifiedByDefault(false);
+        search_view.setOnQueryTextListener(this);
+        search_view.setSubmitButtonEnabled(true);
+        search_view.setQueryHint("Search Outlets");
+    }
+
+    public boolean onQueryTextChange(String newText) {
+
+        Log.e("newtext", newText);
+        if (TextUtils.isEmpty(newText)) {
+
+            filterJson(newText);
+
+        } else {
+
+            filterJson(newText);
+        }
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+
+        Log.e("qyuery", query);
+        return false;
+    }
+
+
+    public void filterJson(String newText) {
+        final ArrayList<Outlet> results = new ArrayList<Outlet>();
+        if (orig == null)
+            orig = arrayListOutlet;
+
+        if (newText != null) {
+            if (orig != null && orig.size() > 0) {
+                for (final Outlet order : orig) {
+                    if (String.valueOf(order.getOutlet_name()).toLowerCase()
+                            .contains(newText.toString()) || String.valueOf(order.getOutlet_name())
+                            .contains(newText.toString()) )
+                        results.add(order);
+                }
+            }
+            arrayListOutlet = results;
+
+            item.removeAllViews();
+            pos = 0;
+            Log.e("size", "" + arrayListOutlet.size());
+        }
+
+        setLayout();
     }
 
 
@@ -299,11 +367,14 @@ public class OutletActivity extends Activity {
 
 
     public void setLayout() {
-        int mod = jsonLength % 3;
+
+        int arrayLength = arrayListOutlet.size();
+
+        int mod = arrayLength % 3;
 
         Log.e("mod", "" + mod);
         if (mod == 0) {
-            int length = jsonLength / 3;
+            int length = arrayLength / 3;
 
             Log.e("length", "" + length);
 
@@ -319,7 +390,7 @@ public class OutletActivity extends Activity {
 
         }//end of if mod
         else {
-            int length = jsonLength / 3 + 1;
+            int length = arrayLength / 3 + 1;
 
             for (int i = 0; i < length; i++) {
 
@@ -353,7 +424,9 @@ public class OutletActivity extends Activity {
     }//end of layout
 
     public void inflateLayout() {
-        LinearLayout item = (LinearLayout) findViewById(R.id.linLayMain);
+
+
+        item = (LinearLayout) findViewById(R.id.linLayMain);
 
         child = getLayoutInflater().inflate(R.layout.item_outlet, null);//child.xml
 
@@ -362,7 +435,7 @@ public class OutletActivity extends Activity {
         item.addView(child);
 
         //get width of the screen
-        initializeLayoutWidth();
+       // initializeLayoutWidth();
 
         //set fonts
         setOutletFonts();
@@ -371,6 +444,8 @@ public class OutletActivity extends Activity {
     }
 
     private void initializeLayoutWidth() {
+
+
         ViewGroup.LayoutParams paramsLeft = relLayDescOutletLeft.getLayoutParams();
 
         // Changes the height and width to the specified *pixels*
@@ -395,13 +470,13 @@ public class OutletActivity extends Activity {
         } else
             txtViewDescLand.setText(outlet.getOutlet_desc());
 
-        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")||outlet.getPhone_num().equalsIgnoreCase("na")) {
+        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a") || outlet.getPhone_num().equalsIgnoreCase("na")) {
             linLayPhLand.setVisibility(View.INVISIBLE);
         } else {
             txtViewPhnoneLand.setText(outlet.getPhone_num());
         }
 
-        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")||outlet.getMobile_num().equalsIgnoreCase("na")) {
+        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a") || outlet.getMobile_num().equalsIgnoreCase("na")) {
             linLayMobLand.setVisibility(View.INVISIBLE);
         } else {
             txtViewMobLand.setText(outlet.getMobile_num());
@@ -419,14 +494,14 @@ public class OutletActivity extends Activity {
         } else
             txtViewDesPotLeft.setText(outlet.getOutlet_desc());
 
-        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a")||outlet.getMobile_num().equalsIgnoreCase("na")) {
+        if (outlet.getMobile_num().equals("null") || outlet.getMobile_num().equalsIgnoreCase("n/a") || outlet.getMobile_num().equalsIgnoreCase("na")) {
             linLayMobLeft.setVisibility(View.INVISIBLE);
         } else {
 
             txtViewMobPotLeft.setText(outlet.getMobile_num());
         }
 
-        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a")||outlet.getPhone_num().equalsIgnoreCase("na")) {
+        if (outlet.getPhone_num().equals("null") || outlet.getPhone_num().equalsIgnoreCase("n/a") || outlet.getPhone_num().equalsIgnoreCase("na")) {
             linLayPhLeft.setVisibility(View.INVISIBLE);
         } else {
             txtViewPhPotLeft.setText(outlet.getPhone_num());
@@ -471,10 +546,26 @@ public class OutletActivity extends Activity {
         int layoutWidth=(int)(dpWidth- (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,20,getResources().getDisplayMetrics())));
         Log.e("layoutwidth",""+layoutWidth);
 */
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int layoutWidth = metrics.widthPixels / 2 - 35;
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        // Note, screenHeightDp isn't reliable
+        // (it seems to be too small by the height of the status bar),
+        // but we assume screenWidthDp is reliable.
+        // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+        // (they get confused when in screen compatibility mode, it seems),
+        // but we assume their ratio is correct.
+        double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+        double screenHeightInPixels = screenWidthInPixels * dm.heightPixels / dm.widthPixels;
+        int dpWidth = (int)(screenWidthInPixels + .5);
+        //widthHeightInPixels[1] = (int)(screenHeightInPixels + .5);
+
+       /* DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);*/
+        int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 35, resources.getDisplayMetrics());
+        int layoutWidth = dpWidth / 2-px;
         Log.e("layoutwidth", "" + layoutWidth);
+
         return layoutWidth;
     }
 
@@ -698,7 +789,4 @@ public class OutletActivity extends Activity {
     }
 
 
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
 }

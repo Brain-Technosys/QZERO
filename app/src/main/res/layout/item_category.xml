@@ -25,7 +25,7 @@
 
             <ImageView
                 android:id="@+id/imgViewItem"
-                android:layout_width="197dp"
+                android:layout_width="match_parent"
                 android:layout_height="189dp"
                 android:background="@android:color/darker_gray"
 
