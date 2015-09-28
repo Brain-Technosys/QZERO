@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -204,15 +205,19 @@ public class ProfileInfoFragment extends Fragment {
     @OnClick(R.id.btn_edit)
     public void edit() {
 
-        if (isEditNotClicked) {
+
             EditProfileFragment fragment = new EditProfileFragment();
             fragment.setArguments(profileBundle);
-            this.getFragmentManager().beginTransaction()
-                    .replace(R.id.flContent, fragment, "Edit Profile")
-                    .addToBackStack(null)
-                    .commit();
-            isEditNotClicked = !isEditNotClicked;
-        }
+
+//            this.getFragmentManager().beginTransaction()
+//                    .replace(R.id.flContent, fragment, "Edit Profile")
+//                    .addToBackStack(null)
+//                    .commit();
+
+        this.getFragmentManager().beginTransaction()
+                .hide(getFragmentManager().findFragmentByTag(this.getTag()))
+                .add(R.id.flContent, fragment, fragment.getClass().getName())
+                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
 
 
     }

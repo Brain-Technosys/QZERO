@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,10 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
     @InjectView(R.id.searchView)
     SearchView searchView;
 
+    private Bundle savedState;
+    private boolean saved;
+    private static final String _FRAGMENT_STATE = "FRAGMENT_STATE";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,10 +67,29 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         searchView.setFocusable(false);
         orderListView.setTextFilterEnabled(true);
         setupSearchView();
-
         session = new UserSession(getActivity().getApplicationContext());
         if (session.isUserLoggedIn())
             userID = session.getUserID();
+
+
+        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
+
+           /* if (savedInstanceState != null && savedState == null) {
+                savedState = savedInstanceState.getBundle(_FRAGMENT_STATE);
+
+            }
+            if (savedState != null) {
+                //orderCountTextView.setText(savedState.getString("order_count"));
+            } else {
+                new GetOrders().execute();
+            }*/
+
+            new GetOrders().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.internet_connection_message),
+                    "Alert");
+        }
 
 
         return view;
@@ -75,14 +99,20 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onResume() {
         super.onResume();
-        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
-            new GetOrders().execute();
-        } else {
-            AlertDialogHelper.showAlertDialog(getActivity(),
-                    getString(R.string.internet_connection_message),
-                    "Alert");
-        }
 
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBundle(_FRAGMENT_STATE, (savedState != null) ? savedState : saveState());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        savedState = saveState();
     }
 
     @Override
@@ -124,8 +154,12 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
         OrderDetailFragment fragment = new OrderDetailFragment();
         fragment.setArguments(bundle);
-        this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, "OrderDetail").addToBackStack(null).commit();
+        this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, fragment.getClass().getName()).addToBackStack(null).commit();
 
+       /* this.getFragmentManager().beginTransaction()
+                .hide(getFragmentManager().findFragmentByTag(this.getTag()))
+                .add(R.id.flContent, fragment, fragment.getClass().getName())
+                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();*/
 
     }
 
@@ -134,6 +168,14 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
         searchView.setQueryHint("Order ID");
+    }
+
+    // Method to save data on bundle
+    private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
+        Bundle state = new Bundle();
+        //state.putString("order_count", orderCount);
+        saved = true;
+        return state;
     }
 
     // Async Task to fetch orders of user
