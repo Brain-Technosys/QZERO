@@ -53,12 +53,16 @@
         <activity
             android:name=".Outlet.Activities.OutletActivity"
             android:label="@string/title_activity_search_item"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+        </activity>
+
         <activity
             android:name=".Outlet.Activities.OutletCategoryActivity"
             android:label="@string/title_activity_outlet_catogery"
-            android:screenOrientation="portrait"></activity>
-        \
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
+
         <activity
             android:name=".MyAccount.Activities.OrderedItemActivity"
             android:screenOrientation="portrait"></activity>
