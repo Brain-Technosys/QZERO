@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -249,12 +250,12 @@ public class OrderDetailFragment extends Fragment {
                 purchaseDateTextView.setText(purchaseDate);
                 noOfItemsTextView.setText(noOfItems);
                 orderStatusTextView.setText(orderStatus);
-                amountTextView.setText(orderAmount);
+                amountTextView.setText(Utility.formatCurrency(orderAmount));
 
                 if (Double.valueOf(orderDiscount) != 0.0) {
                     discountTextView.setVisibility(View.VISIBLE);
                     lblDiscountTextView.setVisibility(View.VISIBLE);
-                    discountTextView.setText(orderDiscount);
+                    discountTextView.setText(Utility.formatCurrency(orderDiscount));
                 } else {
                     discountTextView.setVisibility(View.GONE);
                     lblDiscountTextView.setVisibility(View.GONE);

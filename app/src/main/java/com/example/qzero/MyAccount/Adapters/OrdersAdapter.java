@@ -72,12 +72,13 @@ public class OrdersAdapter extends BaseAdapter implements Filterable {
         holder.txtPurchaseDate.setText(order.getPurchaseDate());
         holder.txtStatus.setText(order.getOrderStatus());
         holder.txtItemCount.setText(String.valueOf(order.getItemsCount()));
-        holder.txtDiscount.setText(Utility.formateCurrency(discount));
-        holder.txtAmount.setText(Utility.formateCurrency(amount));
+        holder.txtDiscount.setText(Utility.formatCurrency(discount));
+        holder.txtAmount.setText(Utility.formatCurrency(amount));
+
 
 
         if (Double.valueOf(discount) > 0) {
-            holder.txtDiscount.setText(Utility.formateCurrency(discount));
+            holder.txtDiscount.setText(Utility.formatCurrency(discount));
         } else {
             holder.txtDiscount.setVisibility(View.GONE);
             holder.lblDiscount.setVisibility(View.GONE);
