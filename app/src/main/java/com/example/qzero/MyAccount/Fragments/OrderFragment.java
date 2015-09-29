@@ -95,14 +95,6 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         return view;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBundle(_FRAGMENT_STATE, (savedState != null) ? savedState : saveState());
