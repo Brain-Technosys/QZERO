@@ -2,12 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#DFDFDF"
-    android:padding="5dp">
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingTop="1.5dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardElevation="3dp"
         android:background="#f9f9f9">
 
         <RelativeLayout
@@ -98,9 +102,9 @@
                     android:id="@+id/txtItemCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/lblItems"
-
                     android:layout_marginLeft="5dp"
+
+                    android:layout_toRightOf="@+id/lblItems"
                     android:textColor="@color/black"
 
                     android:textSize="15sp" />
@@ -164,9 +168,9 @@
                     android:layout_marginLeft="5dp"
                     android:layout_toLeftOf="@+id/txtAmount"
                     android:text="Amount:"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtAmount"
