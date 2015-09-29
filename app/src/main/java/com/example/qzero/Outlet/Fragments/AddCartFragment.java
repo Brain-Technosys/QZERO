@@ -98,19 +98,14 @@ public class AddCartFragment extends Fragment {
     TextView txtViewCancel;
     TextView txtViewOk;
 
-    TextView txtViewModList;
+    TextView txtViewAddModifiers;
 
-    TextView txtViewTotal;
-    TextView txtViewPrice;
-
-    Boolean isRadioButtonClicked = false;
-    Boolean isCheckBoxClicked = false;
+    TextView tableTotPrice;
 
     CheckBox checkBox[];
     RadioGroup radioGroup[];
     RadioButton radioButton[];
 
-    ArrayList<AddItems> arrayListAddItems;
     ArrayList<Modifier> modifierList;
 
     ArrayList<Modifier> choosenModList;
@@ -123,7 +118,6 @@ public class AddCartFragment extends Fragment {
 
     JsonParser jsonParser;
     JSONObject jsonObject;
-    JSONArray jsonArray;
 
     String venue_id;
     String itemId;
@@ -133,7 +127,6 @@ public class AddCartFragment extends Fragment {
     String item_name;
     String item_desc;
     String item_price;
-    String discount_details;
     String item_image;
 
     String price;
@@ -153,14 +146,11 @@ public class AddCartFragment extends Fragment {
 
     int index;
 
-    RelativeLayout relativeLay;
-
     String choice;
 
     View[] view;
 
     Double totPrice = 0.00;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -183,6 +173,8 @@ public class AddCartFragment extends Fragment {
         getItemDetails();
 
         hashMapChoosenMod = new HashMap<Integer, ArrayList<Modifier>>();
+
+        choosenModList = new ArrayList<Modifier>();
 
         arrayListViewData = new HashMap<Integer, HashMap<String, String>>();
 
@@ -250,22 +242,31 @@ public class AddCartFragment extends Fragment {
 
             relLayItems.addView(view[i]);
 
-            TextView txtViewAddModifiers = (TextView) view[i].findViewById(R.id.txtViewAddModifiers);
+
+            txtViewAddModifiers = (TextView) view[i].findViewById(R.id.txtViewAddModifiers);
+            final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
+            TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
+            TextView txtViewModList = (TextView) view[i].findViewById(R.id.txtViewModList);
+            ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
+            ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
+
+            TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
+
 
             txtViewAddModifiers.setTag(i);
 
-            final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
 
             HashMap<String, String> hashmap = arrayListViewData.get(i);
 
             txtViewQty.setText(hashmap.get("qty"));
 
-            TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
 
             txtViewPrice.setText("$" + hashmap.get("price"));
 
+            totPrice = Double.parseDouble(hashmap.get("price"));
+
             //Decrease item count on click of subtract button
-            ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
+
 
             imgViewSub.setTag(i);
 
@@ -292,7 +293,7 @@ public class AddCartFragment extends Fragment {
 
 
             //Increase item count on click of subtract button
-            ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
+
 
             imgViewAdd.setTag(i);
 
@@ -349,12 +350,6 @@ public class AddCartFragment extends Fragment {
             });
 
 
-            TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
-
-            TextView txtViewModList = (TextView) view[i].findViewById(R.id.txtViewModList);
-
-            txtViewTotal = (TextView) view[i].findViewById(R.id.txtViewTotal);
-
             if (hashMapChoosenMod.size() != 0) {
                 if (hashMapChoosenMod.containsKey(i)) {
                     choosenModList = hashMapChoosenMod.get(i);
@@ -362,6 +357,7 @@ public class AddCartFragment extends Fragment {
                     if (choosenModList.size() == 0) {
                         //do nothing
                     } else {
+
                         BuildTable(tableLayoutModifiers, txtViewModList, i);
                     }
                 }
@@ -431,7 +427,6 @@ public class AddCartFragment extends Fragment {
 
     private void createCheckBox(final int i) {
 
-        choosenModList = new ArrayList<Modifier>();
 
         checkBox[i] = new CheckBox(getActivity());
 
@@ -611,12 +606,19 @@ public class AddCartFragment extends Fragment {
 
     }
 
-
-    private void setAddItemFonts() {
-        FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTROBOLD, getActivity());
-    }
-
     private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, int pos) {
+
+        //Find the id's of total and price of current view added
+        TextView txtViewTotal = (TextView) view[pos].findViewById(R.id.txtViewTotal);
+        TextView txtViewPrice = (TextView) view[pos].findViewById(R.id.txtViewPrice);
+
+        txtViewPrice.setVisibility(View.GONE);
+        txtViewTotal.setVisibility(View.GONE);
+
+        txtViewAddModifiers.setText("Edit Modifier");
+
+
+        tableLayoutModifiers.removeAllViews();
 
         Boolean isDuplicate = false;
 
@@ -656,7 +658,7 @@ public class AddCartFragment extends Fragment {
                         TableRow.LayoutParams.WRAP_CONTENT));
 
 
-               //Create textview for modifers name
+                //Create textview for modifers name
 
                 TextView txtViewName = new TextView(getActivity());
 
@@ -668,52 +670,88 @@ public class AddCartFragment extends Fragment {
 
                 //Create textview for modifers price
 
-                TextView txtViewPrice = new TextView(getActivity());
+                TextView txtViewModPrice = new TextView(getActivity());
 
                 String modifierPrice = Utility.formatDecimalByString(newArrayList.get(i - 1).getMod_price());
 
-                txtViewPrice.setText("$" + modifierPrice);
+                txtViewModPrice.setText("$" + modifierPrice);
 
-                txtViewPrice.setGravity(Gravity.CENTER);
-                txtViewPrice.setPadding(40, 0, 0, 0);
-                txtViewPrice.setTextColor(Color.parseColor("#000000"));
+                txtViewModPrice.setGravity(Gravity.CENTER);
+                txtViewModPrice.setPadding(40, 0, 0, 0);
+                txtViewModPrice.setTextColor(Color.parseColor("#000000"));
 
-                row.addView(txtViewPrice);
+                row.addView(txtViewModPrice);
 
                 tableLayoutModifiers.addView(row);
 
-                Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
+                if (i == newArrayList.size()) {
 
-                sendDataToHashMap(pos, modPrice);
+                    createTotalRow(tableLayoutModifiers);
+
+                    Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
+
+                    sendDataToHashMap(pos, modPrice);
+                }
+
             }
-
-
         }
+    }
+
+
+    private void createTotalRow(TableLayout tableLayoutModifiers) {
+        TableRow rowTotal = new TableRow(getActivity());
+        rowTotal.setPadding(10, 10, 10, 10);
+
+        rowTotal.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+
+
+        //Create textview for modifers name
+
+        TextView txtViewTotal = new TextView(getActivity());
+
+        txtViewTotal.setText("Total");
+        txtViewTotal.setTextColor(Color.parseColor("#000000"));
+        txtViewTotal.setGravity(Gravity.LEFT);
+
+        rowTotal.addView(txtViewTotal);
+
+        //Create textview for modifers price
+
+        tableTotPrice = new TextView(getActivity());
+        tableTotPrice.setGravity(Gravity.CENTER);
+        tableTotPrice.setPadding(40, 0, 0, 0);
+        tableTotPrice.setTextColor(Color.parseColor("#000000"));
+
+        tableTotPrice.setText("$" + totPrice);
+
+        rowTotal.addView(tableTotPrice);
+
+        tableLayoutModifiers.addView(rowTotal);
     }
 
     public void sendDataToHashMap(int pos, Double modPrice) {
 
 
-        TextView txtViewTotPrice = (TextView) view[pos].findViewById(R.id.txtViewPrice);
-
         TextView txtViewQty = (TextView) view[pos].findViewById(R.id.txtViewQty);
 
-        String tot_price = txtViewTotPrice.getText().toString();
+        String tot_price = tableTotPrice.getText().toString();
+
         int priceLen = tot_price.length();
 
         String substrPrice = tot_price.substring(1, priceLen);
 
-        Log.e("substr",substrPrice);
+        Log.e("substr", substrPrice);
 
         Double totalPrice = Double.parseDouble(substrPrice);
 
-        totalPrice = totalPrice + modPrice;
-
         String qty = txtViewQty.getText().toString();
 
-        String total_Price = Utility.formatDecimalByString(String.valueOf(totPrice));
+        totalPrice = (totalPrice + modPrice)*Integer.parseInt(qty);
 
-        txtViewTotPrice.setText("$" + totalPrice);
+        tableTotPrice.setText("$" + Utility.formatDecimalByString(String.valueOf(totalPrice)));
+
+        String total_Price = Utility.formatDecimalByString(String.valueOf(totalPrice));
 
         initalizeArrayItem(pos, qty, total_Price);
     }
