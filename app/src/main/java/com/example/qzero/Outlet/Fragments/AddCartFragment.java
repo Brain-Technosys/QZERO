@@ -675,10 +675,8 @@ public class AddCartFragment extends Fragment {
                 txtViewPrice.setText("$" + modifierPrice);
 
                 txtViewPrice.setGravity(Gravity.CENTER);
-                txtViewPrice.setPadding(20, 0, 0, 0);
+                txtViewPrice.setPadding(40, 0, 0, 0);
                 txtViewPrice.setTextColor(Color.parseColor("#000000"));
-
-                row.addView(txtViewPrice);
 
                 row.addView(txtViewPrice);
 
