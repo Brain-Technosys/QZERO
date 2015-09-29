@@ -66,6 +66,7 @@
         <activity
             android:name=".MyAccount.Activities.OrderedItemActivity"
             android:screenOrientation="portrait"></activity>
+
         <activity
             android:name=".Outlet.Activities.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"

@@ -96,6 +96,7 @@ public class HomeActivity extends FragmentActivity {
         openPopUpWindowToGetPermissionAbtLoc();
 
         addLoginFragment();
+
     }
 
     private void openPopUpWindowToGetPermissionAbtLoc() {
@@ -131,6 +132,7 @@ public class HomeActivity extends FragmentActivity {
             // do nothing
         } else {
             addSearchFragment();
+
             expandPanel();
             changeSearchButtons();
         }

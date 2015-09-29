@@ -1,5 +1,6 @@
 package com.example.qzero.Outlet.Fragments;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -90,8 +93,10 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         View rootView = inflater.inflate(R.layout.fragment_item,
                 container, false);
         ButterKnife.inject(this, rootView);
-        return rootView;
 
+        search_view.setFocusable(false);
+
+        return rootView;
     }
 
     @Override
@@ -173,6 +178,9 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
     }
 
     public void getSubCatItems(String venue_id, String outlet_id, String category_id, String sub_cat_id) {
+
+        search_view.setFocusable(false);
+
         this.venue_id = venue_id;
         this.outlet_id = outlet_id;
         this.category_id = category_id;

@@ -656,6 +656,8 @@ public class AddCartFragment extends Fragment {
                         TableRow.LayoutParams.WRAP_CONTENT));
 
 
+               //Create textview for modifers name
+
                 TextView txtViewName = new TextView(getActivity());
 
                 txtViewName.setText(newArrayList.get(i - 1).getMod_name());
@@ -663,6 +665,8 @@ public class AddCartFragment extends Fragment {
                 txtViewName.setGravity(Gravity.LEFT);
 
                 row.addView(txtViewName);
+
+                //Create textview for modifers price
 
                 TextView txtViewPrice = new TextView(getActivity());
 
@@ -676,12 +680,16 @@ public class AddCartFragment extends Fragment {
 
                 row.addView(txtViewPrice);
 
+                row.addView(txtViewPrice);
+
                 tableLayoutModifiers.addView(row);
 
                 Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
 
                 sendDataToHashMap(pos, modPrice);
             }
+
+
         }
     }
 

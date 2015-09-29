@@ -358,7 +358,12 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
                 categoryId = view.getTag(R.string.ID).toString();
 
-                Log.e("id", categoryId);
+                if (isAddToCartOpen) {
+                    replaceAddItem();
+                } else {
+                    setItemsInFragment();
+                }
+
                 int tag = Integer.parseInt(view.getTag(R.string.Tag).toString());
 
                 if (noSubCatPos != lastPos) {
