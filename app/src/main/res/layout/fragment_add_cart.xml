@@ -21,16 +21,13 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
                 card_view:cardBackgroundColor="#FFFFFF"
-                card_view:cardElevation="20dp">
+                card_view:cardElevation="3dp">
 
                 <RelativeLayout
                     android:id="@+id/relLayItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
                     android:orientation="vertical">
 
 
