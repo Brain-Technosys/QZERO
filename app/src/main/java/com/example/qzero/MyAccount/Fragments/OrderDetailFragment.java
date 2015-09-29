@@ -152,7 +152,7 @@ public class OrderDetailFragment extends Fragment {
 
     // Method to set the required font and activity title.
     private void setFont() {
-        getActivity().setTitle("Order Details");
+        //getActivity().setTitle("Order Details");
         FontHelper.applyFont(getActivity(), lblBillingAddress, FontHelper.FontType.FONTROBOLD);
         FontHelper.applyFont(getActivity(), lblShippingAddress, FontHelper.FontType.FONTROBOLD);
         FontHelper.applyFont(getActivity(), txtBillingAddress, FontHelper.FontType.FONT);

@@ -63,7 +63,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.inject(this, view);
 
-        getActivity().setTitle(getString(R.string.order_title));
+       // getActivity().setTitle(getString(R.string.order_title));
         searchView.setFocusable(false);
         orderListView.setTextFilterEnabled(true);
         setupSearchView();
@@ -146,12 +146,12 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
         OrderDetailFragment fragment = new OrderDetailFragment();
         fragment.setArguments(bundle);
-        this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, fragment.getClass().getName()).addToBackStack(null).commit();
-
-       /* this.getFragmentManager().beginTransaction()
+        // this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, fragment.getClass().getName()).addToBackStack(null).commit();
+//
+        this.getFragmentManager().beginTransaction()
                 .hide(getFragmentManager().findFragmentByTag(this.getTag()))
                 .add(R.id.flContent, fragment, fragment.getClass().getName())
-                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();*/
+                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
 
     }
 

@@ -1,70 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    card_view:cardElevation="20dp"
-    card_view:cardBackgroundColor="@android:color/white">
+    card_view:cardBackgroundColor="@android:color/white"
+    >
 
     <RelativeLayout
         android:id="@+id/relLayItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
         android:background="@drawable/item_border"
         android:orientation="vertical">
 
         <FrameLayout
             android:id="@+id/layout_strip"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/imgViewItem"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/darker_gray"
-                android:src="@drawable/q2x"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/txtViewTitleOverlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chicken"
-                android:layout_marginBottom="15dp"
                 android:layout_gravity="bottom"
-                android:padding="3dp"
-                android:gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
                 android:background="@color/oulet_image_strip"
+                android:gravity="center_horizontal"
+                android:padding="3dp"
+                android:singleLine="true"
                 android:textColor="@android:color/white" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/txtViewItemName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="left"
             android:layout_below="@+id/layout_strip"
-            android:text="Chicken"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:gravity="left"
+
+            android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtViewItemPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_below="@+id/txtViewItemName"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:gravity="left"
-            android:text="$ 200.00"
             android:textColor="@android:color/black"
             android:textSize="15dp" />
 

@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    card_view:cardElevation="20dp"
-    card_view:cardBackgroundColor="@android:color/white">
 
-    <RelativeLayout
-        android:id="@+id/relLayItem"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/item_border"
-        android:orientation="vertical">
+         card_view:cardBackgroundColor="@android:color/white"
+        >
 
-        <FrameLayout
-            android:id="@+id/layout_strip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/relLayItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-            <ImageView
-                android:id="@+id/imgViewItem"
-                android:layout_width="192dp"
-                android:layout_height="189dp"
-                android:background="@android:color/darker_gray"
+            android:gravity="center_horizontal"
+            android:layout_margin="5dp"
+            android:background="@drawable/item_border"
+            android:orientation="vertical">
 
-                android:scaleType="fitXY"/>
+            <FrameLayout
+                android:id="@+id/layout_strip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgViewItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/txtViewTitleOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/oulet_image_strip"
+                    android:gravity="center_horizontal"
+                    android:padding="3dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white" />
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/txtViewTitleOverlay"
+                android:id="@+id/txtViewItemName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_strip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
 
-                android:layout_marginBottom="15dp"
-                android:layout_gravity="bottom"
-                android:padding="3dp"
-                android:gravity="center_horizontal"
                 android:singleLine="true"
-                android:background="@color/oulet_image_strip"
-                android:textColor="@android:color/white" />
-        </FrameLayout>
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/txtViewItemName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="left"
-            android:layout_below="@+id/layout_strip"
-
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/txtViewItemPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/txtViewItemName"
-            android:layout_marginLeft="10dp"
-            android:gravity="left"
-
-            android:textColor="@android:color/black"
-            android:textSize="15dp" />
+            <TextView
+                android:id="@+id/txtViewItemPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtViewItemName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="left"
+                android:textColor="@android:color/black"
+                android:textSize="15dp" />
 
 
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>

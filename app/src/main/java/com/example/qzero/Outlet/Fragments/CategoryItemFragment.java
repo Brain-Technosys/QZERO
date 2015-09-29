@@ -1,11 +1,12 @@
 package com.example.qzero.Outlet.Fragments;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -13,10 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,7 +31,6 @@ import com.example.qzero.Outlet.Activities.OutletActivity;
 import com.example.qzero.Outlet.Activities.OutletCategoryActivity;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
-import com.example.qzero.Outlet.ObjectClasses.Outlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
@@ -47,16 +46,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class CategoryItemFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class CategoryItemFragment extends Fragment {
 
     @InjectView(R.id.txtViewSubHeading)
     TextView txtViewSubHeading;
 
     @InjectView(R.id.tableLayoutItems)
     TableLayout tableLayoutItems;
-
-    @InjectView(R.id.search_view)
-    SearchView search_view;
 
     TextView txtViewItemName;
 
@@ -76,7 +72,6 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
     int pos = 0;
 
     ArrayList<ItemOutlet> arrayListItems;
-    ArrayList<ItemOutlet> orig;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -87,16 +82,17 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
     String category_id;
     String sub_cat_id;
 
+    Context context;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item,
                 container, false);
         ButterKnife.inject(this, rootView);
-
-        search_view.setFocusable(false);
-
+        context = rootView.getContext();
         return rootView;
+
     }
 
     @Override
@@ -107,7 +103,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
         setTableLayout();
 
-        setupSearchView();
+
     }
 
     private void getIntentData() {
@@ -129,58 +125,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
     }
 
-    private void setupSearchView() {
-        search_view.setIconifiedByDefault(false);
-        search_view.setOnQueryTextListener(this);
-        search_view.setSubmitButtonEnabled(true);
-        search_view.setQueryHint("Search Items");
-    }
-
-    public boolean onQueryTextChange(String newText) {
-
-        Log.e("newtext", newText);
-        if (TextUtils.isEmpty(newText)) {
-
-            filterJson(newText);
-
-        } else {
-
-            filterJson(newText);
-        }
-        return true;
-    }
-
-    public boolean onQueryTextSubmit(String query) {
-
-        Log.e("qyuery", query);
-        return false;
-    }
-
-    public void filterJson(String newText) {
-        final ArrayList<ItemOutlet> results = new ArrayList<ItemOutlet>();
-        if (orig == null)
-            orig = arrayListItems;
-
-        if (newText != null) {
-            if (orig != null && orig.size() > 0) {
-                for (final ItemOutlet item : orig) {
-                    if (String.valueOf(item.getName()).toLowerCase()
-                            .contains(newText.toString()) || String.valueOf(item.getName())
-                            .contains(newText.toString()) )
-                        results.add(item);
-                }
-            }
-            arrayListItems = results;
-        }
-
-        pos = 0;
-        setTableLayout();
-    }
-
     public void getSubCatItems(String venue_id, String outlet_id, String category_id, String sub_cat_id) {
-
-        search_view.setFocusable(false);
-
         this.venue_id = venue_id;
         this.outlet_id = outlet_id;
         this.category_id = category_id;
@@ -315,8 +260,8 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         for (int i = 1; i <= rows; i++) {
 
             TableRow row = new TableRow(getActivity());
-            row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT));
+            row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    0, 1f));
 
             if (length % 2 != 0) {
                 Log.e("odd", "" + i);
@@ -334,13 +279,17 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             // inner for loop
             for (int j = 0; j < cols; j++) {
 
+                LinearLayout layoutCategoryItem = new LinearLayout(getActivity());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+                layoutCategoryItem.setGravity(LinearLayout.HORIZONTAL);
                 child = getActivity().getLayoutInflater().inflate(R.layout.item_category, null);
                 child.setPadding(0, 0, 10, 0);
+
                 getItemId();
                 inflateData();
                 // child.setOnClickListener(this);
-
-                row.addView(child);
+                layoutCategoryItem.addView(child, params);
+                row.addView(layoutCategoryItem);
             }
 
             tableLayoutItems.addView(row);
@@ -368,20 +317,71 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
     }
 
     private void initializeLayoutWidth() {
-
-       /* Display display = getActivity().getWindowManager().getDefaultDisplay();
-        DisplayMetrics outMetrics = new DisplayMetrics ();
-        display.getMetrics(outMetrics);
-
-        float density  = getResources().getDisplayMetrics().density;
-        float dpHeight = outMetrics.heightPixels / density;
-        int dpWidth  = (int)(outMetrics.widthPixels / density);
-*/
         ViewGroup.LayoutParams paramsLeft = relLayItem.getLayoutParams();
+        ViewGroup.LayoutParams paramsImage = imgViewItem.getLayoutParams();
 
-        // Changes the height and width to the specified *pixels*
-        paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        paramsLeft.width =340;;
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+
+        float fwidth = dm.density * dm.widthPixels;
+        float fheight = dm.density * dm.heightPixels;
+
+        //for devices whose density is 0.75 mainly idpi ex 320 *240
+        if (dm.density == 0.75 || dm.density < 0.75) {
+            paramsLeft.width = Math.round(fwidth / 3) + 35;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 3) + 20;
+            paramsImage.height = Math.round(fheight / 3);
+
+            //for devices whose density is 1 mainly mdpi 320 *480
+        } else if (dm.density == 1 || (dm.density > 0.75 && dm.density < 1)) {
+            paramsLeft.width = Math.round(fwidth / 2) - 10;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 2) - 20;
+            paramsImage.height = Math.round(fheight / 2) - 80;
+
+        }
+
+        //for devices whose density is 1.5 mainly hdpi
+        else if (dm.density == 1.5 || (dm.density > 1 && dm.density < 1.5)) {
+            paramsLeft.width = Math.round(fwidth / 4) + 30;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) + 20;
+            paramsImage.height = Math.round(fheight / 4) - 100;
+        }
+        //for devices whose density is 2 mainly xhdpi
+        else if (dm.density == 2 || (dm.density > 1.5 && dm.density < 2)) {
+            paramsLeft.width = Math.round(fwidth / 4) - 40;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) - 30;
+            paramsImage.height = Math.round(fheight / 4) - 250;
+
+            //for devices whose density is 3 mainly xxhdpi
+        } else if (dm.density == 3 || (dm.density > 2 && dm.density < 3)) {
+            paramsLeft.width = Math.round(fwidth / 4) + 100;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) + 90;
+            paramsImage.height = Math.round(fheight / 4) - 540;
+
+        } else {
+            paramsLeft.width = Math.round(fwidth / 4) - 40;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) - 30;
+            paramsImage.height = Math.round(fheight / 4) - 250;
+        }
+
+
     }
 
     public void setOnClick() {
@@ -410,7 +410,9 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         pos++;
 
         //Load Image
-        Picasso.with(getActivity()).load(itemOutlet.getItem_image()).into(imgViewItem);
+
+        Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).into(imgViewItem);
+
 
     }
 }

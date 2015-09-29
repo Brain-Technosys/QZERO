@@ -90,7 +90,7 @@ public class EditProfileFragment extends Fragment {
         ButterKnife.inject(this, view);
 
         // Setting title of activity
-        getActivity().setTitle(getString(R.string.edit_profile_title));
+       // getActivity().setTitle(getString(R.string.edit_profile_title));
         userSession = new UserSession(getActivity().getApplicationContext());
         userID = userSession.getUserID();
 

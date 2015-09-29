@@ -102,7 +102,7 @@ public class ProfileInfoFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_profile, null);
         ButterKnife.inject(this, view);
-        getActivity().setTitle(getString(R.string.profile_title));
+      //  getActivity().setTitle(getString(R.string.profile_title));
         internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());
 

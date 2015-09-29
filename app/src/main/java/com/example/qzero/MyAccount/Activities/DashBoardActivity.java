@@ -176,7 +176,8 @@ public class DashBoardActivity extends AppCompatActivity {
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
+        //setTitle(menuItem.getTitle());
+        setTitle(getString(string.app_name));
         mDrawer.closeDrawers();
     }
 
