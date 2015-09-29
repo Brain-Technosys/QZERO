@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DFDFDF"
-    android:padding="5dp">
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingTop="1.5dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardElevation="50dp"
-        android:background="#f9f9f9">
+        android:background="#f9f9f9"
+        card_view:cardElevation="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,8 +31,8 @@
                 android:id="@+id/txtViewVenue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
                 android:layout_below="@+id/txtViewName"
+                android:text="Name"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
@@ -39,13 +41,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtViewVenue"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imgViewAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:scaleType="centerCrop"
                     android:src="@drawable/location" />
 
@@ -53,44 +55,46 @@
                     android:id="@+id/txtViewAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+
                     android:layout_marginLeft="5dp"
                     android:text="Address"
                     android:textColor="@color/black" />
 
-            </LinearLayout>
+                <!-- <TextView
+                     android:id="@+id/txtViewCity"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/txtViewCity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linLayAddress"
-                android:layout_marginLeft="14dp"
-                android:text="City"
-                android:textColor="@color/black" />
+                     android:layout_marginLeft="14dp"
+                     android:text="City"
+                     android:textColor="@color/black" />-->
+
+            </LinearLayout>
 
 
             <View
                 android:id="@+id/vw_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/txtViewCity"
+                android:layout_below="@+id/linLayAddress"
                 android:layout_marginTop="5dp"
                 android:background="@color/name_color_of_list"></View>
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/vw_line"
-                android:layout_marginTop="1dp"
-                android:orientation="vertical">
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/llPhoneLayout"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -109,24 +113,21 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
-
-                        android:text="Phone No"
-
+                        android:layout_marginRight="10dp"
                         android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@+id/llPhoneLayout"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/imgViewMobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/mobile" />
 
@@ -135,14 +136,10 @@
                         android:id="@+id/txtViewMobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginTop="2dp"
-                        android:text="Mobile No"
                         android:textColor="@color/black" />
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
 
 
