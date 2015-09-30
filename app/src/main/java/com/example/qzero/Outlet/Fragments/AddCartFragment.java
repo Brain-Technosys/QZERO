@@ -460,10 +460,7 @@ public class AddCartFragment extends Fragment {
         checkBox[i].setText(modifier_title.get(i).getChoice_name());
         checkBox[i].setTextColor(Color.parseColor("#000000"));
 
-        if (modifier_title.get(i).getIsComplusory()) {
-            checkBox[i].setChecked(true);
-            checkBox[i].setEnabled(false);
-        }
+
 
         FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
 
@@ -549,6 +546,13 @@ public class AddCartFragment extends Fragment {
         radioButton[j].setTextColor(Color.parseColor("#000000"));
         radioButton[j].setId(j);
         radioButton[j].setTag(i);
+
+        if (modifier_title.get(i).getIsComplusory()) {
+            checkBox[i].setChecked(true);
+            checkBox[i].setEnabled(false);
+
+            radioButton[0].setChecked(true);
+        }
 
         if (modifierList.get(j).getIsDefault()) {
             radioButton[j].setChecked(true);
