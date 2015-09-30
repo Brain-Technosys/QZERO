@@ -22,4 +22,13 @@ public class Utility {
         String myNum = String.format("%.2f", data);
         return myNum;
     }
+
+    public static String removeCurrencySymbol(String text)
+    {
+        int priceLen = text.length();
+
+        String substrPrice = text.substring(1, priceLen);
+
+        return  substrPrice;
+    }
 }

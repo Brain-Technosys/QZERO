@@ -12,20 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -33,32 +29,19 @@ import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
-import com.example.qzero.Outlet.Adapters.ItemDetailAdapter;
-import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
-import com.example.qzero.Outlet.ObjectClasses.AddItems;
-import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ChoiceGroup;
-import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Modifier;
-import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.TreeSet;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+
 
 public class AddCartFragment extends Fragment {
 
@@ -89,35 +72,17 @@ public class AddCartFragment extends Fragment {
     @InjectView(R.id.relLayItems)
     LinearLayout relLayItems;
 
-
-    Dialog dialog;
-
-    LinearLayout linLayModifiers;
-
-    TextView txtViewTitle;
-    TextView txtViewCancel;
-    TextView txtViewOk;
-
-    TextView txtViewAddModifiers;
-
-    TextView tableTotPrice;
-
-    CheckBox checkBox[];
-    RadioGroup radioGroup[];
-    RadioButton radioButton[];
-
-    ArrayList<Modifier> modifierList;
-
-    ArrayList<Modifier> choosenModList;
-
     int status;
     int jsonLength;
     int pos = 0;
 
-    String message;
+    int countLength = 1;
+    int index;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
+
+    String message;
 
     String venue_id;
     String itemId;
@@ -130,6 +95,13 @@ public class AddCartFragment extends Fragment {
     String item_image;
 
     String price;
+    String choice;
+    String discountDesc;
+
+    Double afterDiscPrice;
+    Double totPrice = 0.00;
+
+    Double totalPrices[];
 
     ArrayList<ChoiceGroup> modifier_title;
 
@@ -139,18 +111,27 @@ public class AddCartFragment extends Fragment {
 
     HashMap<Integer, HashMap<String, String>> arrayListViewData;
 
-    String discountDesc;
-    Double afterDiscPrice;
+    ArrayList<Modifier> modifierList;
 
-    int countLength = 1;
+    ArrayList<Modifier> choosenModList;
 
-    int index;
+    Dialog dialog;
 
-    String choice;
+    LinearLayout linLayModifiers;
+
+    TextView txtViewTitle;
+    TextView txtViewCancel;
+    TextView txtViewOk;
+
+
+    TextView tableTotPrice[];
+
+    CheckBox checkBox[];
+    RadioGroup radioGroup[];
+    RadioButton radioButton[];
 
     View[] view;
 
-    Double totPrice = 0.00;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -208,10 +189,9 @@ public class AddCartFragment extends Fragment {
     }
 
 
-    private void initalizeArrayItem(int position, String qty, String price) {
+    private void initalizeArrayItem(int position, String qty) {
         HashMap<String, String> hashmap = new HashMap<String, String>();
         hashmap.put("qty", qty);
-        hashmap.put("price", price);
 
         arrayListViewData.put(position, hashmap);
     }
@@ -222,7 +202,7 @@ public class AddCartFragment extends Fragment {
         //increase the array size
         countLength++;
 
-        initalizeArrayItem(countLength - 1, "1", price);
+        initalizeArrayItem(countLength - 1, "1");
 
         //Inflate the layout reverse
         inflateQtyLayout();
@@ -231,44 +211,48 @@ public class AddCartFragment extends Fragment {
 
     private void inflateQtyLayout() {
 
-        relLayItems.removeAllViews();//clear layout
+        relLayItems.removeAllViews();//clear add item layout
 
         view = new View[countLength];
 
+        tableTotPrice = new TextView[countLength];
+
+        totalPrices = new Double[countLength];
+
         for (int i = countLength - 1; i >= 0; i--) {
 
-            Log.e("i", "" + i);
             view[i] = getActivity().getLayoutInflater().inflate(R.layout.list_addcart, null);
 
-            relLayItems.addView(view[i]);
+            relLayItems.addView(view[i]); //inflate relative layout with custom layout for add items
 
-
-            txtViewAddModifiers = (TextView) view[i].findViewById(R.id.txtViewAddModifiers);
+            //find id's of the widgets of inflated view
+            TextView txtViewAddModifiers = (TextView) view[i].findViewById(R.id.txtViewAddModifiers);
             final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
-            TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
+            final TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
             TextView txtViewModList = (TextView) view[i].findViewById(R.id.txtViewModList);
+
             ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
             ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
 
             TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
 
 
+            //set tag
             txtViewAddModifiers.setTag(i);
 
+            imgViewSub.setTag(i);
 
+            imgViewAdd.setTag(i);
+
+            //Hashmap for the data to be inflated in the view
             HashMap<String, String> hashmap = arrayListViewData.get(i);
 
             txtViewQty.setText(hashmap.get("qty"));
 
-
-            txtViewPrice.setText("$" + hashmap.get("price"));
-
-            totPrice = Double.parseDouble(hashmap.get("price"));
+            //set price of total amount textview shown initially
+            txtViewPrice.setText("$" + Utility.formatDecimalByString(String.valueOf(totPrice)));
 
             //Decrease item count on click of subtract button
-
-
-            imgViewSub.setTag(i);
 
             imgViewSub.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -284,19 +268,18 @@ public class AddCartFragment extends Fragment {
                         qty--;
 
                         txtViewQty.setText(String.valueOf(qty));
+
+                        onChangeSetPrice(qty, txtViewPrice, tag);
                     }
 
-                    initalizeArrayItem(tag, String.valueOf(qty), price);
+                    //Intialize the hashmap for the values to be inflated in the view
+                    initalizeArrayItem(tag, String.valueOf(qty));
 
                 }
             });
 
 
             //Increase item count on click of subtract button
-
-
-            imgViewAdd.setTag(i);
-
             imgViewAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -308,9 +291,12 @@ public class AddCartFragment extends Fragment {
 
                     qty++;
 
+                    onChangeSetPrice(qty, txtViewPrice, tag);
+
                     txtViewQty.setText(String.valueOf(qty));
 
-                    initalizeArrayItem(tag, String.valueOf(qty), price);
+                    //Intialize the hashmap for the values to be inflated in the view
+                    initalizeArrayItem(tag, String.valueOf(qty));
                 }
 
 
@@ -330,8 +316,9 @@ public class AddCartFragment extends Fragment {
 
                     int tag = Integer.parseInt(v.getTag().toString());
 
-                    Log.e("tag", "" + tag);
+                    //Remove the tag clicked
                     view[tag].setVisibility(View.GONE);
+
                     hashMapChoosenMod.remove(tag);
                     countLength--;
                 }
@@ -358,7 +345,7 @@ public class AddCartFragment extends Fragment {
                         //do nothing
                     } else {
 
-                        BuildTable(tableLayoutModifiers, txtViewModList, i);
+                        BuildTable(tableLayoutModifiers, txtViewModList,txtViewAddModifiers,i);
                     }
                 }
             }
@@ -366,6 +353,23 @@ public class AddCartFragment extends Fragment {
 
         }
     }
+
+    private void onChangeSetPrice(int qty, TextView txtViewPrice, int tag) {
+        //if the initial total price textview present
+        if (txtViewPrice.getVisibility() == View.VISIBLE) {
+
+            Double newPrice = totPrice * qty;
+
+            txtViewPrice.setText("$" + Utility.formatDecimalByString(String.valueOf(newPrice)));
+        } else {
+
+            //change the amount of the total prive textview of table layout
+            Double newPrice = totalPrices[tag] * qty;
+
+            tableTotPrice[tag].setText("$" + Utility.formatDecimalByString(String.valueOf(newPrice)));
+        }
+    }
+
 
     //open dialog box for modifiers
     private void openDialog() {
@@ -559,7 +563,9 @@ public class AddCartFragment extends Fragment {
 
                 TableLayout tableLayoutMod = (TableLayout) view[index].findViewById(R.id.tableLayoutModifiers);
 
-                BuildTable(tableLayoutMod, txtViewModL, index);
+                TextView txtViewAddModifiers=(TextView) view[index].findViewById(R.id.txtViewAddModifiers);
+
+                BuildTable(tableLayoutMod, txtViewModL,txtViewAddModifiers, index);
 
                 dialog.dismiss();
             }
@@ -602,11 +608,11 @@ public class AddCartFragment extends Fragment {
         //Load Image
         Picasso.with(getActivity()).load(item_image).error(R.drawable.q2x).into(imgViewItem);
 
-        initalizeArrayItem(0, "1", price);
+        initalizeArrayItem(0, "1");
 
     }
 
-    private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, int pos) {
+    private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList,TextView txtViewAddModifiers,int pos) {
 
         //Find the id's of total and price of current view added
         TextView txtViewTotal = (TextView) view[pos].findViewById(R.id.txtViewTotal);
@@ -686,7 +692,7 @@ public class AddCartFragment extends Fragment {
 
                 if (i == newArrayList.size()) {
 
-                    createTotalRow(tableLayoutModifiers);
+                    createTotalRow(tableLayoutModifiers, pos);
 
                     Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
 
@@ -698,7 +704,7 @@ public class AddCartFragment extends Fragment {
     }
 
 
-    private void createTotalRow(TableLayout tableLayoutModifiers) {
+    private void createTotalRow(TableLayout tableLayoutModifiers, int pos) {
         TableRow rowTotal = new TableRow(getActivity());
         rowTotal.setPadding(10, 10, 10, 10);
 
@@ -718,42 +724,36 @@ public class AddCartFragment extends Fragment {
 
         //Create textview for modifers price
 
-        tableTotPrice = new TextView(getActivity());
-        tableTotPrice.setGravity(Gravity.CENTER);
-        tableTotPrice.setPadding(40, 0, 0, 0);
-        tableTotPrice.setTextColor(Color.parseColor("#000000"));
+        tableTotPrice[pos] = new TextView(getActivity());
+        tableTotPrice[pos].setGravity(Gravity.CENTER);
+        tableTotPrice[pos].setPadding(40, 0, 0, 0);
+        tableTotPrice[pos].setTextColor(Color.parseColor("#000000"));
 
-        tableTotPrice.setText("$" + totPrice);
+        tableTotPrice[pos].setText("$" + totPrice);
 
-        rowTotal.addView(tableTotPrice);
+        rowTotal.addView(tableTotPrice[pos]);
 
         tableLayoutModifiers.addView(rowTotal);
     }
 
     public void sendDataToHashMap(int pos, Double modPrice) {
 
-
+        Double totalPrice;
         TextView txtViewQty = (TextView) view[pos].findViewById(R.id.txtViewQty);
-
-        String tot_price = tableTotPrice.getText().toString();
-
-        int priceLen = tot_price.length();
-
-        String substrPrice = tot_price.substring(1, priceLen);
-
-        Log.e("substr", substrPrice);
-
-        Double totalPrice = Double.parseDouble(substrPrice);
 
         String qty = txtViewQty.getText().toString();
 
-        totalPrice = (totalPrice + modPrice)*Integer.parseInt(qty);
+        totalPrices[pos] = totPrice + modPrice;
 
-        tableTotPrice.setText("$" + Utility.formatDecimalByString(String.valueOf(totalPrice)));
+        totalPrice = (totPrice + modPrice) * Integer.parseInt(qty);
 
         String total_Price = Utility.formatDecimalByString(String.valueOf(totalPrice));
 
-        initalizeArrayItem(pos, qty, total_Price);
+        tableTotPrice[pos].setText("$" + total_Price);
+
+
+
+        initalizeArrayItem(pos, qty);
     }
 
     private class GetItemDetail extends AsyncTask<String, String, String> {

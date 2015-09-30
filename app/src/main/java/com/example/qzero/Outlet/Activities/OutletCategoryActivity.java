@@ -494,7 +494,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     }
 
     private void passIntentHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
