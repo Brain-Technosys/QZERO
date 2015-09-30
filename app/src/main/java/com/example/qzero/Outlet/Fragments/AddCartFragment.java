@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -33,11 +35,15 @@ import com.example.qzero.Outlet.ObjectClasses.ChoiceGroup;
 import com.example.qzero.Outlet.ObjectClasses.Modifier;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -324,13 +330,17 @@ public class AddCartFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    int tag = Integer.parseInt(v.getTag().toString());
+                    if (countLength == 1) {
+                        //do not delete
+                    } else {
+                        int tag = Integer.parseInt(v.getTag().toString());
 
-                    //Remove the tag clicked
-                    view[tag].setVisibility(View.GONE);
+                        //Remove the tag clicked
+                        view[tag].setVisibility(View.GONE);
 
-                    hashMapChoosenMod.remove(tag);
-                    countLength--;
+                        hashMapChoosenMod.remove(tag);
+                        countLength--;
+                    }
                 }
             });
 
@@ -345,7 +355,6 @@ public class AddCartFragment extends Fragment {
                     openDialog();
 
 
-
                 }
             });
 
@@ -357,7 +366,7 @@ public class AddCartFragment extends Fragment {
                         //do nothing
                     } else {
 
-                        BuildTable(tableLayoutModifiers, txtViewModList,txtViewAddModifiers,i);
+                        BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, i);
                     }
                 }
             }
@@ -451,18 +460,19 @@ public class AddCartFragment extends Fragment {
         checkBox[i].setText(modifier_title.get(i).getChoice_name());
         checkBox[i].setTextColor(Color.parseColor("#000000"));
 
-        FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
-
         if (modifier_title.get(i).getIsComplusory()) {
             checkBox[i].setChecked(true);
+            checkBox[i].setEnabled(false);
         }
+
+        FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
+
 
         checkBox[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (!modifier_title.get(i).getIsComplusory()) {
-                    if (checkBox[i].isChecked()) {
+                if (checkBox[i].isChecked()) {
 
                         choice = checkBox[i].getText().toString();
 
@@ -478,7 +488,7 @@ public class AddCartFragment extends Fragment {
                     }
 
                 }
-            }
+
         });
 
         linLayModifiers.addView(checkBox[i]);
@@ -502,13 +512,13 @@ public class AddCartFragment extends Fragment {
 
                         String radioChoice = radioBtn.getText().toString();
 
-                        if (choosenModList.contains(radioChoice)) {
+                       /* if (choosenModList.contains(radioChoice)) {
                             //do nothing
                         } else {
                             String mod_price = modifierList.get(i).getMod_price();
                             Modifier modifier = new Modifier(radioChoice, mod_price, false, choice);
                             choosenModList.add(modifier);
-                        }
+                        }*/
 
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
@@ -535,7 +545,7 @@ public class AddCartFragment extends Fragment {
 
         //Create radio buttons
         radioButton[j] = new RadioButton(getActivity());
-        radioButton[j].setText(modifierList.get(i).getMod_name());
+        radioButton[j].setText(modifierList.get(j).getMod_name());
         radioButton[j].setTextColor(Color.parseColor("#000000"));
         radioButton[j].setId(j);
         radioButton[j].setTag(i);
@@ -574,9 +584,9 @@ public class AddCartFragment extends Fragment {
 
                 TableLayout tableLayoutMod = (TableLayout) view[index].findViewById(R.id.tableLayoutModifiers);
 
-                TextView txtViewAddModifiers=(TextView) view[index].findViewById(R.id.txtViewAddModifiers);
+                TextView txtViewAddModifiers = (TextView) view[index].findViewById(R.id.txtViewAddModifiers);
 
-                BuildTable(tableLayoutMod, txtViewModL,txtViewAddModifiers, index);
+                BuildTable(tableLayoutMod, txtViewModL, txtViewAddModifiers, index);
 
                 dialog.dismiss();
             }
@@ -624,7 +634,7 @@ public class AddCartFragment extends Fragment {
 
     }
 
-    private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList,TextView txtViewAddModifiers,int pos) {
+    private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, TextView txtViewAddModifiers, int pos) {
 
         //Find the id's of total and price of current view added
         TextView txtViewTotal = (TextView) view[pos].findViewById(R.id.txtViewTotal);
@@ -673,7 +683,7 @@ public class AddCartFragment extends Fragment {
                 row.setPadding(10, 10, 10, 10);
 
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        0,1f));
+                        0, 1f));
 
 
                 //Create textview for modifers name
@@ -681,8 +691,8 @@ public class AddCartFragment extends Fragment {
                 TextView txtViewName = new TextView(getActivity());
 
                 txtViewName.setLayoutParams(new TableRow.LayoutParams(0,
-                        TableRow.LayoutParams.WRAP_CONTENT,1f));
-
+                        TableRow.LayoutParams.WRAP_CONTENT, 1f));
+                txtViewName.setTextSize(16);
                 txtViewName.setText(newArrayList.get(i - 1).getMod_name());
                 txtViewName.setTextColor(Color.parseColor("#000000"));
                 txtViewName.setGravity(Gravity.LEFT);
@@ -699,6 +709,7 @@ public class AddCartFragment extends Fragment {
                 String modifierPrice = Utility.formatDecimalByString(newArrayList.get(i - 1).getMod_price());
 
                 txtViewModPrice.setText("$" + modifierPrice);
+                txtViewModPrice.setTextSize(16);
                 txtViewModPrice.setGravity(Gravity.CENTER);
                 txtViewModPrice.setPadding(40, 0, 0, 0);
                 txtViewModPrice.setTextColor(Color.parseColor("#000000"));
@@ -741,6 +752,7 @@ public class AddCartFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT, 1f));
 
         txtViewTotal.setText("Total");
+        txtViewTotal.setTextSize(18);
         txtViewTotal.setTextColor(Color.parseColor("#000000"));
         txtViewTotal.setGravity(Gravity.LEFT);
 
@@ -752,7 +764,7 @@ public class AddCartFragment extends Fragment {
 
         tableTotPrice[pos].setLayoutParams(new TableRow.LayoutParams(0,
                 TableRow.LayoutParams.WRAP_CONTENT, 1f));
-
+        tableTotPrice[pos].setTextSize(16);
         tableTotPrice[pos].setGravity(Gravity.CENTER);
         tableTotPrice[pos].setPadding(40, 0, 0, 0);
         tableTotPrice[pos].setTextColor(Color.parseColor("#000000"));
@@ -782,7 +794,6 @@ public class AddCartFragment extends Fragment {
         String total_Price = Utility.formatDecimalByString(String.valueOf(totalPrice));
 
         tableTotPrice[pos].setText("$" + total_Price);
-
 
 
         initalizeArrayItem(pos, qty);

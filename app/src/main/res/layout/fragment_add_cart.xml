@@ -61,7 +61,7 @@
                         android:layout_toRightOf="@+id/imgViewItem"
                         android:gravity="center_vertical"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="17sp" />
 
                     <LinearLayout
                         android:id="@+id/linLayQty"
@@ -90,7 +90,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:text="@string/item_price"
                                 android:textColor="@color/item_detail"
-                                android:textSize="15sp" />
+                                android:textSize="17sp" />
 
                             <TextView
                                 android:id="@+id/txtViewOrigPrice"
@@ -99,7 +99,7 @@
                                 android:layout_marginLeft="3dp"
                                 android:background="@drawable/drawable_strikethrough"
                                 android:textColor="@color/item_detail"
-                                android:textSize="13sp" />
+                                android:textSize="17sp" />
 
                             <TextView
                                 android:id="@+id/txtViewDiscPrice"
@@ -107,7 +107,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:textColor="@color/item_detail_green"
-                                android:textSize="13sp" />
+                                android:textSize="17sp" />
 
 
                         </LinearLayout>
@@ -130,7 +130,7 @@
                                 android:text="@string/item_discount"
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/item_detail"
-                                android:textSize="15sp" />
+                                android:textSize="17sp" />
 
                             <TextView
                                android:id="@+id/txtViewDiscount"
@@ -138,7 +138,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:textColor="@color/item_detail"
-                                android:textSize="13sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
                     </LinearLayout>
 
