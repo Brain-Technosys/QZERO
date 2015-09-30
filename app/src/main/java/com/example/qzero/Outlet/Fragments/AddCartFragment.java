@@ -54,6 +54,9 @@ public class AddCartFragment extends Fragment {
     @InjectView(R.id.txtViewAddItem)
     TextView txtViewAddItem;
 
+    @InjectView(R.id.txtViewPriceTit)
+    TextView txtViewPriceTit;
+
     @InjectView(R.id.txtViewOrigPrice)
     TextView txtViewOrigPrice;
 
@@ -162,12 +165,13 @@ public class AddCartFragment extends Fragment {
     }
 
     private void setFonts() {
-        FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONT, getActivity());
+        FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONTROBOLD, getActivity());
         FontHelper.setFontFace(txtViewDesc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewOrigPrice, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDiscount, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewTitDisc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDiscPrice, FontHelper.FontType.FONT, getActivity());
+        FontHelper.setFontFace(txtViewPriceTit, FontHelper.FontType.FONT, getActivity());
 
     }
 
@@ -235,6 +239,12 @@ public class AddCartFragment extends Fragment {
             ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
 
             TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
+
+            //set font
+            FontHelper.setFontFace(txtViewAddModifiers, FontHelper.FontType.FONT, getActivity());
+            FontHelper.setFontFace(txtViewQty, FontHelper.FontType.FONT, getActivity());
+            FontHelper.setFontFace(txtViewPrice, FontHelper.FontType.FONT, getActivity());
+            FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONT, getActivity());
 
 
             //set tag
@@ -438,11 +448,12 @@ public class AddCartFragment extends Fragment {
         checkBox[i].setText(modifier_title.get(i).getChoice_name());
         checkBox[i].setTextColor(Color.parseColor("#000000"));
 
+        FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
+
         if (modifier_title.get(i).getIsComplusory()) {
             checkBox[i].setChecked(true);
         }
 
-        FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
         checkBox[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -489,15 +500,13 @@ public class AddCartFragment extends Fragment {
                         String radioChoice = radioBtn.getText().toString();
 
                         if (choosenModList.contains(radioChoice)) {
-                            //do nohting
+                            //do nothing
                         } else {
                             String mod_price = modifierList.get(i).getMod_price();
                             Modifier modifier = new Modifier(radioChoice, mod_price, false, choice);
                             choosenModList.add(modifier);
                         }
 
-
-                        Log.e("textradio", radioBtn.getText().toString());
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
                     }
@@ -690,6 +699,10 @@ public class AddCartFragment extends Fragment {
 
                 tableLayoutModifiers.addView(row);
 
+                //set fonts of table layout
+                FontHelper.setFontFace(txtViewName, FontHelper.FontType.FONT, getActivity());
+                FontHelper.setFontFace(txtViewModPrice, FontHelper.FontType.FONT, getActivity());
+
                 if (i == newArrayList.size()) {
 
                     createTotalRow(tableLayoutModifiers, pos);
@@ -734,6 +747,10 @@ public class AddCartFragment extends Fragment {
         rowTotal.addView(tableTotPrice[pos]);
 
         tableLayoutModifiers.addView(rowTotal);
+
+        //set font of total row in table layout
+        FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONT, getActivity());
+        FontHelper.setFontFace(tableTotPrice[pos], FontHelper.FontType.FONT, getActivity());
     }
 
     public void sendDataToHashMap(int pos, Double modPrice) {

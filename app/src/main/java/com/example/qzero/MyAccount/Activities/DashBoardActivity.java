@@ -167,6 +167,7 @@ public class DashBoardActivity extends AppCompatActivity {
                 userSession.logout();
                 Intent intent = new Intent(this, HomeActivity.class);
                 startActivity(intent);
+                finish();
             default:
                 fragmentClass = DashboardFragment.class;
                 isDashboard = true;

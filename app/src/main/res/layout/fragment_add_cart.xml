@@ -20,20 +20,27 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 card_view:cardBackgroundColor="#FFFFFF"
-                card_view:cardElevation="3dp">
+                android:elevation="3dp">
 
                 <RelativeLayout
                     android:id="@+id/relLayItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                  >
+
+                    <RelativeLayout
+                       android:id="@+id/relLayImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
 
                     <ImageView
                         android:id="@+id/imgViewItem"
-                        android:layout_width="180dp"
-                        android:layout_height="189dp"
+                        android:layout_width="150dp"
+                        android:layout_height="159dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/q2x" />
 
@@ -81,11 +88,12 @@
 
 
                             <TextView
+                                android:id="@+id/txtViewPriceTit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                               android:layout_marginLeft="5dp"
+                                android:layout_marginLeft="5dp"
                                 android:text="@string/item_price"
-                                android:textColor="#000000"
+                                android:textColor="@color/item_detail"
                                 android:textSize="15sp" />
 
                             <TextView
@@ -94,7 +102,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:background="@drawable/drawable_strikethrough"
-                                android:textColor="#000000"
+                                android:textColor="@color/item_detail"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -102,7 +110,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
-                                android:textColor="#000000"
+                                android:textColor="@color/item_detail_green"
                                 android:textSize="13sp" />
 
 
@@ -110,6 +118,7 @@
 
                         <LinearLayout
 
+                           android:id="@+id/linLayDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/view"
@@ -124,7 +133,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/item_discount"
                                 android:layout_marginLeft="5dp"
-                                android:textColor="#000000"
+                                android:textColor="@color/item_detail"
                                 android:textSize="15sp" />
 
                             <TextView
@@ -132,50 +141,51 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
-                                android:textColor="#000000"
+                                android:textColor="@color/item_detail"
                                 android:textSize="13sp" />
                         </LinearLayout>
                     </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txtViewDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/relLayImg"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="7dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/relLayAddItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/txtViewDesc">
+
+                        <Button
+                            android:id="@+id/txtViewAddItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/selector"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@string/add_more"/>
+                    </RelativeLayout>
 
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-
-            <TextView
-                android:id="@+id/txtViewDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cardView"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="7dp"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <RelativeLayout
-                android:id="@+id/relLayAddItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/txtViewDesc">
-
-            <Button
-                android:id="@+id/txtViewAddItem"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/selector"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/add_more"/>
-            </RelativeLayout>
-
-           <LinearLayout
+            <LinearLayout
                android:id="@+id/relLayItems"
                android:layout_width="match_parent"
-               android:layout_below="@+id/relLayAddItem"
+               android:layout_below="@+id/cardView"
                android:layout_height="wrap_content"
                android:orientation="vertical">
      </LinearLayout>
