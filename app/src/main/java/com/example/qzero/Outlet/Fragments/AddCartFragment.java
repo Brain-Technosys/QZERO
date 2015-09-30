@@ -685,7 +685,6 @@ public class AddCartFragment extends Fragment {
 
                 txtViewName.setText(newArrayList.get(i - 1).getMod_name());
                 txtViewName.setTextColor(Color.parseColor("#000000"));
-                txtViewName.setTextSize(R.dimen.text_table_mod);
                 txtViewName.setGravity(Gravity.LEFT);
 
                 row.addView(txtViewName);
@@ -700,7 +699,6 @@ public class AddCartFragment extends Fragment {
                 String modifierPrice = Utility.formatDecimalByString(newArrayList.get(i - 1).getMod_price());
 
                 txtViewModPrice.setText("$" + modifierPrice);
-                txtViewModPrice.setTextSize(R.dimen.text_table_mod);
                 txtViewModPrice.setGravity(Gravity.CENTER);
                 txtViewModPrice.setPadding(40, 0, 0, 0);
                 txtViewModPrice.setTextColor(Color.parseColor("#000000"));
@@ -743,7 +741,6 @@ public class AddCartFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT, 1f));
 
         txtViewTotal.setText("Total");
-        txtViewTotal.setTextSize(R.dimen.text_table_mod);
         txtViewTotal.setTextColor(Color.parseColor("#000000"));
         txtViewTotal.setGravity(Gravity.LEFT);
 
@@ -758,7 +755,6 @@ public class AddCartFragment extends Fragment {
 
         tableTotPrice[pos].setGravity(Gravity.CENTER);
         tableTotPrice[pos].setPadding(40, 0, 0, 0);
-        tableTotPrice[pos].setTextSize(R.dimen.text_table_mod);
         tableTotPrice[pos].setTextColor(Color.parseColor("#000000"));
 
         tableTotPrice[pos].setText("$" + totPrice);
