@@ -209,15 +209,15 @@ public class ProfileInfoFragment extends Fragment {
             EditProfileFragment fragment = new EditProfileFragment();
             fragment.setArguments(profileBundle);
 
-//            this.getFragmentManager().beginTransaction()
-//                    .replace(R.id.flContent, fragment, "Edit Profile")
-//                    .addToBackStack(null)
-//                    .commit();
+            this.getFragmentManager().beginTransaction()
+                    .replace(R.id.flContent, fragment, fragment.getClass().getName())
+                    .addToBackStack(null)
+                    .commit();
 
-        this.getFragmentManager().beginTransaction()
+      /*  this.getFragmentManager().beginTransaction()
                 .hide(getFragmentManager().findFragmentByTag(this.getTag()))
                 .add(R.id.flContent, fragment, fragment.getClass().getName())
-                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();*/
 
 
     }

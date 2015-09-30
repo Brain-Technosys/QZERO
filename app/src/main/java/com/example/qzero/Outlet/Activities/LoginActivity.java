@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         addLoginFragment();
     }
 
-   private void addLoginFragment() {
+    private void addLoginFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction();
@@ -35,11 +35,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.relLayLogin)public void finishLoginActivity(){finish();}
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+    @OnClick(R.id.relLayLogin)
+    public void finishLoginActivity() {
         finish();
     }
+
 }

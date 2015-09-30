@@ -40,13 +40,10 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.relLaySearch) public void closeSearchActivity(){
+    @OnClick(R.id.relLaySearch)
+    public void closeSearchActivity() {
         finish();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
+
 }
