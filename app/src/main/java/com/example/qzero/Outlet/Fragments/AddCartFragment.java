@@ -362,6 +362,8 @@ public class AddCartFragment extends Fragment {
 
 
         }
+
+        Toast.makeText(getActivity(),"Item Added",Toast.LENGTH_SHORT);
     }
 
     private void onChangeSetPrice(int qty, TextView txtViewPrice, int tag) {

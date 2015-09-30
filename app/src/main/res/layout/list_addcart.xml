@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sub" />
+                    android:src="@drawable/sub_button_selector" />
 
                 <TextView
                     android:id="@+id/txtViewQty"
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/add" />
+                    android:src="@drawable/add_button_selector" />
             </LinearLayout>
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_toLeftOf="@+id/imgViewDelete"
                 android:padding="2dp"
                 android:text="Add Modifier"
-                android:textColor="@color/item_detail"
+                android:textColor="@drawable/addmodifier_selector"
                 android:textSize="18sp" />
 
             <ImageView
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_delete" />
+                android:src="@drawable/delete_selector" />
 
             <TextView
                 android:id="@+id/txtViewModList"
