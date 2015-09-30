@@ -1,20 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
     tools:context="com.example.qzero.HomeActivity">
 
-    <com.example.qzero.Outlet.SlidingUpPanel.SlidingUpPanelLayout
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:enabled="false"
-        android:gravity="bottom"
-        sothree:umanoDragView="@+id/dragView"
-        sothree:umanoOverlay="true">
+
 
         <!-- ImageView -->
 
@@ -48,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff"
+            android:layout_below="@+id/frameLaySliding"
             android:clickable="false"
             android:enabled="false"
             android:focusable="false"
@@ -81,13 +77,7 @@
                     android:src="@drawable/down_button_selector" />
             </RelativeLayout>
 
-            <FrameLayout
-                android:id="@+id/searchFrameLay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/relLaySearch"
-                android:background="@color/color_background"
-                android:visibility="gone"></FrameLayout>
+
 
             <RelativeLayout
                 android:id="@+id/relLayLogin"
@@ -119,14 +109,9 @@
                     android:src="@drawable/down_button_selector" />
             </RelativeLayout>
 
-            <FrameLayout
-                android:id="@+id/loginFrameLay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/relLayLogin"
-                android:background="@color/color_background"
-                android:visibility="gone"></FrameLayout>
+
         </LinearLayout>
-</com.example.qzero.Outlet.SlidingUpPanel.SlidingUpPanelLayout>
+
 
 </RelativeLayout>
+</ScrollView>

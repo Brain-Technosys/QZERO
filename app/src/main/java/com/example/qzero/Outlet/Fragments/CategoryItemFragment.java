@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TableLayout;
@@ -334,13 +335,19 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             // inner for loop
             for (int j = 0; j < cols; j++) {
 
+
+                LinearLayout layoutCategoryItem = new LinearLayout(getActivity());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+                layoutCategoryItem.setGravity(LinearLayout.HORIZONTAL);
                 child = getActivity().getLayoutInflater().inflate(R.layout.item_category, null);
                 child.setPadding(0, 0, 10, 0);
+
                 getItemId();
                 inflateData();
                 // child.setOnClickListener(this);
+                layoutCategoryItem.addView(child, params);
+                row.addView(layoutCategoryItem);
 
-                row.addView(child);
             }
 
             tableLayoutItems.addView(row);
@@ -369,19 +376,70 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
     private void initializeLayoutWidth() {
 
-       /* Display display = getActivity().getWindowManager().getDefaultDisplay();
-        DisplayMetrics outMetrics = new DisplayMetrics ();
-        display.getMetrics(outMetrics);
-
-        float density  = getResources().getDisplayMetrics().density;
-        float dpHeight = outMetrics.heightPixels / density;
-        int dpWidth  = (int)(outMetrics.widthPixels / density);
-*/
         ViewGroup.LayoutParams paramsLeft = relLayItem.getLayoutParams();
+        ViewGroup.LayoutParams paramsImage = imgViewItem.getLayoutParams();
 
-        // Changes the height and width to the specified *pixels*
-        paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        paramsLeft.width =340;;
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+
+        float fwidth = dm.density * dm.widthPixels;
+        float fheight = dm.density * dm.heightPixels;
+
+        //for devices whose density is 0.75 mainly idpi ex 320 *240
+        if (dm.density == 0.75 || dm.density < 0.75) {
+            paramsLeft.width = Math.round(fwidth / 3) + 35;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 3) + 20;
+            paramsImage.height = Math.round(fheight / 3);
+
+            //for devices whose density is 1 mainly mdpi 320 *480
+        } else if (dm.density == 1 || (dm.density > 0.75 && dm.density < 1)) {
+            paramsLeft.width = Math.round(fwidth / 2) - 10;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 2) - 20;
+            paramsImage.height = Math.round(fheight / 2) - 80;
+
+        }
+
+        //for devices whose density is 1.5 mainly hdpi
+        else if (dm.density == 1.5 || (dm.density > 1 && dm.density < 1.5)) {
+            paramsLeft.width = Math.round(fwidth / 4) + 30;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) + 20;
+            paramsImage.height = Math.round(fheight / 4) - 100;
+        }
+        //for devices whose density is 2 mainly xhdpi
+        else if (dm.density == 2 || (dm.density > 1.5 && dm.density < 2)) {
+            paramsLeft.width = Math.round(fwidth / 4) - 40;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) - 30;
+            paramsImage.height = Math.round(fheight / 4) - 250;
+
+            //for devices whose density is 3 mainly xxhdpi
+        } else if (dm.density == 3 || (dm.density > 2 && dm.density < 3)) {
+            paramsLeft.width = Math.round(fwidth / 4) + 100;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) + 90;
+            paramsImage.height = Math.round(fheight / 4) - 540;
+
+        } else {
+            paramsLeft.width = Math.round(fwidth / 4) - 40;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 4) - 30;
+            paramsImage.height = Math.round(fheight / 4) - 250;
+        }
+
     }
 
     public void setOnClick() {

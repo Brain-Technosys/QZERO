@@ -87,7 +87,7 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         //Load Image
         String item_image = Const.BASE_URL + Const.IMAGE_URL + items.getItemId();
-        Picasso.with(context).load(item_image).into(holder.itemImageView);
+        Picasso.with(context).load(item_image).placeholder(R.drawable.ic_placeholder).into(holder.itemImageView);
 
         holder.tv_item_name.setText(items.getItemName());
         holder.tv_item_status.setText(items.getItemStatus());

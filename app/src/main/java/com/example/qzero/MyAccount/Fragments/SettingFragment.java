@@ -65,7 +65,7 @@ public class SettingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.inject(this, view);
 
-        getActivity().setTitle(getString(R.string.setting_title));
+       // getActivity().setTitle(getString(R.string.setting_title));
         setFonts();
 
         return view;

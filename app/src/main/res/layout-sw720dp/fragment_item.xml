@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
 
     <RelativeLayout
@@ -18,24 +19,37 @@
             android:layout_marginLeft="10dp"
             android:text="@string/all_outlet"
             android:textColor="@color/color_tab_text_selected"
-            android:textSize="@dimen/outlet_heading_size" />
+            android:textSize="18sp" />
 
     </RelativeLayout>
+
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relLayTitle"
+        android:background="@color/searchbar_color"
+        android:textColor="#000000" />
+    <!--android:background="@color/primary_color"-->
+    />
 
     <ScrollView
         android:id="@+id/outlet_scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/advertisement"
-        android:layout_below="@+id/relLayTitle"
-        android:layout_gravity="center_horizontal">
+        android:layout_below="@+id/search_view"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/white">
 
         <TableLayout
             android:id="@+id/tableLayoutItems"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@android:color/white"
-            android:stretchColumns="0,1" />
+            android:gravity="center_horizontal"
+            android:stretchColumns="*" />
 
     </ScrollView>
 

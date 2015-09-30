@@ -66,7 +66,7 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, null);
         ButterKnife.inject(this, view);
 
-        getActivity().setTitle(getString(R.string.dashboard_title));
+       // getActivity().setTitle(getString(R.string.dashboard_title));
 
         internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());

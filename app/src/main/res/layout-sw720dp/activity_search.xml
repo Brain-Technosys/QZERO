@@ -1,0 +1,42 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <RelativeLayout
+        android:id="@+id/relLaySearch"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/primary_color">
+
+        <TextView
+            android:id="@+id/txtViewSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="@string/txt_search"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/home_text_size" />
+
+        <ImageView
+            android:id="@+id/imgViewSearchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/down_button_selector" />
+    </RelativeLayout>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchFrameLay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    android:visibility="visible"
+   />
+</LinearLayout>
