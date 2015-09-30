@@ -401,13 +401,13 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                 if (i == length - 1) {
                     if (mod == 1) { //check if the last layout contains only one data
 
-                        viewOutlet.setVisibility(View.GONE);
-                        viewOutletRight.setVisibility(View.GONE);
+                        viewOutlet.setVisibility(View.INVISIBLE);
+                        viewOutletRight.setVisibility(View.INVISIBLE);
 
                         inflateLandscapeValues();
                     } else if (mod == 2) {//check if the last layout contains only two data
 
-                        viewOutletRight.setVisibility(View.GONE);
+                        viewOutletRight.setVisibility(View.INVISIBLE);
 
                         inflateLandscapeValues();
                         inflateLeftLayout();

@@ -95,8 +95,6 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
                 container, false);
         ButterKnife.inject(this, rootView);
 
-        search_view.setFocusable(false);
-
         return rootView;
     }
 
@@ -468,7 +466,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         pos++;
 
         //Load Image
-        Picasso.with(getActivity()).load(itemOutlet.getItem_image()).into(imgViewItem);
+        Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItem);
 
     }
 }

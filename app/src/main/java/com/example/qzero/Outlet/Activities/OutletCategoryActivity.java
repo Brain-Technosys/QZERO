@@ -476,9 +476,11 @@ public class OutletCategoryActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.relLayChangeOutlet)
-    void changeOutlet() {
-        finish();
+    @OnClick(R.id.relLayHome)
+    void moveToHome() {
+        Intent intent = new Intent(this,HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @OnClick(R.id.txtViewLogout)

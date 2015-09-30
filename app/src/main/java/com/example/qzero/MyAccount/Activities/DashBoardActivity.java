@@ -163,10 +163,9 @@ public class DashBoardActivity extends AppCompatActivity {
                 checkFragmentIns(fragmentClass, fragment);
                 break;
             case id.nav_logout:
-                userSession.logout();
-                Intent intent = new Intent(this, HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finish();
                 break;
             default:
                 fragmentClass = DashboardFragment.class;

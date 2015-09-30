@@ -165,7 +165,7 @@ public class AddCartFragment extends Fragment {
     }
 
     private void setFonts() {
-        FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONTROBOLD, getActivity());
+        FontHelper.setFontFace(txtViewItemName, FontHelper.FontType.FONTSANSBOLD, getActivity());
         FontHelper.setFontFace(txtViewDesc, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewOrigPrice, FontHelper.FontType.FONT, getActivity());
         FontHelper.setFontFace(txtViewDiscount, FontHelper.FontType.FONT, getActivity());
@@ -210,6 +210,8 @@ public class AddCartFragment extends Fragment {
 
         //Inflate the layout reverse
         inflateQtyLayout();
+
+        Toast.makeText(getActivity(), "Item Added", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -244,8 +246,6 @@ public class AddCartFragment extends Fragment {
             FontHelper.setFontFace(txtViewAddModifiers, FontHelper.FontType.FONT, getActivity());
             FontHelper.setFontFace(txtViewQty, FontHelper.FontType.FONT, getActivity());
             FontHelper.setFontFace(txtViewPrice, FontHelper.FontType.FONT, getActivity());
-            FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONT, getActivity());
-
 
             //set tag
             txtViewAddModifiers.setTag(i);
@@ -343,9 +343,11 @@ public class AddCartFragment extends Fragment {
                     Log.e("count", "" + relLayItems.getChildCount());
                     Log.e("index", "" + index);
                     openDialog();
+
+
+
                 }
             });
-
 
             if (hashMapChoosenMod.size() != 0) {
                 if (hashMapChoosenMod.containsKey(i)) {
@@ -360,10 +362,9 @@ public class AddCartFragment extends Fragment {
                 }
             }
 
-
         }
 
-        Toast.makeText(getActivity(),"Item Added",Toast.LENGTH_SHORT);
+
     }
 
     private void onChangeSetPrice(int qty, TextView txtViewPrice, int tag) {
@@ -532,7 +533,6 @@ public class AddCartFragment extends Fragment {
 
     private void createRadioButton(final int i, final int j) {
 
-
         //Create radio buttons
         radioButton[j] = new RadioButton(getActivity());
         radioButton[j].setText(modifierList.get(i).getMod_name());
@@ -601,6 +601,7 @@ public class AddCartFragment extends Fragment {
 
         if (afterDiscPrice == 0.0) {
             txtViewDiscPrice.setText("$" + formattedPrice);
+            txtViewDiscPrice.setTextColor(Color.parseColor("#742314"));
             txtViewOrigPrice.setVisibility(View.GONE);
             txtViewTitDisc.setVisibility(View.INVISIBLE);
             price = formattedPrice;
@@ -617,7 +618,7 @@ public class AddCartFragment extends Fragment {
         totPrice = totPrice + Double.parseDouble(price);
 
         //Load Image
-        Picasso.with(getActivity()).load(item_image).error(R.drawable.q2x).into(imgViewItem);
+        Picasso.with(getActivity()).load(item_image).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItem);
 
         initalizeArrayItem(0, "1");
 
@@ -664,7 +665,7 @@ public class AddCartFragment extends Fragment {
 
             txtViewModList.setVisibility(View.VISIBLE);
 
-            FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTROBOLD, getActivity());
+            FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTSANSBOLD, getActivity());
             // outer for loop
             for (int i = 1; i <= newArrayList.size(); i++) {
 
@@ -672,15 +673,19 @@ public class AddCartFragment extends Fragment {
                 row.setPadding(10, 10, 10, 10);
 
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
+                        0,1f));
 
 
                 //Create textview for modifers name
 
                 TextView txtViewName = new TextView(getActivity());
 
+                txtViewName.setLayoutParams(new TableRow.LayoutParams(0,
+                        TableRow.LayoutParams.WRAP_CONTENT,1f));
+
                 txtViewName.setText(newArrayList.get(i - 1).getMod_name());
                 txtViewName.setTextColor(Color.parseColor("#000000"));
+                txtViewName.setTextSize(R.dimen.text_table_mod);
                 txtViewName.setGravity(Gravity.LEFT);
 
                 row.addView(txtViewName);
@@ -689,10 +694,13 @@ public class AddCartFragment extends Fragment {
 
                 TextView txtViewModPrice = new TextView(getActivity());
 
+                txtViewModPrice.setLayoutParams(new TableRow.LayoutParams(0,
+                        TableRow.LayoutParams.WRAP_CONTENT, 1f));
+
                 String modifierPrice = Utility.formatDecimalByString(newArrayList.get(i - 1).getMod_price());
 
                 txtViewModPrice.setText("$" + modifierPrice);
-
+                txtViewModPrice.setTextSize(R.dimen.text_table_mod);
                 txtViewModPrice.setGravity(Gravity.CENTER);
                 txtViewModPrice.setPadding(40, 0, 0, 0);
                 txtViewModPrice.setTextColor(Color.parseColor("#000000"));
@@ -731,7 +739,11 @@ public class AddCartFragment extends Fragment {
 
         TextView txtViewTotal = new TextView(getActivity());
 
+        txtViewTotal.setLayoutParams(new TableRow.LayoutParams(0,
+                TableRow.LayoutParams.WRAP_CONTENT, 1f));
+
         txtViewTotal.setText("Total");
+        txtViewTotal.setTextSize(R.dimen.text_table_mod);
         txtViewTotal.setTextColor(Color.parseColor("#000000"));
         txtViewTotal.setGravity(Gravity.LEFT);
 
@@ -740,8 +752,13 @@ public class AddCartFragment extends Fragment {
         //Create textview for modifers price
 
         tableTotPrice[pos] = new TextView(getActivity());
+
+        tableTotPrice[pos].setLayoutParams(new TableRow.LayoutParams(0,
+                TableRow.LayoutParams.WRAP_CONTENT, 1f));
+
         tableTotPrice[pos].setGravity(Gravity.CENTER);
         tableTotPrice[pos].setPadding(40, 0, 0, 0);
+        tableTotPrice[pos].setTextSize(R.dimen.text_table_mod);
         tableTotPrice[pos].setTextColor(Color.parseColor("#000000"));
 
         tableTotPrice[pos].setText("$" + totPrice);
@@ -751,7 +768,7 @@ public class AddCartFragment extends Fragment {
         tableLayoutModifiers.addView(rowTotal);
 
         //set font of total row in table layout
-        FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONT, getActivity());
+        FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTSANSBOLD, getActivity());
         FontHelper.setFontFace(tableTotPrice[pos], FontHelper.FontType.FONT, getActivity());
     }
 
