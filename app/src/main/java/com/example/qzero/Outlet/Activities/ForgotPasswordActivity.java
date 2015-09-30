@@ -85,7 +85,7 @@ public class ForgotPasswordActivity extends Activity {
         if (isEmailValid(emailid)) {
             sendEmailLink(emailid);
         } else {
-            AlertDialogHelper.showAlertDialog(this, getString(R.string.email_error), "Alert");
+            AlertDialogHelper.showAlertDialog(this, getString(R.string.forget_pwd_email), "Alert");
         }
     }
 

@@ -46,6 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_strip"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:gravity="left"
 
@@ -58,8 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtViewItemName"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_margin="5dp"
+
             android:gravity="left"
             android:textColor="@android:color/black"
             android:textSize="13dp" />

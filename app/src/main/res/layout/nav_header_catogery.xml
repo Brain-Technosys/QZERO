@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="@color/primary_color"
+    android:background="@drawable/header_bg"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="10dp"

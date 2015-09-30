@@ -136,16 +136,34 @@ public class LoginRegisterFragment extends Fragment {
         } else
             agreement = false;
 
-        if (fname.length() == 0 || lname.length() == 0
-                || username.length() == 0 || password.length() == 0
-                || confPassword.length() == 0) {
+        if (fname.length() == 0 && lname.length() == 0 && email.length() == 0
+                && username.length() == 0 && password.length() == 0
+                && confPassword.length() == 0) {
 
             AlertDialogHelper.showAlertDialog(getActivity(),
                     getString(R.string.fields_error), "Alert");
-        } else if (!checkEmail(email)) {
-
+        } else if (fname.length() == 0) {
             AlertDialogHelper.showAlertDialog(getActivity(),
-                    getString(R.string.email_error), "Alert");
+                    getString(R.string.reg_fname), "Alert");
+        } else if (lname.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.reg_lname), "Alert");
+        } else if (email.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.reg_email), "Alert");
+        } else if (!checkEmail(email)) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.reg_valid_email), "Alert");
+
+        } else if (username.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.reg_username), "Alert");
+        } else if (password.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.reg_pwd), "Alert");
+        } else if (confPassword.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.reg_cnf_pwd), "Alert");
         } else if (!checkPassword(password)) {
             AlertDialogHelper.showAlertDialog(getActivity(),
                     getString(R.string.password_pattern_error), "Alert");
@@ -253,6 +271,10 @@ public class LoginRegisterFragment extends Fragment {
                         getString(R.string.server_message), "Alert");
             }
         }
+    }
+
+    public void chkValidation() {
+
     }
 
 }

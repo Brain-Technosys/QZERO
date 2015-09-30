@@ -7,15 +7,24 @@
     <string name="title_activity_home">HomeActivity</string>
 
     <!-- -Dialog messages -->
-    <string name="email_error">Please enter username.</string>
-    <string name="password_empty">Please enter password.</string>
-    <string name="fields_error">Fields cannot be empty.</string>
+    <string name="email_error">Please enter your username.</string>
+    <string name="password_empty">Please enter your password.</string>
+    <string name="fields_error">Please enter all fields.</string>
+    <string name="reg_fname">Please enter first name.</string>
+    <string name="reg_lname">Please enter last name.</string>
+    <string name="reg_email">Please enter email ID.</string>
+    <string name="reg_username">Please enter username.</string>
+    <string name="reg_valid_email">Please enter valid email.</string>
+    <string name="reg_pwd">Please enter password.</string>
+    <string name="reg_cnf_pwd">Please confirm your password.</string>
+    <string name="password_pattern_error">Please ensure that you have at least one lower case letter, one upper case letter, one digit and one special character.</string>
+
+    <string name="forget_pwd_email">Please enter valid email ID.</string>
     <string name="internet_connection_message">Please connect to working Internet connection.</string>
     <string name="server_message">Server not responding!</string>
     <string name="password_error">Passwords do not match</string>
     <string name="chkbox_error">Please accept user agreement </string>
     <string name="reg_success">Registration Successful </string>
-    <string name="password_pattern_error">Password should be at least 6 digits and must contain at least a digit, capital letter, small letter and a symbol.</string>
     <string name="alertbox_ok">OK</string>
     <string name="alertbox_cancel">CANCEL</string>
     <string name="alertbox_allow">ALLOW</string>
@@ -45,7 +54,7 @@
     <string name="text_agreement2">User Agreement</string>
 
     <!-- -Search Venue Fragment -->
-    <string name="search_venue">Venue Details</string>
+    <string name="search_venue">Venue Name</string>
     <string name="search_city">City</string>
     <string name="search_zip">Zip Code</string>
     <string name="search_neares_loc">Nearest Location</string>
