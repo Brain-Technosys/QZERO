@@ -3,6 +3,7 @@ package com.example.qzero.Outlet.Activities;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -52,33 +53,9 @@ public class HomeActivity extends FragmentActivity {
     @InjectView(R.id.txtViewLogin)
     TextView txtViewLogin;
 
-    @InjectView(R.id.imgViewSearchButton)
-    ImageView imgViewSearchButton;
-
-    @InjectView(R.id.imgViewLoginButton)
-    ImageView imgViewLoginButton;
-
-    @InjectView(R.id.searchFrameLay)
-    FrameLayout searchFrameLay;
-
-    @InjectView(R.id.loginFrameLay)
-    FrameLayout loginFrameLay;
-
-    @InjectView(R.id.sliding_layout)
-    SlidingUpPanelLayout sliding_layout;
-
-    @InjectView(R.id.relLaySearch)
-    RelativeLayout relLaySearch;
-
-    Boolean isLayoutVisible;
-
     UserSession userSession;
-
-    private static final String TAG = "HomeActivity";
-
     Geocoder geocoder;
     List<Address> addresses;
-
     Double latitude, longitude;
 
 
@@ -94,9 +71,6 @@ public class HomeActivity extends FragmentActivity {
         userSession = new UserSession(HomeActivity.this);
 
         openPopUpWindowToGetPermissionAbtLoc();
-
-        addLoginFragment();
-
     }
 
     private void openPopUpWindowToGetPermissionAbtLoc() {
@@ -125,115 +99,17 @@ public class HomeActivity extends FragmentActivity {
     @OnClick(R.id.relLaySearch)
     void openSearchFragment() {
 
-        isLayoutVisible = checkLoginVisibility();
+        Intent intent =new Intent(HomeActivity.this,SearchActivity.class);
+        startActivity(intent);
 
-
-        if (isLayoutVisible) {
-            // do nothing
-        } else {
-            addSearchFragment();
-
-            expandPanel();
-            changeSearchButtons();
-        }
     }
 
 
     @OnClick(R.id.relLayLogin)
     void openLoginFragment() {
 
-        isLayoutVisible = checkSearchVisibility();
-        if (isLayoutVisible) {
-            // do nothing
-        } else {
-            expandPanel();
-            changeLoginButtons();
-        }
-
-    }
-
-    private void changeSearchButtons() {
-
-        isLayoutVisible = checkSearchVisibility();
-        if (!isLayoutVisible) {
-
-            searchFrameLay.setVisibility(View.VISIBLE);
-            imgViewSearchButton.setImageResource(R.drawable.upbutton_selector);
-        } else {
-
-            searchFrameLay.setVisibility(View.GONE);
-            imgViewSearchButton
-                    .setImageResource(R.drawable.down_button_selector);
-        }
-
-    }
-
-    public void expandPanel() {
-        if (sliding_layout != null
-                && (sliding_layout.getPanelState() == PanelState.EXPANDED || sliding_layout
-                .getPanelState() == PanelState.ANCHORED)) {
-            sliding_layout.setPanelState(PanelState.COLLAPSED);
-        } else {
-            sliding_layout.setPanelState(PanelState.EXPANDED);
-        }
-    }
-
-    public Boolean checkSearchVisibility() {
-        if (searchFrameLay.getVisibility() == View.VISIBLE) {
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    private void changeLoginButtons() {
-
-        isLayoutVisible = checkLoginVisibility();
-        if (!isLayoutVisible) {
-            relLaySearch.setVisibility(View.GONE);
-            loginFrameLay.setVisibility(View.VISIBLE);
-            imgViewLoginButton.setImageResource(R.drawable.upbutton_selector);
-        } else {
-            loginFrameLay.setVisibility(View.GONE);
-            relLaySearch.setVisibility(View.VISIBLE);
-            imgViewLoginButton
-                    .setImageResource(R.drawable.down_button_selector);
-        }
-
-    }
-
-    public Boolean checkLoginVisibility() {
-        if (loginFrameLay.getVisibility() == View.VISIBLE) {
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void addSearchFragment() {
-        Log.e("addSearchFragment", "addSearchFragment");
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-                .beginTransaction();
-        SearchTabFragment searchTabFragment = new SearchTabFragment();
-        fragmentTransaction.add(R.id.searchFrameLay, searchTabFragment,
-                "search");
-        fragmentTransaction.commit();
-
-    }
-
-    private void addLoginFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager
-                .beginTransaction();
-        LoginTabFragment loginTabFragment = new LoginTabFragment();
-        fragmentTransaction.add(R.id.loginFrameLay, loginTabFragment, "login");
-        fragmentTransaction.commit();
-
+        Intent intent =new Intent(HomeActivity.this,LoginActivity.class);
+        startActivity(intent);
     }
 
     private void setUserLocation() {
@@ -296,6 +172,4 @@ public class HomeActivity extends FragmentActivity {
         public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
         }
     }
-
-
 }

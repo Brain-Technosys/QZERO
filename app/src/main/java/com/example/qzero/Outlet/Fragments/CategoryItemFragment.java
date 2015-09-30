@@ -1,12 +1,11 @@
 package com.example.qzero.Outlet.Fragments;
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Point;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -14,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.example.qzero.Outlet.Activities.OutletActivity;
 import com.example.qzero.Outlet.Activities.OutletCategoryActivity;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
+import com.example.qzero.Outlet.ObjectClasses.Outlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
@@ -46,13 +48,16 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class CategoryItemFragment extends Fragment {
+public class CategoryItemFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     @InjectView(R.id.txtViewSubHeading)
     TextView txtViewSubHeading;
 
     @InjectView(R.id.tableLayoutItems)
     TableLayout tableLayoutItems;
+
+    @InjectView(R.id.search_view)
+    SearchView search_view;
 
     TextView txtViewItemName;
 
@@ -72,6 +77,7 @@ public class CategoryItemFragment extends Fragment {
     int pos = 0;
 
     ArrayList<ItemOutlet> arrayListItems;
+    ArrayList<ItemOutlet> orig;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -82,17 +88,16 @@ public class CategoryItemFragment extends Fragment {
     String category_id;
     String sub_cat_id;
 
-    Context context;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item,
                 container, false);
         ButterKnife.inject(this, rootView);
-        context = rootView.getContext();
-        return rootView;
 
+        search_view.setFocusable(false);
+
+        return rootView;
     }
 
     @Override
@@ -103,7 +108,7 @@ public class CategoryItemFragment extends Fragment {
 
         setTableLayout();
 
-
+        setupSearchView();
     }
 
     private void getIntentData() {
@@ -125,7 +130,58 @@ public class CategoryItemFragment extends Fragment {
 
     }
 
+    private void setupSearchView() {
+        search_view.setIconifiedByDefault(false);
+        search_view.setOnQueryTextListener(this);
+        search_view.setSubmitButtonEnabled(true);
+        search_view.setQueryHint("Search Items");
+    }
+
+    public boolean onQueryTextChange(String newText) {
+
+        Log.e("newtext", newText);
+        if (TextUtils.isEmpty(newText)) {
+
+            filterJson(newText);
+
+        } else {
+
+            filterJson(newText);
+        }
+        return true;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+
+        Log.e("qyuery", query);
+        return false;
+    }
+
+    public void filterJson(String newText) {
+        final ArrayList<ItemOutlet> results = new ArrayList<ItemOutlet>();
+        if (orig == null)
+            orig = arrayListItems;
+
+        if (newText != null) {
+            if (orig != null && orig.size() > 0) {
+                for (final ItemOutlet item : orig) {
+                    if (String.valueOf(item.getName()).toLowerCase()
+                            .contains(newText.toString()) || String.valueOf(item.getName())
+                            .contains(newText.toString()) )
+                        results.add(item);
+                }
+            }
+            arrayListItems = results;
+        }
+
+        pos = 0;
+        setTableLayout();
+    }
+
     public void getSubCatItems(String venue_id, String outlet_id, String category_id, String sub_cat_id) {
+
+        search_view.setFocusable(false);
+
         this.venue_id = venue_id;
         this.outlet_id = outlet_id;
         this.category_id = category_id;
@@ -260,8 +316,8 @@ public class CategoryItemFragment extends Fragment {
         for (int i = 1; i <= rows; i++) {
 
             TableRow row = new TableRow(getActivity());
-            row.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    0, 1f));
+            row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
 
             if (length % 2 != 0) {
                 Log.e("odd", "" + i);
@@ -279,6 +335,7 @@ public class CategoryItemFragment extends Fragment {
             // inner for loop
             for (int j = 0; j < cols; j++) {
 
+
                 LinearLayout layoutCategoryItem = new LinearLayout(getActivity());
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
                 layoutCategoryItem.setGravity(LinearLayout.HORIZONTAL);
@@ -290,6 +347,7 @@ public class CategoryItemFragment extends Fragment {
                 // child.setOnClickListener(this);
                 layoutCategoryItem.addView(child, params);
                 row.addView(layoutCategoryItem);
+
             }
 
             tableLayoutItems.addView(row);
@@ -317,6 +375,7 @@ public class CategoryItemFragment extends Fragment {
     }
 
     private void initializeLayoutWidth() {
+
         ViewGroup.LayoutParams paramsLeft = relLayItem.getLayoutParams();
         ViewGroup.LayoutParams paramsImage = imgViewItem.getLayoutParams();
 
@@ -381,7 +440,6 @@ public class CategoryItemFragment extends Fragment {
             paramsImage.height = Math.round(fheight / 4) - 250;
         }
 
-
     }
 
     public void setOnClick() {
@@ -410,9 +468,7 @@ public class CategoryItemFragment extends Fragment {
         pos++;
 
         //Load Image
-
-        Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).into(imgViewItem);
-
+        Picasso.with(getActivity()).load(itemOutlet.getItem_image()).into(imgViewItem);
 
     }
 }
