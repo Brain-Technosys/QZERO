@@ -7,8 +7,9 @@
     <string name="title_activity_home">HomeActivity</string>
 
     <!-- -Dialog messages -->
-    <string name="email_error">Invalid email address!</string>
-    <string name="fields_error">Fields cannot be empty!</string>
+    <string name="email_error">Please enter username.</string>
+    <string name="password_empty">Please enter password.</string>
+    <string name="fields_error">Fields cannot be empty.</string>
     <string name="internet_connection_message">Please connect to working Internet connection.</string>
     <string name="server_message">Server not responding!</string>
     <string name="password_error">Passwords do not match</string>

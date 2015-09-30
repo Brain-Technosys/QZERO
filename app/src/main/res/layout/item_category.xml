@@ -11,7 +11,6 @@
         android:id="@+id/relLayItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_margin="5dp"
         android:background="@drawable/item_border"
         android:gravity="center_horizontal"
@@ -47,13 +46,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_strip"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:gravity="left"
 
             android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/txtViewItemPrice"
@@ -61,11 +59,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtViewItemName"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:gravity="left"
             android:textColor="@android:color/black"
-            android:textSize="15dp" />
+            android:textSize="13dp" />
 
 
     </RelativeLayout>

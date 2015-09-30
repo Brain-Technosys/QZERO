@@ -95,10 +95,15 @@ public class LoginUserFragment extends Fragment {
     public void authenticateLogin() {
         userName = edtTextUserName.getText().toString();
         password = edtTxtPassword.getText().toString();
-
-        if (userName.length() == 0 || password.length() == 0) {
+        if (userName.length() == 0 && password.length() == 0) {
             AlertDialogHelper.showAlertDialog(getActivity(),
                     getString(R.string.fields_error), "Alert");
+        } else if (userName.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.email_error), "Alert");
+        } else if (password.length() == 0) {
+            AlertDialogHelper.showAlertDialog(getActivity(),
+                    getString(R.string.password_empty), "Alert");
         } else {
             if (CheckInternetHelper.checkInternetConnection(getActivity())) {
                 requestLogin();
@@ -115,6 +120,7 @@ public class LoginUserFragment extends Fragment {
     }
 
     private class Login extends AsyncTask<String, String, String> {
+        String msg;
 
         @Override
         protected void onPreExecute() {
@@ -148,6 +154,7 @@ public class LoginUserFragment extends Fragment {
                 if (jsonObject != null) {
                     Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
+                    msg = jsonObject.getString("message");
                     if (status == 1) {
                         user_id = jsonObject.getString("userId");
 
@@ -189,7 +196,7 @@ public class LoginUserFragment extends Fragment {
             } else if (status == 0) {
 
                 AlertDialogHelper.showAlertDialog(getActivity(),
-                        "Invalid username or password", "Alert");
+                        msg, "Alert");
 
             } else {
                 AlertDialogHelper.showAlertDialog(getActivity(),
@@ -221,9 +228,8 @@ public class LoginUserFragment extends Fragment {
     }
 
     @OnClick(R.id.txtViewForgotPass)
-    void forgotPassword()
-    {
-        Intent intent=new Intent(getActivity(), ForgotPasswordActivity.class);
+    void forgotPassword() {
+        Intent intent = new Intent(getActivity(), ForgotPasswordActivity.class);
         startActivity(intent);
     }
 

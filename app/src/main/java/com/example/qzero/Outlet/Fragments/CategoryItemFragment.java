@@ -21,8 +21,10 @@ import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -165,7 +167,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
                 for (final ItemOutlet item : orig) {
                     if (String.valueOf(item.getName()).toLowerCase()
                             .contains(newText.toString()) || String.valueOf(item.getName())
-                            .contains(newText.toString()) )
+                            .contains(newText.toString()))
                         results.add(item);
                 }
             }
@@ -448,6 +450,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
                 String item_id = v.getTag().toString();
 
                 Log.e("tag", v.getTag().toString());
+
                 ((OutletCategoryActivity) getActivity()).replaceFragment(venue_id, outlet_id, item_id);
             }
         });
@@ -462,7 +465,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
         txtViewItemName.setText(itemOutlet.getName());
         txtViewTitleOverlay.setText(itemOutlet.getName());
-        txtViewItemPrice.setText("$" + itemOutlet.getPrice());
+        txtViewItemPrice.setText(Utility.formatCurrency(itemOutlet.getPrice()));
         pos++;
 
         //Load Image
