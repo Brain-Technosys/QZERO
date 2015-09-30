@@ -19,11 +19,13 @@
                 android:id="@+id/card_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
                 card_view:cardBackgroundColor="#fff2f9fb"
                 card_view:cardCornerRadius="1dp"
-                card_view:cardElevation="5dp"
+                card_view:cardElevation="2dp"
                 card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -136,11 +138,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_profile"
-                android:layout_margin="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
+                card_view:cardElevation="2dp"
                 card_view:cardBackgroundColor="#fff2f9fb"
                 card_view:cardCornerRadius="1dp"
-                card_view:cardElevation="5dp"
+
                 card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -238,11 +242,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_contact"
-                android:layout_margin="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
                 card_view:cardBackgroundColor="#fff2f9fb"
                 card_view:cardCornerRadius="1dp"
-                card_view:cardElevation="5dp"
+                card_view:cardElevation="2dp"
                 card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -398,7 +403,8 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/card_address"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/selector"
                 android:text="Edit" />
 
