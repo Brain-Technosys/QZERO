@@ -208,6 +208,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        // Checking instance of Item Detail Fragment replacing
         android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag("addcart");
 
         if (classname.equals("outlet") && fragment instanceof AddCartFragment) {
@@ -224,9 +226,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
             categoryItemFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.frameLayItem, categoryItemFragment, "item");
             fragmentTransaction.commit();
-            classname = "";
         } else
             super.onBackPressed();
+
 
     }
 

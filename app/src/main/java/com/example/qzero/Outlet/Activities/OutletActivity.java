@@ -191,7 +191,6 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         }
     }
 
-
     private void setText() {
         //Find id
         txtViewHeading = (TextView) findViewById(R.id.txtViewHeading);
