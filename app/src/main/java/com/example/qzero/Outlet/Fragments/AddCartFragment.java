@@ -126,6 +126,9 @@ public class AddCartFragment extends Fragment {
 
     ArrayList<Modifier> choosenModList;
 
+    HashMap<Integer, HashMap<Integer, String>> hashMapSelectedMod;
+    HashMap<Integer, String> hashMap;
+
     Dialog dialog;
 
     LinearLayout linLayModifiers;
@@ -169,6 +172,8 @@ public class AddCartFragment extends Fragment {
         hashMapChoosenMod = new HashMap<Integer, ArrayList<Modifier>>();
 
         arrayListViewData = new HashMap<Integer, HashMap<String, String>>();
+
+        hashMapSelectedMod = new HashMap<>();
 
     }
 
@@ -439,6 +444,8 @@ public class AddCartFragment extends Fragment {
 
         radioGroup = new RadioGroup[modifier_title.size()];
 
+        hashMap = new HashMap<Integer, String>();
+
         for (int i = 0; i < modifier_title.size(); i++) {
 
             createCheckBox(i);
@@ -446,6 +453,7 @@ public class AddCartFragment extends Fragment {
             modifierList = new ArrayList<Modifier>();
 
             modifierList = hashMapModifiers.get(i);
+
 
             radioButton = new RadioButton[modifierList.size()];
 
@@ -487,7 +495,6 @@ public class AddCartFragment extends Fragment {
                     radioGroup[i].clearCheck();
 
                     Log.e("notcheck", "check" + i);
-
                 }
 
             }
@@ -519,40 +526,44 @@ public class AddCartFragment extends Fragment {
 
                         Log.e("tag", "" + tag);
 
-                        if(hashMapChoosenMod.size()!=0)
-                        {
-                           if (!hashMapChoosenMod.containsKey(index)) {
+                       /* if (hashMapChoosenMod.size() != 0) {
+                            if (!hashMapChoosenMod.containsKey(index)) {
 
-                               if (hashMapDefaultMod.size() != 0) {
+                                if (hashMapDefaultMod.size() != 0) {
 
-                                   choosenModList = hashMapDefaultMod.get(0);
 
-                                   choosenModList.remove(i);
-                               }
-                           }
+                                    choosenModList = hashMapDefaultMod.get(0);
+                                    if (choosenModList.size() != 0) {
+                                        choosenModList.remove(i);
+                                    }
+                                }
+                            }
 
+                        } else {
+
+                            if (hashMapDefaultMod.size() != 0) {
+
+                                choosenModList = hashMapDefaultMod.get(0);
+                                if (choosenModList.size() != 0) {
+
+                                    choosenModList.remove(i);
+                                }
+                            }
                         }
-                        else
-                        {
+*/
 
-                               if(hashMapDefaultMod.size()!=0) {
-
-                                   choosenModList = hashMapDefaultMod.get(0);
-
-                                   choosenModList.remove(i);
-                               }
-                           }
-
-
-
-
+                        int size = hashMapDefaultMod.size();
                         if (choosenModList.contains(radioChoice)) {
                             //do nothing
                         } else {
+
                             String mod_price = modifierList.get(tag).getMod_price();
-                            Modifier modifier = new Modifier(radioChoice, mod_price, false, choice);
+                            Modifier modifier = new Modifier(radioChoice, mod_price, true, choice);
                             choosenModList.add(modifier);
+
+                            hashMap.put(i, radioChoice);
                         }
+
 
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
@@ -592,7 +603,25 @@ public class AddCartFragment extends Fragment {
             radioButton[0].setChecked(true);
         }
 
+        Boolean isDefault = false;
+
+        if (hashMapSelectedMod.containsKey(index)) {
+
+            hashMap = hashMapSelectedMod.get(index);
+
+            if (hashMap.size() != 0) {
+
+                if (hashMap.containsKey(i)) {
+                    if (modifierList.get(j).getMod_name().equals(hashMap.get(i))) {
+                        isDefault = true;
+                    }
+                }
+            }
+        }
+
         if (modifierList.get(j).getIsDefault()) {
+            radioButton[j].setChecked(true);
+        } else if (isDefault) {
             radioButton[j].setChecked(true);
         }
 
@@ -622,6 +651,8 @@ public class AddCartFragment extends Fragment {
 
 
                 hashMapChoosenMod.put(index, choosenModList);
+
+                hashMapSelectedMod.put(index, hashMap);
 
                 TextView txtViewModL = (TextView) view[index].findViewById(R.id.txtViewModList);
 
