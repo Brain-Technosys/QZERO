@@ -73,6 +73,16 @@ public class HomeActivity extends FragmentActivity {
         openPopUpWindowToGetPermissionAbtLoc();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (userSession.isUserLoggedIn()) {
+            txtViewLogin.setText(getString(R.string.txt_my_profile));
+        } else {
+            txtViewLogin.setText(getString(R.string.txt_login));
+        }
+    }
+
     private void openPopUpWindowToGetPermissionAbtLoc() {
 
         if (!userSession.getAppLaunchStatus()) {
@@ -99,7 +109,7 @@ public class HomeActivity extends FragmentActivity {
     @OnClick(R.id.relLaySearch)
     void openSearchFragment() {
 
-        Intent intent =new Intent(HomeActivity.this,SearchActivity.class);
+        Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
         startActivity(intent);
 
     }
@@ -108,7 +118,7 @@ public class HomeActivity extends FragmentActivity {
     @OnClick(R.id.relLayLogin)
     void openLoginFragment() {
 
-        Intent intent =new Intent(HomeActivity.this,LoginActivity.class);
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 

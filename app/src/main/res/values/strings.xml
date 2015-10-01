@@ -33,6 +33,7 @@
 
     <!-- Home Activty -->
     <string name="txt_search">Search</string>
+    <string name="txt_my_profile">My Profile</string>
     <string name="txt_login">Login</string>
     <string name="msg_perm_get_location">QZERO want to know your location.</string>
     <string name="title_perm_get_location">Location Permission</string>

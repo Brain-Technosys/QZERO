@@ -90,7 +90,7 @@ public class UserSession {
      * Clear session details
      */
 
-    public void ClearUserName() { // Clearing all data from Shared
+    public void clearUserSession() { // Clearing all data from Shared
         editor.clear();
         editor.commit();
     }

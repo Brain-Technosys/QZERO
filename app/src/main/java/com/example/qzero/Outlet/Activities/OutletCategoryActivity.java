@@ -206,6 +206,30 @@ public class OutletCategoryActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void onBackPressed() {
+        android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag("addcart");
+
+        if (classname.equals("outlet") && fragment instanceof AddCartFragment) {
+
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            CategoryItemFragment categoryItemFragment = new CategoryItemFragment();
+
+            Bundle bundle = new Bundle();
+
+            //call method to put string into bundle
+            createBundle(bundle);
+
+            categoryItemFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.frameLayItem, categoryItemFragment, "item");
+            fragmentTransaction.commit();
+            classname = "";
+        } else
+            super.onBackPressed();
+
+    }
+
     private void getIntentData() {
         arrayListItems = new ArrayList<ItemOutlet>();
 
@@ -352,6 +376,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         subCatListView[pos] = new ExpandableListView(this);
 
+
         relLayCategories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -478,7 +503,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     @OnClick(R.id.relLayHome)
     void moveToHome() {
-        Intent intent = new Intent(this,HomeActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
