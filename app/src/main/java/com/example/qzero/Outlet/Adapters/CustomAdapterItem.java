@@ -124,12 +124,10 @@ public class CustomAdapterItem extends BaseAdapter {
 
     static class ViewHolder {
 
-
         TextView txtViewName;
         TextView txtViewVenue;
         TextView txtViewAddress;
         TextView txtOutletName;
-
         TextView txtViewPhone;
         TextView txtViewMobile;
 

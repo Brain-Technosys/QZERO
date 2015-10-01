@@ -1,5 +1,9 @@
 package com.example.qzero.CommonFiles.Common;
 
+import android.app.Activity;
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
+
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -23,12 +27,20 @@ public class Utility {
         return myNum;
     }
 
-    public static String removeCurrencySymbol(String text)
-    {
+    public static String removeCurrencySymbol(String text) {
         int priceLen = text.length();
 
         String substrPrice = text.substring(1, priceLen);
 
-        return  substrPrice;
+        return substrPrice;
+    }
+
+    // Method to hide soft keyboard
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager)
+                activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
