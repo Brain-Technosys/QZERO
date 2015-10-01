@@ -118,6 +118,8 @@ public class AddCartFragment extends Fragment {
 
     HashMap<Integer, ArrayList<Modifier>> hashMapChoosenMod;
 
+    HashMap<Integer, ArrayList<Modifier>> hashMapDefaultMod;
+
     HashMap<Integer, HashMap<String, String>> arrayListViewData;
 
     ArrayList<Modifier> modifierList;
@@ -138,6 +140,8 @@ public class AddCartFragment extends Fragment {
     CheckBox checkBox[];
     RadioGroup radioGroup[];
     RadioButton radioButton[];
+
+    RadioButton radioBtn;
 
     View[] view;
 
@@ -163,8 +167,6 @@ public class AddCartFragment extends Fragment {
         getItemDetails();
 
         hashMapChoosenMod = new HashMap<Integer, ArrayList<Modifier>>();
-
-        choosenModList = new ArrayList<Modifier>();
 
         arrayListViewData = new HashMap<Integer, HashMap<String, String>>();
 
@@ -242,6 +244,7 @@ public class AddCartFragment extends Fragment {
             final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
             final TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
             TextView txtViewModList = (TextView) view[i].findViewById(R.id.txtViewModList);
+            TextView txtViewTotal = (TextView) view[i].findViewById(R.id.txtViewTotal);
 
             ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
             ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
@@ -249,6 +252,7 @@ public class AddCartFragment extends Fragment {
             TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
 
             //set font
+            FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTSANSBOLD, getActivity());
             FontHelper.setFontFace(txtViewAddModifiers, FontHelper.FontType.FONT, getActivity());
             FontHelper.setFontFace(txtViewQty, FontHelper.FontType.FONT, getActivity());
             FontHelper.setFontFace(txtViewPrice, FontHelper.FontType.FONT, getActivity());
@@ -358,23 +362,24 @@ public class AddCartFragment extends Fragment {
                 }
             });
 
-            if (hashMapChoosenMod.size() != 0) {
-                if (hashMapChoosenMod.containsKey(i)) {
-                    choosenModList = hashMapChoosenMod.get(i);
+            if (hashMapChoosenMod.size() != 0 && hashMapChoosenMod.containsKey(i)) {
 
-                    if (choosenModList.size() == 0) {
-                        //do nothing
-                    } else {
+                ArrayList<Modifier> choosenModListTable = hashMapChoosenMod.get(i);
+                BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, choosenModListTable, i);
 
-                        BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, i);
-                    }
+            } else if (hashMapDefaultMod.size() != 0) {
+                ArrayList<Modifier> defaultModList = hashMapDefaultMod.get(0);
+
+                if (defaultModList.size() == 0) {
+                    //do nothing
+                } else {
+
+                    BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, defaultModList, i);
                 }
             }
-
         }
-
-
     }
+
 
     private void onChangeSetPrice(int qty, TextView txtViewPrice, int tag) {
         //if the initial total price textview present
@@ -428,6 +433,8 @@ public class AddCartFragment extends Fragment {
     //create dynamic checkbox and radiogroup
     private void createModifierLayout() {
 
+        choosenModList = new ArrayList<>();
+
         checkBox = new CheckBox[modifier_title.size()];
 
         radioGroup = new RadioGroup[modifier_title.size()];
@@ -461,7 +468,6 @@ public class AddCartFragment extends Fragment {
         checkBox[i].setTextColor(Color.parseColor("#000000"));
 
 
-
         FontHelper.setFontFace(checkBox[i], FontHelper.FontType.FONT, getActivity());
 
 
@@ -471,20 +477,20 @@ public class AddCartFragment extends Fragment {
 
                 if (checkBox[i].isChecked()) {
 
-                        choice = checkBox[i].getText().toString();
+                    choice = checkBox[i].getText().toString();
 
-                        if (radioGroup[i].getCheckedRadioButtonId() == -1) {
-                            radioGroup[i].check(radioButton[0].getId());
-                        }
-
-                    } else {
-                        radioGroup[i].clearCheck();
-
-                        Log.e("notcheck", "check" + i);
-
+                    if (radioGroup[i].getCheckedRadioButtonId() == -1) {
+                        radioGroup[i].check(radioButton[0].getId());
                     }
 
+                } else {
+                    radioGroup[i].clearCheck();
+
+                    Log.e("notcheck", "check" + i);
+
                 }
+
+            }
 
         });
 
@@ -500,22 +506,53 @@ public class AddCartFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-
                 if (radioGroup[i].getCheckedRadioButtonId() != -1) {
-                    Log.e("inside", "check");
+
                     try {
                         int radioButtonID = radioGroup[i].getCheckedRadioButtonId();
-                        RadioButton radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
+
+                        radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
 
                         String radioChoice = radioBtn.getText().toString();
 
-                       /* if (choosenModList.contains(radioChoice)) {
+                        int tag = Integer.parseInt(radioBtn.getTag().toString());
+
+                        Log.e("tag", "" + tag);
+
+                        if(hashMapChoosenMod.size()!=0)
+                        {
+                           if (!hashMapChoosenMod.containsKey(index)) {
+
+                               if (hashMapDefaultMod.size() != 0) {
+
+                                   choosenModList = hashMapDefaultMod.get(0);
+
+                                   choosenModList.remove(i);
+                               }
+                           }
+
+                        }
+                        else
+                        {
+
+                               if(hashMapDefaultMod.size()!=0) {
+
+                                   choosenModList = hashMapDefaultMod.get(0);
+
+                                   choosenModList.remove(i);
+                               }
+                           }
+
+
+
+
+                        if (choosenModList.contains(radioChoice)) {
                             //do nothing
                         } else {
-                            String mod_price = modifierList.get(i).getMod_price();
+                            String mod_price = modifierList.get(tag).getMod_price();
                             Modifier modifier = new Modifier(radioChoice, mod_price, false, choice);
                             choosenModList.add(modifier);
-                        }*/
+                        }
 
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
@@ -545,7 +582,8 @@ public class AddCartFragment extends Fragment {
         radioButton[j].setText(modifierList.get(j).getMod_name());
         radioButton[j].setTextColor(Color.parseColor("#000000"));
         radioButton[j].setId(j);
-        radioButton[j].setTag(i);
+        radioButton[j].setTag(j);
+
 
         if (modifier_title.get(i).getIsComplusory()) {
             checkBox[i].setChecked(true);
@@ -582,6 +620,7 @@ public class AddCartFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
                 hashMapChoosenMod.put(index, choosenModList);
 
                 TextView txtViewModL = (TextView) view[index].findViewById(R.id.txtViewModList);
@@ -590,7 +629,7 @@ public class AddCartFragment extends Fragment {
 
                 TextView txtViewAddModifiers = (TextView) view[index].findViewById(R.id.txtViewAddModifiers);
 
-                BuildTable(tableLayoutMod, txtViewModL, txtViewAddModifiers, index);
+                BuildTable(tableLayoutMod, txtViewModL, txtViewAddModifiers, choosenModList, index);
 
                 dialog.dismiss();
             }
@@ -638,7 +677,7 @@ public class AddCartFragment extends Fragment {
 
     }
 
-    private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, TextView txtViewAddModifiers, int pos) {
+    private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, TextView txtViewAddModifiers, ArrayList<Modifier> choosenModifiers, int pos) {
 
         //Find the id's of total and price of current view added
         TextView txtViewTotal = (TextView) view[pos].findViewById(R.id.txtViewTotal);
@@ -654,14 +693,12 @@ public class AddCartFragment extends Fragment {
 
         Boolean isDuplicate = false;
 
-        choosenModList = hashMapChoosenMod.get(pos);
-
         ArrayList<Modifier> newArrayList = new ArrayList<>();
 
 
-        for (int i = 0; i < choosenModList.size(); i++) {
+        for (int i = 0; i < choosenModifiers.size(); i++) {
             for (int j = 0; j < newArrayList.size(); j++) {
-                if (choosenModList.get(i).getMod_name().equals(newArrayList.get(j).getMod_name())) {
+                if (choosenModifiers.get(i).getMod_name().equals(newArrayList.get(j).getMod_name())) {
                     isDuplicate = true;
                     break;
                 } else {
@@ -670,12 +707,13 @@ public class AddCartFragment extends Fragment {
             }
 
             if (!isDuplicate) {
-                newArrayList.add(choosenModList.get(i));
+                newArrayList.add(choosenModifiers.get(i));
             }
         }
 
         if (newArrayList.size() != 0) {
 
+            Double totModPrice = 0.0;
 
             txtViewModList.setVisibility(View.VISIBLE);
 
@@ -726,13 +764,14 @@ public class AddCartFragment extends Fragment {
                 FontHelper.setFontFace(txtViewName, FontHelper.FontType.FONT, getActivity());
                 FontHelper.setFontFace(txtViewModPrice, FontHelper.FontType.FONT, getActivity());
 
+                Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
+
+                totModPrice = totModPrice + modPrice;
+
                 if (i == newArrayList.size()) {
 
                     createTotalRow(tableLayoutModifiers, pos);
-
-                    Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
-
-                    sendDataToHashMap(pos, modPrice);
+                    sendDataToHashMap(pos, totModPrice);
                 }
 
             }
@@ -813,18 +852,20 @@ public class AddCartFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            Log.e("inside", "do in");
+
             status = -1;
+
             jsonParser = new JsonParser();
+
             String url = Const.BASE_URL + Const.GET_ITEM_DETAIL + "/" + venue_id + "?outletId=" + outletId + "&itemId=" + itemId
                     + "&subCatId=" + subCatId;
-
-            Log.e("url", url);
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("jsonvenue", jsonString);
+            hashMapDefaultMod = new HashMap<Integer, ArrayList<Modifier>>();
+
+            ArrayList<Modifier> modListDefault = new ArrayList<>();
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -892,11 +933,22 @@ public class AddCartFragment extends Fragment {
 
                                 arrayListMod.add(modifier);
 
-
+                                if (isDefault) {
+                                    Modifier choosenmod = new Modifier(mod_name, mod_price, false, choice_name);
+                                    modListDefault.add(choosenmod);
+                                }
                             }
 
                             hashMapModifiers.put(i, arrayListMod);
+
+                            if (isCompulsory) {
+                                ArrayList<Modifier> mod = new ArrayList<>();
+                                mod = hashMapModifiers.get(i);
+                                Modifier choosenmod = new Modifier(mod.get(0).getMod_name(), mod.get(0).getMod_price(), false, choice_name);
+                                modListDefault.add(choosenmod);
+                            }
                         }
+                        hashMapDefaultMod.put(0, modListDefault);
                     }
 
                 }
