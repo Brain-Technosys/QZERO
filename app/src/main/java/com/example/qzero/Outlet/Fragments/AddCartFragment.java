@@ -148,6 +148,9 @@ public class AddCartFragment extends Fragment {
 
     View[] view;
 
+    int count;
+    int countPrice;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -438,7 +441,10 @@ public class AddCartFragment extends Fragment {
     //create dynamic checkbox and radiogroup
     private void createModifierLayout() {
 
-        choosenModList = new ArrayList<>();
+        count = 0;
+        countPrice = 0;
+
+        choosenModList = new ArrayList<Modifier>();
 
         checkBox = new CheckBox[modifier_title.size()];
 
@@ -520,11 +526,7 @@ public class AddCartFragment extends Fragment {
 
                         radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
 
-                        String radioChoice = radioBtn.getText().toString();
 
-                        int tag = Integer.parseInt(radioBtn.getTag().toString());
-
-                        Log.e("tag", "" + tag);
 
                        /* if (hashMapChoosenMod.size() != 0) {
                             if (!hashMapChoosenMod.containsKey(index)) {
@@ -551,11 +553,25 @@ public class AddCartFragment extends Fragment {
                             }
                         }
 */
+                        if (checkBox[i].isChecked())
+                        {
+                            //do nothing
+                        }
+                        else
+                        {
+                            checkBox[i].setChecked(true);
+                        }
 
                         int size = hashMapDefaultMod.size();
-                        if (choosenModList.contains(radioChoice)) {
-                            //do nothing
-                        } else {
+                        if (checkBox[i].isChecked()) {
+
+                            String radioChoice = radioBtn.getText().toString();
+
+                            Log.e("radio", radioChoice);
+
+                            int tag = Integer.parseInt(radioBtn.getTag().toString());
+
+                            Log.e("tag", "" + tag);
 
                             String mod_price = modifierList.get(tag).getMod_price();
                             Modifier modifier = new Modifier(radioChoice, mod_price, true, choice);
@@ -563,19 +579,24 @@ public class AddCartFragment extends Fragment {
 
                             hashMap.put(i, radioChoice);
                         }
+                        else
+                        {
+                            hashMap.remove(i);
+
+                            choosenModList.remove(i);
+                            Log.e("inkjk", "" + i);
+                        }
 
 
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
                     }
 
-                    if (checkBox[i].isChecked()) {
-                        //do nothing
-                    } else {
-                        checkBox[i].setChecked(true);
-                    }
+
                 } else {
                     checkBox[i].setChecked(false);
+                    hashMap.remove(i);
+                  Log.e("in",""+i);
                 }
 
             }
@@ -649,7 +670,8 @@ public class AddCartFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
+               Log.e("hashmap",""+hashMap.size());
+                
                 hashMapChoosenMod.put(index, choosenModList);
 
                 hashMapSelectedMod.put(index, hashMap);
