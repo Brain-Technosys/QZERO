@@ -62,7 +62,7 @@ public class CustomAdapterItem extends BaseAdapter {
         holder.txtViewName = (TextView) convertView.findViewById(R.id.txtViewName);
         holder.txtViewVenue = (TextView) convertView.findViewById(R.id.txtViewVenue);
         holder.txtViewAddress = (TextView) convertView.findViewById(R.id.txtViewAddress);
-        //  holder.txtViewCity = (TextView) convertView.findViewById(R.id.txtViewCity);
+        holder.txtOutletName = (TextView) convertView.findViewById(R.id.txtViewOutlet);
 
         holder.txtViewPhone = (TextView) convertView.findViewById(R.id.txtViewPhone);
         holder.txtViewMobile = (TextView) convertView.findViewById(R.id.txtViewMobile);
@@ -76,7 +76,7 @@ public class CustomAdapterItem extends BaseAdapter {
         FontHelper.setFontFace(holder.txtViewName, FontType.FONTSANSBOLD, context);
         FontHelper.setFontFace(holder.txtViewVenue, FontType.FONTSANSREGULAR, context);
         FontHelper.setFontFace(holder.txtViewAddress, FontType.FONTSANSREGULAR, context);
-//        FontHelper.setFontFace(holder.txtViewCity, FontType.FONTSANSREGULAR, context);
+        FontHelper.setFontFace(holder.txtOutletName, FontType.FONTSANSREGULAR, context);
 
         FontHelper.setFontFace(holder.txtViewMobile, FontType.FONTSANSREGULAR, context);
 
@@ -96,7 +96,8 @@ public class CustomAdapterItem extends BaseAdapter {
         holder.txtViewName.setText(items.getItem_name().trim());
         holder.txtViewVenue.setText(items.getVenue_name().trim());
         holder.txtViewAddress.setText(fullAddress);
-        //  holder.txtViewCity.setText(items.getVenue_city());
+        holder.txtOutletName.setText("(" + items.getOutlet_name() + ")");
+        //  holder.txtOutletName.setText(items.getVenue_city());
 
         if (items.getVenue_phone().equals("null")) {
             holder.imgViewPhone.setVisibility(View.GONE);
@@ -127,7 +128,7 @@ public class CustomAdapterItem extends BaseAdapter {
         TextView txtViewName;
         TextView txtViewVenue;
         TextView txtViewAddress;
-        //   TextView txtViewCity;
+        TextView txtOutletName;
 
         TextView txtViewPhone;
         TextView txtViewMobile;
