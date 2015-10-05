@@ -526,33 +526,6 @@ public class AddCartFragment extends Fragment {
 
                         radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
 
-
-
-                       /* if (hashMapChoosenMod.size() != 0) {
-                            if (!hashMapChoosenMod.containsKey(index)) {
-
-                                if (hashMapDefaultMod.size() != 0) {
-
-
-                                    choosenModList = hashMapDefaultMod.get(0);
-                                    if (choosenModList.size() != 0) {
-                                        choosenModList.remove(i);
-                                    }
-                                }
-                            }
-
-                        } else {
-
-                            if (hashMapDefaultMod.size() != 0) {
-
-                                choosenModList = hashMapDefaultMod.get(0);
-                                if (choosenModList.size() != 0) {
-
-                                    choosenModList.remove(i);
-                                }
-                            }
-                        }
-*/
                         if (checkBox[i].isChecked())
                         {
                             //do nothing
@@ -562,16 +535,11 @@ public class AddCartFragment extends Fragment {
                             checkBox[i].setChecked(true);
                         }
 
-                        int size = hashMapDefaultMod.size();
                         if (checkBox[i].isChecked()) {
 
                             String radioChoice = radioBtn.getText().toString();
 
-                            Log.e("radio", radioChoice);
-
                             int tag = Integer.parseInt(radioBtn.getTag().toString());
-
-                            Log.e("tag", "" + tag);
 
                             hashMap.put(i, radioChoice);
                         }
@@ -579,7 +547,6 @@ public class AddCartFragment extends Fragment {
                         {
                             hashMap.remove(i);
                             choosenModList.remove(i);
-                            Log.e("inkjk", "" + i);
                         }
 
 
@@ -591,7 +558,6 @@ public class AddCartFragment extends Fragment {
                 } else {
                     checkBox[i].setChecked(false);
                     hashMap.remove(i);
-                  Log.e("in",""+i);
                 }
 
             }
@@ -629,17 +595,20 @@ public class AddCartFragment extends Fragment {
 
                 if (hashMap.containsKey(i)) {
                     if (modifierList.get(j).getMod_name().equals(hashMap.get(i))) {
-                        isDefault = true;
+                       // isDefault = true;
+                        radioButton[j].setChecked(true);
                     }
                 }
             }
         }
-
-        if (modifierList.get(j).getIsDefault()) {
-            radioButton[j].setChecked(true);
-        } else if (isDefault) {
-            radioButton[j].setChecked(true);
+        else
+        {
+            if (modifierList.get(j).getIsDefault()) {
+                radioButton[j].setChecked(true);
+            }
         }
+
+
 
         FontHelper.setFontFace(radioButton[j], FontHelper.FontType.FONT, getActivity());
 
@@ -677,7 +646,7 @@ public class AddCartFragment extends Fragment {
                         RadioButton btn = (RadioButton) radioGroup[i].getChildAt(radioId);
                         String selection = (String) btn.getText();
 
-                        int tag=Integer.parseInt(radioBtn.getTag().toString());
+                        int tag=Integer.parseInt(btn.getTag().toString());
 
                         Log.e("mod",""+modifierList.size());
 
