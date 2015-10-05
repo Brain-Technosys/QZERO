@@ -526,12 +526,9 @@ public class AddCartFragment extends Fragment {
 
                         radioBtn = (RadioButton) radioGroup[i].findViewById(radioButtonID);
 
-                        if (checkBox[i].isChecked())
-                        {
+                        if (checkBox[i].isChecked()) {
                             //do nothing
-                        }
-                        else
-                        {
+                        } else {
                             checkBox[i].setChecked(true);
                         }
 
@@ -542,9 +539,7 @@ public class AddCartFragment extends Fragment {
                             int tag = Integer.parseInt(radioBtn.getTag().toString());
 
                             hashMap.put(i, radioChoice);
-                        }
-                        else
-                        {
+                        } else {
                             hashMap.remove(i);
                             choosenModList.remove(i);
                         }
@@ -595,19 +590,16 @@ public class AddCartFragment extends Fragment {
 
                 if (hashMap.containsKey(i)) {
                     if (modifierList.get(j).getMod_name().equals(hashMap.get(i))) {
-                       // isDefault = true;
+                        // isDefault = true;
                         radioButton[j].setChecked(true);
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             if (modifierList.get(j).getIsDefault()) {
                 radioButton[j].setChecked(true);
             }
         }
-
 
 
         FontHelper.setFontFace(radioButton[j], FontHelper.FontType.FONT, getActivity());
@@ -634,9 +626,9 @@ public class AddCartFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-               Log.e("hashmap",""+hashMap.size());
+                Log.e("hashmap", "" + hashMap.size());
 
-                for(int i=0;i<radioGroup.length;i++) {
+                for (int i = 0; i < radioGroup.length; i++) {
 
                     if (radioGroup[i].getCheckedRadioButtonId() != -1) {
 
@@ -646,11 +638,11 @@ public class AddCartFragment extends Fragment {
                         RadioButton btn = (RadioButton) radioGroup[i].getChildAt(radioId);
                         String selection = (String) btn.getText();
 
-                        int tag=Integer.parseInt(btn.getTag().toString());
+                        int tag = Integer.parseInt(btn.getTag().toString());
 
-                        Log.e("mod",""+modifierList.size());
+                        Log.e("mod", "" + modifierList.size());
 
-                        modifierList=hashMapModifiers.get(i);
+                        modifierList = hashMapModifiers.get(i);
 
                         String mod_price = modifierList.get(tag).getMod_price();
                         Modifier modifier = new Modifier(selection, mod_price, true, choice);
@@ -718,12 +710,17 @@ public class AddCartFragment extends Fragment {
 
     private void BuildTable(TableLayout tableLayoutModifiers, TextView txtViewModList, TextView txtViewAddModifiers, ArrayList<Modifier> choosenModifiers, int pos) {
 
+
         //Find the id's of total and price of current view added
         TextView txtViewTotal = (TextView) view[pos].findViewById(R.id.txtViewTotal);
         TextView txtViewPrice = (TextView) view[pos].findViewById(R.id.txtViewPrice);
 
-        txtViewPrice.setVisibility(View.GONE);
-        txtViewTotal.setVisibility(View.GONE);
+        if (choosenModifiers.size() == 0) {
+            txtViewModList.setVisibility(View.GONE);
+            txtViewPrice.setVisibility(View.VISIBLE);
+            txtViewTotal.setVisibility(View.VISIBLE);
+        }
+
 
         txtViewAddModifiers.setText("Edit Modifier");
 
@@ -755,6 +752,8 @@ public class AddCartFragment extends Fragment {
             Double totModPrice = 0.0;
 
             txtViewModList.setVisibility(View.VISIBLE);
+            txtViewPrice.setVisibility(View.GONE);
+            txtViewTotal.setVisibility(View.GONE);
 
             FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTSANSBOLD, getActivity());
             // outer for loop
