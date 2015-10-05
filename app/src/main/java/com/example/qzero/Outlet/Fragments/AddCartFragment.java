@@ -573,16 +573,11 @@ public class AddCartFragment extends Fragment {
 
                             Log.e("tag", "" + tag);
 
-                            String mod_price = modifierList.get(tag).getMod_price();
-                            Modifier modifier = new Modifier(radioChoice, mod_price, true, choice);
-                            choosenModList.add(modifier);
-
                             hashMap.put(i, radioChoice);
                         }
                         else
                         {
                             hashMap.remove(i);
-
                             choosenModList.remove(i);
                             Log.e("inkjk", "" + i);
                         }
@@ -671,7 +666,29 @@ public class AddCartFragment extends Fragment {
             public void onClick(View v) {
 
                Log.e("hashmap",""+hashMap.size());
-                
+
+                for(int i=0;i<radioGroup.length;i++) {
+
+                    if (radioGroup[i].getCheckedRadioButtonId() != -1) {
+
+                        int id = radioGroup[i].getCheckedRadioButtonId();
+                        View radioButton = radioGroup[i].findViewById(id);
+                        int radioId = radioGroup[i].indexOfChild(radioButton);
+                        RadioButton btn = (RadioButton) radioGroup[i].getChildAt(radioId);
+                        String selection = (String) btn.getText();
+
+                        int tag=Integer.parseInt(radioBtn.getTag().toString());
+
+                        Log.e("mod",""+modifierList.size());
+
+                        modifierList=hashMapModifiers.get(i);
+
+                        String mod_price = modifierList.get(tag).getMod_price();
+                        Modifier modifier = new Modifier(selection, mod_price, true, choice);
+                        choosenModList.add(modifier);
+                    }
+                }
+
                 hashMapChoosenMod.put(index, choosenModList);
 
                 hashMapSelectedMod.put(index, hashMap);
