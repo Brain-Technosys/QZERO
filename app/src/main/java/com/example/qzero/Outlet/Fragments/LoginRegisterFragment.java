@@ -1,5 +1,6 @@
 package com.example.qzero.Outlet.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -43,20 +46,28 @@ public class LoginRegisterFragment extends Fragment {
             .compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
     @InjectView(R.id.edtTxtFirstName)
     EditText edtFname;
+
     @InjectView(R.id.edtTxtLastName)
     EditText edtLname;
+
     @InjectView(R.id.edtTextEmail)
     EditText edtEmail;
+
     @InjectView(R.id.edtTxtUname)
     EditText edtUname;
+
     @InjectView(R.id.edtTextPass)
     EditText edtPass;
+
     @InjectView(R.id.edtTxtConfPassword)
     EditText edtConfPass;
+
     @InjectView(R.id.txtAgreement1)
     TextView txtAgreement1;
+
     @InjectView(R.id.txtAgreement2)
     TextView txtAgreement2;
+
     @InjectView(R.id.chkBoxAgreement)
     CheckBox chkAgreement;
 
@@ -114,6 +125,8 @@ public class LoginRegisterFragment extends Fragment {
 
     @OnClick(R.id.ivRegisterSubmit)
     public void submit() {
+        // Hiding soft keyboard
+        Utility.hideSoftKeyboard(getActivity());
         authenticateRegister();
     }
 

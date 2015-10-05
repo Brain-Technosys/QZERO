@@ -144,7 +144,9 @@ public class DashBoardActivity extends AppCompatActivity {
                 checkFragmentIns(fragmentClass, fragment);
                 break;
             case id.nav_wallet_fragment:
-                finish();
+                Intent i = new Intent(this, HomeActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
                 isDashboard = false;
                 break;
             case id.nav_order_fragment:
@@ -164,7 +166,7 @@ public class DashBoardActivity extends AppCompatActivity {
                 break;
             case id.nav_logout:
                 userSession.logout();
-                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;

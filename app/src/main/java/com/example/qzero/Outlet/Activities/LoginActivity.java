@@ -28,10 +28,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @InjectView(R.id.layout_myProfile)
     LinearLayout layout_myProfile;
+
     @InjectView(R.id.loginFrameLay)
     FrameLayout loginFrameLay;
+
     @InjectView(R.id.txtViewLogin)
     TextView txtViewLogin;
+
     @InjectView(R.id.txt_userName)
     TextView txt_userName;
 

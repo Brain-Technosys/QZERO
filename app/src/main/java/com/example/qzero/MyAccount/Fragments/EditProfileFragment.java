@@ -1,5 +1,6 @@
 package com.example.qzero.MyAccount.Fragments;
 
+import android.content.Context;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
@@ -90,7 +93,7 @@ public class EditProfileFragment extends Fragment {
         ButterKnife.inject(this, view);
 
         // Setting title of activity
-       // getActivity().setTitle(getString(R.string.edit_profile_title));
+        // getActivity().setTitle(getString(R.string.edit_profile_title));
         userSession = new UserSession(getActivity().getApplicationContext());
         userID = userSession.getUserID();
 
@@ -110,6 +113,10 @@ public class EditProfileFragment extends Fragment {
     // Click event of update button
     @OnClick(R.id.btn_update)
     public void updateInfo() {
+
+        // Hiding soft keyboard
+        Utility.hideSoftKeyboard(getActivity());
+
         internetHelper = new CheckInternetHelper();
         if (internetHelper.checkInternetConnection(getActivity())) {
             userSession = new UserSession(getActivity().getApplicationContext());
@@ -282,9 +289,7 @@ public class EditProfileFragment extends Fragment {
     private void updateProfile() {
         if (CheckInternetHelper.checkInternetConnection(getActivity())) {
             new UpdateUserInfo().execute();
-        }
-        else
-        {
+        } else {
             AlertDialogHelper.showAlertDialog(getActivity(),
                     getString(R.string.internet_connection_message),
                     "Alert");
