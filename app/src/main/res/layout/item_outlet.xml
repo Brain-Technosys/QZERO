@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        card_view:cardElevation="10dp">
+        card_view:cardElevation="3dp">
 
 
         <RelativeLayout
@@ -126,7 +126,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 card_view:cardBackgroundColor="@android:color/white"
-                card_view:cardElevation="10dp">
+                card_view:cardElevation="3dp">
 
 
                 <RelativeLayout
@@ -236,7 +236,7 @@
                 android:layout_weight="1"
                 android:layout_marginTop="10dp"
                 card_view:cardBackgroundColor="@android:color/white"
-                card_view:cardElevation="10dp">
+                card_view:cardElevation="3dp">
 
 
                 <RelativeLayout

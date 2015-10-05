@@ -1,14 +1,13 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
->
+    android:background="@color/color_background"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/relLayLogin"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-
         android:layout_marginTop="1dp"
         android:background="@color/primary_color">
 
@@ -19,7 +18,6 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="24dp"
-            android:text="@string/txt_login"
             android:textColor="@android:color/white"
             android:textSize="@dimen/home_text_size" />
 
@@ -33,12 +31,62 @@
             android:scaleType="centerCrop"
             android:src="@drawable/down_button_selector" />
     </RelativeLayout>
-<FrameLayout
 
-    android:id="@+id/loginFrameLay"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_background"
-    android:visibility="visible"
-   ></FrameLayout>
+    <FrameLayout
+
+        android:id="@+id/loginFrameLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background"
+        android:visibility="visible"></FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_myProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_myProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@+id/card_address"
+                android:background="@drawable/selector"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/txt_my_profile" />
+
+            <Button
+                android:id="@+id/btn_logOut"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@+id/card_address"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/selector"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/log_out" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 </LinearLayout>
