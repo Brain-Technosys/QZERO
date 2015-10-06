@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -28,12 +29,16 @@ import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.Outlet.DatabseTable.ItemDetails;
 import com.example.qzero.Outlet.ObjectClasses.ChoiceGroup;
 import com.example.qzero.Outlet.ObjectClasses.Modifier;
 import com.example.qzero.R;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -41,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -80,6 +86,9 @@ public class AddCartFragment extends Fragment {
 
     @InjectView(R.id.relLayItems)
     LinearLayout relLayItems;
+
+    @InjectView(R.id.btnAddToCart)
+    Button btnAddToCart;
 
     int status;
     int jsonLength;
@@ -150,6 +159,9 @@ public class AddCartFragment extends Fragment {
 
     int count;
     int countPrice;
+
+    //Reference of DatabaseHelper class to access its DAOs and other components
+    private DatabaseHelper databaseHelper = null;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -1009,6 +1021,39 @@ public class AddCartFragment extends Fragment {
             ProgresBar.stop();
             setLayout();
             inflateQtyLayout();
+        }
+    }
+
+    // This is how, DatabaseHelper can be initialized for future use
+    private DatabaseHelper getHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+
+
+
+
+    @OnClick(R.id.btnAddToCart)
+    void addToCart()
+    {
+
+        final ItemDetails itemDetails = new ItemDetails();
+        itemDetails.itemName="kjk";
+        itemDetails.item_discount="lklk";
+        itemDetails.item_quantity="5";
+
+
+        try {
+            // This is how, a reference of DAO object can be done
+            final Dao<ItemDetails, Integer> techerDao = getHelper().getItemDao();
+
+            //This is the way to insert data into a database table
+            techerDao.create(itemDetails);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

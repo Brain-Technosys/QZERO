@@ -1,0 +1,51 @@
+# --table-start--
+dataClass=com.example.qzero.Outlet.DatabseTable.ItemDetails
+tableName=teacher_details
+# --table-fields-start--
+# --field-start--
+fieldName=itemId
+columnName=item_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=itemName
+columnName=item_name
+# --field-end--
+# --field-start--
+fieldName=item_price
+# --field-end--
+# --field-start--
+fieldName=item_discount
+# --field-end--
+# --field-start--
+fieldName=item_quantity
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+
+#################################
+# --table-start--
+dataClass=com.example.qzero.Outlet.DatabseTable.ModifierDetails
+tableName=modifier_details
+# --table-fields-start--
+# --field-start--
+fieldName=modifierId
+columnName=modifier_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=modifierName
+columnName=modifier_name
+# --field-end--
+# --field-start--
+fieldName=modifier_price
+# --field-end--
+# --field-start--
+fieldName=item
+columnName=item_id
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
