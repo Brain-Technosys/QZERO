@@ -474,7 +474,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         });
 
     }
-
+    
     private void inflateData() {
 
         ItemOutlet itemOutlet = arrayListItems.get(pos);
