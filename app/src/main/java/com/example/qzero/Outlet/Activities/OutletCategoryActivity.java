@@ -40,6 +40,7 @@ import com.example.qzero.Outlet.Adapters.SubCategoryAdapter;
 import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
 import com.example.qzero.Outlet.Fragments.AddCartFragment;
 import com.example.qzero.Outlet.Fragments.CategoryItemFragment;
+import com.example.qzero.Outlet.Fragments.ViewCartFragment;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
@@ -173,6 +174,14 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         TextView txtViewTitle = (TextView) inflatedLayout.findViewById(R.id.txtViewTitle);
 
+        // Cart image
+        ImageView imageView = (ImageView) inflatedLayout.findViewById(R.id.cart);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoCartItem();
+            }
+        });
         txtViewTitle.setText("Outlet Items");
 
         actionBar.setCustomView(inflatedLayout);
@@ -526,6 +535,17 @@ public class OutletCategoryActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void gotoCartItem() {
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager
+                .beginTransaction();
+        ViewCartFragment viewCartFragment = new ViewCartFragment();
+        fragmentTransaction.replace(R.id.frameLayItem, viewCartFragment,
+                "viewcart").addToBackStack(viewCartFragment.getClass().getName());
+
+        fragmentTransaction.commit();
     }
 
     public class GetOutletItems extends AsyncTask<String, String, String> {
