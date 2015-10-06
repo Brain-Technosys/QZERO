@@ -39,7 +39,8 @@ fieldName=modifierName
 columnName=modifier_name
 # --field-end--
 # --field-start--
-fieldName=modifier_price
+fieldName=modifierPrice
+columnName=modifier_price
 # --field-end--
 # --field-start--
 fieldName=item

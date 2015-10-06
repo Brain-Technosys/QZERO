@@ -49,6 +49,7 @@ import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -96,6 +97,8 @@ public class AddCartFragment extends Fragment {
 
     int countLength = 1;
     int index;
+    int count;
+    int countPrice;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -121,8 +124,6 @@ public class AddCartFragment extends Fragment {
 
     Double totalPrices[];
 
-    ArrayList<ChoiceGroup> modifier_title;
-
     HashMap<Integer, ArrayList<Modifier>> hashMapModifiers;
 
     HashMap<Integer, ArrayList<Modifier>> hashMapChoosenMod;
@@ -131,12 +132,15 @@ public class AddCartFragment extends Fragment {
 
     HashMap<Integer, HashMap<String, String>> arrayListViewData;
 
+    HashMap<Integer, HashMap<Integer, String>> hashMapSelectedMod;
+
+    HashMap<Integer, String> hashMap;
+
     ArrayList<Modifier> modifierList;
 
     ArrayList<Modifier> choosenModList;
 
-    HashMap<Integer, HashMap<Integer, String>> hashMapSelectedMod;
-    HashMap<Integer, String> hashMap;
+    ArrayList<ChoiceGroup> modifier_title;
 
     Dialog dialog;
 
@@ -146,10 +150,10 @@ public class AddCartFragment extends Fragment {
     TextView txtViewCancel;
     TextView txtViewOk;
 
-
     TextView tableTotPrice[];
 
     CheckBox checkBox[];
+
     RadioGroup radioGroup[];
     RadioButton radioButton[];
 
@@ -157,8 +161,11 @@ public class AddCartFragment extends Fragment {
 
     View[] view;
 
-    int count;
-    int countPrice;
+    // Declaration of DAO to interact with corresponding table
+    private Dao<ItemDetails, Integer> teacherDao;
+
+    // It holds the list of ItemDetails object fetched from Database
+    private List<ItemDetails> teacherList;
 
     //Reference of DatabaseHelper class to access its DAOs and other components
     private DatabaseHelper databaseHelper = null;
@@ -184,10 +191,13 @@ public class AddCartFragment extends Fragment {
 
         getItemDetails();
 
+        //initialization of hashmap for the modifiers choosen by user
         hashMapChoosenMod = new HashMap<Integer, ArrayList<Modifier>>();
 
+        //contains data for each view
         arrayListViewData = new HashMap<Integer, HashMap<String, String>>();
 
+        //contains the modifers that are to be diaplay as selected on opening dialog
         hashMapSelectedMod = new HashMap<>();
 
     }
@@ -222,6 +232,9 @@ public class AddCartFragment extends Fragment {
 
 
     private void initalizeArrayItem(int position, String qty) {
+
+        //store individuals items for each view according to position
+
         HashMap<String, String> hashmap = new HashMap<String, String>();
         hashmap.put("qty", qty);
 
@@ -374,20 +387,19 @@ public class AddCartFragment extends Fragment {
                 public void onClick(View v) {
 
                     index = Integer.parseInt(v.getTag().toString());
-                    Log.e("count", "" + relLayItems.getChildCount());
-                    Log.e("index", "" + index);
+
                     openDialog();
 
 
                 }
             });
 
-            if (hashMapChoosenMod.size() != 0 && hashMapChoosenMod.containsKey(i)) {
+            if (hashMapChoosenMod.size() != 0 && hashMapChoosenMod.containsKey(i)) { //check if a user has already selected the modifiers
 
                 ArrayList<Modifier> choosenModListTable = hashMapChoosenMod.get(i);
                 BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, choosenModListTable, i);
 
-            } else if (hashMapDefaultMod.size() != 0) {
+            } else if (hashMapDefaultMod.size() != 0) { //if no modifier has been selected and default mofifiers present
                 ArrayList<Modifier> defaultModList = hashMapDefaultMod.get(0);
 
                 if (defaultModList.size() == 0) {
@@ -453,22 +465,19 @@ public class AddCartFragment extends Fragment {
     //create dynamic checkbox and radiogroup
     private void createModifierLayout() {
 
-        count = 0;
-        countPrice = 0;
-
-        choosenModList = new ArrayList<Modifier>();
+        choosenModList = new ArrayList<Modifier>();//Arraylist for modifiers choosen by the user hashMapChoosenModifiers<>
 
         checkBox = new CheckBox[modifier_title.size()];
 
         radioGroup = new RadioGroup[modifier_title.size()];
 
-        hashMap = new HashMap<Integer, String>();
+        hashMap = new HashMap<Integer, String>(); //hashmap for showing modifier selected
 
         for (int i = 0; i < modifier_title.size(); i++) {
 
             createCheckBox(i);
 
-            modifierList = new ArrayList<Modifier>();
+            modifierList = new ArrayList<Modifier>();//arrylist for modifiers present
 
             modifierList = hashMapModifiers.get(i);
 
@@ -512,7 +521,6 @@ public class AddCartFragment extends Fragment {
                 } else {
                     radioGroup[i].clearCheck();
 
-                    Log.e("notcheck", "check" + i);
                 }
 
             }
@@ -585,16 +593,14 @@ public class AddCartFragment extends Fragment {
         radioButton[j].setTag(j);
 
 
-        if (modifier_title.get(i).getIsComplusory()) {
+        if (modifier_title.get(i).getIsComplusory()) {//if choice is compulsory
             checkBox[i].setChecked(true);
             checkBox[i].setEnabled(false);
 
-            radioButton[0].setChecked(true);
+            radioButton[0].setChecked(true);// check the first radiobutton automatically
         }
 
-        Boolean isDefault = false;
-
-        if (hashMapSelectedMod.containsKey(index)) {
+        if (hashMapSelectedMod.containsKey(index)) { //if a user has manually selected the modifier
 
             hashMap = hashMapSelectedMod.get(index);
 
@@ -608,7 +614,7 @@ public class AddCartFragment extends Fragment {
                 }
             }
         } else {
-            if (modifierList.get(j).getIsDefault()) {
+            if (modifierList.get(j).getIsDefault()) {//else show the default modifier if present
                 radioButton[j].setChecked(true);
             }
         }
@@ -638,9 +644,7 @@ public class AddCartFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Log.e("hashmap", "" + hashMap.size());
-
-                for (int i = 0; i < radioGroup.length; i++) {
+                for (int i = 0; i < radioGroup.length; i++) {//get alll the selected radiobuttons
 
                     if (radioGroup[i].getCheckedRadioButtonId() != -1) {
 
@@ -651,8 +655,6 @@ public class AddCartFragment extends Fragment {
                         String selection = (String) btn.getText();
 
                         int tag = Integer.parseInt(btn.getTag().toString());
-
-                        Log.e("mod", "" + modifierList.size());
 
                         modifierList = hashMapModifiers.get(i);
 
@@ -744,7 +746,7 @@ public class AddCartFragment extends Fragment {
         ArrayList<Modifier> newArrayList = new ArrayList<>();
 
 
-        for (int i = 0; i < choosenModifiers.size(); i++) {
+       /* for (int i = 0; i < choosenModifiers.size(); i++) {//remove duplicate elements from arraylist
             for (int j = 0; j < newArrayList.size(); j++) {
                 if (choosenModifiers.get(i).getMod_name().equals(newArrayList.get(j).getMod_name())) {
                     isDuplicate = true;
@@ -757,9 +759,9 @@ public class AddCartFragment extends Fragment {
             if (!isDuplicate) {
                 newArrayList.add(choosenModifiers.get(i));
             }
-        }
+        }*/
 
-        if (newArrayList.size() != 0) {
+        if (choosenModifiers.size() != 0) {
 
             Double totModPrice = 0.0;
 
@@ -769,7 +771,7 @@ public class AddCartFragment extends Fragment {
 
             FontHelper.setFontFace(txtViewModList, FontHelper.FontType.FONTSANSBOLD, getActivity());
             // outer for loop
-            for (int i = 1; i <= newArrayList.size(); i++) {
+            for (int i = 1; i <= choosenModifiers.size(); i++) {
 
                 TableRow row = new TableRow(getActivity());
                 row.setPadding(10, 10, 10, 10);
@@ -785,7 +787,7 @@ public class AddCartFragment extends Fragment {
                 txtViewName.setLayoutParams(new TableRow.LayoutParams(0,
                         TableRow.LayoutParams.WRAP_CONTENT, 1f));
                 txtViewName.setTextSize(16);
-                txtViewName.setText(newArrayList.get(i - 1).getMod_name());
+                txtViewName.setText(choosenModifiers.get(i - 1).getMod_name());
                 txtViewName.setTextColor(Color.parseColor("#000000"));
                 txtViewName.setGravity(Gravity.LEFT);
 
@@ -798,7 +800,7 @@ public class AddCartFragment extends Fragment {
                 txtViewModPrice.setLayoutParams(new TableRow.LayoutParams(0,
                         TableRow.LayoutParams.WRAP_CONTENT, 1f));
 
-                String modifierPrice = Utility.formatDecimalByString(newArrayList.get(i - 1).getMod_price());
+                String modifierPrice = Utility.formatDecimalByString(choosenModifiers.get(i - 1).getMod_price());
 
                 txtViewModPrice.setText("$" + modifierPrice);
                 txtViewModPrice.setTextSize(16);
@@ -814,11 +816,11 @@ public class AddCartFragment extends Fragment {
                 FontHelper.setFontFace(txtViewName, FontHelper.FontType.FONT, getActivity());
                 FontHelper.setFontFace(txtViewModPrice, FontHelper.FontType.FONT, getActivity());
 
-                Double modPrice = Double.parseDouble(newArrayList.get(i - 1).getMod_price());
+                Double modPrice = Double.parseDouble(choosenModifiers.get(i - 1).getMod_price());
 
                 totModPrice = totModPrice + modPrice;
 
-                if (i == newArrayList.size()) {
+                if (i == choosenModifiers.size()) {
 
                     createTotalRow(tableLayoutModifiers, pos);
                     sendDataToHashMap(pos, totModPrice);
@@ -912,6 +914,8 @@ public class AddCartFragment extends Fragment {
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
+
+            Log.e("jsonitem",jsonString);
 
             hashMapDefaultMod = new HashMap<Integer, ArrayList<Modifier>>();
 
@@ -1033,27 +1037,31 @@ public class AddCartFragment extends Fragment {
     }
 
 
-
-
     @OnClick(R.id.btnAddToCart)
-    void addToCart()
+    void addToCart() {
+
+        saveItemDetails();
+
+    }
+
+    private void saveItemDetails()
     {
+        for (int i = 0; i < countLength; i++) {
+            final ItemDetails itemDetails = new ItemDetails();
+            itemDetails.itemName = item_name;
+            itemDetails.item_discount = String.valueOf(afterDiscPrice);
+            itemDetails.item_quantity = "5";
+            itemDetails.item_price = item_price;
+            try {
+                // This is how, a reference of DAO object can be done
+                final Dao<ItemDetails, Integer> techerDao = getHelper().getItemDao();
 
-        final ItemDetails itemDetails = new ItemDetails();
-        itemDetails.itemName="kjk";
-        itemDetails.item_discount="lklk";
-        itemDetails.item_quantity="5";
+                //This is the way to insert data into a database table
+                techerDao.create(itemDetails);
 
-
-        try {
-            // This is how, a reference of DAO object can be done
-            final Dao<ItemDetails, Integer> techerDao = getHelper().getItemDao();
-
-            //This is the way to insert data into a database table
-            techerDao.create(itemDetails);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
