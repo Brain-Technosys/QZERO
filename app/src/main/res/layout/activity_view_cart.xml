@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.example.qzero.Outlet.Activities.ViewCartActivity">
+    <include
+        android:id="@+id/inclue_header"
+        layout="@layout/inclue_header"></include>
+
+
+
+    <ListView
+        android:id="@+id/listCartItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/inclue_header"
+        android:layout_above="@+id/bottomCartLayout"
+        android:text="@string/hello_blank_fragment" />
+
+
+</RelativeLayout>

@@ -150,4 +150,14 @@
     <string name="email">Email:</string>
     <string name="email_link">Email Link</string>
     <string name="success_message">A link has been sent to your email id</string>
+    <string name="title_activity_view_cart">ViewCartActivity</string>
+
+    <!--FinalChkOut-->
+    <string name="chkout">CHECKOUT</string>
+    <string name="your_order">YOUR ORDER</string>
+    <string name="inhouse">In-House</string>
+    <string name="shipment">Shipment</string>
+    <string name="pickup">Pick Up</string>
+    <string name="next">NEXT</string>
+
 </resources>

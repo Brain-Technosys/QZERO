@@ -38,7 +38,7 @@ public class DatabaseHandler {
 
     public void open() throws SQLException {
         Log.i("inside dbhandler","yes1");
-        database = dbHelper.getWritableDatabase();
+
     }
 
     public void close() {
@@ -46,25 +46,5 @@ public class DatabaseHandler {
     }
 
 
-    public void insertIntoItem(String item_name,String item_price,String discount_price)
-    {
-        ContentValues cv = new ContentValues ();
-        cv.put (NAME_COLUMN,item_name);
-        cv.put (ITEM_PRICE,item_price);
-        cv.put(ITEM_DISCOUNT, discount_price);
-        database.insert(ITEM_TABLE, null, cv);
-
-
-    }
-
-    public void insertIntoModifiers(String item_name,String item_price,String quantity)
-    {
-        ContentValues cv = new ContentValues ();
-        cv.put(NAME_COLUMN, item_name);
-        cv.put (ITEM_PRICE,item_price);
-        cv.put(QUANTITY, quantity);
-        database.insert(MODIFIER_TABLE, null, cv);
-
-    }
 
 }

@@ -542,15 +542,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     //Edited by himanshu shekher
     public void gotoCartItem() {
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager
-                .beginTransaction();
-        ViewCartFragment viewCartFragment = new ViewCartFragment();
-        this.getSupportFragmentManager().beginTransaction()
-                .hide(getSupportFragmentManager().findFragmentById(R.id.frameLayItem))
-                .add(R.id.frameLayItem, viewCartFragment, viewCartFragment.getClass().getName())
-                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
-
+       Intent intent=new Intent(this,ViewCartActivity.class);
+        startActivity(intent);
     }
 
     public class GetOutletItems extends AsyncTask<String, String, String> {

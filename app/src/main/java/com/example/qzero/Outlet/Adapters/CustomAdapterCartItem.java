@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,51 +66,48 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
             setFont(holder);
 
-           // handleOperations(holder);
+            setValue(holder,i);
 
-            handleClickEvent(holder);
+            // handleOperations(holder);
 
-            holder.showModifier.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            handleClickEvent(holder,i);
 
-                    Log.e("ShowModifierClick","Clicked");
-                    if (holder.layoutAddModifier.getVisibility() == View.VISIBLE) {
-                        holder.layoutAddModifier.setVisibility(View.GONE);
-                    } else {
-                        holder.layoutAddModifier.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
+
         }
 
         return view;
+    }
+
+    private void setValue(ViewHolder holder,int pos) {
+
     }
 
 
     private void manageLayout(View view, ViewHolder holder) {
         holder.layoutAddModifier = (LinearLayout) view.findViewById(R.id.detail);
         holder.showModifier = (TextView) view.findViewById(R.id.show_detail);
-        holder.totalAmount = (TextView) view.findViewById(R.id.totalAmount);
+        holder.totalAmountWithModifier = (TextView) view.findViewById(R.id.totalAmount);
+
+        holder.btn_edit = (ImageView) view.findViewById(R.id.btn_edit);
     }
 
 
     private void setFont(ViewHolder holder) {
-        FontHelper.applyFont(context, holder.totalAmount, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, holder.totalAmountWithModifier, FontHelper.FontType.FONT);
         FontHelper.applyFont(context, holder.showModifier, FontHelper.FontType.FONT);
+
+
+
     }
 
     private void handleOperations(ViewHolder holder) {
         holder.tableItem = new TableLayout(context);
         holder.tableItem.setLayoutParams(holder.layoutAddModifier.getLayoutParams());
 
-
         holder.rowItem = new TableRow(context);
         holder.rowItem.setLayoutParams(holder.tableItem.getLayoutParams());
 
-
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
-
         TextView txtNameItem = new TextView(context);
         createTxtView("1. Roasted Stuffed Mushroom", txtNameItem);
         holder.rowItem.addView(txtNameItem, param);
@@ -126,26 +127,56 @@ public class CustomAdapterCartItem extends BaseAdapter {
         holder.tableItem.addView(holder.rowItem);
 
         holder.layoutAddModifier.addView(holder.tableItem);
-        holder.layoutAddModifier.setVisibility(View.GONE );
+        holder.layoutAddModifier.setVisibility(View.GONE);
 
     }
 
-    private void handleClickEvent(final ViewHolder holder) {
+    private void handleClickEvent(final ViewHolder holder,final int position) {
 
         //Hide and show modifier on clicking show detail
+        holder.showModifier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.e("ShowModifierClick", "Clicked");
+                if (holder.layoutAddModifier.getVisibility() == View.VISIBLE) {
+                    holder.layoutAddModifier.setVisibility(View.GONE);
+                    holder.showModifier.setText("Show Modifier");
+                } else {
+                    holder.layoutAddModifier.setVisibility(View.VISIBLE);
+                    holder.showModifier.setText("Hide Modifier");
+                }
+
+            }
+        });
+
+        //perform delete operation
+
+
+
+       /* //perform edit quantity operation
+        holder.btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });*/
+
 
     }
+
 
     private class ViewHolder {
         LinearLayout layoutAddModifier;
         TextView showModifier;
-        TextView totalAmount;
+        TextView totalAmountWithModifier;
 
         TableLayout tableItem;
-
         TableRow rowItem;
-        TableLayout tableModifier;
-        TableRow rowModifier;
+
+
+        ImageView btn_edit;
+
     }
 
     public void createTxtView(String txt, TextView tv) {

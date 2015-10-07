@@ -34,15 +34,11 @@ import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
-import com.example.qzero.Outlet.DatabseTable.ItemDetails;
-import com.example.qzero.Outlet.DatabseTable.ModifierDetails;
+
 import com.example.qzero.Outlet.ObjectClasses.ChoiceGroup;
 import com.example.qzero.Outlet.ObjectClasses.Modifier;
 import com.example.qzero.R;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
+
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -141,6 +137,8 @@ public class AddCartFragment extends Fragment {
 
     HashMap<Integer, HashMap<Integer, String>> hashMapSelectedMod;
 
+    HashMap<Integer, ArrayList<Modifier>> hashMaUniqueMod;
+
     HashMap<Integer, String> hashMap;
 
     ArrayList<Modifier> modifierList;
@@ -171,7 +169,7 @@ public class AddCartFragment extends Fragment {
     CategoryItemFragment categoryItemFragment;
 
     //Reference of DatabaseHelper class to access its DAOs and other components
-    private DatabaseHandler databaseHandler = null;
+    private DatabaseHelper databaseHelper = null;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -188,7 +186,7 @@ public class AddCartFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        databaseHandler=new DatabaseHandler(getActivity());
+        databaseHelper=new DatabaseHelper(getActivity());
 
         setFonts();
 
@@ -1032,27 +1030,21 @@ public class AddCartFragment extends Fragment {
     void addToCart() {
 
         saveItemDetails();
-
     }
+
 
     private void saveItemDetails() {
 
         for (int i = 0; i < countLength; i++) {
-            final ItemDetails itemDetails = new ItemDetails();
 
-            itemDetails.itemName = item_name;
-            itemDetails.item_discount = String.valueOf(afterDiscPrice);
-            itemDetails.item_price = item_price;
+           long item_id=databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
 
 
-            databaseHandler.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
-
-
-            saveModifierItems(i);
+            saveModifierItems(i,String.valueOf(item_id));
         }
     }
 
-    private void saveModifierItems(int i) {
+    private void saveModifierItems(int i,String item_id) {
         ArrayList<Modifier> modifierSaved = new ArrayList<Modifier>();
 
         HashMap<String, String> hashmap = arrayListViewData.get(i);
@@ -1060,7 +1052,8 @@ public class AddCartFragment extends Fragment {
         if (hashMapChoosenMod.containsKey(i)) {
             modifierSaved = hashMapChoosenMod.get(i);
             for (int j = 0; j < modifierSaved.size(); j++) {
-                databaseHandler.insertIntoModifiers(modifierSaved.get(j).getMod_name(), modifierSaved.get(j).getMod_price(), hashmap.get("qty"));
+
+                databaseHelper.insertIntoModifiers(modifierSaved.get(j).getMod_name(), modifierSaved.get(j).getMod_price(), hashmap.get("qty"),item_id);
             }
         }
     }
