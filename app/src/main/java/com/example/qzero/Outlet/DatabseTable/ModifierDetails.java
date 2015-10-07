@@ -34,7 +34,7 @@ public class ModifierDetails implements Serializable {
 
     // Foreign key defined to hold associations
     @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
-    public ItemDetails itemDetails;
+    public ItemDetails item;
 
 
     // Default constructor is needed for the SQLite, so make sure you also have it
@@ -43,9 +43,10 @@ public class ModifierDetails implements Serializable {
     }
 
     //For our own purpose, so it's easier to create a StudentDetails object
-    public ModifierDetails(String modifierName,String modifierPrice, ItemDetails itemDetails){
+    public ModifierDetails(String modifierName,String modifierPrice, ItemDetails item){
         this.modifierName = modifierName;
         this.modifierPrice = modifierPrice;
+        this.item=item;
 
     }
 }

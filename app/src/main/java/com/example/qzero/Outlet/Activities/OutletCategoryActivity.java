@@ -1,12 +1,12 @@
 package com.example.qzero.Outlet.Activities;
 
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -272,6 +272,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
     }
 
     public void addItemFragment() {
+
+
         isAddToCartOpen = false;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
@@ -285,6 +287,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         categoryItemFragment.setArguments(bundle);
         fragmentTransaction.add(R.id.frameLayItem, categoryItemFragment, "item");
         fragmentTransaction.commit();
+
 
     }
 
@@ -537,15 +540,17 @@ public class OutletCategoryActivity extends AppCompatActivity {
         finish();
     }
 
+    //Edited by himanshu shekher
     public void gotoCartItem() {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
                 .beginTransaction();
         ViewCartFragment viewCartFragment = new ViewCartFragment();
-        fragmentTransaction.replace(R.id.frameLayItem, viewCartFragment,
-                "viewcart").addToBackStack(viewCartFragment.getClass().getName());
+        this.getSupportFragmentManager().beginTransaction()
+                .hide(getSupportFragmentManager().findFragmentById(R.id.frameLayItem))
+                .add(R.id.frameLayItem, viewCartFragment, viewCartFragment.getClass().getName())
+                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
 
-        fragmentTransaction.commit();
     }
 
     public class GetOutletItems extends AsyncTask<String, String, String> {

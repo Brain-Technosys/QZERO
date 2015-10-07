@@ -1,86 +1,59 @@
 package com.example.qzero.CommonFiles.Helpers;
 
-
-import java.sql.SQLException;
-
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import com.example.qzero.Outlet.DatabseTable.ItemDetails;
-import com.example.qzero.Outlet.DatabseTable.ModifierDetails;
-import com.example.qzero.R;
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
-
+import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Database helper which creates and upgrades the database and provides the DAOs for the app.
- *
- *
+ * Created by Braintech on 10/6/2015.
  */
-public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "qzeodemo.db";
+    private static final String DATABASE_NAME = "qzerodb";
     private static final int DATABASE_VERSION = 1;
 
+    public static final String ITEM_TABLE = "itemDetails";
+    public static final String MODIFIER_TABLE = "modifiers";
 
-    private Dao<ItemDetails, Integer> itemsDao;
-    private Dao<ModifierDetails, Integer> modifiersDao;
+    public static final String ID_COLUMN = "id";
+    public static final String NAME_COLUMN = "item_name";
+    public static final String ITEM_PRICE = "item_price";
+    public static final String ITEM_DISCOUNT= "item_discount";
+
+    public static final String MODIFIER_ID= "item_id";
+    public static final String QUANTITY= "quantity";
+
+
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
-        try {
-
-            // Create tables. This onCreate() method will be invoked only once of the application life time i.e. the first time when the application starts.
-            TableUtils.createTable(connectionSource,ItemDetails.class);
-            TableUtils.createTable(connectionSource,ModifierDetails.class);
-
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to create datbases", e);
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
         }
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
-        try {
+    public void onCreate(SQLiteDatabase db) {
 
-            // In case of change in database of next version of application, please increase the value of DATABASE_VERSION variable, then this method will be invoked
-            //automatically. Developer needs to handle the upgrade logic here, i.e. create a new table or a new column to an existing table, take the backups of the
-            // existing database etc.
+        db.execSQL("CREATE TABLE IF NOT EXISTS"+ MODIFIER_TABLE+"("+ ID_COLUMN + "INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                 NAME_COLUMN + "TEXT ,"+ ITEM_PRICE + "TEXT ,"+ QUANTITY + "TEXT ," +"FOREIGN KEY(" + MODIFIER_ID + ") REFERENCES "
+                + ITEM_TABLE + "(id) );");
 
-            TableUtils.dropTable(connectionSource, ItemDetails.class, true);
-            TableUtils.dropTable(connectionSource, ModifierDetails.class, true);
-            onCreate(sqliteDatabase, connectionSource);
+        db.execSQL("CREATE TABLE IF NOT EXISTS"+ ITEM_TABLE+ "(" + ID_COLUMN  + "INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                 NAME_COLUMN + "TEXT ,"+ ITEM_PRICE + "TEXT ," + ITEM_DISCOUNT + "TEXT );");
 
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Unable to upgrade database from version " + oldVer + " to new "
-                    + newVer, e);
-        }
     }
 
-    // Create the getDao methods of all database tables to access those from android code.
-    // Insert, delete, read, update everything will be happened through DAOs
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-    public Dao<ItemDetails,Integer> getItemDao() throws SQLException {
-        if (itemsDao == null) {
-
-            itemsDao = getDao(ItemDetails.class);
-        }
-        return itemsDao;
     }
 
-    public Dao<ModifierDetails, Integer> getMofifierDao() throws SQLException {
-        if (modifiersDao == null) {
-            modifiersDao = getDao(ModifierDetails.class);
-        }
-        return modifiersDao;
-    }
 }

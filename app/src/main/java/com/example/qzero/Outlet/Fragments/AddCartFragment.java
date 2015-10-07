@@ -29,16 +29,20 @@ import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.DatabaseHandler;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.Outlet.DatabseTable.ItemDetails;
+import com.example.qzero.Outlet.DatabseTable.ModifierDetails;
 import com.example.qzero.Outlet.ObjectClasses.ChoiceGroup;
 import com.example.qzero.Outlet.ObjectClasses.Modifier;
 import com.example.qzero.R;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -47,8 +51,11 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -161,14 +168,10 @@ public class AddCartFragment extends Fragment {
 
     View[] view;
 
-    // Declaration of DAO to interact with corresponding table
-    private Dao<ItemDetails, Integer> teacherDao;
-
-    // It holds the list of ItemDetails object fetched from Database
-    private List<ItemDetails> teacherList;
+    CategoryItemFragment categoryItemFragment;
 
     //Reference of DatabaseHelper class to access its DAOs and other components
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHandler databaseHandler = null;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -184,6 +187,8 @@ public class AddCartFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        databaseHandler=new DatabaseHandler(getActivity());
 
         setFonts();
 
@@ -915,7 +920,7 @@ public class AddCartFragment extends Fragment {
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("jsonitem",jsonString);
+            Log.e("jsonitem", jsonString);
 
             hashMapDefaultMod = new HashMap<Integer, ArrayList<Modifier>>();
 
@@ -995,12 +1000,6 @@ public class AddCartFragment extends Fragment {
 
                             hashMapModifiers.put(i, arrayListMod);
 
-                            if (isCompulsory) {
-                                ArrayList<Modifier> mod = new ArrayList<>();
-                                mod = hashMapModifiers.get(i);
-                                Modifier choosenmod = new Modifier(mod.get(0).getMod_name(), mod.get(0).getMod_price(), false, choice_name);
-                                modListDefault.add(choosenmod);
-                            }
                         }
                         hashMapDefaultMod.put(0, modListDefault);
                     }
@@ -1028,14 +1027,6 @@ public class AddCartFragment extends Fragment {
         }
     }
 
-    // This is how, DatabaseHelper can be initialized for future use
-    private DatabaseHelper getHelper() {
-        if (databaseHelper == null) {
-            databaseHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
-        }
-        return databaseHelper;
-    }
-
 
     @OnClick(R.id.btnAddToCart)
     void addToCart() {
@@ -1044,23 +1035,32 @@ public class AddCartFragment extends Fragment {
 
     }
 
-    private void saveItemDetails()
-    {
+    private void saveItemDetails() {
+
         for (int i = 0; i < countLength; i++) {
             final ItemDetails itemDetails = new ItemDetails();
+
             itemDetails.itemName = item_name;
             itemDetails.item_discount = String.valueOf(afterDiscPrice);
-            itemDetails.item_quantity = "5";
             itemDetails.item_price = item_price;
-            try {
-                // This is how, a reference of DAO object can be done
-                final Dao<ItemDetails, Integer> techerDao = getHelper().getItemDao();
 
-                //This is the way to insert data into a database table
-                techerDao.create(itemDetails);
 
-            } catch (SQLException e) {
-                e.printStackTrace();
+            databaseHandler.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+
+
+            saveModifierItems(i);
+        }
+    }
+
+    private void saveModifierItems(int i) {
+        ArrayList<Modifier> modifierSaved = new ArrayList<Modifier>();
+
+        HashMap<String, String> hashmap = arrayListViewData.get(i);
+
+        if (hashMapChoosenMod.containsKey(i)) {
+            modifierSaved = hashMapChoosenMod.get(i);
+            for (int j = 0; j < modifierSaved.size(); j++) {
+                databaseHandler.insertIntoModifiers(modifierSaved.get(j).getMod_name(), modifierSaved.get(j).getMod_price(), hashmap.get("qty"));
             }
         }
     }
