@@ -1,6 +1,9 @@
 package com.example.qzero.Outlet.ObjectClasses;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class OrderItems {
 
     int orderId;
@@ -17,8 +20,9 @@ public class OrderItems {
     String discountAmount;
     String totalAmount;
     String netAmount;
+    ArrayList<HashMap<String, String>> modifiersList = null;
 
-    public OrderItems(int orderId, int itemId, String itemCode, String itemName, String timing, String itemStatus, String itemPrice, String remarks, String quantitiy,String discount, String discountAmount, String totalAmount, String netAmount) {
+    public OrderItems(int orderId, int itemId, String itemCode, String itemName, String timing, String itemStatus, String itemPrice, String remarks, String quantitiy, String discount, String discountAmount, String totalAmount, String netAmount, ArrayList<HashMap<String, String>> modifiersList) {
         this.orderId = orderId;
         this.itemId = itemId;
         this.itemCode = itemCode;
@@ -32,6 +36,7 @@ public class OrderItems {
         this.discountAmount = discountAmount;
         this.totalAmount = totalAmount;
         this.netAmount = netAmount;
+        this.modifiersList = modifiersList;
 
     }
 
@@ -137,5 +142,13 @@ public class OrderItems {
 
     public void setNetAmount(String netAmount) {
         this.netAmount = netAmount;
+    }
+
+    public void setModifiers(ArrayList<HashMap<String, String>> modifiersList) {
+        this.modifiersList = modifiersList;
+    }
+
+    public ArrayList<HashMap<String, String>> getModifiersList() {
+        return this.modifiersList;
     }
 }

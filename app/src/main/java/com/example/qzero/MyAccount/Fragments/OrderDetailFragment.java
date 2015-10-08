@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -207,8 +208,27 @@ public class OrderDetailFragment extends Fragment {
                             String totalAmount = orderJson.getString(Const.TAG_TOTAL_AMOUNT);
                             String netAmount = orderJson.getString(Const.TAG_NET_AMOUNT);
 
+                            JSONArray modifiersArray = orderJson.getJSONArray(Const.TAG_JsonModObj);
+                            ArrayList<HashMap<String, String>> modifiersList = null;
 
-                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty, discount, discountAmount, totalAmount, netAmount);
+                            if (modifiersArray.length() > 0) {
+
+                                modifiersList = new ArrayList<>();
+                                for (int c = 0; c < modifiersArray.length(); c++) {
+
+                                    JSONObject modifer = modifiersArray.getJSONObject(c);
+                                    HashMap<String, String> map = new HashMap<>();
+
+                                    map.put(Const.TAG_MODIFIER_ID, modifer.getString(Const.TAG_MODIFIER_ID));
+                                    map.put(Const.TAG_NAME, modifer.getString(Const.TAG_NAME));
+                                    map.put(Const.TAG_PRICE, modifer.getString(Const.TAG_PRICE));
+
+                                    modifiersList.add(map);
+                                }
+                            }
+
+
+                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty, discount, discountAmount, totalAmount, netAmount, modifiersList);
 
                             orderItemArrayList.add(orderItems);
                         }

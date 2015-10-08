@@ -42,6 +42,8 @@ public class Const {
     public static String TAG_JsonDetailObj = "itemDetails";
     public static String TAG_JsonChoiceObj = "choiceGroups";
     public static String TAG_JsonModObj = "modifiers";
+    public static String TAG_MODIFIER_ID = "modifierId";
+
 
 
     //Initialize message and status parameter

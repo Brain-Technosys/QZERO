@@ -120,11 +120,27 @@
                 android:layout_below="@+id/rl_image"
                 android:background="@color/primary_color"></View>
 
+            <LinearLayout
+                android:id="@+id/ll_modifiers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/dividerView">
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/dividerView1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/ll_modifiers"
+                android:background="@color/primary_color"></View>
+
             <RelativeLayout
                 android:id="@+id/rl_amount_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/dividerView"
+                android:layout_below="@+id/dividerView1"
                 android:paddingTop="5dp">
 
                 <LinearLayout
