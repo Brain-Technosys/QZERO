@@ -2,6 +2,7 @@ package com.example.qzero.Outlet.Fragments;
 
 
 import android.app.Dialog;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -122,6 +123,8 @@ public class AddCartFragment extends Fragment {
     String choice;
     String discountDesc;
 
+    Boolean isDuplicate = false;
+
     Double afterDiscPrice;
     Double totPrice = 0.00;
 
@@ -147,6 +150,8 @@ public class AddCartFragment extends Fragment {
 
     ArrayList<ChoiceGroup> modifier_title;
 
+    ArrayList<Modifier> modifierSaved;
+
     Dialog dialog;
 
     LinearLayout linLayModifiers;
@@ -168,7 +173,7 @@ public class AddCartFragment extends Fragment {
 
     CategoryItemFragment categoryItemFragment;
 
-    //Reference of DatabaseHelper class to access its DAOs and other components
+    //Reference of DatabaseHelper class to access its components
     private DatabaseHelper databaseHelper = null;
 
 
@@ -186,7 +191,7 @@ public class AddCartFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        databaseHelper=new DatabaseHelper(getActivity());
+        databaseHelper = new DatabaseHelper(getActivity());
 
         setFonts();
 
@@ -1037,26 +1042,141 @@ public class AddCartFragment extends Fragment {
 
         for (int i = 0; i < countLength; i++) {
 
-           long item_id=databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+            HashMap<String, String> hashmap = arrayListViewData.get(i);
 
+            Cursor itemIdCursor = databaseHelper.selectItems(item_name);
 
-            saveModifierItems(i,String.valueOf(item_id));
-        }
-    }
+            if (itemIdCursor != null) {
+                if (itemIdCursor.getCount() != 0) {
+                    while (itemIdCursor.moveToNext()) {
 
-    private void saveModifierItems(int i,String item_id) {
-        ArrayList<Modifier> modifierSaved = new ArrayList<Modifier>();
+                        String item_id = itemIdCursor.getString(0);
 
-        HashMap<String, String> hashmap = arrayListViewData.get(i);
+                        Log.e("itemk_id", "" + item_id);
+                        Log.e("i", "" + i);
 
-        if (hashMapChoosenMod.containsKey(i)) {
-            modifierSaved = hashMapChoosenMod.get(i);
-            for (int j = 0; j < modifierSaved.size(); j++) {
+                        saveModifierItems(i, item_id,hashmap);
+                        Log.e("while", "" + isDuplicate);
+                        if (isDuplicate)
+                            break;
+                    }
 
-                databaseHelper.insertIntoModifiers(modifierSaved.get(j).getMod_name(), modifierSaved.get(j).getMod_price(), hashmap.get("qty"),item_id);
+                    if(!isDuplicate)
+                    {
+                        Log.e("not","duplicate");
+                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+                        for (int mod = 0; mod < modifierSaved.size(); mod++) {
+
+                            databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId),item_name);
+                        }
+                    }
+                } else {
+
+                    Log.e("inside", "item not present");
+                    long item_id = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+                    saveModDb(i, String.valueOf(item_id));
+                }
             }
         }
     }
 
+    private void saveModifierItems(int i, String item_id,HashMap<String, String> hashmap) {
 
+        modifierSaved = new ArrayList<Modifier>();
+
+        int k;
+
+        if (hashMapChoosenMod.containsKey(i))
+            modifierSaved = hashMapChoosenMod.get(i);
+
+        if(modifierSaved.size()==0)
+        {
+            isDuplicate=true;
+            int length=databaseHelper.getNullModifiers(item_name,"null");
+
+            if(length==0)
+            {
+                long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"),String.valueOf(itemId),item_name);
+            }
+            else
+            {
+                databaseHelper.updateNullModifiers(item_name,"null",hashmap.get("qty"));
+
+            }
+        }
+
+        else {
+
+            Cursor modCursor = databaseHelper.getModifiers(item_id);
+            if (modCursor != null) {
+                if (modCursor.getCount() != 0) {
+
+                    Log.e("cursorcount", "" + modCursor.getCount());
+                    ArrayList<String> arrayListMod = new ArrayList<>();
+                    while (modCursor.moveToNext()) {
+
+                        String mod_name = modCursor.getString(2);
+
+                        Log.e("mod", mod_name);
+                        arrayListMod.add(mod_name);
+                    }
+
+                    if (modifierSaved.size() == arrayListMod.size()) {
+                        for (k = 0; k < modifierSaved.size(); k++) {
+                            if (arrayListMod.contains(modifierSaved.get(k).getMod_name())) {
+                                isDuplicate = true;
+                            } else {
+                                isDuplicate = false;
+                            }
+                        }
+                        Log.e("isDup", "" + isDuplicate);
+                        if (!isDuplicate) {
+                            //do nothing
+                        } else {
+                            Log.e("upfate", "update");
+                            databaseHelper.updateModifiers(item_id, hashmap.get("qty"));
+                        }
+
+                    } else {
+
+                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+                        for (int j = 0; j < modifierSaved.size(); j++) {
+
+                            if (modifierSaved.size() != 0) {
+
+
+                                databaseHelper.insertIntoModifiers(modifierSaved.get(j).getMod_name(), modifierSaved.get(j).getMod_price(), hashmap.get("qty"), String.valueOf(itemId),item_name);
+                            } else {
+                                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), String.valueOf(itemId),item_name);
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void saveModDb(int i, String item_id) {
+
+
+        ArrayList<Modifier> modifierSavedUnique = new ArrayList<Modifier>();
+
+        if (hashMapChoosenMod.containsKey(i))
+            modifierSavedUnique = hashMapChoosenMod.get(i);
+
+        HashMap<String, String> hashmap = arrayListViewData.get(i);
+
+        for (int j = 0; j < modifierSavedUnique.size(); j++) {
+
+            if (modifierSavedUnique.size() != 0) {
+
+                databaseHelper.insertIntoModifiers(modifierSavedUnique.get(j).getMod_name(), modifierSavedUnique.get(j).getMod_price(), hashmap.get("qty"), item_id,item_name);
+            } else {
+                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), item_id,item_name);
+            }
+        }
+    }
 }

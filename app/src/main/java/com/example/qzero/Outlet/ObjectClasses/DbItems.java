@@ -6,16 +6,13 @@ package com.example.qzero.Outlet.ObjectClasses;
 public class DbItems {
 
     String item_name;
+    String item_price;
+    String discount_price;
 
-    String quantity;
-    String modifier_name;
-    String modifier_price;
-
-    public DbItems(String item_name, String quantity, String modifier_name, String modifier_price) {
+    public DbItems(String item_name, String item_price, String discount_price) {
         this.item_name = item_name;
-        this.quantity = quantity;
-        this.modifier_name = modifier_name;
-        this.modifier_price = modifier_price;
+        this.item_price = item_price;
+        this.discount_price = discount_price;
     }
 
     public String getItem_name() {
@@ -26,27 +23,21 @@ public class DbItems {
         this.item_name = item_name;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getItem_price() {
+        return item_price;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public void setItem_price(String item_price) {
+        this.item_price = item_price;
     }
 
-    public String getModifier_name() {
-        return modifier_name;
+    public String getDiscount_price() {
+        return discount_price;
     }
 
-    public void setModifier_name(String modifier_name) {
-        this.modifier_name = modifier_name;
+    public void setDiscount_price(String discount_price) {
+        this.discount_price = discount_price;
     }
 
-    public String getModifier_price() {
-        return modifier_price;
-    }
 
-    public void setModifier_price(String modifier_price) {
-        this.modifier_price = modifier_price;
-    }
 }

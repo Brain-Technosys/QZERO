@@ -2,6 +2,7 @@ package com.example.qzero.CommonFiles.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -11,7 +12,7 @@ import android.util.Log;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "qzerodb3";
+    private static final String DATABASE_NAME = "qzerodb13";
     private static final int DATABASE_VERSION = 1;
 
     public static final String ITEM_TABLE = "itemDetails";
@@ -21,14 +22,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String NAME_COLUMN = "item_name";
     public static final String ITEM_PRICE = "item_price";
-    public static final String ITEM_DISCOUNT= "item_discount";
+    public static final String ITEM_DISCOUNT = "item_discount";
 
-    public static final String MODIFIER_ID= "mod_id";
-    public static final String QUANTITY= "quantity";
+    public static final String MODIFIER_ID = "mod_id";
+    public static final String QUANTITY = "quantity";
     public static final String MOD_COLUMN = "mod_name";
     public static final String MOD_PRICE = "mod_price";
-
-
 
 
     public DatabaseHelper(Context context) {
@@ -47,9 +46,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+ MODIFIER_TABLE+"("+ ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT ," + MODIFIER_ID + " INTEGER ," +
-                 MOD_COLUMN + " TEXT ,"+ MOD_PRICE + " TEXT ,"+ QUANTITY + " TEXT ," +" FOREIGN KEY(" + MODIFIER_ID + ") REFERENCES "
-                + ITEM_TABLE + "("+ID_COLUMN+"));");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + MODIFIER_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT ," + MODIFIER_ID + " INTEGER ," +
+                MOD_COLUMN + " TEXT ,"+ NAME_COLUMN + " TEXT ," + MOD_PRICE + " TEXT ," + QUANTITY + " TEXT ," + " FOREIGN KEY(" + MODIFIER_ID + ") REFERENCES "
+                + ITEM_TABLE + "(" + ID_COLUMN + "));");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + ITEM_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 NAME_COLUMN + " TEXT ," + ITEM_PRICE + " TEXT ," + ITEM_DISCOUNT + " TEXT );");
@@ -61,31 +60,80 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public long insertIntoItem(String item_name,String item_price,String discount_price)
-    {
+
+    public long insertIntoItem(String item_name, String item_price, String discount_price) {
         SQLiteDatabase database = getWritableDatabase();
-        ContentValues cv = new ContentValues ();
-        cv.put (NAME_COLUMN,item_name);
-        cv.put (ITEM_PRICE,item_price);
+        ContentValues cv = new ContentValues();
+        cv.put(NAME_COLUMN, item_name);
+        cv.put(ITEM_PRICE, item_price);
         cv.put(ITEM_DISCOUNT, discount_price);
-        long value=database.insert(ITEM_TABLE, null, cv);
+        long value = database.insert(ITEM_TABLE, null, cv);
 
         return value;
 
 
     }
 
-    public void insertIntoModifiers(String item_name,String item_price,String quantity,String item_id)
-    {
+    public void insertIntoModifiers(String mod_name, String item_price, String quantity, String item_id,String item_name) {
         SQLiteDatabase database = getWritableDatabase();
 
-        ContentValues cv = new ContentValues ();
-        cv.put(MOD_COLUMN, item_name);
-        cv.put (MOD_PRICE,item_price);
+        ContentValues cv = new ContentValues();
+        cv.put(MOD_COLUMN, mod_name);
+        cv.put(NAME_COLUMN,item_name);
+        cv.put(MOD_PRICE, item_price);
         cv.put(QUANTITY, quantity);
-        cv.put(MODIFIER_ID,item_id);
+        cv.put(MODIFIER_ID, item_id);
         database.insert(MODIFIER_TABLE, null, cv);
 
+    }
+
+    public Cursor getItems() {
+        SQLiteDatabase database = getReadableDatabase();
+        String selectItems = "select * from " + ITEM_TABLE;
+        Cursor valueItems = database.rawQuery(selectItems, null);
+        return valueItems;
+    }
+
+    public Cursor getModifiers(String item_id) {
+
+        SQLiteDatabase database = getReadableDatabase();
+        String selectMod = "select * from " + MODIFIER_TABLE + " where " + MODIFIER_ID + " = '" + item_id + "'";
+        Cursor valueMod = database.rawQuery(selectMod, null);
+        return valueMod;
+    }
+
+    public Cursor selectItems(String item_name) {
+        SQLiteDatabase database = getReadableDatabase();
+        String selectMod = "select " + ID_COLUMN + " from " + ITEM_TABLE + " where " + NAME_COLUMN + " = '" + item_name + "'";
+        Cursor valueItem = database.rawQuery(selectMod, null);
+        return valueItem;
+    }
+
+    public int getNullModifiers(String item_name,String mod_name) {
+
+        SQLiteDatabase database = getReadableDatabase();
+        String selectMod = "select * from " + MODIFIER_TABLE + " where " + MOD_COLUMN + " = '" + item_name + "' and " + MOD_COLUMN + "='"+mod_name+"'";
+        Cursor valueMod = database.rawQuery(selectMod, null);
+        int len=valueMod.getCount();
+        return len;
+    }
+
+    public void updateModifiers(String item_id, String quantity) {
+
+        SQLiteDatabase database = getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(QUANTITY, quantity);
+        database.update(MODIFIER_TABLE, cv,ID_COLUMN +" =? ", new String[]{item_id});
+    }
+
+    public void updateNullModifiers(String item_name,String mod_name,String quantity) {
+
+        SQLiteDatabase database = getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(QUANTITY, quantity);
+        database.update(MODIFIER_TABLE, cv, MOD_COLUMN +" =? and "+ MOD_COLUMN + " = ? ", new String[]{item_name,mod_name});
     }
 
 
