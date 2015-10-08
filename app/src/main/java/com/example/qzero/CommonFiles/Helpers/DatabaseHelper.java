@@ -61,7 +61,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-
     public long insertIntoItem(String item_name, String item_price, String discount_price,String item_image) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -72,8 +71,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long value = database.insert(ITEM_TABLE, null, cv);
 
         return value;
-
-
     }
 
     public void insertIntoModifiers(String mod_name, String item_price, String quantity, String item_id,String item_name) {
