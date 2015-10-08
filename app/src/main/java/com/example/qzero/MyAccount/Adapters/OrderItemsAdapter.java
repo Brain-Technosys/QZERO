@@ -2,28 +2,36 @@ package com.example.qzero.MyAccount.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.Outlet.ObjectClasses.Items;
 import com.example.qzero.Outlet.ObjectClasses.OrderItems;
+import com.example.qzero.Outlet.SlidingUpPanel.SlidingUpPanelLayout;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class OrderItemsAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<OrderItems> rowItems;
+
 
     public OrderItemsAdapter(Context context,
                              ArrayList<OrderItems> rowItems) {
@@ -54,9 +62,12 @@ public class OrderItemsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        double subTotal = 0;
+
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
             convertView = mInflater.inflate(R.layout.list_items_order_items, null);
 
             holder = new ViewHolder();
@@ -76,6 +87,8 @@ public class OrderItemsAdapter extends BaseAdapter {
             holder.discontAmountLayout = (LinearLayout) convertView.findViewById(R.id.ll_discountAmount);
             holder.totalAmountLayout = (LinearLayout) convertView.findViewById(R.id.ll_totalAmount);
             holder.netAmountLayout = (LinearLayout) convertView.findViewById(R.id.ll_netAmount);
+            holder.modifiersLayout = (LinearLayout) convertView.findViewById(R.id.ll_modifiers);
+            holder.dividerView = convertView.findViewById(R.id.dividerView1);
 
 
             convertView.setTag(holder);
@@ -85,18 +98,36 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         OrderItems items = rowItems.get(position);
 
+        // Getting modifiers list
+        ArrayList<HashMap<String, String>> modifiersList = new ArrayList<>();
+        modifiersList = items.getModifiersList();
+
         //Load Image
         String item_image = Const.BASE_URL + Const.IMAGE_URL + items.getItemId();
         Picasso.with(context).load(item_image).placeholder(R.drawable.ic_placeholder).into(holder.itemImageView);
 
+
         holder.tv_item_name.setText(items.getItemName());
         holder.tv_item_status.setText(items.getItemStatus());
-        holder.tv_item_price.setText("$" + items.getItemPrice());
+        holder.tv_item_price.setText(Utility.formatCurrency(items.getItemPrice()));
         holder.tv_quantity.setText(items.getQuantitiy());
 
+        // If modifier(s) exist with product
+        if (modifiersList != null && modifiersList.size() > 0) {
+            holder.modifiersLayout.setVisibility(View.VISIBLE);
+            holder.dividerView.setVisibility(View.VISIBLE);
+            subTotal = (Double.valueOf(items.getItemPrice()) + drawModifiers(holder.modifiersLayout, modifiersList)) * Double.valueOf(items.getQuantitiy());
+        } else {
+
+            // Calculating
+            subTotal = Double.valueOf(items.getItemPrice()) * Double.valueOf(items.getQuantitiy());
+            holder.modifiersLayout.setVisibility(View.GONE);
+            holder.dividerView.setVisibility(View.GONE);
+        }
+
         if (Double.valueOf(items.getDiscountAmount()) > 0.0) {
-            holder.discountAmountTextView.setText("$" + items.getDiscountAmount());
-            holder.totalAmountTextView.setText("$" + items.getTotalAmount());
+            holder.discountAmountTextView.setText(Utility.formatCurrency(items.getDiscountAmount()));
+            holder.totalAmountTextView.setText(Utility.formatCurrency(items.getTotalAmount()));
 
             holder.discontAmountLayout.setVisibility(View.VISIBLE);
             holder.totalAmountLayout.setVisibility(View.VISIBLE);
@@ -106,7 +137,8 @@ public class OrderItemsAdapter extends BaseAdapter {
             holder.totalAmountLayout.setVisibility(View.GONE);
         }
 
-        holder.netAmountTextView.setText("$" + items.getNetAmount());
+        //holder.netAmountTextView.setText(Utility.formatCurrency(items.getNetAmount()));
+        holder.netAmountTextView.setText(Utility.formatCurrency(String.valueOf(subTotal)));
 
         setFonts(holder);
 
@@ -125,6 +157,51 @@ public class OrderItemsAdapter extends BaseAdapter {
         FontHelper.applyFont(context, holder.netAmountTextView, FontHelper.FontType.FONT);
     }
 
+    private double drawModifiers(LinearLayout tableLayout, ArrayList<HashMap<String, String>> modifiers) {
+        int noOfModifiers = modifiers.size();
+        double modifierPrice = 0;
+        LinearLayout[] tableRow = new LinearLayout[noOfModifiers];
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        TextView[] modifierNameTextViews = new TextView[noOfModifiers];
+        TextView[] modifierPriceTextViews = new TextView[noOfModifiers];
+
+        for (int i = 0; i < noOfModifiers; i++) {
+
+            tableRow[i] = new LinearLayout(context);
+            modifierNameTextViews[i] = new TextView(context);
+            modifierPriceTextViews[i] = new TextView(context);
+            HashMap<String, String> map = modifiers.get(i);
+
+            tableRow[i].setLayoutParams(layoutParams);
+            tableRow[i].setOrientation(LinearLayout.HORIZONTAL);
+            modifierNameTextViews[i].setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+            modifierPriceTextViews[i].setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0));
+
+            // Setting text to text views
+            modifierNameTextViews[i].setText(map.get(Const.TAG_NAME));
+            modifierPriceTextViews[i].setText(Utility.formatCurrency(map.get(Const.TAG_PRICE)));
+            modifierPrice = modifierPrice + Double.valueOf(map.get(Const.TAG_PRICE));
+
+            modifierNameTextViews[i].setTextColor(Color.BLACK);
+            modifierPriceTextViews[i].setTextColor(Color.BLACK);
+
+//            modifierNameTextViews[i].setText("Name");
+//            modifierPriceTextViews[i].setText("Price");
+
+            // Adding text views to table row
+            tableRow[i].addView(modifierNameTextViews[i]);
+            tableRow[i].addView(modifierPriceTextViews[i]);
+
+            // Adding table row to table layout
+            tableLayout.addView(tableRow[i], new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        }
+
+        return modifierPrice;
+    }
+
     static class ViewHolder {
 
         TextView tv_item_name;
@@ -140,5 +217,9 @@ public class OrderItemsAdapter extends BaseAdapter {
         LinearLayout discontAmountLayout;
         LinearLayout totalAmountLayout;
         LinearLayout netAmountLayout;
+        LinearLayout modifiersLayout;
+
+        View dividerView;
+
     }
 }
