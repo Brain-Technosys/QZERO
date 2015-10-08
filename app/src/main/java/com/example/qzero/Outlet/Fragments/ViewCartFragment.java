@@ -49,7 +49,7 @@ public class ViewCartFragment extends Fragment {
         for(int i=0;i<5;i++){
             HashMap<String,String> mySampleHashmap=new HashMap<>();
             mySampleHashmap.put("number",String.valueOf(i));
-        mainCartItem.add(mySampleHashmap);
+           mainCartItem.add(mySampleHashmap);
         }
 
         CustomAdapterCartItem adapterCartItem=new CustomAdapterCartItem(context,mainCartItem);

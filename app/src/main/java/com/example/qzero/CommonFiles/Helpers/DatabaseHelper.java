@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NAME_COLUMN = "item_name";
     public static final String ITEM_PRICE = "item_price";
     public static final String ITEM_DISCOUNT = "item_discount";
+    public static final String ITEM_IMAGE = "item_image";
 
     public static final String MODIFIER_ID = "mod_id";
     public static final String QUANTITY = "quantity";
@@ -51,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ITEM_TABLE + "(" + ID_COLUMN + "));");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + ITEM_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                NAME_COLUMN + " TEXT ," + ITEM_PRICE + " TEXT ," + ITEM_DISCOUNT + " TEXT );");
+                NAME_COLUMN + " TEXT ," + ITEM_PRICE + " TEXT ," + ITEM_IMAGE + " TEXT ," + ITEM_DISCOUNT + " TEXT );");
 
     }
 
@@ -61,12 +62,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public long insertIntoItem(String item_name, String item_price, String discount_price) {
+    public long insertIntoItem(String item_name, String item_price, String discount_price,String item_image) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(NAME_COLUMN, item_name);
         cv.put(ITEM_PRICE, item_price);
         cv.put(ITEM_DISCOUNT, discount_price);
+        cv.put(ITEM_IMAGE,item_image);
         long value = database.insert(ITEM_TABLE, null, cv);
 
         return value;
@@ -112,7 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getNullModifiers(String item_name,String mod_name) {
 
         SQLiteDatabase database = getReadableDatabase();
-        String selectMod = "select * from " + MODIFIER_TABLE + " where " + MOD_COLUMN + " = '" + item_name + "' and " + MOD_COLUMN + "='"+mod_name+"'";
+        String selectMod = "select * from " + MODIFIER_TABLE + " where " + NAME_COLUMN + " = '" + item_name + "' and " + MOD_COLUMN + "='"+mod_name+"'";
         Cursor valueMod = database.rawQuery(selectMod, null);
         int len=valueMod.getCount();
         return len;
@@ -120,11 +122,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateModifiers(String item_id, String quantity) {
 
+        Log.e("update",item_id);
+
         SQLiteDatabase database = getWritableDatabase();
 
         ContentValues cv = new ContentValues();
         cv.put(QUANTITY, quantity);
-        database.update(MODIFIER_TABLE, cv,ID_COLUMN +" =? ", new String[]{item_id});
+        database.update(MODIFIER_TABLE, cv,MODIFIER_ID +" =? ", new String[]{item_id});
     }
 
     public void updateNullModifiers(String item_name,String mod_name,String quantity) {
@@ -133,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues cv = new ContentValues();
         cv.put(QUANTITY, quantity);
-        database.update(MODIFIER_TABLE, cv, MOD_COLUMN +" =? and "+ MOD_COLUMN + " = ? ", new String[]{item_name,mod_name});
+        database.update(MODIFIER_TABLE, cv, NAME_COLUMN +" =? and "+ MOD_COLUMN + " = ? ", new String[]{item_name,mod_name});
     }
 
 

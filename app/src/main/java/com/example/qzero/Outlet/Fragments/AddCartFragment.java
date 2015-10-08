@@ -767,7 +767,7 @@ public class AddCartFragment extends Fragment {
             if (!isDuplicate) {
                 newArrayList.add(choosenModifiers.get(i));
             }
-        }*/
+        }*///code commented by neha on 8 oct 2015
 
         if (choosenModifiers.size() != 0) {
 
@@ -1064,16 +1064,17 @@ public class AddCartFragment extends Fragment {
                     if(!isDuplicate)
                     {
                         Log.e("not","duplicate");
-                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice),item_image);
                         for (int mod = 0; mod < modifierSaved.size(); mod++) {
 
                             databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId),item_name);
                         }
                     }
-                } else {
+                }
+                else {
 
                     Log.e("inside", "item not present");
-                    long item_id = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+                    long item_id = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice),item_image);
                     saveModDb(i, String.valueOf(item_id));
                 }
             }
@@ -1096,7 +1097,7 @@ public class AddCartFragment extends Fragment {
 
             if(length==0)
             {
-                long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
+                long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice),item_image);
                 databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"),String.valueOf(itemId),item_name);
             }
             else
@@ -1135,23 +1136,13 @@ public class AddCartFragment extends Fragment {
                             //do nothing
                         } else {
                             Log.e("upfate", "update");
+                            Log.e("item_id",item_id);
                             databaseHelper.updateModifiers(item_id, hashmap.get("qty"));
                         }
-
-                    } else {
-
-                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice));
-                        for (int j = 0; j < modifierSaved.size(); j++) {
-
-                            if (modifierSaved.size() != 0) {
-
-
-                                databaseHelper.insertIntoModifiers(modifierSaved.get(j).getMod_name(), modifierSaved.get(j).getMod_price(), hashmap.get("qty"), String.valueOf(itemId),item_name);
-                            } else {
-                                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), String.valueOf(itemId),item_name);
-                            }
-                        }
-
+                    }
+                    else
+                    {
+                        isDuplicate=false;
                     }
                 }
 

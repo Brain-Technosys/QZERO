@@ -91,7 +91,9 @@ public class ViewCartActivity extends Activity {
                 String item_id = itemCursor.getString(0);
                 String item_name = itemCursor.getString(1);
                 String item_price=itemCursor.getString(2);
-                String item_discount=itemCursor.getString(3);
+                String item_image=itemCursor.getString(3);
+                String item_discount=itemCursor.getString(4);
+
 
                 Cursor modCursor=databaseHelper.getModifiers(item_id);
 
@@ -108,7 +110,7 @@ public class ViewCartActivity extends Activity {
                     }
                 }
 
-                DbItems dbItems=new DbItems(item_name,item_price,item_discount);
+                DbItems dbItems=new DbItems(item_name,item_price,item_discount,item_image);
                 arrayListDbIetms.add(dbItems);
 
                 hashMapItems.put(pos,arrayListDbIetms);

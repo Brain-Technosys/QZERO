@@ -8,11 +8,13 @@ public class DbItems {
     String item_name;
     String item_price;
     String discount_price;
+    String item_image;
 
-    public DbItems(String item_name, String item_price, String discount_price) {
+    public DbItems(String item_name, String item_price, String discount_price,String item_image) {
         this.item_name = item_name;
         this.item_price = item_price;
         this.discount_price = discount_price;
+        this.item_image=item_image;
     }
 
     public String getItem_name() {
@@ -39,5 +41,11 @@ public class DbItems {
         this.discount_price = discount_price;
     }
 
+    public String getItem_image() {
+        return item_image;
+    }
 
+    public void setItem_image(String item_image) {
+        this.item_image = item_image;
+    }
 }
