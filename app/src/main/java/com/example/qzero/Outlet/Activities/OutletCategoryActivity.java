@@ -40,7 +40,6 @@ import com.example.qzero.Outlet.Adapters.SubCategoryAdapter;
 import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
 import com.example.qzero.Outlet.Fragments.AddCartFragment;
 import com.example.qzero.Outlet.Fragments.CategoryItemFragment;
-import com.example.qzero.Outlet.Fragments.ViewCartFragment;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;

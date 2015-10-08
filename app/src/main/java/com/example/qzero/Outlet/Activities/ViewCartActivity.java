@@ -102,8 +102,8 @@ public class ViewCartActivity extends Activity {
                     while(modCursor.moveToNext()) {
 
                         String mod_name = modCursor.getString(2);
-                        String mod_price=modCursor.getString(3);
-                        String quantity = modCursor.getString(4);
+                        String mod_price=modCursor.getString(4);
+                        String quantity = modCursor.getString(5);
 
                         DbModifiers dbModifiers=new DbModifiers(item_name,quantity,mod_name,mod_price);
                         arrayListDbMod.add(dbModifiers);
@@ -123,57 +123,6 @@ public class ViewCartActivity extends Activity {
         }
     }
 
-   /* private void checkDuplicateData(ArrayList<DbItems> arrayListItems,ArrayList<DbModifiers> arrayListMod,int pos)
-    {
-        Boolean isDuplicate=false;
-        if(hashMapItems.size()==0)
-        {
-            hashMapItems.put(pos,arrayListItems);
-            hashMapModifiers.put(pos,arrayListMod);
-        }
-        else
-        {
-            ArrayList<DbModifiers> arrayListNewMod=new ArrayList<>();
-
-            for(int i=0;i<hashMapModifiers.size();i++)
-            {
-                arrayListNewMod=hashMapModifiers.get(i);
-                if(arrayListNewMod.get(i).getItem_name().equals(arrayListMod.get(i).getItem_name()) && arrayListMod.size()==arrayListNewMod.size())
-                {
-                    for(int j=0;j<arrayListMod.size();j++)
-                    {
-                        if(arrayListNewMod.get(j).getModifier_name().equals(arrayListMod.get(j).getModifier_name()))
-                        {
-                            isDuplicate=true;
-                        }
-                        else
-                        {
-                            isDuplicate=false;
-                        }
-                    }
-
-                    if(!isDuplicate)
-                    {
-                        hashMapItems.put(pos,arrayListItems);
-                        hashMapModifiers.put(pos,arrayListMod);
-                    }
-
-                }
-                else
-                {
-                    isDuplicate=false;
-                }
-
-            }
-
-            if(!isDuplicate)
-            {
-
-            }
-
-        }
-    }
-*/
     @Override
     protected void onResume() {
         super.onResume();
