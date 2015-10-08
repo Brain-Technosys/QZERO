@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt_item_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:padding="5dp"
+        android:layout_alignParentLeft="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txt_item_num"
+        android:layout_toLeftOf="@+id/img_delete"
+        android:orientation="vertical">
+        <TableLayout
+            android:id="@+id/tableItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:id="@+id/itemName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/itemPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/item_qty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/item_totalPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    ></TextView>
+            </TableRow>
+
+        </TableLayout>
+        <TableLayout
+            android:id="@+id/table_modifier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </TableLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_delete"/>
+</RelativeLayout>

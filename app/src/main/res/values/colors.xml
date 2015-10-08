@@ -24,5 +24,6 @@
     <color name="color_rounded_border">#DCDCDC</color>
     <color name="primary_color">#742314</color>
     <color name="searchbar_color">#a1a1a1</color>
+    <color name="gray">#A1A1A1</color>
 
 </resources>

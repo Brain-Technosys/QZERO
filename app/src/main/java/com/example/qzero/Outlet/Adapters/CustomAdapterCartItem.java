@@ -7,21 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by Braintech on 05-Oct-15.
@@ -29,25 +27,42 @@ import java.util.HashMap;
 public class CustomAdapterCartItem extends BaseAdapter {
 
     Context context;
-    ArrayList<HashMap<String, String>> mainCartItem;
 
+    ArrayList<HashMap<String, String>> listItem;
+    ArrayList<HashMap<String, String>> listModifier;
+
+    TableLayout tableItem;
+    TextView tvName;
+    TextView tvPrice;
+    TextView tvQty;
+    TextView tvTotal;
+    TextView itemNum;
+    View[] v;
+
+    TextView modifierName;
+    TextView modifierPrice;
+    TextView modifierQty;
+    TextView modifierTotal;
+
+    TableLayout tableModifier;
     LayoutInflater inflater;
 
-    public CustomAdapterCartItem(Context context, ArrayList<HashMap<String, String>> mainCartItem) {
+    public CustomAdapterCartItem(Context context, ArrayList<HashMap<String, String>> listItem, ArrayList<HashMap<String, String>> listModifier) {
         this.context = context;
-        this.mainCartItem = mainCartItem;
+        this.listModifier = listModifier;
+        this.listItem = listItem;
 
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return mainCartItem.size();
+        return listItem.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return mainCartItem.get(i);
+        return listItem.get(i);
     }
 
     @Override
@@ -62,15 +77,15 @@ public class CustomAdapterCartItem extends BaseAdapter {
         if (view == null) {
             view = inflater.inflate(R.layout.view_cart_item, null);
 
-            manageLayout(view, holder);
-
-            setFont(holder);
-
-            setValue(holder,i);
-
-            // handleOperations(holder);
-
-            handleClickEvent(holder,i);
+//            manageLayout(view, holder);
+//            setFont(holder);
+//
+//            v = new View[listModifier.size()];
+//            setValue(holder, i);
+//
+//            handleOperations(holder, i);
+//
+//            handleClickEvent(holder, i);
 
 
         }
@@ -78,7 +93,8 @@ public class CustomAdapterCartItem extends BaseAdapter {
         return view;
     }
 
-    private void setValue(ViewHolder holder,int pos) {
+    private void setValue(ViewHolder holder, int pos) {
+        holder.showModifier.setText("Show Detail");
 
     }
 
@@ -97,41 +113,76 @@ public class CustomAdapterCartItem extends BaseAdapter {
         FontHelper.applyFont(context, holder.showModifier, FontHelper.FontType.FONT);
 
 
+    }
+
+    private void handleOperations(ViewHolder holder, int pos) {
+
+        int p = 0;
+        for (int j = 0; j < listModifier.size(); j++) {
+
+            if (listModifier.get(j).get("ITEM").equals(listItem.get(pos).get("NAME"))) {
+                v[p] = inflater.inflate(R.layout.show_cart_item_table, null);
+
+                tableModifier = (TableLayout) v[p].findViewById(R.id.table_modifier);
+                tableItem = (TableLayout) v[p].findViewById(R.id.tableItem);
+
+                setIdofTableItems(p);
+                setValueInTableItems(p);
+
+                for (int i = 0; i < listModifier.size(); i++) {
+
+                    //Inflating row items for table Modifier
+                    View modifier = inflater.inflate(R.layout.cart_modifier_items, null);
+
+                    setIdOfTableModifier(modifier);
+                    setDataToModifierTable(i);
+
+                    //adding view of row items to tableModifier
+                    tableModifier.addView(modifier);
+                }
+
+                //Adding tables to layoutAddModifier of view_cart_item
+                holder.layoutAddModifier.addView(v[p]);
+                p++;
+            }
+
+        }
+    }
+
+
+    private void setIdofTableItems(int j) {
+        tvName = (TextView) v[j].findViewById(R.id.itemName);
+        tvPrice = (TextView) v[j].findViewById(R.id.itemPrice);
+        tvQty = (TextView) v[j].findViewById(R.id.item_qty);
+        tvTotal = (TextView) v[j].findViewById(R.id.item_totalPrice);
+        itemNum = (TextView) v[j].findViewById(R.id.txt_item_num);
+    }
+
+    private void setValueInTableItems(int j) {
+        itemNum.setText(String.valueOf(j + 1));
+        tvName.setText(listItem.get(j).get("NAME"));
+        tvQty.setText(listItem.get(j).get("QTY") + "= ");
+        tvPrice.setText("$" + listItem.get(j).get("PRICE") + "* ");
+        tvTotal.setText(String.valueOf(Double.parseDouble(listItem.get(j).get("PRICE")) * Double.parseDouble(listItem.get(j).get("QTY"))));
 
     }
 
-    private void handleOperations(ViewHolder holder) {
-        holder.tableItem = new TableLayout(context);
-        holder.tableItem.setLayoutParams(holder.layoutAddModifier.getLayoutParams());
-
-        holder.rowItem = new TableRow(context);
-        holder.rowItem.setLayoutParams(holder.tableItem.getLayoutParams());
-
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
-        TextView txtNameItem = new TextView(context);
-        createTxtView("1. Roasted Stuffed Mushroom", txtNameItem);
-        holder.rowItem.addView(txtNameItem, param);
-
-        TextView txtPriceQuantity = new TextView(context);
-        createTxtView("$10.00  x 3" + " " + "=", txtPriceQuantity);
-        holder.rowItem.addView(txtPriceQuantity, param);
-
-        TextView txtTotal = new TextView(context);
-        createTxtView("$30.00", txtTotal);
-        holder.rowItem.addView(txtTotal, param);
-
-        ImageView iv = new ImageView(context);
-        iv.setImageResource(R.drawable.ic_delete);
-        holder.rowItem.addView(iv, param);
-
-        holder.tableItem.addView(holder.rowItem);
-
-        holder.layoutAddModifier.addView(holder.tableItem);
-        holder.layoutAddModifier.setVisibility(View.GONE);
-
+    private void setIdOfTableModifier(View modifier) {
+        modifierName = (TextView) modifier.findViewById(R.id.ModifierName);
+        modifierPrice = (TextView) modifier.findViewById(R.id.ModifierPrice);
+        modifierQty = (TextView) modifier.findViewById(R.id.modifier_qty);
+        modifierTotal = (TextView) modifier.findViewById(R.id.modifier_totalPrice);
     }
 
-    private void handleClickEvent(final ViewHolder holder,final int position) {
+
+    private void setDataToModifierTable(int i) {
+        modifierName.setText(listModifier.get(i).get("NAME"));
+        modifierQty.setText(listModifier.get(i).get("QTY") + "= ");
+        modifierPrice.setText("$" + listModifier.get(i).get("PRICE") + "* ");
+        modifierTotal.setText(String.valueOf(Double.parseDouble(listModifier.get(i).get("PRICE")) * Double.parseDouble(listModifier.get(i).get("QTY"))));
+    }
+
+    private void handleClickEvent(final ViewHolder holder, final int position) {
 
         //Hide and show modifier on clicking show detail
         holder.showModifier.setOnClickListener(new View.OnClickListener() {
@@ -141,10 +192,10 @@ public class CustomAdapterCartItem extends BaseAdapter {
                 Log.e("ShowModifierClick", "Clicked");
                 if (holder.layoutAddModifier.getVisibility() == View.VISIBLE) {
                     holder.layoutAddModifier.setVisibility(View.GONE);
-                    holder.showModifier.setText("Show Modifier");
+                    holder.showModifier.setText("Show Detail");
                 } else {
                     holder.layoutAddModifier.setVisibility(View.VISIBLE);
-                    holder.showModifier.setText("Hide Modifier");
+                    holder.showModifier.setText("Hide Detail");
                 }
 
             }
@@ -153,14 +204,13 @@ public class CustomAdapterCartItem extends BaseAdapter {
         //perform delete operation
 
 
-
-       /* //perform edit quantity operation
-        holder.btn_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
+        //perform edit quantity operation
+//        holder.btn_edit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
 
 
     }
@@ -170,20 +220,9 @@ public class CustomAdapterCartItem extends BaseAdapter {
         LinearLayout layoutAddModifier;
         TextView showModifier;
         TextView totalAmountWithModifier;
-
-        TableLayout tableItem;
-        TableRow rowItem;
-
-
         ImageView btn_edit;
 
     }
 
-    public void createTxtView(String txt, TextView tv) {
 
-        tv.setText(txt);
-        tv.setTextColor(Color.parseColor("#000000"));
-        tv.setTextSize(15);
-
-    }
 }

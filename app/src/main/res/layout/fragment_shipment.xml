@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.example.qzero.Outlet.Fragments.ShipmentTabFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+
+        android:layout_centerHorizontal="true">
+
+
+        <Button
+            android:id="@+id/btn_Billing_Address"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/card_address"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/selector"
+            android:text="Billing Address" />
+
+        <Button
+            android:id="@+id/btn_Shipping_Address"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/card_address"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/selector"
+            android:text="Shipping_Address" />
+
+    </LinearLayout>
+</RelativeLayout>
