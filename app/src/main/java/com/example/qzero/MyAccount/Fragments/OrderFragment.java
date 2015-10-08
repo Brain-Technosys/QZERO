@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -160,6 +161,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
         searchView.setQueryHint("Order ID");
+        searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 
     // Method to save data on bundle
