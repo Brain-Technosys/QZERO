@@ -203,7 +203,7 @@ public class ViewCartActivity extends Activity {
                     position++;
                 } while (itemIdCursorMod.moveToNext());
             }
-         
+
         }
     }
 

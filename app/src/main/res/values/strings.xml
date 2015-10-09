@@ -159,27 +159,19 @@
     <string name="shipment">Shipment</string>
     <string name="pickup">Pick Up</string>
     <string name="next">NEXT</string>
-<<<<<<< HEAD
 
-=======
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
+
     <!-- Add Address -->
 
     <string name="hint_address">Address</string>
     <string name="hint_zipcode">Zip Code</string>
     <string name="hint_country">Country</string>
     <string name="hint_state">State</string>
-<<<<<<< HEAD
-    <string name="hint_town">Town/City</string>
-    <string name="hint_contact">Phone</string>
-
-=======
 
     <string name="hint_town">Town/City</string>
     <string name="hint_contact">Phone</string>
-    
     <string name="products">Products</string>
     <string name="price_qty">Price/Qty</string>
     <string name="total">Total</string>
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
+
 </resources>
