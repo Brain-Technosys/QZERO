@@ -222,9 +222,10 @@ public class CustomAdapterCartItem extends BaseAdapter {
             public void onClick(View v) {
 
                 int tag = Integer.parseInt(v.getTag(R.string.key_pos).toString());
-                String item_id=v.getTag(R.string.key_pos).toString();
+                String item_id=v.getTag(R.string.key_id).toString();
                 viewItems[tag].setVisibility(View.GONE);
 
+                Log.e("item_id",item_id);
                 databaseHelper.deleteValuesItem(item_id);
             }
         });

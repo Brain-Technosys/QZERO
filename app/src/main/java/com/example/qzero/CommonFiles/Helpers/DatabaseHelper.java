@@ -172,7 +172,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteValuesItem(String item_id) {
         SQLiteDatabase database = getWritableDatabase();
-        database.delete(ITEM_TABLE, new String( ID_COLUMN + " =? "), new String[]{item_id});
+        database.delete(MODIFIER_TABLE, new String( MODIFIER_ID + " =? "), new String[]{item_id});
+        database.delete(ITEM_TABLE, new String(ID_COLUMN + " =? "), new String[]{item_id});
     }
 
 
