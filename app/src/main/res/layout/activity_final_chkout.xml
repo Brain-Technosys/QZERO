@@ -27,16 +27,16 @@
                 android:id="@+id/tableTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_below="@+id/cart_item_detail"
-                android:background="@android:color/darker_gray">
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/ModifierName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="5dp"
                     android:gravity="left"
                     android:singleLine="true"
                     android:text="Product"
@@ -48,8 +48,7 @@
                     android:id="@+id/modifier_qty"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
+                    android:layout_weight="0.5"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="Price/Qty"
@@ -60,26 +59,20 @@
                     android:id="@+id/modifier_totalPrice"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
+                    android:layout_weight="0.5"
                     android:gravity="right"
                     android:singleLine="true"
                     android:text="Total"
                     android:textColor="@color/black"
                     android:textSize="15sp"></TextView>
 
-
             </TableRow>
-
 
         </LinearLayout>
 
 
-
-
-
-
     </ScrollView>
+
     <FrameLayout
         android:id="@+id/chkout_detail_frag"
         android:layout_width="fill_parent"
@@ -89,7 +82,6 @@
         android:paddingTop="20dp"
 
         />
-
 
 
 </RelativeLayout>

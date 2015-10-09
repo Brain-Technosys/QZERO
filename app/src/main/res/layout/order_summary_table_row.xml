@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
+    android:padding="5dp"
     android:background="@android:color/white">
 
     <TextView
         android:id="@+id/ModifierName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:gravity="left"
         android:layout_weight="1"
         android:singleLine="true"
         android:text="Melted Butter"
         android:textColor="@color/black"
-        android:textSize="15sp"></TextView>
+        android:textSize="12sp"></TextView>
 
 
     <TextView
         android:id="@+id/modifier_qty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:text="1"
         android:gravity="center"
         android:singleLine="true"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:textColor="@color/black"
-        android:textSize="15sp"></TextView>
+        android:textSize="12sp"></TextView>
 
     <TextView
         android:id="@+id/modifier_totalPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:text="$1.00"
         android:gravity="right"
         android:singleLine="true"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:textColor="@color/black"
-        android:textSize="15sp"></TextView>
+        android:textSize="12sp"></TextView>
 
 
 </TableRow>

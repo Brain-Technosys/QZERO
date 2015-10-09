@@ -34,7 +34,6 @@
         android:layout_height="wrap_content"
         android:text="$1.00"
         android:gravity="right"
-
         android:singleLine="true"
         android:layout_weight="0.5"
         android:textColor="@color/black"

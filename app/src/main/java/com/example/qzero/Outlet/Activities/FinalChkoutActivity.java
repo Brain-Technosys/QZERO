@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
+import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.Outlet.Fragments.ChkoutCatFragment;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
@@ -47,6 +48,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     @InjectView(R.id.layout_your_order)
     LinearLayout layoutAddModifier;
+
+    @InjectView(R.id.ModifierName) TextView ModifierName;
+    @InjectView(R.id.modifier_qty) TextView modifier_qty;
+    @InjectView(R.id.modifier_totalPrice) TextView modifier_totalPrice;
+
 
     String[] srNum = {"1", "2"};
     String[] productName = {"Roasted Stuffed Mushroom", "Honey Chilli Potato"};
@@ -112,6 +118,14 @@ public class FinalChkoutActivity extends AppCompatActivity {
         createTableItems();
 
         AddChkOutCatfrag();
+
+        setFont();
+    }
+
+    private void setFont() {
+        FontHelper.applyFont(this,ModifierName, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this,modifier_qty, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this,modifier_totalPrice, FontHelper.FontType.FONTSANSBOLD);
 
 
     }
@@ -253,7 +267,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                     layoutAddModifier.addView(viewItems[i]);
 
                     tvName.setText(dbListItem.get(0).getItem_name());
-                    tvQty.setText("$"+dbListItem.get(0).getItem_price()+"*"+dbListModifiers.get(0).getQuantity());
+                    tvQty.setText("$"+dbListItem.get(0).getItem_price()+" * "+dbListModifiers.get(0).getQuantity());
                     tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
 
                     for (int modlist = 0; modlist < dbListModifiers.size(); modlist++) {
@@ -265,7 +279,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                         tableModifier.addView(modifier);
 
                         modifierName.setText(dbListModifiers.get(modlist).getModifier_name());
-                        modifierQty.setText("$"+dbListModifiers.get(modlist).getModifier_price()+"*"+dbListModifiers.get(modlist).getQuantity());
+                        modifierQty.setText("$"+dbListModifiers.get(modlist).getModifier_price()+" * "+dbListModifiers.get(modlist).getQuantity());
                         modifierTotal.setText(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity())));
                     }
                 }
@@ -282,8 +296,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
         tvName = (TextView) viewItems[j].findViewById(R.id.itemName);
         tvQty = (TextView) viewItems[j].findViewById(R.id.item_qty);
         tvTotal = (TextView) viewItems[j].findViewById(R.id.item_totalPrice);
-        ImageView delete=(ImageView)viewItems[j].findViewById(R.id.img_delete);
-        delete.setVisibility(View.GONE);
+
+        FontHelper.applyFont(this,tvName, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this,tvQty, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this,tvTotal, FontHelper.FontType.FONTSANSBOLD);
+
 
     }
 
@@ -293,8 +310,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
         modifierQty = (TextView) modifier.findViewById(R.id.modifier_qty);
         modifierTotal = (TextView) modifier.findViewById(R.id.modifier_totalPrice);
 
-        ImageView img_delete=(ImageView)modifier.findViewById(R.id.img_delete);
-        img_delete.setVisibility(View.GONE);
+
     }
 
     private void AddChkOutCatfrag() {

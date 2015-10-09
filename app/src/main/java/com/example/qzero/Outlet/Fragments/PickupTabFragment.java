@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.example.qzero.R;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class PickupTabFragment extends Fragment {
@@ -23,6 +24,10 @@ public class PickupTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pickup_tab, container, false);
         ButterKnife.inject(this, view);
         return view;
+    }
+
+    @OnClick(R.id.btn_PlaceOrder)void placeOrder(){
+
     }
 
 
