@@ -96,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getModItems() {
         SQLiteDatabase database = getReadableDatabase();
-        String selectItems = "select * from " + ITEM_TABLE ;
+        String selectItems = "select * from " + ITEM_TABLE;
         Cursor valueItems = database.rawQuery(selectItems, null);
         return valueItems;
     }
@@ -168,6 +168,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(QUANTITY, quantity);
         database.update(MODIFIER_TABLE, cv, NAME_COLUMN + " =? and " + MOD_COLUMN + " = ? ", new String[]{item_name, mod_name});
+    }
+
+    public void deleteValuesItem(String item_id) {
+        SQLiteDatabase database = getWritableDatabase();
+        database.delete(ITEM_TABLE, new String( ID_COLUMN + " =? "), new String[]{item_id});
     }
 
 

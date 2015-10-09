@@ -174,4 +174,8 @@
     <string name="price_qty">Price/Qty</string>
     <string name="total">Total</string>
 
+    <!-- CustomAdapterItems tag -->
+    <string name="key_pos">0</string>
+    <string name="key_id">1</string>
+
 </resources>

@@ -194,7 +194,7 @@ public class ViewCartActivity extends Activity {
                             Log.e("mod_name", mod_name);
 
 
-                            DbModifiers dbModifiers = new DbModifiers(itemName, quantity, mod_name, mod_price);
+                            DbModifiers dbModifiers = new DbModifiers(item_id, quantity, mod_name, mod_price);
                             arrayListDbMod.add(dbModifiers);
                         }
                     }

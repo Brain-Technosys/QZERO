@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.Utility;
 
+import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
@@ -69,11 +70,21 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
     int position = 0;
 
+
+    //Reference of DatabaseHelper class to access its components
+    private DatabaseHelper databaseHelper = null;
+
     public CustomAdapterCartItem(Context context, HashMap<Integer, ArrayList<DbItems>> hashMapListItems, HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers) {
+
         this.context = context;
+
         this.hashMapModifiers = hashMapModifiers;
 
         this.hashMapListItems = hashMapListItems;
+
+        databaseHelper=new DatabaseHelper(context);
+
+        inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
     }
 
@@ -134,7 +145,11 @@ public class CustomAdapterCartItem extends BaseAdapter {
                 viewItems[i] = inflater.inflate(R.layout.show_cart_item_table, null);
 
                 ArrayList<DbModifiers> dbListModifiers = hashMapModifiers.get(position);
-                setIdofTableItems(i);
+
+               String item_id=dbListModifiers.get(0).getItem_name();
+
+                setIdofTableItems(i,item_id);
+
                 if (dbListModifiers.size() != 0) {
                     holder.layoutAddModifier.addView(viewItems[i]);
 
@@ -186,7 +201,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
     }
 
 
-    private void setIdofTableItems(int j) {
+    private void setIdofTableItems(int j,String item_id) {
 
         tableModifier = (TableLayout) viewItems[j].findViewById(R.id.table_modifier);
         tableItem = (TableLayout) viewItems[j].findViewById(R.id.tableItem);
@@ -195,6 +210,24 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
         tvQty = (TextView) viewItems[j].findViewById(R.id.item_qty);
         tvTotal = (TextView) viewItems[j].findViewById(R.id.item_totalPrice);
+
+        ImageView img_delete=(ImageView) viewItems[j].findViewById(R.id.img_delete);
+
+        img_delete.setTag(R.string.key_pos,j);
+        img_delete.setTag(R.string.key_id,item_id);
+
+
+        img_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int tag = Integer.parseInt(v.getTag(R.string.key_pos).toString());
+                String item_id=v.getTag(R.string.key_pos).toString();
+                viewItems[tag].setVisibility(View.GONE);
+
+                databaseHelper.deleteValuesItem(item_id);
+            }
+        });
 
     }
 
