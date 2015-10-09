@@ -2,76 +2,94 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@color/color_background">
 
     <include
         android:id="@+id/header"
         layout="@layout/inclue_header"></include>
 
+
     <ScrollView
-        android:id="@+id/table_content"
+        android:id="@+id/scroll_content"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@android:id/tabhost"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         android:background="@android:color/white">
 
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/layout_your_order"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TableRow
+                android:id="@+id/tableTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:background="@color/gray">
+                android:gravity="center"
+                android:layout_below="@+id/cart_item_detail"
+                android:background="@android:color/darker_gray">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ModifierName"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:layout_weight="1.5"
-                    android:text="@string/products" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:text="@string/price_qty" />
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:text="Product"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"></TextView>
+
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/modifier_qty"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Price/Qty"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"></TextView>
+
+                <TextView
+                    android:id="@+id/modifier_totalPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp"
                     android:gravity="right"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:layout_weight="0.5"
-                    android:text="@string/total" />
-            </LinearLayout>
-
-            <TableLayout
-                android:id="@+id/layout_your_order"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/primary_color">
-
-            </TableLayout>
+                    android:singleLine="true"
+                    android:text="Total"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"></TextView>
 
 
-            <FrameLayout
-                android:id="@+id/chkout_detail_frag"
-                android:layout_width="fill_parent"
-                android:layout_height="350dp"
-                android:layout_below="@+id/layout_your_order"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
+            </TableRow>
 
-                />
 
         </LinearLayout>
+
+
+
+
+
+
     </ScrollView>
+    <FrameLayout
+        android:id="@+id/chkout_detail_frag"
+        android:layout_width="fill_parent"
+        android:layout_height="350dp"
+        android:layout_below="@+id/scroll_content"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+
+        />
+
+
+
 </RelativeLayout>
