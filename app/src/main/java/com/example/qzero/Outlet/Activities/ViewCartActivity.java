@@ -42,13 +42,30 @@ public class ViewCartActivity extends Activity {
 
     ArrayList<HashMap<String, String>> mainCartItem;
 
-    HashMap<Integer,ArrayList<DbItems>> hashMapItems;
-    HashMap<Integer,ArrayList<DbModifiers>> hashMapModifiers;
+    HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
+    HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
+
 
     //Reference of DatabaseHelper class to access its components
     private DatabaseHelper databaseHelper = null;
 
     int pos;
+
+    String itemName;
+
+    ArrayList<HashMap<String, String>> listItem;
+    ArrayList<HashMap<String, String>> listModifier;
+
+    HashMap<String, String> itemHashMap;
+    HashMap<String, String> modifierHashMap;
+
+    int itemsLength;
+
+    Cursor itemCursor;
+    Cursor itemIdCursorMod;
+
+    int position = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +74,12 @@ public class ViewCartActivity extends Activity {
 
         ButterKnife.inject(this);
 
-        databaseHelper=new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(this);
 
-        hashMapItems=new HashMap<>();
-        hashMapModifiers=new HashMap<>();
+
+        hashMapModifiers = new HashMap<>();
+        hashMapListItems = new HashMap<>();
+
 
         txtViewHeading.setText("Shopping Cart");
 
@@ -69,71 +88,128 @@ public class ViewCartActivity extends Activity {
         setFont();
 
         getDataFromDatabase();
+        if (hashMapListItems.size() == 0) {
+
+        } else {
+            sendDataToAdapterClass();
+        }
     }
+
 
     private void setFont() {
         FontHelper.setFontFace(txtViewHeading, FontHelper.FontType.FONT, this);
     }
 
-    private void getDataFromDatabase()
-    {
+    private void getDataFromDatabase() {
+        String item_id = null;
+        Cursor distinctItemCursor = databaseHelper.getDistinctItems();
+        pos = 0;
+        if (distinctItemCursor != null) {
+            while (distinctItemCursor.moveToNext()) {
 
-        Cursor itemCursor=databaseHelper.getItems();
+                int index = distinctItemCursor.getColumnIndex(databaseHelper.NAME_COLUMN);
 
-        pos=0;
+                itemName = distinctItemCursor.getString(index);
 
-        if (itemCursor!=null) {
-            while(itemCursor.moveToNext()){
+                Log.e("item_name", itemName);
 
-                ArrayList<DbItems> arrayListDbIetms=new ArrayList<>();
-                ArrayList<DbModifiers> arrayListDbMod=new ArrayList<>();
+                Cursor itemIdCursor = databaseHelper.selectItems(itemName);
 
-                String item_id = itemCursor.getString(0);
-                String item_name = itemCursor.getString(1);
-                String item_price=itemCursor.getString(2);
-                String item_image=itemCursor.getString(3);
-                String item_discount=itemCursor.getString(4);
+                itemIdCursorMod = itemIdCursor;
 
+                if (itemIdCursor != null) {
+                    if (itemIdCursor.moveToFirst()) {
+                        int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
 
-                Cursor modCursor=databaseHelper.getModifiers(item_id);
+                        item_id = itemIdCursor.getString(indexItemId);
 
-                if(modCursor!=null)
-                {
-                    while(modCursor.moveToNext()) {
+                        Log.e("item_id", item_id);
+                        itemCursor = databaseHelper.getItems(item_id);
 
-                        String mod_name = modCursor.getString(2);
-                        String mod_price=modCursor.getString(4);
-                        String quantity = modCursor.getString(5);
+                        itemsLength = itemIdCursor.getCount();
 
-                        DbModifiers dbModifiers=new DbModifiers(item_name,quantity,mod_name,mod_price);
-                        arrayListDbMod.add(dbModifiers);
+                        storeData();
+
                     }
                 }
 
-                DbItems dbItems=new DbItems(item_name,item_price,item_discount,item_image);
+                getListData(item_id);
+            }
+
+
+        }
+
+    }
+
+    private void storeData() {
+
+        if (itemCursor != null) {
+            if (itemCursor.moveToFirst()) {
+
+                ArrayList<DbItems> arrayListDbIetms = new ArrayList<>();
+                ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
+
+                String item_id = itemCursor.getString(0);
+                String item_name = itemCursor.getString(1);
+                String item_price = itemCursor.getString(2);
+                String item_image = itemCursor.getString(3);
+                String item_discount = itemCursor.getString(4);
+
+
+                DbItems dbItems = new DbItems(item_name, item_price, item_discount, item_image, itemsLength);
                 arrayListDbIetms.add(dbItems);
 
-                hashMapItems.put(pos,arrayListDbIetms);
-                hashMapModifiers.put(pos, arrayListDbMod);
-
-                //checkDuplicateData(arrayListDbIetms, arrayListDbMod, pos);
+                hashMapListItems.put(pos, arrayListDbIetms);
 
                 pos++;
+
             }
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void getListData(String itemd) {
+        Log.e("ietm", itemd);
+        if (itemIdCursorMod != null) {
 
-        for (int i = 0; i < 5; i++) {
-            HashMap<String, String> mySampleHashmap = new HashMap<>();
-            mySampleHashmap.put("number", String.valueOf(i));
-            mainCartItem.add(mySampleHashmap);
+            Log.e("itemId", "" + itemIdCursorMod.getCount());
+            if (itemIdCursorMod.moveToFirst()) {
+                do {
+                    ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
+
+                    int indexItemId = itemIdCursorMod.getColumnIndex(databaseHelper.ID_COLUMN);
+
+                    String item_id = itemIdCursorMod.getString(indexItemId);
+
+                    Log.e("modItemId", item_id);
+
+                    Cursor modCursor = databaseHelper.getModifiers(item_id);
+
+                    if (modCursor != null) {
+                        while (modCursor.moveToNext()) {
+
+                            String mod_name = modCursor.getString(2);
+                            String mod_price = modCursor.getString(4);
+                            String quantity = modCursor.getString(5);
+
+                            Log.e("mod_name", mod_name);
+
+
+                            DbModifiers dbModifiers = new DbModifiers(itemName, quantity, mod_name, mod_price);
+                            arrayListDbMod.add(dbModifiers);
+                        }
+                    }
+
+                    hashMapModifiers.put(position, arrayListDbMod);
+                    position++;
+                } while (itemIdCursorMod.moveToNext());
+            }
+         
         }
+    }
 
-        CustomAdapterCartItem adapterCartItem = new CustomAdapterCartItem(this, mainCartItem);
+    private void sendDataToAdapterClass() {
+
+        CustomAdapterCartItem adapterCartItem = new CustomAdapterCartItem(this, hashMapListItems, hashMapModifiers);
 
 
         // Adding footer
@@ -146,10 +222,14 @@ public class ViewCartActivity extends Activity {
 
         listCartItem.addFooterView(footerView);
         listCartItem.setAdapter(adapterCartItem);
-
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
 
     private void clickEventOfContinueShopping() {
@@ -179,7 +259,7 @@ public class ViewCartActivity extends Activity {
     }
 
     @OnClick(R.id.imgViewBack)
-    void imgViewBack(){
+    void imgViewBack() {
         finish();
     }
 }

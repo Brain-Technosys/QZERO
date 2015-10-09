@@ -160,4 +160,13 @@
     <string name="pickup">Pick Up</string>
     <string name="next">NEXT</string>
 
+    <!-- Add Address -->
+
+    <string name="hint_address">Address</string>
+    <string name="hint_zipcode">Zip Code</string>
+    <string name="hint_country">Country</string>
+    <string name="hint_state">State</string>
+    <string name="hint_town">Town/City</string>
+    <string name="hint_contact">Phone</string>
+
 </resources>

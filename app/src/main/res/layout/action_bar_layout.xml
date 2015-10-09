@@ -23,7 +23,6 @@
             android:textSize="11sp"
             android:gravity="top"
             android:layout_marginRight="4dp"
-            android:text="10"
             android:background="@drawable/badge" />
 
         <ImageView
