@@ -2,10 +2,9 @@ package com.example.qzero.Outlet.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 import android.support.v7.widget.AppCompatEditText;
-=======
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -21,34 +20,8 @@ import butterknife.OnClick;
 public class AddAddressActivity extends AppCompatActivity {
 
     @InjectView(R.id.edtTxtFirstName)
-<<<<<<< HEAD
+
     AppCompatEditText edtTxtFirstName;
-
-    @InjectView(R.id.edtTxtLastName)
-    AppCompatEditText edtTxtLastName;
-
-    @InjectView(R.id.edtTxtAddress)
-    AppCompatEditText edtTxtAddress;
-
-    @InjectView(R.id.edtTxtZipCode)
-    AppCompatEditText edtTxtZipCode;
-
-    @InjectView(R.id.edtTxtCountry)
-    AppCompatEditText edtTxtCountry;
-
-    @InjectView(R.id.edtTxtState)
-    AppCompatEditText edtTxtState;
-
-    @InjectView(R.id.edtTxtTownCity)
-    AppCompatEditText edtTxtTownCity;
-
-    @InjectView(R.id.edtTxtEmail)
-    AppCompatEditText edtTxtEmail;
-
-    @InjectView(R.id.edtTxtContact)
-    AppCompatEditText edtTxtContact;
-=======
-    EditText edtTxtFirstName;
 
     @InjectView(R.id.edtTxtLastName)
     EditText edtTxtLastName;
@@ -73,7 +46,7 @@ public class AddAddressActivity extends AppCompatActivity {
 
     @InjectView(R.id.edtTxtContact)
     EditText edtTxtContact;
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
+
 
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
@@ -90,9 +63,6 @@ public class AddAddressActivity extends AppCompatActivity {
 
     int addressType;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +74,7 @@ public class AddAddressActivity extends AppCompatActivity {
 
        addressType=getIntent().getIntExtra("ADDRESSTYPE",0);
 
-<<<<<<< HEAD
+
 
         //AddAddress  screen will also open for edit Address,fill data according to addressType
 
@@ -118,10 +88,6 @@ public class AddAddressActivity extends AppCompatActivity {
         }else{
             //do nothing
         }
-
-
-=======
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
     }
 
 
@@ -139,15 +105,14 @@ public class AddAddressActivity extends AppCompatActivity {
         //BillingAddressActivity
         else if(addressType==2){
             //do somthing
-<<<<<<< HEAD
+
         }else if(addressType==3){
             //save edited address of Shipping Address
         }else if(addressType==4){
             //save edited address of Billing Address
         }else {
             //do nothing
-=======
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
+
         }
     }
 

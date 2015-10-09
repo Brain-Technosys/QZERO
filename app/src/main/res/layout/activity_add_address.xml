@@ -2,11 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
     android:background="@android:color/white"
-=======
-    android:background="@color/color_background"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
     tools:context="com.example.qzero.Outlet.Activities.AddAddressActivity">
 
     <include
@@ -24,7 +20,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<<<<<<< HEAD
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,25 +38,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-
-            <EditText
-                android:id="@+id/edtTxtFirstName"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_fname"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -84,28 +65,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-            <EditText
-                android:id="@+id/edtTxtLastName"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_lname"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -128,29 +92,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-
-            <EditText
-                android:id="@+id/edtTxtAddress"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_address"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -173,29 +119,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-
-            <EditText
-                android:id="@+id/edtTxtZipCode"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_zipcode"
                 android:inputType="number"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -218,28 +146,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-            <EditText
-                android:id="@+id/edtTxtCountry"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_country"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -263,29 +174,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-
-            <EditText
-                android:id="@+id/edtTxtState"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_state"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -309,27 +202,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-            <EditText
-                android:id="@+id/edtTxtTownCity"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_town"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -353,28 +230,11 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-
-            <EditText
-                android:id="@+id/edtTxtEmail"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_email"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
@@ -400,40 +260,16 @@
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
-
-
-
-
-            <EditText
-                android:id="@+id/edtTxtContact"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/background_editext"
-                android:ems="10"
-                android:gravity="center_horizontal"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:hint="@string/hint_contact"
                 android:inputType="text"
                 android:paddingTop="10dp"
                 android:singleLine="true"
                 android:textColor="@color/color_edittext_background"
-<<<<<<< HEAD
                 android:textColorHint="@android:color/darker_gray"
 
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/textSize"
                 android:theme="@style/Theme.MyTheme.EditText" />
-=======
-                android:textColorHint="@color/color_edittext_background"
-                android:textSize="@dimen/textSize" />
-
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 
 
             <Button
@@ -443,17 +279,10 @@
                 android:layout_below="@+id/card_address"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="5dp"
-<<<<<<< HEAD
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/selector"
                 android:padding="10dp"
-=======
-                android:padding="10dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/selector"
->>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:text="Submit" />
 
         </LinearLayout>
