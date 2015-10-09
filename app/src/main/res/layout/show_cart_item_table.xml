@@ -46,8 +46,22 @@
                     android:text="3"
                     android:textColor="@color/black"
                     android:textSize="15sp"
-
                     ></TextView>
+
+                <EditText
+                    android:id="@+id/editTextItemQty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="3"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    >
+                    <requestFocus />
+                </EditText>
 
                 <TextView
                     android:id="@+id/item_totalPrice"

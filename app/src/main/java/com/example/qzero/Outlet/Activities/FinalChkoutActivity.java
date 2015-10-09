@@ -89,9 +89,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     int itemsLength;
 
-
+    String itemName;
     Cursor itemCursor;
-
+    Cursor itemIdCursorMod;
+    int position = 0;
+    int posMod=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +125,9 @@ public class FinalChkoutActivity extends AppCompatActivity {
     }
 
     private void setFont() {
-        FontHelper.applyFont(this,ModifierName, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this,modifier_qty, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this,modifier_totalPrice, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, ModifierName, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, modifier_qty, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, modifier_totalPrice, FontHelper.FontType.FONTSANSBOLD);
 
 
     }
@@ -137,7 +139,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
 
     private void getDataFromDatabase() {
-
+        String item_id = null;
         Cursor distinctItemCursor = databaseHelper.getDistinctItems();
         pos = 0;
         if (distinctItemCursor != null) {
@@ -145,37 +147,39 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
                 int index = distinctItemCursor.getColumnIndex(databaseHelper.NAME_COLUMN);
 
-                String item_name = distinctItemCursor.getString(index);
+                itemName = distinctItemCursor.getString(index);
 
-                Log.e("item_name", item_name);
+                Log.e("item_name", itemName);
 
-                Cursor itemIdCursor = databaseHelper.selectItems(item_name);
+                Cursor itemIdCursor = databaseHelper.selectItems(itemName);
+
+                itemIdCursorMod = itemIdCursor;
 
                 if (itemIdCursor != null) {
                     if (itemIdCursor.moveToFirst()) {
                         int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
 
-                        String item_id = itemIdCursor.getString(indexItemId);
+                        item_id = itemIdCursor.getString(indexItemId);
 
                         Log.e("item_id", item_id);
                         itemCursor = databaseHelper.getItems(item_id);
 
-                        itemsLength=itemIdCursor.getCount();
+                        itemsLength = itemIdCursor.getCount();
 
                         storeData();
 
                     }
                 }
+
+                getListData(item_id);
             }
 
-            getListData();
+
         }
 
     }
 
     private void storeData() {
-
-        Log.e("pos", "" + pos);
 
         if (itemCursor != null) {
             if (itemCursor.moveToFirst()) {
@@ -189,10 +193,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
                 String item_image = itemCursor.getString(3);
                 String item_discount = itemCursor.getString(4);
 
-                Log.e("item_idy", item_id);
-                Log.e("item_namey", item_name);
 
-                DbItems dbItems = new DbItems(item_name, item_price, item_discount, item_image,itemsLength);
+                DbItems dbItems = new DbItems(item_name, item_price, item_discount, item_image, itemsLength);
                 arrayListDbIetms.add(dbItems);
 
                 hashMapListItems.put(pos, arrayListDbIetms);
@@ -203,90 +205,98 @@ public class FinalChkoutActivity extends AppCompatActivity {
         }
     }
 
-    private void getListData()
-    {
-        Cursor itemCursor = databaseHelper.getModItems();
+    private void getListData(String itemd) {
+        Log.e("ietm", itemd);
+        if (itemIdCursorMod != null) {
 
-        int position = 0;
+            Log.e("itemId", "" + itemIdCursorMod.getCount());
+            if (itemIdCursorMod.moveToFirst()) {
+                do {
+                    ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
 
-        if (itemCursor != null) {
-            while (itemCursor.moveToNext()) {
+                    int indexItemId = itemIdCursorMod.getColumnIndex(databaseHelper.ID_COLUMN);
 
-                ArrayList<DbItems> arrayListDbIetms = new ArrayList<>();
-                ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
+                    String item_id = itemIdCursorMod.getString(indexItemId);
 
-                String item_id = itemCursor.getString(0);
-                String item_name = itemCursor.getString(1);
-                String item_price = itemCursor.getString(2);
-                String item_image = itemCursor.getString(3);
-                String item_discount = itemCursor.getString(4);
+                    Log.e("modItemId", item_id);
+
+                    Cursor modCursor = databaseHelper.getModifiers(item_id);
+
+                    if (modCursor != null) {
+                        while (modCursor.moveToNext()) {
+
+                            String mod_name = modCursor.getString(2);
+                            String mod_price = modCursor.getString(4);
+                            String quantity = modCursor.getString(5);
+
+                            Log.e("mod_name", mod_name);
 
 
-                Cursor modCursor = databaseHelper.getModifiers(item_id);
-
-                if (modCursor != null) {
-                    while (modCursor.moveToNext()) {
-
-                        String mod_name = modCursor.getString(2);
-                        String mod_price = modCursor.getString(4);
-                        String quantity = modCursor.getString(5);
-
-                        DbModifiers dbModifiers = new DbModifiers(item_name, quantity, mod_name, mod_price);
-                        arrayListDbMod.add(dbModifiers);
+                            DbModifiers dbModifiers = new DbModifiers(item_id, quantity, mod_name, mod_price);
+                            arrayListDbMod.add(dbModifiers);
+                        }
                     }
-                }
 
-                DbItems dbItems = new DbItems(item_name, item_price, item_discount, item_image,0);
-                arrayListDbIetms.add(dbItems);
-
-                hashMapItems.put(position, arrayListDbIetms);
-                hashMapModifiers.put(position, arrayListDbMod);
-
-
-                position++;
+                    hashMapModifiers.put(posMod, arrayListDbMod);
+                    posMod++;
+                } while (itemIdCursorMod.moveToNext());
             }
+
         }
     }
 
     private void createTableItems() {
 
-        for(int pos=0;pos<hashMapListItems.size();pos++){
+        for (int pos = 0; pos < hashMapListItems.size(); pos++) {
 
             ArrayList<DbItems> dbListItem = hashMapListItems.get(pos);
-            int countLength=dbListItem.get(0).getCount();
             LayoutInflater inflater = LayoutInflater.from(FinalChkoutActivity.this);
+            int countLength = dbListItem.get(0).getCount();
 
             viewItems = new View[countLength];
 
             for (int i = 0; i < countLength; i++) {
-                viewItems[i] = inflater.inflate(R.layout.order_summary_tables, null);
-                ArrayList<DbModifiers> dbListModifiers = hashMapModifiers.get(i);
+                viewItems[i] = inflater.inflate(R.layout.show_cart_item_table, null);
+
+                ArrayList<DbModifiers> dbListModifiers = new ArrayList<>();
+                dbListModifiers= hashMapModifiers.get(position);
+
                 setIdofTableItems(i);
 
-                if(dbListModifiers.size()!=0) {
+                if (dbListModifiers.size() != 0) {
                     layoutAddModifier.addView(viewItems[i]);
 
                     tvName.setText(dbListItem.get(0).getItem_name());
-                    tvQty.setText("$"+dbListItem.get(0).getItem_price()+" * "+dbListModifiers.get(0).getQuantity());
+                    tvQty.setText("$" + dbListItem.get(0).getItem_price() + " * " + dbListModifiers.get(0).getQuantity());
                     tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
 
-                    for (int modlist = 0; modlist < dbListModifiers.size(); modlist++) {
 
-                        View modifier = inflater.inflate(R.layout.order_summary_table_row, null);
+                    if (dbListModifiers.get(0).getModifier_name().equals("null")) {
+                        //do not add modifier screen
+                    } else {
+                        for (int modlist = 0; modlist < dbListModifiers.size(); modlist++) {
 
-                        setIdOfTableModifier(modifier);
+                            View modifier = inflater.inflate(R.layout.cart_modifier_items, null);
 
-                        tableModifier.addView(modifier);
+                            setIdOfTableModifier(modifier);
 
-                        modifierName.setText(dbListModifiers.get(modlist).getModifier_name());
-                        modifierQty.setText("$"+dbListModifiers.get(modlist).getModifier_price()+" * "+dbListModifiers.get(modlist).getQuantity());
-                        modifierTotal.setText(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity())));
+                            tableModifier.addView(modifier);
+
+
+                            modifierName.setText(dbListModifiers.get(modlist).getModifier_name());
+
+                            modifierQty.setText("$" + dbListModifiers.get(modlist).getModifier_price() + " * " + dbListModifiers.get(modlist).getQuantity());
+                            modifierTotal.setText(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity())));
+                        }
                     }
                 }
+
+                position++;
+
+
             }
         }
     }
-
 
 
     private void setIdofTableItems(int j) {

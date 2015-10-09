@@ -26,7 +26,9 @@ import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
+import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
 import com.example.qzero.Outlet.Activities.ForgotPasswordActivity;
+import com.example.qzero.Outlet.Activities.LoginActivity;
 import com.example.qzero.R;
 
 
@@ -64,6 +66,7 @@ public class LoginUserFragment extends Fragment {
     String password;
 
     int status;
+    String LOGINTYPE;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +82,13 @@ public class LoginUserFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setFont();
 
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        LOGINTYPE=((LoginActivity)getActivity()).getloginType();
     }
 
     public void setFont() {
@@ -195,11 +205,18 @@ public class LoginUserFragment extends Fragment {
                 userSession.createUserSession(user_id, name);
 
                 clearFields();
+                if (LOGINTYPE.equals("CHECKOUT")) {
+                    Intent intent = new Intent(getActivity(),
+                            FinalChkoutActivity.class);
+                    startActivity(intent);
+                } else if(LOGINTYPE.equals("SIMPLELOGIN")) {
+                    Intent intent = new Intent(getActivity(),
+                            DashBoardActivity.class);
+                    intent.putExtra("name", name);
+                    startActivity(intent);
+                }
 
-                Intent intent = new Intent(getActivity(),
-                        DashBoardActivity.class);
-                intent.putExtra("name", name);
-                startActivity(intent);
+
             } else if (status == 0) {
 
                 AlertDialogHelper.showAlertDialog(getActivity(),
@@ -239,5 +256,6 @@ public class LoginUserFragment extends Fragment {
         Intent intent = new Intent(getActivity(), ForgotPasswordActivity.class);
         startActivity(intent);
     }
+
 
 }

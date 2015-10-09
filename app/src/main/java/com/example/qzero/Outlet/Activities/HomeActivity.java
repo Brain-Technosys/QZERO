@@ -119,6 +119,7 @@ public class HomeActivity extends FragmentActivity {
     void openLoginFragment() {
 
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        intent.putExtra("LOGINTYPE","SIMPLELOGIN");
         startActivity(intent);
     }
 

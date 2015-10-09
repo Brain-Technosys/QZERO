@@ -25,6 +25,8 @@ import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
+import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
+import com.example.qzero.Outlet.Activities.LoginActivity;
 import com.example.qzero.R;
 
 import org.json.JSONException;
@@ -88,6 +90,8 @@ public class LoginRegisterFragment extends Fragment {
     String message;
     String urlParameters;
 
+    String LOGINTYPE;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -108,6 +112,13 @@ public class LoginRegisterFragment extends Fragment {
 
         setFont();
     }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        LOGINTYPE=((LoginActivity)getActivity()).getloginType();
+    }
+
 
     public void setFont() {
 
@@ -271,9 +282,16 @@ public class LoginRegisterFragment extends Fragment {
             super.onPostExecute(result);
             ProgresBar.stop();
             if (status == 1) {
-                Intent intent = new Intent(getActivity(),
-                        DashBoardActivity.class);
-                startActivity(intent);
+                if (LOGINTYPE.equals("CHECKOUT")) {
+                    Intent intent = new Intent(getActivity(),
+                            FinalChkoutActivity.class);
+                    startActivity(intent);
+                } else if(LOGINTYPE.equals("SIMPLELOGIN")) {
+                    Intent intent = new Intent(getActivity(),
+                            DashBoardActivity.class);
+                    startActivity(intent);
+                }
+
 
             } else if (status == 0) {
                 Log.d("message ", "" + message);
@@ -289,5 +307,7 @@ public class LoginRegisterFragment extends Fragment {
     public void chkValidation() {
 
     }
+
+
 
 }

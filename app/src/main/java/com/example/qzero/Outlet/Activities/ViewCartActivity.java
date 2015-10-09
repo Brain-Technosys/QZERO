@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterCartItem;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
@@ -245,8 +246,15 @@ public class ViewCartActivity extends Activity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewCartActivity.this, FinalChkoutActivity.class);
-                startActivity(intent);
+                UserSession userSession=new UserSession(ViewCartActivity.this);
+                if(userSession.isUserLoggedIn()){
+                    Intent intent = new Intent(ViewCartActivity.this, FinalChkoutActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);
+                    intent.putExtra("LOGINTYPE","CHECKOUT");
+                    startActivity(intent);
+                }
             }
         });
     }

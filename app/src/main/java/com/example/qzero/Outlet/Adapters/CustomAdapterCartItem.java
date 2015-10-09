@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -59,6 +60,9 @@ public class CustomAdapterCartItem extends BaseAdapter {
     TextView modifierTotal;
 
     TableLayout tableModifier;
+
+    EditText editTextItemQty;
+
     LayoutInflater inflater;
 
 
@@ -114,7 +118,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
             view = inflater.inflate(R.layout.view_cart_item, null);
 
 
-            manageLayout(view, holder);
+            manageLayout(view, holder,i);
 
             setFont(holder);
 
@@ -141,6 +145,8 @@ public class CustomAdapterCartItem extends BaseAdapter {
             viewItems = new View[countLength];
 
 
+
+
             for (int i = 0; i < countLength; i++) {
                 viewItems[i] = inflater.inflate(R.layout.show_cart_item_table, null);
 
@@ -155,7 +161,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
                     tvName.setText(dbListItem.get(0).getItem_name());
                     tvQty.setText(dbListModifiers.get(0).getQuantity());
-                    tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
+                    tvTotal.setText("$ "+ Utility.formatDecimalByString(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity()))));
 
 
                     if (dbListModifiers.get(0).getModifier_name().equals("null")) {
@@ -172,7 +178,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
                             modifierName.setText(dbListModifiers.get(modlist).getModifier_name());
                             modifierQty.setText(dbListModifiers.get(modlist).getQuantity());
-                            modifierTotal.setText(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity())));
+                            modifierTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity()))));
                         }
                     }
                 }
@@ -184,22 +190,57 @@ public class CustomAdapterCartItem extends BaseAdapter {
     }
 
 
-    private void manageLayout(View view, ViewHolder holder) {
+    private void manageLayout(View view, final ViewHolder holder,int pos) {
         holder.layoutAddModifier = (LinearLayout) view.findViewById(R.id.detail);
         holder.totalAmountWithModifier = (TextView) view.findViewById(R.id.totalAmount);
-        holder.btn_edit = (ImageView) view.findViewById(R.id.btn_edit);
+        holder.imgViewEdit = (ImageView) view.findViewById(R.id.imgViewEdit);
 
         holder.imgItem = (ImageView) view.findViewById(R.id.item_image);
         holder.txt_item_name = (TextView) view.findViewById(R.id.txt_item_name);
         holder.txt_item_Price = (TextView) view.findViewById(R.id.totalAmount);
-    }
 
+        holder.imgViewEdit.setTag(pos);
+
+        holder.layoutAddModifier.setTag(pos);
+
+        holder.imgViewEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                int tag=Integer.parseInt(v.getTag().toString());
+
+                Log.e("tag", "" + tag);
+
+                Log.e("count", "" + holder.layoutAddModifier.getChildCount());
+
+             for(int i=0;i<holder.layoutAddModifier.getChildCount();i++) {
+
+                 View view = holder.layoutAddModifier.getChildAt(i);
+
+                tvQty = (TextView) view.findViewById(R.id.item_qty);
+
+                String qty = tvQty.getText().toString();
+
+                tvQty.setVisibility(View.GONE);
+
+                editTextItemQty = (EditText) view.findViewById(R.id.editTextItemQty);
+
+                editTextItemQty.setVisibility(View.VISIBLE);
+
+                editTextItemQty.setText(qty);
+            }
+
+            }
+        });
+
+
+    }
 
     private void setFont(ViewHolder holder) {
         FontHelper.applyFont(context, holder.totalAmountWithModifier, FontHelper.FontType.FONT);
 
     }
-
 
     private void setIdofTableItems(int j,String item_id) {
 
@@ -209,7 +250,10 @@ public class CustomAdapterCartItem extends BaseAdapter {
         tvName = (TextView) viewItems[j].findViewById(R.id.itemName);
 
         tvQty = (TextView) viewItems[j].findViewById(R.id.item_qty);
+
         tvTotal = (TextView) viewItems[j].findViewById(R.id.item_totalPrice);
+
+        editTextItemQty=(EditText) viewItems[j].findViewById(R.id.editTextItemQty);
 
         ImageView img_delete=(ImageView) viewItems[j].findViewById(R.id.img_delete);
 
@@ -243,7 +287,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
     private class ViewHolder {
         LinearLayout layoutAddModifier;
         TextView totalAmountWithModifier;
-        ImageView btn_edit;
+        ImageView imgViewEdit;
 
         ImageView imgItem;
         TextView txt_item_name;

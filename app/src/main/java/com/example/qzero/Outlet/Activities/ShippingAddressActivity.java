@@ -104,10 +104,10 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         finish();
     }
 
-    @OnClick(R.id.edit_address)
+   /* @OnClick(R.id.edit_address)
     void editAddress() {
         Intent i = new Intent(ShippingAddressActivity.this, AddAddressActivity.class);
         i.putExtra("ADDRESSTYPE", 3);
         startActivity(i);
-    }
+    }*/
 }

@@ -15,7 +15,9 @@ import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
+import com.example.qzero.Outlet.Fragments.LoginRegisterFragment;
 import com.example.qzero.Outlet.Fragments.LoginTabFragment;
+import com.example.qzero.Outlet.Fragments.LoginUserFragment;
 import com.example.qzero.R;
 
 import butterknife.ButterKnife;
@@ -38,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.txt_userName)
     TextView txt_userName;
 
+    String LOGINTYPE;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
+        //getting intent from HomeScreen and CartScreen, LOGINTYPE will differenciate
+        Intent intent = getIntent();
+        LOGINTYPE = intent.getStringExtra("LOGINTYPE");
 
     }
 
@@ -60,12 +67,12 @@ public class LoginActivity extends AppCompatActivity {
             loginFrameLay.setVisibility(View.GONE);
             txt_userName.setText("User: " + userSession.getUserName());
         } else {
+
             txtViewLogin.setText(getString(R.string.txt_login));
             loginFrameLay.setVisibility(View.VISIBLE);
             layout_myProfile.setVisibility(View.GONE);
             addLoginFragment();
         }
-
     }
 
     private void addLoginFragment() {
@@ -78,6 +85,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public String getloginType(){
+        return LOGINTYPE;
+    }
+
     @OnClick(R.id.relLayLogin)
     public void finishLoginActivity() {
         finish();
@@ -85,9 +96,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_myProfile)
     public void goto_myProfile() {
-        Intent intent = new Intent(LoginActivity.this,
-                DashBoardActivity.class);
-        startActivity(intent);
+
+
+            Intent intent = new Intent(LoginActivity.this,
+                    DashBoardActivity.class);
+            startActivity(intent);
+
     }
 
     @OnClick(R.id.btn_logOut)

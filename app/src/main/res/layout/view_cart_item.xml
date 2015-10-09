@@ -81,11 +81,19 @@
 
 
                         <ImageView
-                            android:id="@+id/btn_edit"
+                            android:id="@+id/imgViewEdit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
                             android:src="@drawable/edit_small_selector" />
+
+                        <ImageView
+                            android:id="@+id/imgViewDone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_done"
+                            android:visibility="gone"/>
 
 
                     </RelativeLayout>

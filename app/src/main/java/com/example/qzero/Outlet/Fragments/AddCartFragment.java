@@ -25,6 +25,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -37,11 +38,14 @@ import com.example.qzero.Outlet.ObjectClasses.ChoiceGroup;
 import com.example.qzero.Outlet.ObjectClasses.Modifier;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -247,7 +251,7 @@ public class AddCartFragment extends Fragment {
         //Inflate the layout reverse
         inflateQtyLayout();
 
-        Toast.makeText(getActivity(), "Item Added", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Item Added.", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -364,6 +368,8 @@ public class AddCartFragment extends Fragment {
 
                     if (countLength == 1) {
                         //do not delete
+
+                        Toast.makeText(getActivity(), "This item cannot be deleted.", Toast.LENGTH_SHORT);
                     } else {
                         int tag = Integer.parseInt(v.getTag().toString());
 
@@ -1014,6 +1020,7 @@ public class AddCartFragment extends Fragment {
             ProgresBar.stop();
             setLayout();
             inflateQtyLayout();
+
         }
     }
 
@@ -1022,6 +1029,10 @@ public class AddCartFragment extends Fragment {
     void addToCart() {
 
         saveItemDetails();
+
+        Toast.makeText(getActivity(), "Items added to cart.", Toast.LENGTH_LONG).show();
+
+
     }
 
 
@@ -1042,33 +1053,46 @@ public class AddCartFragment extends Fragment {
                         Log.e("itemk_id", "" + item_id);
                         Log.e("i", "" + i);
 
-                        saveModifierItems(i, item_id,hashmap);
+                        saveModifierItems(i, item_id, hashmap);
                         Log.e("while", "" + isDuplicate);
                         if (isDuplicate)
                             break;
                     }
 
-                    if(!isDuplicate)
-                    {
-                        Log.e("not","duplicate");
-                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice),item_image);
+                    if (!isDuplicate) {
+                        Log.e("not", "duplicate");
+                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                         for (int mod = 0; mod < modifierSaved.size(); mod++) {
 
-                            databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId),item_name);
+                            databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId), item_name);
                         }
                     }
-                }
-                else {
+                } else {
 
                     Log.e("inside", "item not present");
-                    long item_id = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice),item_image);
+                    long item_id = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                     saveModDb(i, String.valueOf(item_id));
                 }
             }
         }
+
+        resetCart();
     }
 
-    private void saveModifierItems(int i, String item_id,HashMap<String, String> hashmap) {
+    private void resetCart() {
+        countLength = 1;
+
+        hashMapChoosenMod.clear();
+        hashMapSelectedMod.clear();
+
+        arrayListViewData.clear();
+
+        initalizeArrayItem(0,"1");
+        inflateQtyLayout();
+
+    }
+
+    private void saveModifierItems(int i, String item_id, HashMap<String, String> hashmap) {
 
         modifierSaved = new ArrayList<Modifier>();
 
@@ -1077,24 +1101,18 @@ public class AddCartFragment extends Fragment {
         if (hashMapChoosenMod.containsKey(i))
             modifierSaved = hashMapChoosenMod.get(i);
 
-        if(modifierSaved.size()==0)
-        {
-            isDuplicate=true;
-            int length=databaseHelper.getNullModifiers(item_name,"null");
+        if (modifierSaved.size() == 0) {
+            isDuplicate = true;
+            int length = databaseHelper.getNullModifiers(item_name, "null");
 
-            if(length==0)
-            {
-                long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice),item_image);
-                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"),String.valueOf(itemId),item_name);
-            }
-            else
-            {
-                databaseHelper.updateNullModifiers(item_name,"null",hashmap.get("qty"));
+            if (length == 0) {
+                long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), String.valueOf(itemId), item_name);
+            } else {
+                databaseHelper.updateNullModifiers(item_name, "null", hashmap.get("qty"));
 
             }
-        }
-
-        else {
+        } else {
 
             Cursor modCursor = databaseHelper.getModifiers(item_id);
             if (modCursor != null) {
@@ -1123,13 +1141,11 @@ public class AddCartFragment extends Fragment {
                             //do nothing
                         } else {
                             Log.e("upfate", "update");
-                            Log.e("item_id",item_id);
+                            Log.e("item_id", item_id);
                             databaseHelper.updateModifiers(item_id, hashmap.get("qty"));
                         }
-                    }
-                    else
-                    {
-                        isDuplicate=false;
+                    } else {
+                        isDuplicate = false;
                     }
                 }
 
@@ -1151,9 +1167,9 @@ public class AddCartFragment extends Fragment {
 
             if (modifierSavedUnique.size() != 0) {
 
-                databaseHelper.insertIntoModifiers(modifierSavedUnique.get(j).getMod_name(), modifierSavedUnique.get(j).getMod_price(), hashmap.get("qty"), item_id,item_name);
+                databaseHelper.insertIntoModifiers(modifierSavedUnique.get(j).getMod_name(), modifierSavedUnique.get(j).getMod_price(), hashmap.get("qty"), item_id, item_name);
             } else {
-                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), item_id,item_name);
+                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), item_id, item_name);
             }
         }
     }
