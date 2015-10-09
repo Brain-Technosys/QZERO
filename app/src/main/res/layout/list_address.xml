@@ -32,14 +32,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/deleteAddress"
+<<<<<<< HEAD
             android:background="@drawable/edit_small_selector" />
+=======
+            android:background="@drawable/selector_edit_button" />
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 
         <ImageView
             android:id="@+id/deleteAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+<<<<<<< HEAD
             android:background="@drawable/delete_small_selector" />
+=======
+            android:background="@drawable/delete_selector" />
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 
     </RelativeLayout>
 
@@ -62,7 +70,11 @@
             android:id="@+id/addressLine1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:padding="5dp"
+=======
+            android:padding="10dp"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
             android:singleLine="true"
             android:text="B62, Sarmoula, east of kailash"
             android:textColor="@color/black"
@@ -73,7 +85,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/addressLine1"
+<<<<<<< HEAD
             android:padding="5dp"
+=======
+            android:padding="10dp"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
             android:singleLine="true"
             android:text="kailash"
             android:textColor="@color/black"
@@ -90,7 +106,11 @@
                 android:id="@+id/addressState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:padding="5dp"
+=======
+                android:padding="10dp"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:singleLine="true"
                 android:text="Delhi,"
                 android:textColor="@color/black"
@@ -100,7 +120,11 @@
                 android:id="@+id/addressCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:padding="5dp"
+=======
+                android:padding="10dp"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 android:singleLine="true"
                 android:text="India"
                 android:textColor="@color/black"
@@ -113,7 +137,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layoutState"
+<<<<<<< HEAD
             android:padding="5dp"
+=======
+            android:padding="10dp"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
             android:singleLine="true"
             android:text="110017"
             android:textColor="@color/black"
@@ -124,7 +152,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/addressPinCode"
+<<<<<<< HEAD
             android:padding="5dp"
+=======
+            android:padding="10dp"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
             android:singleLine="true"
             android:text="9999999999"
             android:textColor="@color/black"

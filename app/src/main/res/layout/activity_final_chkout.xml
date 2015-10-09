@@ -4,64 +4,74 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg">
 
-    <TextView
-        android:id="@+id/txt_chk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/cardview_back"
-        android:padding="10dp"
-        android:text="@string/chkout"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/inclue_header"></include>
 
     <ScrollView
+        android:id="@+id/table_content"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_Layout"
-        android:layout_below="@+id/txt_chk"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="fill_parent"
+        android:layout_above="@android:id/tabhost"
+        android:layout_below="@+id/header"
         android:background="@android:color/white">
 
         <LinearLayout
-            android:id="@+id/layout_your_order"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@color/gray">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="1.5"
+                    android:text="@string/products" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="@string/price_qty" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:layout_weight="0.5"
+                    android:text="@string/total" />
+            </LinearLayout>
+
+            <TableLayout
+                android:id="@+id/layout_your_order"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cardview_back"
-                android:padding="10dp"
-                android:text="@string/your_order"
-                android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:background="@color/primary_color">
+
+            </TableLayout>
+
+
+            <FrameLayout
+                android:id="@+id/chkout_detail_frag"
+                android:layout_width="fill_parent"
+                android:layout_height="350dp"
+                android:layout_below="@+id/layout_your_order"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+
+                />
+
         </LinearLayout>
     </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/bottom_Layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
-
-        >
-
-
-        <Button
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/selector"
-            android:layout_margin="5dp"
-            android:padding="10dp"
-            android:text="@string/next" />
-
-
-    </RelativeLayout>
-
 </RelativeLayout>

@@ -107,6 +107,7 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
         finish();
     }
 
+<<<<<<< HEAD
     @OnClick(R.id.edit_address)
     void editAddress() {
         Intent i = new Intent(BillingAddressActivity.this, AddAddressActivity.class);
@@ -114,5 +115,7 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
         startActivity(i);
     }
 
+=======
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 
 }

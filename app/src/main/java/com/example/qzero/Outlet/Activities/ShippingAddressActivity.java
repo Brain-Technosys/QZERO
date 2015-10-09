@@ -20,7 +20,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+<<<<<<< HEAD
 public class ShippingAddressActivity extends AppCompatActivity implements View.OnClickListener {
+=======
+public class ShippingAddressActivity extends AppCompatActivity implements View.OnClickListener{
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 
     @InjectView(R.id.listShippingAddress)
     ListView listShippingAddress;
@@ -61,8 +65,13 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
         View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
 
+<<<<<<< HEAD
         btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
         btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
+=======
+        btnAddAddress=(Button)footerView.findViewById(R.id.btn_addNew);
+        btnPlaceOrder=(Button)footerView.findViewById(R.id.btn_PlaceOrder);
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 
         btnPlaceOrder.setOnClickListener(this);
         btnAddAddress.setOnClickListener(this);
@@ -76,12 +85,21 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View view) {
+<<<<<<< HEAD
         switch (view.getId()) {
 
 
             case R.id.btn_addNew:
                 Intent i = new Intent(ShippingAddressActivity.this, AddAddressActivity.class);
                 i.putExtra("ADDRESSTYPE", 1);
+=======
+        switch(view.getId()){
+
+
+            case R.id.btn_addNew:
+                Intent i=new Intent(ShippingAddressActivity.this,AddAddressActivity.class);
+                i.putExtra("ADDRESSTYPE",1);
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                 startActivity(i);
                 break;
 
@@ -99,6 +117,7 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         finish();
     }
 
+<<<<<<< HEAD
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
         finish();
@@ -110,4 +129,9 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         i.putExtra("ADDRESSTYPE", 3);
         startActivity(i);
     }
+=======
+    @OnClick(R.id.imgViewBack)void imgViewBack(){
+        finish();
+    }
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 }

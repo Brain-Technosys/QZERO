@@ -23,10 +23,12 @@
     <color name="background_cat_outlet">#D2D2D2</color>
     <color name="oulet_image_strip">#CC583F</color>
     <color name="account_background">#9c564e</color>
+
     <color name="item_detail">#742314</color>
     <color name="item_detail_green">#118600</color>
     <color name="color_rounded_border">#DCDCDC</color>
     <color name="primary_color">#742314</color>
     <color name="searchbar_color">#a1a1a1</color>
+    <color name="gray">#A1A1A1</color>
 
 </resources>

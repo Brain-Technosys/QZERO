@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+<<<<<<< HEAD
     android:layout_height="match_parent" android:background="@android:color/white">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+=======
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt_item_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:padding="5dp"
+        android:layout_alignParentLeft="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txt_item_num"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
         android:layout_toLeftOf="@+id/img_delete"
         android:orientation="vertical">
         <TableLayout
@@ -16,6 +33,7 @@
             <TableRow>
                 <TextView
                     android:id="@+id/itemName"
+<<<<<<< HEAD
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
@@ -34,17 +52,44 @@
                     android:text="3"
                     android:singleLine="true"
                     android:layout_weight="0.3"
+=======
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/itemPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:padding="5dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/item_qty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                     android:textSize="15sp"
                     android:padding="5dp"
                     ></TextView>
                 <TextView
                     android:id="@+id/item_totalPrice"
+<<<<<<< HEAD
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
                     android:textColor="@color/black"
                     android:text="$30.00"
                     android:singleLine="true"
+=======
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
                     android:textSize="15sp"
                     android:padding="5dp"
                     ></TextView>
@@ -64,5 +109,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+<<<<<<< HEAD
         android:src="@drawable/ic_delete_small"/>
+=======
+        android:src="@drawable/ic_delete"/>
+>>>>>>> 8eb851b4549b0ab4c71551291810f9eb429fde2c
 </RelativeLayout>
