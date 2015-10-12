@@ -26,6 +26,7 @@ public class ShipmentTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shipment, container, false);
         ButterKnife.inject(this, view);
 
+        
         return view;
     }
 
