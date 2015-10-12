@@ -77,16 +77,59 @@
         <activity
             android:name=".Outlet.Activities.SearchActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Outlet.Activities.ViewCartActivity"
             android:label="@string/title_activity_view_cart"></activity>
+
         <activity
             android:name=".Outlet.Activities.FinalChkoutActivity"
             android:label="@string/title_activity_view_cart"></activity>
 
-        <activity android:name=".Outlet.Activities.BillingAddressActivity"></activity>
-        <activity android:name=".Outlet.Activities.ShippingAddressActivity"></activity>
-        <activity android:name=".Outlet.Activities.AddAddressActivity"></activity>
+        <activity
+            android:name=".Outlet.Activities.BillingAddressActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".Outlet.Activities.ShippingAddressActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".Outlet.Activities.AddAddressActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <service
+            android:name="com.paypal.android.sdk.payments.PayPalService"
+            android:exported="false" />
+
+        <activity
+            android:name="com.paypal.android.sdk.payments.PaymentActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.paypal.android.sdk.payments.LoginActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.paypal.android.sdk.payments.PaymentMethodActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.paypal.android.sdk.payments.PaymentConfirmActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="io.card.payment.DataEntryActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
