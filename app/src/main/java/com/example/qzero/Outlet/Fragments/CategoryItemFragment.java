@@ -402,8 +402,11 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         float fwidth = dm.density * dm.widthPixels;
         float fheight = dm.density * dm.heightPixels;
 
+
+
         //for devices whose density is 0.75 mainly idpi ex 320 *240
         if (dm.density == 0.75 || dm.density < 0.75) {
+
             paramsLeft.width = Math.round(fwidth / 3) + 35;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -413,6 +416,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
             //for devices whose density is 1 mainly mdpi 320 *480
         } else if (dm.density == 1 || (dm.density > 0.75 && dm.density < 1)) {
+
             paramsLeft.width = Math.round(fwidth / 2) - 10;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -424,6 +428,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
         //for devices whose density is 1.5 mainly hdpi
         else if (dm.density == 1.5 || (dm.density > 1 && dm.density < 1.5)) {
+
             paramsLeft.width = Math.round(fwidth / 4) + 30;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -433,6 +438,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         }
         //for devices whose density is 2 mainly xhdpi
         else if (dm.density == 2 || (dm.density > 1.5 && dm.density < 2)) {
+
             paramsLeft.width = Math.round(fwidth / 4) - 40;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -442,6 +448,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
             //for devices whose density is 3 mainly xxhdpi
         } else if (dm.density == 3 || (dm.density > 2 && dm.density < 3)) {
+
             paramsLeft.width = Math.round(fwidth / 4) + 100;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -449,17 +456,29 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             paramsImage.width = Math.round(fwidth / 4) + 90;
             paramsImage.height = Math.round(fheight / 4) - 540;
 
-        } else {
-            paramsLeft.width = Math.round(fwidth / 4) - 40;
+        }else if((dm.density==4) ||(dm.density>3 && dm.density<4)){
+
+            paramsLeft.width = Math.round(fwidth / 8)  -80;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
             //Image Category icon
-            paramsImage.width = Math.round(fwidth / 4) - 30;
-            paramsImage.height = Math.round(fheight / 4) - 250;
+            paramsImage.width = Math.round(fwidth / 8) - 60;
+            paramsImage.height = Math.round(fheight / 8) - 560;
+
         }
 
-    }
+        else {
 
+            paramsLeft.width = Math.round(fwidth / 8)  -80;
+            paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            //Image Category icon
+            paramsImage.width = Math.round(fwidth / 8) - 60;
+            paramsImage.height = Math.round(fheight / 8) - 560;
+
+
+        }
+    }
     public void setOnClick() {
         relLayItem.setOnClickListener(new View.OnClickListener() {
             @Override

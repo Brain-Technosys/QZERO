@@ -169,8 +169,6 @@ public class SearchItemActivity extends Activity {
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("jsonvenue", jsonString);
-
             try {
                 jsonObject = new JSONObject(jsonString);
 

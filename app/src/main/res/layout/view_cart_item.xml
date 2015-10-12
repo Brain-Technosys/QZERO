@@ -92,9 +92,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:src="@drawable/ic_done"
+                            android:src="@drawable/edit_done_selector"
                             android:visibility="gone"/>
 
+                        <ImageView
+                            android:id="@+id/imgViewCancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:layout_toRightOf="@+id/imgViewDone"
+                            android:src="@drawable/edit_cancel_selector"
+                            android:visibility="gone"/>
 
                     </RelativeLayout>
 

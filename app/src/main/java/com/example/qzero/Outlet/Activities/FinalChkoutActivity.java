@@ -21,6 +21,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 
+import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.Outlet.Fragments.ChkoutCatFragment;
@@ -40,29 +41,24 @@ import butterknife.OnClick;
  */
 public class FinalChkoutActivity extends AppCompatActivity {
 
-    TableLayout[] tableItems;
-    TableLayout tableModifiers;
-
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
 
     @InjectView(R.id.layout_your_order)
     LinearLayout layoutAddModifier;
 
-    @InjectView(R.id.ModifierName) TextView ModifierName;
-    @InjectView(R.id.modifier_qty) TextView modifier_qty;
-    @InjectView(R.id.modifier_totalPrice) TextView modifier_totalPrice;
+    @InjectView(R.id.ModifierName)
+    TextView ModifierName;
 
+    @InjectView(R.id.modifier_qty)
+    TextView modifier_qty;
 
-    String[] srNum = {"1", "2"};
-    String[] productName = {"Roasted Stuffed Mushroom", "Honey Chilli Potato"};
-    String[] price = {"10.00", "10.00"};
-    String[] qty = {"5", "4"};
+    @InjectView(R.id.modifier_totalPrice)
 
-    View child[];
+    TextView modifier_totalPrice;
     HashMap<Integer, ArrayList<DbItems>> hashMapItems;
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
-    HashMap<Integer,ArrayList<DbItems>> hashMapListItems;
+    HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
     View[] viewItems;
 
     TableLayout tableModifier;
@@ -80,20 +76,13 @@ public class FinalChkoutActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper = null;
 
     int pos;
-
-    ArrayList<HashMap<String, String>> listItem;
-    ArrayList<HashMap<String, String>> listModifier;
-
-    HashMap<String, String> itemHashMap;
-    HashMap<String, String> modifierHashMap;
-
     int itemsLength;
 
     String itemName;
     Cursor itemCursor;
     Cursor itemIdCursorMod;
     int position = 0;
-    int posMod=0;
+    int posMod = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,14 +95,14 @@ public class FinalChkoutActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         hashMapItems = new HashMap<>();
         hashMapModifiers = new HashMap<>();
-        hashMapListItems=new HashMap<>();
+        hashMapListItems = new HashMap<>();
 
         getDataFromDatabase();
 
         if (hashMapItems.size() == 0) {
 
         } else {
-           // sendDataToAdapterClass();
+            // sendDataToAdapterClass();
         }
 
 
@@ -256,10 +245,10 @@ public class FinalChkoutActivity extends AppCompatActivity {
             viewItems = new View[countLength];
 
             for (int i = 0; i < countLength; i++) {
-                viewItems[i] = inflater.inflate(R.layout.show_cart_item_table, null);
+                viewItems[i] = inflater.inflate(R.layout.order_summary_tables, null);
 
                 ArrayList<DbModifiers> dbListModifiers = new ArrayList<>();
-                dbListModifiers= hashMapModifiers.get(position);
+                dbListModifiers = hashMapModifiers.get(position);
 
                 setIdofTableItems(i);
 
@@ -268,7 +257,13 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
                     tvName.setText(dbListItem.get(0).getItem_name());
                     tvQty.setText("$" + dbListItem.get(0).getItem_price() + " * " + dbListModifiers.get(0).getQuantity());
-                    tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
+
+                        //Chking discount price is 0 or not
+                    if (Double.parseDouble(dbListItem.get(0).getDiscount_price()) == 0.0) {
+                        tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
+                    } else {
+                        tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getDiscount_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
+                    }
 
 
                     if (dbListModifiers.get(0).getModifier_name().equals("null")) {
@@ -276,7 +271,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                     } else {
                         for (int modlist = 0; modlist < dbListModifiers.size(); modlist++) {
 
-                            View modifier = inflater.inflate(R.layout.cart_modifier_items, null);
+                            View modifier = inflater.inflate(R.layout.order_summary_table_row, null);
 
                             setIdOfTableModifier(modifier);
 
@@ -307,9 +302,9 @@ public class FinalChkoutActivity extends AppCompatActivity {
         tvQty = (TextView) viewItems[j].findViewById(R.id.item_qty);
         tvTotal = (TextView) viewItems[j].findViewById(R.id.item_totalPrice);
 
-        FontHelper.applyFont(this,tvName, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this,tvQty, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this,tvTotal, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, tvName, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, tvQty, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, tvTotal, FontHelper.FontType.FONTSANSBOLD);
 
 
     }

@@ -109,6 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return valueItems;
     }
 
+
     public int selectDistinctMod() {
         SQLiteDatabase database = getReadableDatabase();
         String selectMod = "select DISTINCT " + ID_COLUMN + " from " + MODIFIER_TABLE;
