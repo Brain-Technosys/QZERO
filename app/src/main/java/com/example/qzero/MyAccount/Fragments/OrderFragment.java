@@ -66,7 +66,9 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
        // getActivity().setTitle(getString(R.string.order_title));
         searchView.setFocusable(false);
-        orderListView.setTextFilterEnabled(true);
+        orderListView.setTextFilterEnabled(false);
+        searchView.setSubmitButtonEnabled(false);
+        
         setupSearchView();
         session = new UserSession(getActivity().getApplicationContext());
         if (session.isUserLoggedIn())
@@ -241,6 +243,8 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
             if (status == 1) {
                 OrdersAdapter adapter = new OrdersAdapter(getActivity(), orderArrayList);
                 orderListView.setAdapter(adapter);
+
+                
             }
         }
     }

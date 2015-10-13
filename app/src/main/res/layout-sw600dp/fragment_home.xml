@@ -2,6 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/texture_bg">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -10,8 +11,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/bottom"
-            android:paddingLeft="10dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:paddingLeft="10dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
-                            android:src="@drawable/ic_profile" />
+                            android:background="@drawable/profile" />
 
                         <TextView
                             android:id="@+id/tv_profile"
@@ -47,8 +48,7 @@
                             android:layout_marginTop="20dp"
                             android:text="@string/profile_info"
                             android:textColor="@android:color/white"
-                            android:textSize="16sp" />
-
+                            android:textSize="20sp" />
 
 
                     </LinearLayout>
@@ -59,7 +59,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rl_first_row"
                     android:layout_marginTop="-16dp">
-
 
 
                     <LinearLayout
@@ -86,7 +85,7 @@
                             android:layout_marginTop="20dp"
                             android:text="@string/order"
                             android:textColor="@android:color/white"
-                            android:textSize="16sp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/tv_order_count"
@@ -94,9 +93,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
-                            android:text="8"
+
                             android:textColor="@android:color/white"
-                            android:textSize="15sp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
