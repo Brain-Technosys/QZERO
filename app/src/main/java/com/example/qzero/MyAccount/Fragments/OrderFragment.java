@@ -241,6 +241,8 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
             if (status == 1) {
                 OrdersAdapter adapter = new OrdersAdapter(getActivity(), orderArrayList);
                 orderListView.setAdapter(adapter);
+
+                
             }
         }
     }
