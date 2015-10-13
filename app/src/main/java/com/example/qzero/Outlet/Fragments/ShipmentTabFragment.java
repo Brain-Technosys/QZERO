@@ -27,24 +27,24 @@ import butterknife.OnClick;
 public class ShipmentTabFragment extends Fragment {
     @InjectView(R.id.txt_logo_billing_add)
     TextView txt_logo_billing_add;
-
     @InjectView(R.id.txt_logo_shipping_add)
     TextView txt_logo_shipping_add;
-
     @InjectView(R.id.txt_logo_order_note)
     TextView txt_logo_order_note;
 
     @InjectView(R.id.txt_billing_address)
     TextView txt_billing_address;
-
     @InjectView(R.id.txt_billingContact)
     TextView txt_billingContact;
-
     @InjectView(R.id.txt_shipping_address)
     TextView txt_shipping_address;
-
     @InjectView(R.id.txt_shipping_contact)
     TextView txt_shipping_contact;
+    @InjectView(R.id.txt_user_bill_add)
+    TextView txt_user_bill_add;
+    @InjectView(R.id.txt_user_ship)
+    TextView txt_user_ship;
+
 
     @InjectView(R.id.et_orderNote)
     EditText et_orderNote;
@@ -74,6 +74,8 @@ public class ShipmentTabFragment extends Fragment {
         FontHelper.applyFont(context, txt_shipping_address, FontHelper.FontType.FONT);
         FontHelper.applyFont(context, txt_shipping_contact, FontHelper.FontType.FONT);
         FontHelper.applyFont(context, et_orderNote, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, txt_user_bill_add, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, txt_user_ship, FontHelper.FontType.FONT);
 
     }
 

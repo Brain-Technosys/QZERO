@@ -78,6 +78,8 @@ public class ViewCartActivity extends Activity {
 
     View footerView;
 
+    UserSession userSession;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,8 @@ public class ViewCartActivity extends Activity {
         setContentView(R.layout.activity_view_cart);
 
         ButterKnife.inject(this);
+
+        userSession=new UserSession(this);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -255,6 +259,7 @@ public class ViewCartActivity extends Activity {
     }
 
     public void setfinalAmountCart(Double amount) {
+        userSession.saveFinalPaybleAmount(String.valueOf(amount));
         txt_CartFinalAmount.setText("Total: $" + Utility.formatDecimalByString(String.valueOf(amount)));
     }
 
@@ -282,7 +287,6 @@ public class ViewCartActivity extends Activity {
                 UserSession userSession = new UserSession(ViewCartActivity.this);
                 if (userSession.isUserLoggedIn()) {
                     Intent intent = new Intent(ViewCartActivity.this, FinalChkoutActivity.class);
-                    intent.putExtra("PAYBLEAMOUNT",totalPaybleAmount);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);

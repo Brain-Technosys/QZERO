@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Fragments.ChkoutCatFragment;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
@@ -94,17 +95,21 @@ public class FinalChkoutActivity extends AppCompatActivity {
     int position = 0;
     int posMod = 0;
 
+    UserSession userSession;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_chkout);
         ButterKnife.inject(this);
 
+        userSession=new UserSession(this);
+
         txtViewHeading.setText("Your Order");
 
         //code changed by himanshu
-        Intent intent = getIntent();
-        totalpaybleAmount = intent.getDoubleExtra("PAYBLEAMOUNT", 0.0);
+        totalpaybleAmount =  Double.parseDouble(userSession.getFinalPaybleAmount());
+
         txt_final_price.setText("Total: $" + Utility.formatDecimalByString(String.valueOf(totalpaybleAmount)));
 
         databaseHelper = new DatabaseHelper(this);
@@ -129,9 +134,10 @@ public class FinalChkoutActivity extends AppCompatActivity {
     }
 
     private void setFont() {
-        FontHelper.applyFont(this, ModifierName, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this, modifier_qty, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this, modifier_totalPrice, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, ModifierName, FontHelper.FontType.FONT);
+        FontHelper.applyFont(this, modifier_qty, FontHelper.FontType.FONT);
+        FontHelper.applyFont(this, modifier_totalPrice, FontHelper.FontType.FONT);
+        FontHelper.applyFont(this, txt_final_price, FontHelper.FontType.FONTSANSBOLD);
 
 
     }

@@ -26,6 +26,10 @@ public class UserSession {
 
     public static final String KEY_USER_LOCATION = "user_loc";
 
+    //Session for OrderSummary and CartViewActivity
+    public static final String KEY_FINALPAYBLE_AMOUNT = "final_amount";
+
+
     public UserSession(Context _context) {
         this.context = _context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -74,6 +78,12 @@ public class UserSession {
         editor.commit();
     }
 
+    //save finalPaybleAmount
+    public void saveFinalPaybleAmount(String amount) {
+        editor.putString(KEY_FINALPAYBLE_AMOUNT, amount);
+        editor.commit();
+    }
+
     public boolean getUserPermissionLoc() {
         return pref.getBoolean(KEY_LOCATION_PERM, true);
     }
@@ -86,12 +96,19 @@ public class UserSession {
         return pref.getString(KEY_USER_LOCATION, "");
     }
 
+
+    //get finalPaybleAmount
+
+    public String getFinalPaybleAmount(){
+        return pref.getString(KEY_FINALPAYBLE_AMOUNT, "0.0");
+    }
+
     /**
      * Clear session details
      */
 
-    public void clearUserSession() { // Clearing all data from Shared
-        editor.clear();
+    public void clearCartSession() { // Clearing all data from Shared
+        editor.remove(KEY_FINALPAYBLE_AMOUNT);
         editor.commit();
     }
 

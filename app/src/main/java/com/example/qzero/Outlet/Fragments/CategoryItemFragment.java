@@ -152,6 +152,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         search_view.setOnQueryTextListener(this);
         search_view.setSubmitButtonEnabled(true);
         search_view.setQueryHint("Search Items");
+        search_view.setSubmitButtonEnabled(false);
     }
 
     public boolean onQueryTextChange(String newText) {

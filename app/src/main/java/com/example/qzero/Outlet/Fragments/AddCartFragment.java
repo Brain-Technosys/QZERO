@@ -34,6 +34,7 @@ import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.Outlet.Activities.OutletCategoryActivity;
 import com.example.qzero.Outlet.ObjectClasses.ChoiceGroup;
 import com.example.qzero.Outlet.ObjectClasses.Modifier;
 import com.example.qzero.R;
@@ -92,8 +93,7 @@ public class AddCartFragment extends Fragment {
 
     int countLength = 1;
     int index;
-    int count;
-    int countPrice;
+    int quantity;
 
     JsonParser jsonParser;
     JSONObject jsonObject;
@@ -1038,6 +1038,8 @@ public class AddCartFragment extends Fragment {
 
         Toast.makeText(getActivity(), "Items added to cart.", Toast.LENGTH_LONG).show();
 
+        getTotalQty();
+
 
     }
 
@@ -1193,5 +1195,35 @@ public class AddCartFragment extends Fragment {
             databaseHelper.insertIntoModifiers("null", "null", "null", hashmap.get("qty"), item_id, item_name);
         }
     }
+
+
+    private void getTotalQty()
+    {
+        quantity=0;
+        Cursor modCountcursor=databaseHelper.selectDistinctMod();
+
+        if(modCountcursor!=null)
+        {
+            while(modCountcursor.moveToNext())
+            {
+                String mod_id=modCountcursor.getString(0);
+
+                Cursor modQtyCursor=databaseHelper.getModifiersQty(mod_id);
+                if(modQtyCursor!=null)
+                {
+                    if(modQtyCursor.moveToFirst())
+                    {
+                        String qty=modQtyCursor.getString(0);
+
+                        quantity=quantity+Integer.parseInt(qty);
+                    }
+                }
+
+            }
+        }
+
+        //((OutletCategoryActivity)getActivity()).setCountToBadge(String.valueOf(quantity));
+    }
+
 
 }

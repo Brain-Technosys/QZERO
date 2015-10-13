@@ -10,8 +10,17 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/txt_logo_billing_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:text="Billing Address"
+
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -22,15 +31,15 @@
             >
 
             <TextView
-                android:id="@+id/txt_logo_billing_add"
+                android:id="@+id/txt_user_bill_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:padding="5dp"
-                android:text="Billing Address"
-
+                android:text="Ashish Tiwari"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
+
 
             <ImageView
                 android:id="@+id/iv_edit_billing_add"
@@ -38,18 +47,27 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/selector_edit_button" />
+            <View
+                android:id="@+id/view_billing"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/iv_edit_billing_add"
+                android:background="@color/primary_color"
+                ></View>
 
             <TextView
                 android:id="@+id/txt_billing_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_edit_billing_add"
+                android:layout_below="@+id/view_billing"
+                android:paddingTop="5dp"
                 android:paddingLeft="5dp"
                 android:text="Braintechnosys pvt. ltd, D-84,Noida 63,110045"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/txt_billingContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -59,6 +77,15 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
         </RelativeLayout>
+        <TextView
+            android:id="@+id/txt_logo_shipping_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:text="Shipping Address"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -68,12 +95,12 @@
             android:background="@drawable/bg_border">
 
             <TextView
-                android:id="@+id/txt_logo_shipping_add"
+                android:id="@+id/txt_user_ship"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:padding="5dp"
-                android:text="Shipping Address"
+                android:text="Ashish Tiwari"
 
                 android:textColor="@color/black"
                 android:textSize="15sp" />
@@ -84,18 +111,27 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/selector_edit_button" />
+            <View
+                android:id="@+id/view_shipping"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/iv_edit_shipping_add"
+                android:background="@color/primary_color"
+                ></View>
 
             <TextView
                 android:id="@+id/txt_shipping_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_edit_shipping_add"
+                android:layout_below="@+id/view_shipping"
+                android:paddingTop="5dp"
                 android:paddingLeft="5dp"
                 android:text="Braintechnosys pvt. ltd, D-84,Noida 63,110045"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/txt_shipping_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

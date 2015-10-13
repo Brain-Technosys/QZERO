@@ -79,6 +79,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
     ImageView imgViewUpArrow;
     ImageView imgViewDownArrow;
 
+    TextView txtViewBadge;
+
     ArrayAdapter adapter;
 
     int list;
@@ -182,10 +184,17 @@ public class OutletCategoryActivity extends AppCompatActivity {
         });
         txtViewTitle.setText("Outlet Items");
 
+        txtViewBadge=(TextView) inflatedLayout.findViewById(R.id.txtViewBadge);
+
         actionBar.setCustomView(inflatedLayout);
 
 
     }//end of setIconsToActionBar()
+
+    public void setCountToBadge(String count)
+    {
+        txtViewBadge.setText(count);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

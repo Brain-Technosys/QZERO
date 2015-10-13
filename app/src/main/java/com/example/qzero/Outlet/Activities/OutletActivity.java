@@ -212,6 +212,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         search_view.setOnQueryTextListener(this);
         search_view.setSubmitButtonEnabled(true);
         search_view.setQueryHint("Search Outlets");
+        search_view.setSubmitButtonEnabled(false);
     }
 
     public boolean onQueryTextChange(String newText) {
