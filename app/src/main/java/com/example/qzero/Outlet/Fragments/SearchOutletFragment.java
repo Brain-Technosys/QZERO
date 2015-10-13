@@ -148,8 +148,6 @@ public class SearchOutletFragment extends Fragment {
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("json", jsonString);
-
             try {
                 jsonObject = new JSONObject(jsonString);
 

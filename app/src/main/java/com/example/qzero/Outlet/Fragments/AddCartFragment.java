@@ -367,9 +367,9 @@ public class AddCartFragment extends Fragment {
                 public void onClick(View v) {
 
                     if (countLength == 1) {
-                        //do not delete
 
-                        Toast.makeText(getActivity(), "This item cannot be deleted.", Toast.LENGTH_SHORT);
+                        //do not delete
+                        Toast.makeText(getActivity(), "This item cannot be deleted.", Toast.LENGTH_SHORT).show();
                     } else {
                         int tag = Integer.parseInt(v.getTag().toString());
 
@@ -591,7 +591,8 @@ public class AddCartFragment extends Fragment {
         radioButton[j].setText(modifierList.get(j).getMod_name());
         radioButton[j].setTextColor(Color.parseColor("#000000"));
         radioButton[j].setId(j);
-        radioButton[j].setTag(j);
+        radioButton[j].setTag(R.string.key_posmod, j);
+        radioButton[j].setTag(R.string.key_modid, modifierList.get(j).getMod_id());
 
 
         if (modifier_title.get(i).getIsComplusory()) {//if choice is compulsory
@@ -655,12 +656,14 @@ public class AddCartFragment extends Fragment {
                         RadioButton btn = (RadioButton) radioGroup[i].getChildAt(radioId);
                         String selection = (String) btn.getText();
 
-                        int tag = Integer.parseInt(btn.getTag().toString());
+                        int tag = Integer.parseInt(btn.getTag(R.string.key_posmod).toString());
+
+                        String mod_id = btn.getTag(R.string.key_modid).toString();
 
                         modifierList = hashMapModifiers.get(i);
 
                         String mod_price = modifierList.get(tag).getMod_price();
-                        Modifier modifier = new Modifier(selection, mod_price, true, choice);
+                        Modifier modifier = new Modifier(mod_id, selection, mod_price, true, choice);
                         choosenModList.add(modifier);
                     }
                 }
@@ -965,6 +968,8 @@ public class AddCartFragment extends Fragment {
                         for (int i = 0; i < jsonArrayModifiers.length(); i++) {
                             JSONObject jsonObjGroup = jsonArrayModifiers.getJSONObject(i);
 
+                            String choice_id = jsonObjGroup.getString(Const.TAG_ID);
+
                             String choice_name = jsonObjGroup.getString(Const.TAG_NAME);
 
                             Boolean isCompulsory = jsonObjGroup.getBoolean(Const.TAG_IS_COMPULSORY);
@@ -980,16 +985,17 @@ public class AddCartFragment extends Fragment {
                             for (int j = 0; j < jsonArrayMod.length(); j++) {
                                 JSONObject jsonObjSubCat = jsonArrayMod.getJSONObject(j);
 
+                                String mod_id = jsonObjSubCat.getString(Const.TAG_ID);
                                 String mod_name = jsonObjSubCat.getString(Const.TAG_NAME);
                                 String mod_price = jsonObjSubCat.getString(Const.TAG_PRICE);
 
                                 Boolean isDefault = jsonObjSubCat.getBoolean(Const.TAG_IS_DEFAULT);
-                                Modifier modifier = new Modifier(mod_name, mod_price, isDefault, "");
+                                Modifier modifier = new Modifier(mod_id, mod_name, mod_price, isDefault, "");
 
                                 arrayListMod.add(modifier);
 
                                 if (isDefault) {
-                                    Modifier choosenmod = new Modifier(mod_name, mod_price, false, choice_name);
+                                    Modifier choosenmod = new Modifier(mod_id, mod_name, mod_price, false, choice_name);
                                     modListDefault.add(choosenmod);
                                 }
                             }
@@ -1064,7 +1070,7 @@ public class AddCartFragment extends Fragment {
                         long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                         for (int mod = 0; mod < modifierSaved.size(); mod++) {
 
-                            databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId), item_name);
+                            databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_id(), modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId), item_name);
                         }
                     }
                 } else {
@@ -1087,7 +1093,7 @@ public class AddCartFragment extends Fragment {
 
         arrayListViewData.clear();
 
-        initalizeArrayItem(0,"1");
+        initalizeArrayItem(0, "1");
         inflateQtyLayout();
 
     }
@@ -1103,13 +1109,19 @@ public class AddCartFragment extends Fragment {
 
         if (modifierSaved.size() == 0) {
             isDuplicate = true;
-            int length = databaseHelper.getNullModifiers(item_name, "null");
+            Cursor nullModCursor = databaseHelper.getNullModifiers(item_name, "null");
 
-            if (length == 0) {
+            if (nullModCursor.getCount() == 0) {
                 long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
-                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), String.valueOf(itemId), item_name);
+                databaseHelper.insertIntoModifiers("null", "null", "null", hashmap.get("qty"), String.valueOf(itemId), item_name);
             } else {
-                databaseHelper.updateNullModifiers(item_name, "null", hashmap.get("qty"));
+                while(nullModCursor.moveToNext()) {
+
+                    int qtyIndex=nullModCursor.getColumnIndex(databaseHelper.QUANTITY);
+                    String quantity=nullModCursor.getString(qtyIndex);
+                    String qty=String.valueOf(Integer.parseInt(quantity) + Integer.parseInt(hashmap.get("qty")));
+                    databaseHelper.updateNullModifiers(item_name, "null", qty);
+                }
 
             }
         } else {
@@ -1142,7 +1154,18 @@ public class AddCartFragment extends Fragment {
                         } else {
                             Log.e("upfate", "update");
                             Log.e("item_id", item_id);
-                            databaseHelper.updateModifiers(item_id, hashmap.get("qty"));
+
+                            Cursor modQtyCursor=databaseHelper.getModifiersQty(item_id);
+                            if(modQtyCursor!=null)
+                            {
+                                if(modQtyCursor.moveToFirst())
+                                {
+                                    String qty=modQtyCursor.getString(0);
+                                    String quantity=String.valueOf(Integer.parseInt(qty)+Integer.parseInt(hashmap.get("qty")));
+                                    databaseHelper.updateModifiers(item_id,quantity);
+                                }
+                            }
+
                         }
                     } else {
                         isDuplicate = false;
@@ -1162,15 +1185,13 @@ public class AddCartFragment extends Fragment {
             modifierSavedUnique = hashMapChoosenMod.get(i);
 
         HashMap<String, String> hashmap = arrayListViewData.get(i);
-
-        for (int j = 0; j < modifierSavedUnique.size(); j++) {
-
-            if (modifierSavedUnique.size() != 0) {
-
-                databaseHelper.insertIntoModifiers(modifierSavedUnique.get(j).getMod_name(), modifierSavedUnique.get(j).getMod_price(), hashmap.get("qty"), item_id, item_name);
-            } else {
-                databaseHelper.insertIntoModifiers("null", "null", hashmap.get("qty"), item_id, item_name);
+        if (modifierSavedUnique.size() != 0) {
+            for (int j = 0; j < modifierSavedUnique.size(); j++) {
+                databaseHelper.insertIntoModifiers(modifierSavedUnique.get(j).getMod_id(), modifierSavedUnique.get(j).getMod_name(), modifierSavedUnique.get(j).getMod_price(), hashmap.get("qty"), item_id, item_name);
             }
+        } else {
+            databaseHelper.insertIntoModifiers("null", "null", "null", hashmap.get("qty"), item_id, item_name);
         }
     }
+
 }

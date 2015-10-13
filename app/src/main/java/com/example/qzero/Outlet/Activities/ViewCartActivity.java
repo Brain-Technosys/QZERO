@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -42,24 +43,40 @@ public class ViewCartActivity extends Activity {
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
 
+
+    //Code changed by himanshu
+    @InjectView(R.id.rly_emptyCart_layout)
+    RelativeLayout rly_emptyCart_layout;
+
+    @InjectView(R.id.txt_empty_cart_msg)
+    TextView txt_empty_cart_msg;
+
     Button continue_shopping;
     Button placeOrder;
+
     TextView txt_CartFinalAmount;
+
     ArrayList<HashMap<String, String>> mainCartItem;
+
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
 
     //Reference of DatabaseHelper class to access its components
     private DatabaseHelper databaseHelper = null;
+
     int pos;
-    String itemName;
     int itemsLength;
-    Cursor itemCursor;
-    Cursor itemIdCursorMod;
     int position = 0;
 
-    Double totalItemPriceUpdated;
-    Double updatedTotal;
+    String itemName;
+
+    Cursor itemCursor;
+    Cursor itemIdCursorMod;
+
+
+    Double totalPaybleAmount=0.0;
+
+    View footerView;
 
 
     @Override
@@ -79,23 +96,32 @@ public class ViewCartActivity extends Activity {
 
         setFont();
 
+
         getDataFromDatabase();
+
+        //Code changed by himanshu
         if (hashMapListItems.size() == 0) {
+            rly_emptyCart_layout.setVisibility(View.VISIBLE);
+            listCartItem.setVisibility(View.GONE);
 
         } else {
-           sendFirstDataToAdapterClass();
+            sendFirstDataToAdapterClass();
+            rly_emptyCart_layout.setVisibility(View.GONE);
+            listCartItem.setVisibility(View.VISIBLE);
         }
     }
 
 
     private void setFont() {
         FontHelper.setFontFace(txtViewHeading, FontHelper.FontType.FONT, this);
+        FontHelper.setFontFace(txt_empty_cart_msg, FontHelper.FontType.FONT, this);
     }
 
     public void getDataFromDatabase() {
+        pos = 0;
         String item_id = null;
         Cursor distinctItemCursor = databaseHelper.getDistinctItems();
-        pos = 0;
+
         if (distinctItemCursor != null) {
             while (distinctItemCursor.moveToNext()) {
 
@@ -128,20 +154,6 @@ public class ViewCartActivity extends Activity {
                 getListData(item_id);
             }
         }
-        sendDataToAdapterClass();
-
-    }
-
-    public HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers()
-    {
-        getDataFromDatabase();
-        return hashMapModifiers;
-    }
-
-    public HashMap<Integer, ArrayList<DbItems>> getHashMapListItems()
-    {
-        getDataFromDatabase();
-        return hashMapListItems;
     }
 
     private void storeData() {
@@ -158,7 +170,7 @@ public class ViewCartActivity extends Activity {
                 String item_image = itemCursor.getString(3);
                 String item_discount = itemCursor.getString(4);
 
-                DbItems dbItems = new DbItems(item_name, item_price, item_discount, item_image, itemsLength);
+                DbItems dbItems = new DbItems(item_id,item_name, item_price, item_discount, item_image, itemsLength);
                 arrayListDbIetms.add(dbItems);
                 hashMapListItems.put(pos, arrayListDbIetms);
 
@@ -185,14 +197,17 @@ public class ViewCartActivity extends Activity {
                     Cursor modCursor = databaseHelper.getModifiers(item_id);
 
                     if (modCursor != null) {
-                        while (modCursor.moveToNext()) {
+                        while(modCursor.moveToNext()){
+                            int indexname = modCursor.getColumnIndex(databaseHelper.MOD_COLUMN);
+                            int indexprice = modCursor.getColumnIndex(databaseHelper.MOD_PRICE);
+                            int indexqty = modCursor.getColumnIndex(databaseHelper.QUANTITY);
 
-                            String mod_name = modCursor.getString(2);
-                            String mod_price = modCursor.getString(4);
-                            String quantity = modCursor.getString(5);
+                            String mod_name = modCursor.getString(indexname);
+                            String mod_price = modCursor.getString(indexprice);
+                            String quantity = modCursor.getString(indexqty);
 
                             Log.e("mod_name", mod_name);
-
+                            Log.e("position", "" + position);
 
                             DbModifiers dbModifiers = new DbModifiers(item_id, quantity, mod_name, mod_price);
                             arrayListDbMod.add(dbModifiers);
@@ -211,14 +226,16 @@ public class ViewCartActivity extends Activity {
 
         CustomAdapterCartItem adapterCartItem = new CustomAdapterCartItem(this, hashMapListItems, hashMapModifiers);
 
-        adapterCartItem.notifyDataSetChanged();
-
+        listCartItem.setAdapter(adapterCartItem);
 
         // Adding footer
-        View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_final_chkout, null, false);
+        footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_final_chkout, null, false);
         continue_shopping = (Button) footerView.findViewById(R.id.continue_shopping);
         placeOrder = (Button) footerView.findViewById(R.id.placeOrder);
         txt_CartFinalAmount = (TextView) footerView.findViewById(R.id.txt_CartFinalAmount);
+
+        //code changed by himanshu
+        FontHelper.applyFont(ViewCartActivity.this,txt_CartFinalAmount, FontHelper.FontType.FONT);
 
         clickEventOfContinueShopping();
         clickEventOfPlaceOrder();
@@ -232,10 +249,13 @@ public class ViewCartActivity extends Activity {
         CustomAdapterCartItem adapterCartItem = new CustomAdapterCartItem(this, hashMapListItems, hashMapModifiers);
 
         listCartItem.setAdapter(adapterCartItem);
+        adapterCartItem.notifyDataSetChanged();
+
+
     }
 
     public void setfinalAmountCart(Double amount) {
-        txt_CartFinalAmount.setText("$" + Utility.formatDecimalByString(String.valueOf(amount)));
+        txt_CartFinalAmount.setText("Total: $" + Utility.formatDecimalByString(String.valueOf(amount)));
     }
 
 
@@ -262,6 +282,7 @@ public class ViewCartActivity extends Activity {
                 UserSession userSession = new UserSession(ViewCartActivity.this);
                 if (userSession.isUserLoggedIn()) {
                     Intent intent = new Intent(ViewCartActivity.this, FinalChkoutActivity.class);
+                    intent.putExtra("PAYBLEAMOUNT",totalPaybleAmount);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);
@@ -275,7 +296,7 @@ public class ViewCartActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
+
         finish();
     }
 
@@ -284,77 +305,60 @@ public class ViewCartActivity extends Activity {
         finish();
     }
 
-    public void updatePrice(int pos) {
-        totalItemPriceUpdated=0.0;
 
-        String itemId = null;
-        String qty = null;
+    public void refreshDatabase() {
+        pos = 0;
+        position = 0;
+        hashMapModifiers.clear();
+        hashMapListItems.clear();
 
-        View viewList = listCartItem.getChildAt(pos);
+        String item_id = null;
+        Cursor distinctItemCursor = databaseHelper.getDistinctItems();
 
-        LinearLayout layoutAddModifier = (LinearLayout) viewList.findViewById(R.id.detail);
-        TextView txt_item_Price=(TextView) viewList.findViewById(R.id.totalAmount);
+        if (distinctItemCursor != null) {
+            while (distinctItemCursor.moveToNext()) {
 
-        for (int i = 0; i < layoutAddModifier.getChildCount(); i++) {
+                int index = distinctItemCursor.getColumnIndex(databaseHelper.NAME_COLUMN);
 
-            View view = layoutAddModifier.getChildAt(i);
+                itemName = distinctItemCursor.getString(index);
 
-            itemId = view.getTag().toString();
+                Log.e("item_name", itemName);
 
-            Log.e("item_id", itemId);
+                Cursor itemIdCursor = databaseHelper.selectItems(itemName);
 
-            TextView tvTotal = (TextView) view.findViewById(R.id.item_totalPrice);
+                itemIdCursorMod = itemIdCursor;
 
-            TextView tvQty = (TextView) view.findViewById(R.id.item_qty);
+                if (itemIdCursor != null) {
+                    if (itemIdCursor.moveToFirst()) {
+                        int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
 
-            qty=tvQty.getText().toString();
+                        item_id = itemIdCursor.getString(indexItemId);
 
-            Double tot_amount = Double.parseDouble(Utility.formatDecimalByString(String.valueOf(Double.parseDouble(tvTotal.getTag().toString()) * Double.parseDouble(qty))));
+                        Log.e("item_id", item_id);
+                        itemCursor = databaseHelper.getItems(item_id);
 
-            tvTotal.setText("$" + tot_amount);
+                        itemsLength = itemIdCursor.getCount();
 
-            TableLayout tableModifier = (TableLayout) view.findViewById(R.id.table_modifier);
+                        storeData();
 
-            for (int j = 0; j < tableModifier.getChildCount(); j++) {
-                View tableView = tableModifier.getChildAt(j);
+                    }
+                }
 
-                TextView modifierTotal = (TextView) tableView.findViewById(R.id.modifier_totalPrice);
-
-                Double mod_amount = Double.parseDouble(Utility.formatDecimalByString(String.valueOf(Double.parseDouble(modifierTotal.getTag().toString()) * Double.parseDouble(qty))));
-
-                modifierTotal.setText("$" + mod_amount);
-
-                totalItemPriceUpdated = totalItemPriceUpdated + tot_amount + mod_amount;
-
-                databaseHelper.updateModifiers(itemId, qty);
+                getListData(item_id);
             }
+        }
 
-
-          txt_item_Price.setText("Total Price: $" + Utility.formatDecimalByString(String.valueOf(totalItemPriceUpdated)));
-
+        if(hashMapListItems.size()==0)
+        {
+           listCartItem.removeFooterView(footerView);
+        }
+        else {
+            sendDataToAdapterClass();
         }
     }
 
-    public void findTotalPrice()
-    {
-        Double updatePrice=0.0;
-
-        Log.e("count",""+listCartItem.getChildCount());
-        for(int i=0;i<listCartItem.getChildCount();i++)
-        {
-            View viewList = listCartItem.getChildAt(i);
-
-            TextView txt_item_Price=(TextView) viewList.findViewById(R.id.totalAmount);
-
-            String totPrice=txt_item_Price.getText().toString();
-
-            String price=totPrice.substring(14,totPrice.length());
-
-            Double totalPrice=Double.parseDouble(price);
-
-            updatePrice=updatePrice+totalPrice;
-        }
-
-        setfinalAmountCart(updatePrice);
+    //code changed by himanshu
+    @OnClick(R.id.btn_countinue_shop) public void gotoOutlet(){
+        finish();
     }
 }

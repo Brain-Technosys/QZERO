@@ -5,6 +5,7 @@ package com.example.qzero.Outlet.ObjectClasses;
  */
 public class DbItems {
 
+    String item_id;
     String item_name;
     String item_price;
     String discount_price;
@@ -12,12 +13,22 @@ public class DbItems {
 
     int count;
 
-    public DbItems(String item_name, String item_price, String discount_price,String item_image,int count) {
+    public DbItems(String item_id,String item_name, String item_price, String discount_price,String item_image,int count) {
+        this.item_id=item_id;
         this.item_name = item_name;
         this.item_price = item_price;
         this.discount_price = discount_price;
         this.item_image=item_image;
         this.count=count;
+    }
+
+
+    public String getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(String item_id) {
+        this.item_id = item_id;
     }
 
     public String getItem_name() {

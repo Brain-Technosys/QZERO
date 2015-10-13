@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.qzero.CommonFiles.Common.Utility;
+import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
 import com.example.qzero.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -67,7 +69,7 @@ public class PickupTabFragment extends Fragment {
 
     @OnClick(R.id.btn_PlaceOrder)void placeOrder(){
 
-        PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(5.00), "USD", "QZERO",
+        PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(((FinalChkoutActivity) getActivity()).getFinalPrice()), "USD", "QZERO",
                 PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(getActivity(), PaymentActivity.class);

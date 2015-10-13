@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+
+import com.example.qzero.CommonFiles.Common.Utility;
+import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
 import com.example.qzero.R;
 
 import butterknife.ButterKnife;
@@ -25,7 +28,7 @@ public class InHouseTabFragment extends Fragment {
     @InjectView(R.id.spnr_selectTable)
     Spinner spnr_selectTable;
 
-    String[] tableTitle = {"Select Table no."};
+    String[] tableTitle = {"Select Table no.","Tb1","Tb2","Tb3"};
     ArrayAdapter adapter;
 
 
@@ -38,6 +41,7 @@ public class InHouseTabFragment extends Fragment {
 
         context = view.getContext();
 
+       // ((FinalChkoutActivity) getActivity()).getFinalPrice()
         return view;
     }
 
@@ -45,7 +49,10 @@ public class InHouseTabFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, tableTitle);
+     //   ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.planets_array, R.layout.spinner_item);
+
+        adapter = new ArrayAdapter(context,R.layout.layout_spinner, tableTitle);
+        adapter.setDropDownViewResource(R.layout.layout_spinner_drop_down);
         spnr_selectTable.setAdapter(adapter);
     }
 

@@ -2,6 +2,7 @@ package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 
 import android.os.Bundle;
@@ -44,18 +45,25 @@ public class FinalChkoutActivity extends AppCompatActivity {
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
 
+    //code change by himanshu
+
     @InjectView(R.id.layout_your_order)
     LinearLayout layoutAddModifier;
 
-    @InjectView(R.id.ModifierName)
+    //code change by himanshu
+    @InjectView(R.id.txt__item_Name)
     TextView ModifierName;
 
-    @InjectView(R.id.modifier_qty)
+    //code change by himanshu
+    @InjectView(R.id.txt__item_qty)
     TextView modifier_qty;
 
-    @InjectView(R.id.modifier_totalPrice)
-
+    @InjectView(R.id.txt_item_totalPrice)
     TextView modifier_totalPrice;
+
+    @InjectView(R.id.txt_final_price)
+    TextView txt_final_price;
+
     HashMap<Integer, ArrayList<DbItems>> hashMapItems;
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
@@ -71,6 +79,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
     TextView modifierQty;
     TextView modifierTotal;
 
+    //code changed by himanshu
+    Double totalpaybleAmount = 0.0;
 
     //Reference of DatabaseHelper class to access its components
     private DatabaseHelper databaseHelper = null;
@@ -91,6 +101,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         txtViewHeading.setText("Your Order");
+
+        //code changed by himanshu
+        Intent intent = getIntent();
+        totalpaybleAmount = intent.getDoubleExtra("PAYBLEAMOUNT", 0.0);
+        txt_final_price.setText("Total: $" + Utility.formatDecimalByString(String.valueOf(totalpaybleAmount)));
 
         databaseHelper = new DatabaseHelper(this);
         hashMapItems = new HashMap<>();
@@ -183,7 +198,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                 String item_discount = itemCursor.getString(4);
 
 
-                DbItems dbItems = new DbItems(item_name, item_price, item_discount, item_image, itemsLength);
+                DbItems dbItems = new DbItems(item_id, item_name, item_price, item_discount, item_image, itemsLength);
                 arrayListDbIetms.add(dbItems);
 
                 hashMapListItems.put(pos, arrayListDbIetms);
@@ -256,13 +271,13 @@ public class FinalChkoutActivity extends AppCompatActivity {
                     layoutAddModifier.addView(viewItems[i]);
 
                     tvName.setText(dbListItem.get(0).getItem_name());
-                    tvQty.setText("$" + dbListItem.get(0).getItem_price() + " * " + dbListModifiers.get(0).getQuantity());
+                    tvQty.setText("$" + Utility.formatDecimalByString(dbListItem.get(0).getItem_price()) + " x " + dbListModifiers.get(0).getQuantity());
 
-                        //Chking discount price is 0 or not
+                    //Chking discount price is 0 or not
                     if (Double.parseDouble(dbListItem.get(0).getDiscount_price()) == 0.0) {
-                        tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
+                        tvTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity()))));
                     } else {
-                        tvTotal.setText(String.valueOf(Double.parseDouble(dbListItem.get(0).getDiscount_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity())));
+                        tvTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(Double.parseDouble(dbListItem.get(0).getDiscount_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity()))));
                     }
 
 
@@ -280,8 +295,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
                             modifierName.setText(dbListModifiers.get(modlist).getModifier_name());
 
-                            modifierQty.setText("$" + dbListModifiers.get(modlist).getModifier_price() + " * " + dbListModifiers.get(modlist).getQuantity());
-                            modifierTotal.setText(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity())));
+                            modifierQty.setText("$" + Utility.formatDecimalByString(dbListModifiers.get(modlist).getModifier_price()) + " x " + dbListModifiers.get(modlist).getQuantity());
+                            modifierTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity()))));
                         }
                     }
                 }
@@ -329,6 +344,10 @@ public class FinalChkoutActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    //code changed by himanshu
+    public Double getFinalPrice() {
+        return totalpaybleAmount;
+    }
 
     @Override
     public void onBackPressed() {

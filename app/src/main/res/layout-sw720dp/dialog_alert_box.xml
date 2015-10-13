@@ -83,7 +83,8 @@
             android:text="@string/alertbox_cancel"
             android:textColor="@color/color_tab_text_selected"
             android:textSize="@dimen/common_text_size_720"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"/>
     </LinearLayout>
 </RelativeLayout>
 </LinearLayout>

@@ -128,7 +128,6 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
     }
 
-
     private void getIntentData() {
         arrayListItems = new ArrayList<ItemOutlet>();
 

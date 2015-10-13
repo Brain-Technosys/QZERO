@@ -107,12 +107,12 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
         finish();
     }
 
-    @OnClick(R.id.edit_address)
-    void editAddress() {
-        Intent i = new Intent(BillingAddressActivity.this, AddAddressActivity.class);
-        i.putExtra("ADDRESSTYPE", 4);
-        startActivity(i);
-    }
+//    @OnClick(R.id.edit_address)
+//    void editAddress() {
+//        Intent i = new Intent(BillingAddressActivity.this, AddAddressActivity.class);
+//        i.putExtra("ADDRESSTYPE", 4);
+//        startActivity(i);
+//    }
 
 
 }

@@ -208,6 +208,7 @@ public class LoginUserFragment extends Fragment {
                 if (LOGINTYPE.equals("CHECKOUT")) {
                     Intent intent = new Intent(getActivity(),
                             FinalChkoutActivity.class);
+                    getActivity().finish();
                     startActivity(intent);
                 } else if(LOGINTYPE.equals("SIMPLELOGIN")) {
                     Intent intent = new Intent(getActivity(),

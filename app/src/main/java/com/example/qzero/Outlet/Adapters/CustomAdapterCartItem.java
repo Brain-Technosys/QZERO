@@ -52,13 +52,16 @@ public class CustomAdapterCartItem extends BaseAdapter {
     TextView tvQty;
     TextView tvTotal;
     TextView itemNum;
-    View[] v;
+
+
 
     TextView modifierName;
     TextView modifierPrice;
-
     TextView modifierQty;
     TextView modifierTotal;
+
+
+    View[] v;
 
     TableLayout tableModifier;
 
@@ -159,7 +162,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
             ArrayList<DbModifiers> dbListModifiers = hashMapModifiers.get(position);
 
-            String item_id = dbListModifiers.get(0).getItem_name();
+            String item_id = dbListItem.get(0).getItem_id();
 
             //set item_id as tag of view
 
@@ -173,7 +176,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
                 tvName.setText(dbListItem.get(0).getItem_name());
                 tvQty.setText(dbListModifiers.get(0).getQuantity());
 
-                //Chking discount price is 0 or not
+                //Checking discount price is 0 or not
                 Double amount;
                 if (Double.parseDouble(dbListItem.get(0).getDiscount_price()) == 0.0) {
                     amount = Double.parseDouble(Utility.formatDecimalByString(String.valueOf(Double.parseDouble(dbListItem.get(0).getItem_price()) * Double.parseDouble(dbListModifiers.get(0).getQuantity()))));
@@ -185,7 +188,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
                 tvTotal.setTag(dbListItem.get(0).getItem_price());
 
-                tvTotal.setText("$ " + amount);
+                tvTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(amount)));
 
 
                 if (dbListModifiers.get(0).getModifier_name().equals("null")) {
@@ -204,7 +207,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
                         modifierQty.setText(dbListModifiers.get(modlist).getQuantity());
                         Double mod_amount = Double.parseDouble(Utility.formatDecimalByString(String.valueOf(Double.parseDouble(dbListModifiers.get(modlist).getModifier_price()) * Double.parseDouble(dbListModifiers.get(modlist).getQuantity()))));
                         totalPriceView = totalPriceView + mod_amount;
-                        modifierTotal.setText("$" + mod_amount);
+                        modifierTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(mod_amount)));
                     }
                 }
             }
@@ -235,6 +238,12 @@ public class CustomAdapterCartItem extends BaseAdapter {
         holder.imgItem = (ImageView) view.findViewById(R.id.item_image);
         holder.txt_item_name = (TextView) view.findViewById(R.id.txt_item_name);
         holder.txt_item_Price = (TextView) view.findViewById(R.id.totalAmount);
+
+        holder.txtViewModName=(TextView) view.findViewById(R.id.txtViewModName);
+        holder.txtViewModQty=(TextView) view.findViewById(R.id.txtViewModQty);
+        holder.txtViewModTotal=(TextView) view.findViewById(R.id.txtViewModTotal);
+
+
 
         holder.imgViewEdit.setTag(pos);
 
@@ -319,7 +328,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
                     Double tot_amount = Double.parseDouble(Utility.formatDecimalByString(String.valueOf(Double.parseDouble(tvTotal.getTag().toString()) * Double.parseDouble(qty))));
 
-                    tvTotal.setText("$" + tot_amount);
+                    tvTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(tot_amount)));
 
                     tableModifier = (TableLayout) view.findViewById(R.id.table_modifier);
 
@@ -334,7 +343,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
                         Double mod_amount = Double.parseDouble(Utility.formatDecimalByString(String.valueOf(Double.parseDouble(modifierTotal.getTag().toString()) * Double.parseDouble(qty))));
 
-                        modifierTotal.setText("$" + mod_amount);
+                        modifierTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(mod_amount)));
 
                         totalItemPriceUpdated = totalItemPriceUpdated + tot_amount + mod_amount;
 
@@ -344,7 +353,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
                     holder.txt_item_Price.setText("Total Price: $" + Utility.formatDecimalByString(String.valueOf(totalItemPriceUpdated)));
                 }
 
-                ((ViewCartActivity) context).getDataFromDatabase();
+                ((ViewCartActivity) context).refreshDatabase();
 
             }
         });
@@ -381,7 +390,10 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
     private void setFont(ViewHolder holder) {
         FontHelper.applyFont(context, holder.totalAmountWithModifier, FontHelper.FontType.FONT);
-
+        FontHelper.applyFont(context, holder.txt_item_name, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, holder.txtViewModName, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(context, holder.txtViewModQty, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(context, holder.txtViewModTotal, FontHelper.FontType.FONTSANSBOLD);
     }
 
 
@@ -399,9 +411,9 @@ public class CustomAdapterCartItem extends BaseAdapter {
         editTextItemQty = (EditText) viewItems[j].findViewById(R.id.editTextItemQty);
 
         //applying bold font
-        FontHelper.applyFont(context, tvName, FontHelper.FontType.FONTROBOLD);
-        FontHelper.applyFont(context, tvQty, FontHelper.FontType.FONTROBOLD);
-        FontHelper.applyFont(context, tvTotal, FontHelper.FontType.FONTROBOLD);
+        FontHelper.applyFont(context, tvName, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(context, tvQty, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, tvTotal, FontHelper.FontType.FONT);
 
         ImageView img_delete = (ImageView) viewItems[j].findViewById(R.id.img_delete);
 
@@ -424,21 +436,12 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
                 databaseHelper.deleteValuesItem(item_id);
 
-                ((ViewCartActivity) context).getDataFromDatabase();
+                ((ViewCartActivity) context).refreshDatabase();
 
-
-
-               /* if (context instanceof ViewCartActivity) {
-                    ((ViewCartActivity) context).updatePrice(tag);
-                }
-*/
             }
         });
 
     }
-
-
-
 
     private void setIdOfTableModifier(View modifier) {
         modifierName = (TextView) modifier.findViewById(R.id.ModifierName);
@@ -458,61 +461,9 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
         TextView txt_item_name;
         TextView txt_item_Price;
+        TextView txtViewModName;
+        TextView txtViewModQty;
+        TextView txtViewModTotal;
 
     }
-
-   /* private void getValuesFromDatabase()
-    {
-        Cursor distictItemCursor=databaseHelper.getDistinctItems();
-
-        if(distictItemCursor!=null) {
-            while (distictItemCursor.moveToNext()) {
-
-                int index = distictItemCursor.getColumnIndex(databaseHelper.NAME_COLUMN);
-
-                String itemName = distictItemCursor.getString(index);
-
-                Cursor itemIdCursor = databaseHelper.selectItems(itemName);
-
-                if (itemIdCursor != null) {
-                    if (itemIdCursor.moveToFirst()) {
-                        int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
-
-                       String item_id = itemIdCursor.getString(indexItemId);
-
-                        Cursor itemCursor = databaseHelper.getItems(item_id);
-
-                        if (itemCursor != null) {
-                            if (itemCursor.moveToFirst()) {
-
-                                ArrayList<DbItems> arrayListDbIetms = new ArrayList<>();
-                                ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
-
-                                String item_price = itemCursor.getString(2);
-
-                                String item_discount = itemCursor.getString(4);
-
-                                Cursor itemModCursor=databaseHelper.getModifiers(item_id);
-
-                                if(itemModCursor!=null)
-                                {
-                                    while(itemModCursor.moveToNext())
-                                    {
-
-                                    }
-                                }
-                            }
-                        }
-
-
-
-
-                    }
-                }
-
-            }
-        }
-    }*/
-
-
 }

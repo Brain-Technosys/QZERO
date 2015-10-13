@@ -5,18 +5,28 @@ package com.example.qzero.Outlet.ObjectClasses;
  */
 public class Modifier {
 
+    String mod_id;
     String mod_name;
     String mod_price;
     String choice_name;
 
     Boolean isDefault;
 
-    public Modifier(String mod_name, String mod_price, Boolean isDefault, String choice_name) {
+    public Modifier(String mod_id,String mod_name, String mod_price, Boolean isDefault, String choice_name) {
+       this.mod_id=mod_id;
         this.mod_name = mod_name;
         this.mod_price = mod_price;
         this.choice_name = choice_name;
 
         this.isDefault = isDefault;
+    }
+
+    public String getMod_id() {
+        return mod_id;
+    }
+
+    public void setMod_id(String mod_id) {
+        this.mod_id = mod_id;
     }
 
     public String getMod_name() {

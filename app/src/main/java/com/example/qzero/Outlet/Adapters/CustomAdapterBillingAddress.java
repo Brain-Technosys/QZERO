@@ -1,6 +1,7 @@
 package com.example.qzero.Outlet.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.Outlet.Activities.AddAddressActivity;
+import com.example.qzero.Outlet.Activities.BillingAddressActivity;
+import com.example.qzero.Outlet.Activities.ShippingAddressActivity;
+import com.example.qzero.Outlet.Activities.ViewCartActivity;
 import com.example.qzero.R;
 
 import java.util.ArrayList;
@@ -58,6 +63,8 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             setFont(holder);
 
             addAddressDetail(holder, i, view);
+
+            applyingClickEvent(holder, view);
         }
 
         return view;
@@ -100,6 +107,24 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         holder.addressPostcode.setText(addressDetail.get(i).get("POSTCODE"));
         holder.addressContact.setText(addressDetail.get(i).get("CONTACT"));
 
+    }
+
+    public void applyingClickEvent(Holder holder, View view) {
+        holder.imgEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (context instanceof BillingAddressActivity) {
+                    Intent i = new Intent(context, AddAddressActivity.class);
+                    i.putExtra("ADDRESSTYPE", 4);
+                    context.startActivity(i);
+                } else if (context instanceof ShippingAddressActivity) {
+                    Intent i = new Intent(context, AddAddressActivity.class);
+                    i.putExtra("ADDRESSTYPE", 3);
+                    context.startActivity(i);
+                }
+            }
+        });
     }
 
 

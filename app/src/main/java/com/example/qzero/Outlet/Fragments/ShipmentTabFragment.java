@@ -13,8 +13,11 @@ import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.Outlet.Activities.BillingAddressActivity;
+import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
 import com.example.qzero.Outlet.Activities.ShippingAddressActivity;
 import com.example.qzero.R;
+
+import org.w3c.dom.Text;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,12 +27,27 @@ import butterknife.OnClick;
 public class ShipmentTabFragment extends Fragment {
     @InjectView(R.id.txt_logo_billing_add)
     TextView txt_logo_billing_add;
+
     @InjectView(R.id.txt_logo_shipping_add)
     TextView txt_logo_shipping_add;
+
     @InjectView(R.id.txt_logo_order_note)
     TextView txt_logo_order_note;
 
-    @InjectView(R.id.et_orderNote)EditText et_orderNote;
+    @InjectView(R.id.txt_billing_address)
+    TextView txt_billing_address;
+
+    @InjectView(R.id.txt_billingContact)
+    TextView txt_billingContact;
+
+    @InjectView(R.id.txt_shipping_address)
+    TextView txt_shipping_address;
+
+    @InjectView(R.id.txt_shipping_contact)
+    TextView txt_shipping_contact;
+
+    @InjectView(R.id.et_orderNote)
+    EditText et_orderNote;
 
     Context context;
 
@@ -42,6 +60,8 @@ public class ShipmentTabFragment extends Fragment {
         context = view.getContext();
 
         setFont();
+
+        //((FinalChkoutActivity) getActivity()).getFinalPrice()
         return view;
     }
 
@@ -49,6 +69,12 @@ public class ShipmentTabFragment extends Fragment {
         FontHelper.applyFont(context, txt_logo_billing_add, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(context, txt_logo_shipping_add, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(context, txt_logo_order_note, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(context, txt_billing_address, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, txt_billingContact, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, txt_shipping_address, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, txt_shipping_contact, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, et_orderNote, FontHelper.FontType.FONT);
+
     }
 
     @OnClick(R.id.iv_edit_shipping_add)

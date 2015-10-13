@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/inclue_header"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+         >
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/layout_your_order"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TableRow
+                    android:id="@+id/tableTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cart_item_detail"
+                    android:background="@android:color/darker_gray"
+                    android:gravity="center"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/ModifierName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:singleLine="true"
+                        android:text="Product"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"></TextView>
+
+
+                    <TextView
+                        android:id="@+id/modifier_qty"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="Price/Qty"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"></TextView>
+
+                    <TextView
+                        android:id="@+id/modifier_totalPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"></TextView>
+
+                </TableRow>
+
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/chkout_detail_frag"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_your_order"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+
+                />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

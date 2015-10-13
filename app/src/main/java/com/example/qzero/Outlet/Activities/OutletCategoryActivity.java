@@ -239,6 +239,14 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Check if a user is logged in or not
+        checkUserSession();
+    }
+
     private void getIntentData() {
         arrayListItems = new ArrayList<ItemOutlet>();
 
@@ -339,8 +347,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     public void createCategoryItem() {
 
         subCatListView = new ExpandableListView[arrayListCat.size()];
-        //Check if a user is logged in or not
-        checkUserSession();
+
 
         params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -361,6 +368,11 @@ public class OutletCategoryActivity extends AppCompatActivity {
         if (userSession.isUserLoggedIn()) {
 
             txtViewUserName.setText(userSession.getUserName());
+
+            if (txtViewLogout.getVisibility() == View.GONE) {
+                txtViewProfile.setText("My Profile");
+                txtViewLogout.setVisibility(View.VISIBLE);
+            }
 
         } else {
 
@@ -540,7 +552,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     //Edited by himanshu shekher
     public void gotoCartItem() {
-       Intent intent=new Intent(this,ViewCartActivity.class);
+        Intent intent = new Intent(this, ViewCartActivity.class);
         startActivity(intent);
     }
 

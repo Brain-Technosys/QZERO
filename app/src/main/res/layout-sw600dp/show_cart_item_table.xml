@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
+        <TableLayout
+            android:id="@+id/tableItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/itemName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:text="Roasted Stuffed Mushroom"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+
+                    ></TextView>
+
+                <TextView
+                    android:id="@+id/item_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="3"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    ></TextView>
+
+                <EditText
+                    android:id="@+id/editTextItemQty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="3"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:background="@drawable/background_editext"
+                    android:visibility="gone"
+                    android:inputType="number"
+                    >
+                    <requestFocus />
+                </EditText>
+
+                <TextView
+                    android:id="@+id/item_totalPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="$30.00"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+
+                    ></TextView>
+                <ImageView
+                    android:id="@+id/img_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/ic_delete_small" />
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/table_modifier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TableLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -161,6 +161,8 @@ public class Const {
     //Create getItemDetails constant
     public static String TAG_DISC_DETAIL = "discountDescription";
     public static String TAG_AFTER_DISC = "afterDiscount";
+    public static String TAG_ID = "id";
+
 
 
 }
