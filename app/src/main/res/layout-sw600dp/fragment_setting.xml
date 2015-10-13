@@ -11,9 +11,7 @@
         android:id="@+id/et_old_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:gravity="center"
-
         android:hint="@string/old_password"
         android:inputType="textPassword"
         android:singleLine="true"
@@ -48,8 +46,9 @@
     <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@+id/et_cnf_password"
+        android:background="@drawable/selector"
         android:layout_centerHorizontal="true"
         android:text="@string/save" />
 
