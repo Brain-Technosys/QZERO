@@ -33,9 +33,12 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
 
     ArrayList<HashMap<String, String>> listAddress;
+    CustomAdapterBillingAddress adapter;
 
     Button btnAddAddress;
     Button btnPlaceOrder;
+    int type = 2;
+    String[] name={"Braintechnosys pvt. ltd","Himanshu Shekher","Arpit","Rahul","Vijay Dina Nath"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_billing_address);
 
         ButterKnife.inject(this);
-        listAddress = new ArrayList<>();
-       txtViewHeading.setText("Billing Address");
+
+        txtViewHeading.setText("Billing Address");
         inflateAddressList();
 
 
@@ -52,27 +55,32 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     private void inflateAddressList() {
 
-        HashMap<String, String> hmAddressDetail = new HashMap<>();
-        hmAddressDetail.put("NAME", "Braintechnosys pvt. ltd");
-        hmAddressDetail.put("ADDRESSLINE1", "B-84,D Block");
-        hmAddressDetail.put("CITY", "Noida,sec 63");
-        hmAddressDetail.put("STATE", "UP");
-        hmAddressDetail.put("COUNTRY", "India");
-        hmAddressDetail.put("POSTCODE", "110017");
-        hmAddressDetail.put("CONTACT", "999999999");
+        listAddress = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            HashMap<String, String> hmAddressDetail = new HashMap<>();
 
-        listAddress.add(hmAddressDetail);
+            hmAddressDetail.put("NAME", name[i]);
+            hmAddressDetail.put("ADDRESSLINE1", "B-84,D Block");
+            hmAddressDetail.put("CITY", "Noida,sec 63");
+            hmAddressDetail.put("STATE", "UP");
+            hmAddressDetail.put("COUNTRY", "India");
+            hmAddressDetail.put("POSTCODE", "110017");
+            hmAddressDetail.put("CONTACT", "999999999");
+
+            listAddress.add(hmAddressDetail);
+        }
+
 
         View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
         listBillingAddress.addFooterView(footerView);
 
-        btnAddAddress=(Button)footerView.findViewById(R.id.btn_addNew);
-        btnPlaceOrder=(Button)footerView.findViewById(R.id.btn_PlaceOrder);
+        btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
+        btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
 
         btnPlaceOrder.setOnClickListener(this);
         btnAddAddress.setOnClickListener(this);
 
-        CustomAdapterBillingAddress adapter = new CustomAdapterBillingAddress(BillingAddressActivity.this, listAddress);
+        adapter = new CustomAdapterBillingAddress(BillingAddressActivity.this, listAddress, type);
         listBillingAddress.setAdapter(adapter);
 
     }
@@ -80,19 +88,17 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
 
 
             case R.id.btn_addNew:
-                Intent i=new Intent(BillingAddressActivity.this,AddAddressActivity.class);
-                i.putExtra("ADDRESSTYPE",2);
+                Intent i = new Intent(BillingAddressActivity.this, AddAddressActivity.class);
+                i.putExtra("ADDRESSTYPE", 2);
                 startActivity(i);
                 break;
 
             case R.id.btn_PlaceOrder:
                 break;
-
-
         }
 
     }
@@ -103,16 +109,15 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
         finish();
     }
 
-    @OnClick(R.id.imgViewBack)void imgViewBack(){
+    @OnClick(R.id.imgViewBack)
+    void imgViewBack() {
         finish();
     }
 
-//    @OnClick(R.id.edit_address)
-//    void editAddress() {
-//        Intent i = new Intent(BillingAddressActivity.this, AddAddressActivity.class);
-//        i.putExtra("ADDRESSTYPE", 4);
-//        startActivity(i);
-//    }
+//
 
-
+    public void notifyAdapter(){
+        adapter.notifyDataSetChanged();
+        listBillingAddress.setAdapter(adapter);
+    }
 }

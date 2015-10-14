@@ -255,8 +255,6 @@ public class ViewCartActivity extends Activity {
 
         listCartItem.setAdapter(adapterCartItem);
         adapterCartItem.notifyDataSetChanged();
-
-
     }
 
     public void setfinalAmountCart(Double amount) {

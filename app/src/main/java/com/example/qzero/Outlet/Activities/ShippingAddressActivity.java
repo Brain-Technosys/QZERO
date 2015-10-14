@@ -32,6 +32,10 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     Button btnAddAddress;
     Button btnPlaceOrder;
+    int type = 1;
+
+    CustomAdapterBillingAddress adapter;
+    String[] name = {"A", "B", "C", "D", "E"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,6 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_shipping_address);
 
         ButterKnife.inject(this);
-        listAddress = new ArrayList<>();
 
         txtViewHeading.setText("Shipping Address");
         inflateAddressList();
@@ -48,16 +51,21 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     private void inflateAddressList() {
 
-        HashMap<String, String> hmAddressDetail = new HashMap<>();
-        hmAddressDetail.put("NAME", "Braintechnosys pvt. ltd");
-        hmAddressDetail.put("ADDRESSLINE1", "B-84,D Block");
-        hmAddressDetail.put("CITY", "Noida,sec 63");
-        hmAddressDetail.put("STATE", "UP");
-        hmAddressDetail.put("COUNTRY", "India");
-        hmAddressDetail.put("POSTCODE", "110017");
-        hmAddressDetail.put("CONTACT", "999999999");
+        listAddress = new ArrayList<>();
 
-        listAddress.add(hmAddressDetail);
+        for (int i = 0; i < 5; i++) {
+            HashMap<String, String> hmAddressDetail = new HashMap<>();
+
+            hmAddressDetail.put("NAME", name[i]);
+            hmAddressDetail.put("ADDRESSLINE1", "B-84,D Block");
+            hmAddressDetail.put("CITY", "Noida,sec 63");
+            hmAddressDetail.put("STATE", "UP");
+            hmAddressDetail.put("COUNTRY", "India");
+            hmAddressDetail.put("POSTCODE", "110017");
+            hmAddressDetail.put("CONTACT", "999999999");
+
+            listAddress.add(hmAddressDetail);
+        }
 
         View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
 
@@ -68,7 +76,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         btnAddAddress.setOnClickListener(this);
 
         listShippingAddress.addFooterView(footerView);
-        CustomAdapterBillingAddress adapter = new CustomAdapterBillingAddress(ShippingAddressActivity.this, listAddress);
+       adapter = new CustomAdapterBillingAddress(ShippingAddressActivity.this, listAddress, type);
+
         listShippingAddress.setAdapter(adapter);
 
     }
@@ -104,10 +113,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         finish();
     }
 
-   /* @OnClick(R.id.edit_address)
-    void editAddress() {
-        Intent i = new Intent(ShippingAddressActivity.this, AddAddressActivity.class);
-        i.putExtra("ADDRESSTYPE", 3);
-        startActivity(i);
-    }*/
+    public void notifyAdapter() {
+        adapter.notifyDataSetChanged();
+        listShippingAddress.setAdapter(adapter);
+    }
 }
