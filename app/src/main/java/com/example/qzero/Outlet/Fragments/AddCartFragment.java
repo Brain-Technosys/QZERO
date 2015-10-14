@@ -1036,11 +1036,9 @@ public class AddCartFragment extends Fragment {
 
         saveItemDetails();
 
-        Toast.makeText(getActivity(), "Items added to cart.", Toast.LENGTH_LONG).show();
-
         getTotalQty();
 
-
+        Toast.makeText(getActivity(), "Items added to cart.", Toast.LENGTH_LONG).show();
     }
 
 
@@ -1117,11 +1115,11 @@ public class AddCartFragment extends Fragment {
                 long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                 databaseHelper.insertIntoModifiers("null", "null", "null", hashmap.get("qty"), String.valueOf(itemId), item_name);
             } else {
-                while(nullModCursor.moveToNext()) {
+                while (nullModCursor.moveToNext()) {
 
-                    int qtyIndex=nullModCursor.getColumnIndex(databaseHelper.QUANTITY);
-                    String quantity=nullModCursor.getString(qtyIndex);
-                    String qty=String.valueOf(Integer.parseInt(quantity) + Integer.parseInt(hashmap.get("qty")));
+                    int qtyIndex = nullModCursor.getColumnIndex(databaseHelper.QUANTITY);
+                    String quantity = nullModCursor.getString(qtyIndex);
+                    String qty = String.valueOf(Integer.parseInt(quantity) + Integer.parseInt(hashmap.get("qty")));
                     databaseHelper.updateNullModifiers(item_name, "null", qty);
                 }
 
@@ -1157,14 +1155,12 @@ public class AddCartFragment extends Fragment {
                             Log.e("upfate", "update");
                             Log.e("item_id", item_id);
 
-                            Cursor modQtyCursor=databaseHelper.getModifiersQty(item_id);
-                            if(modQtyCursor!=null)
-                            {
-                                if(modQtyCursor.moveToFirst())
-                                {
-                                    String qty=modQtyCursor.getString(0);
-                                    String quantity=String.valueOf(Integer.parseInt(qty)+Integer.parseInt(hashmap.get("qty")));
-                                    databaseHelper.updateModifiers(item_id,quantity);
+                            Cursor modQtyCursor = databaseHelper.getModifiersQty(item_id);
+                            if (modQtyCursor != null) {
+                                if (modQtyCursor.moveToFirst()) {
+                                    String qty = modQtyCursor.getString(0);
+                                    String quantity = String.valueOf(Integer.parseInt(qty) + Integer.parseInt(hashmap.get("qty")));
+                                    databaseHelper.updateModifiers(item_id, quantity);
                                 }
                             }
 
@@ -1196,33 +1192,39 @@ public class AddCartFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
-    private void getTotalQty()
-    {
-        quantity=0;
-        Cursor modCountcursor=databaseHelper.selectDistinctMod();
+        getTotalQty();
+    }
 
-        if(modCountcursor!=null)
-        {
-            while(modCountcursor.moveToNext())
-            {
-                String mod_id=modCountcursor.getString(0);
+    private void getTotalQty() {
+        quantity = 0;
+        Cursor modCountcursor = databaseHelper.selectDistinctMod();
 
-                Cursor modQtyCursor=databaseHelper.getModifiersQty(mod_id);
-                if(modQtyCursor!=null)
-                {
-                    if(modQtyCursor.moveToFirst())
-                    {
-                        String qty=modQtyCursor.getString(0);
+        if (modCountcursor != null) {
+            while (modCountcursor.moveToNext()) {
+                String mod_id = modCountcursor.getString(0);
 
-                        quantity=quantity+Integer.parseInt(qty);
+                Log.e("modid", mod_id);
+                Cursor modQtyCursor = databaseHelper.getModifiersQty(mod_id);
+                if (modQtyCursor != null) {
+                    if (modQtyCursor.moveToFirst()) {
+                        String qty = modQtyCursor.getString(0);
+
+                        Log.e("qty", qty);
+
+                        quantity = quantity + Integer.parseInt(qty);
+
+                        Log.e("quantity", "" + quantity);
                     }
                 }
 
             }
         }
 
-        //((OutletCategoryActivity)getActivity()).setCountToBadge(String.valueOf(quantity));
+        ((OutletCategoryActivity) getActivity()).setCountToBadge(String.valueOf(quantity));
     }
 
 

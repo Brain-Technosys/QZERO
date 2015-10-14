@@ -146,7 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor selectDistinctMod() {
         SQLiteDatabase database = getReadableDatabase();
-        String selectMod = "select DISTINCT " + MOD_COLUMN + " from " + MODIFIER_TABLE;
+        String selectMod = "select DISTINCT " + MODIFIER_ID + " from " + MODIFIER_TABLE;
         Cursor valueMod = database.rawQuery(selectMod, null);
 
         return valueMod;
