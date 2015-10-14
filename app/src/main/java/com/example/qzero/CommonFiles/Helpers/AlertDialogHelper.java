@@ -145,5 +145,4 @@ public class AlertDialogHelper {
         FontHelper.applyFont(context, txtViewOk, FontType.FONT);
         FontHelper.applyFont(context, txtViewCancel, FontType.FONT);
     }
-
 }

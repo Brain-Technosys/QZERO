@@ -182,11 +182,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return valueItem;
     }
 
-    public Cursor selectDistinctItems(String item_name) {
+    public Cursor selectOutletId() {
         SQLiteDatabase database = getReadableDatabase();
-        String selectMod = "select " + ID_COLUMN + " from " + ITEM_TABLE + " where " + NAME_COLUMN + " = '" + item_name + "'";
-        Cursor valueItem = database.rawQuery(selectMod, null);
-        return valueItem;
+        String selectOutletId = "select " + OUTLET_ID + " from " + CHECKOUT_ITEM ;
+        Cursor valueOutletId = database.rawQuery(selectOutletId, null);
+        return valueOutletId;
     }
 
     public Cursor getNullModifiers(String item_name, String mod_name) {
@@ -221,6 +221,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         database.delete(MODIFIER_TABLE, new String(MODIFIER_ID + " =? "), new String[]{item_id});
         database.delete(ITEM_TABLE, new String(ID_COLUMN + " =? "), new String[]{item_id});
+    }
+
+    public void deleteItemTable() {
+        SQLiteDatabase database = getWritableDatabase();
+        database.delete(ITEM_TABLE, null, null);
+    }
+
+    public void deleteModifierTable() {
+        SQLiteDatabase database = getWritableDatabase();
+        database.delete(MODIFIER_TABLE, null, null);
+    }
+
+    public void deleteCheckOutTable() {
+        SQLiteDatabase database = getWritableDatabase();
+        database.delete(CHECKOUT_ITEM, null, null);
     }
 
 

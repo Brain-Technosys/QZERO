@@ -58,7 +58,7 @@ public class ViewCartActivity extends Activity {
     TextView txt_CartFinalAmount;
 
     ArrayList<HashMap<String, String>> mainCartItem;
-  
+
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
 
@@ -75,7 +75,7 @@ public class ViewCartActivity extends Activity {
     Cursor itemIdCursorMod;
 
 
-    Double totalPaybleAmount=0.0;
+    Double totalPaybleAmount = 0.0;
 
     View footerView;
 
@@ -89,7 +89,7 @@ public class ViewCartActivity extends Activity {
 
         ButterKnife.inject(this);
 
-        userSession=new UserSession(this);
+        userSession = new UserSession(this);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -175,7 +175,7 @@ public class ViewCartActivity extends Activity {
                 String item_image = itemCursor.getString(3);
                 String item_discount = itemCursor.getString(4);
 
-                DbItems dbItems = new DbItems(item_id,item_name, item_price, item_discount, item_image, itemsLength);
+                DbItems dbItems = new DbItems(item_id, item_name, item_price, item_discount, item_image, itemsLength);
                 arrayListDbIetms.add(dbItems);
                 hashMapListItems.put(pos, arrayListDbIetms);
 
@@ -202,7 +202,7 @@ public class ViewCartActivity extends Activity {
                     Cursor modCursor = databaseHelper.getModifiers(item_id);
 
                     if (modCursor != null) {
-                        while(modCursor.moveToNext()){
+                        while (modCursor.moveToNext()) {
                             int indexname = modCursor.getColumnIndex(databaseHelper.MOD_COLUMN);
                             int indexprice = modCursor.getColumnIndex(databaseHelper.MOD_PRICE);
                             int indexqty = modCursor.getColumnIndex(databaseHelper.QUANTITY);
@@ -240,7 +240,7 @@ public class ViewCartActivity extends Activity {
         txt_CartFinalAmount = (TextView) footerView.findViewById(R.id.txt_CartFinalAmount);
 
         //code changed by himanshu
-        FontHelper.applyFont(ViewCartActivity.this,txt_CartFinalAmount, FontHelper.FontType.FONT);
+        FontHelper.applyFont(ViewCartActivity.this, txt_CartFinalAmount, FontHelper.FontType.FONT);
 
         clickEventOfContinueShopping();
         clickEventOfPlaceOrder();
@@ -353,17 +353,22 @@ public class ViewCartActivity extends Activity {
             }
         }
 
-        if(hashMapListItems.size()==0)
-        {
-           listCartItem.removeFooterView(footerView);
-        }
-        else {
+        if (hashMapListItems.size() == 0) {
+            listCartItem.removeFooterView(footerView);
+
+            rly_emptyCart_layout.setVisibility(View.VISIBLE);
+            listCartItem.setVisibility(View.GONE);
+        } else {
             sendDataToAdapterClass();
+
+            rly_emptyCart_layout.setVisibility(View.GONE);
+            listCartItem.setVisibility(View.VISIBLE);
         }
     }
 
     //code changed by himanshu
-    @OnClick(R.id.btn_countinue_shop) public void gotoOutlet(){
+    @OnClick(R.id.btn_countinue_shop)
+    public void gotoOutlet() {
         finish();
     }
 }

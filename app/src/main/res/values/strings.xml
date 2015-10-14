@@ -76,6 +76,9 @@
 
     <string name="title_outlet">Outlets</string>
     <string name="all_outlet">All Outlets</string>
+    <string name="change_outlet">Confirm Change Outlet</string>
+    <string name="change_text">You are about to change current outlet.\nDo you want to proceed?.</string>
+    <string name="change">Change</string>
 
     <!-- Navigation Drawer -->
 

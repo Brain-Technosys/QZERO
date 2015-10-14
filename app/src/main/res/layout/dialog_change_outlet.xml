@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="300dp"
+    android:layout_height="250dp"
     android:background="#DFDFDF"
     android:orientation="vertical">
 
@@ -19,38 +19,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="5dp"
+            android:paddingTop="5dp"
             android:paddingLeft="5dp"
-            android:text="@string/add_more"
+            android:text="@string/change_outlet"
             android:textColor="@android:color/white"
-            android:textSize="17sp"
+            android:textSize="18sp"
 
             android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linLayModList"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change_text"
         android:layout_below="@+id/linLayTitle"
-        android:layout_gravity="center_horizontal"
-        android:background="#DFDFDF">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/linLayModifiers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-        </ScrollView>
-    </LinearLayout>
+        android:textColor="@android:color/black"
+        android:layout_marginTop="30dp"
+        android:textSize="18sp"
+        android:gravity="center_horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,7 +60,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtViewOk"
+            android:id="@+id/txtViewChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -82,7 +68,7 @@
             android:background="@color/item_detail"
             android:gravity="center_horizontal"
             android:padding="4dp"
-            android:text="SUBMIT"
+            android:text="CHANGE"
             android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>

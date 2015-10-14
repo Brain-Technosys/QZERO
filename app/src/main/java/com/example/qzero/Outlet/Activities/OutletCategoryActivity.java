@@ -31,6 +31,7 @@ import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.GetCartCountHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -145,10 +146,12 @@ public class OutletCategoryActivity extends AppCompatActivity {
             addCartFragment();
         }
 
+
         setIconsToActionBar();
 
-        createCategoryItem();
+        getCartCount();
 
+        createCategoryItem();
     }//end of onCreate()
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -191,9 +194,23 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     }//end of setIconsToActionBar()
 
+    private void getCartCount()
+    {
+        int quantity= GetCartCountHelper.getTotalQty(this);
+
+        setCountToBadge(String.valueOf(quantity));
+    }
+
     public void setCountToBadge(String count)
     {
-        txtViewBadge.setText(count);
+       if(count.equals("0"))
+       {
+           txtViewBadge.setVisibility(View.GONE);
+       }
+        else {
+           txtViewBadge.setText(count);
+           txtViewBadge.setVisibility(View.VISIBLE);
+       }
     }
 
     @Override
@@ -251,6 +268,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
 
         //Check if a user is logged in or not
         checkUserSession();

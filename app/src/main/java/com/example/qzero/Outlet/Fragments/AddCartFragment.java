@@ -32,6 +32,7 @@ import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.Helpers.GetCartCountHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.Outlet.Activities.OutletCategoryActivity;
@@ -389,7 +390,8 @@ public class AddCartFragment extends Fragment {
 
                     index = Integer.parseInt(v.getTag().toString());
 
-                    openDialog();
+                    if (hashMapModifiers.size() != 0)
+                        openDialog();
 
 
                 }
@@ -1202,38 +1204,15 @@ public class AddCartFragment extends Fragment {
         getTotalQty();
     }
 
-    private void getTotalQty() {
-        quantity = 0;
-        Cursor modCountcursor = databaseHelper.selectDistinctMod();
-
-        if (modCountcursor != null) {
-            while (modCountcursor.moveToNext()) {
-                String mod_id = modCountcursor.getString(0);
-
-                Log.e("modid", mod_id);
-                Cursor modQtyCursor = databaseHelper.getModifiersQty(mod_id);
-                if (modQtyCursor != null) {
-                    if (modQtyCursor.moveToFirst()) {
-                        String qty = modQtyCursor.getString(0);
-
-                        Log.e("qty", qty);
-
-                        quantity = quantity + Integer.parseInt(qty);
-
-                        Log.e("quantity", "" + quantity);
-                    }
-                }
-
-            }
-        }
+    public void getTotalQty() {
+        quantity = GetCartCountHelper.getTotalQty(getActivity());
 
         ((OutletCategoryActivity) getActivity()).setCountToBadge(String.valueOf(quantity));
     }
 
-    private void saveItemDetailsInCheckout()
-    {
-        String discountAmt=String.valueOf(Double.parseDouble(item_price)-afterDiscPrice);
-        databaseHelper.insertIntoCheckout(itemId,outletId,String.valueOf(countLength),discountAmt,String.valueOf(afterDiscPrice));
+    private void saveItemDetailsInCheckout() {
+        String discountAmt = String.valueOf(Double.parseDouble(item_price) - afterDiscPrice);
+        databaseHelper.insertIntoCheckout(itemId, outletId, String.valueOf(countLength), discountAmt, String.valueOf(afterDiscPrice));
     }
 
 

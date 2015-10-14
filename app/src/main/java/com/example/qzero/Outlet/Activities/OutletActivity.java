@@ -1,9 +1,11 @@
 package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -17,6 +19,7 @@ import android.view.Display;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -30,6 +33,7 @@ import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
@@ -140,6 +144,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     String subCatId;
     String outletTitle;
 
+    String oldOutletId = "null";
+
     int status;
     int jsonLength;
     int pos = 0;
@@ -166,11 +172,15 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     SearchView search_view;
     LinearLayout item;
 
+    DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outlet);
-        // ButterKnife.inject(this);
+
+
+        databaseHelper=new DatabaseHelper(this);
 
         getIntents();
 
@@ -246,7 +256,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                 for (final Outlet order : orig) {
                     if (String.valueOf(order.getOutlet_name()).toLowerCase()
                             .contains(newText.toString()) || String.valueOf(order.getOutlet_name())
-                            .contains(newText.toString()) )
+                            .contains(newText.toString()))
                         results.add(order);
                 }
             }
@@ -436,7 +446,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         item.addView(child);
 
         //get width of the screen
-       // initializeLayoutWidth();
+        // initializeLayoutWidth();
 
         //set fonts
         setOutletFonts();
@@ -556,15 +566,15 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
         // (they get confused when in screen compatibility mode, it seems),
         // but we assume their ratio is correct.
-        double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+        double screenWidthInPixels = (double) config.screenWidthDp * dm.density;
         double screenHeightInPixels = screenWidthInPixels * dm.heightPixels / dm.widthPixels;
-        int dpWidth = (int)(screenWidthInPixels + .5);
+        int dpWidth = (int) (screenWidthInPixels + .5);
         //widthHeightInPixels[1] = (int)(screenHeightInPixels + .5);
 
        /* DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);*/
-        int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 35, resources.getDisplayMetrics());
-        int layoutWidth = dpWidth / 2-px;
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 35, resources.getDisplayMetrics());
+        int layoutWidth = dpWidth / 2 - px;
         Log.e("layoutwidth", "" + layoutWidth);
 
         return layoutWidth;
@@ -629,10 +639,69 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     }
 
     public void getCategoryValues(View view) {
+
         outletId = view.getTag().toString();
 
-        getOutletItems();
+        Cursor outletCursor=databaseHelper.selectOutletId();
+
+        if(outletCursor!=null)
+        {
+            if(outletCursor.moveToFirst())
+            {
+                oldOutletId=outletCursor.getString(0);
+            }
+        }
+
+        if (oldOutletId.equals("null")) {
+            getOutletItems();
+        } else if (oldOutletId.equals(outletId)) {
+            getOutletItems();
+        } else {
+            openDialog();
+        }
     }
+
+    private void openDialog() {
+
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_change_outlet);
+
+        TextView txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
+        TextView txtViewCancel = (TextView) dialog.findViewById(R.id.txtViewCancel);
+        TextView txtViewChange = (TextView) dialog.findViewById(R.id.txtViewChange);
+
+        FontHelper.setFontFace(txtViewTitle, FontHelper.FontType.FONT,this);
+        FontHelper.setFontFace(txtViewCancel, FontHelper.FontType.FONT,this);
+        FontHelper.setFontFace(txtViewChange, FontHelper.FontType.FONT,this);
+
+        txtViewCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        txtViewChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatabaseHelper databaseHelper=new DatabaseHelper(OutletActivity.this);
+
+                databaseHelper.deleteModifierTable();
+                databaseHelper.deleteItemTable();;
+                databaseHelper.deleteCheckOutTable();
+
+                dialog.dismiss();
+
+                getOutletItems();
+            }
+        });
+
+        dialog.show();
+    }
+
 
     public void getOutletItems() {
         if (CheckInternetHelper.checkInternetConnection(this)) {
@@ -764,6 +833,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             if (status == 1) {
 
                 passIntent();
+
+                oldOutletId = outletId;
 
             } else if (status == 0) {
 

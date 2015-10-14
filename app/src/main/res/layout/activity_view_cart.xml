@@ -2,16 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+android:background="@color/cardview_back"
     tools:context="com.example.qzero.Outlet.Activities.ViewCartActivity">
+
     <include
         android:id="@+id/inclue_header"
-        layout="@layout/inclue_header"></include>
+        layout="@layout/inclue_header">
+
+    </include>
+
     <RelativeLayout
         android:layout_below="@+id/inclue_header"
         android:id="@+id/rly_emptyCart_layout"
         android:layout_width="match_parent"
+        android:background="@android:color/white"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_centerHorizontal="true">
 
     <TextView
@@ -44,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/inclue_header"
+        android:divider="@android:color/transparent"
         android:layout_above="@+id/bottomCartLayout"
         android:text="@string/hello_blank_fragment"
         android:visibility="gone"/>

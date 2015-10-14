@@ -1,10 +1,14 @@
 package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +18,7 @@ import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
@@ -63,6 +68,8 @@ public class SearchVenueActivity extends Activity {
     String subCatId;
     String outletTitle;
 
+    String oldOutletId="null";
+
     int status;
     String message;
 
@@ -81,6 +88,8 @@ public class SearchVenueActivity extends Activity {
 
     Category category;
 
+    DatabaseHelper databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +106,7 @@ public class SearchVenueActivity extends Activity {
 
         addItemToListView();
 
-
+        databaseHelper=new DatabaseHelper(this);
     }
 
     private void setText() {
@@ -122,10 +131,10 @@ public class SearchVenueActivity extends Activity {
     }
 
     public void addItemToListView() {
+
         CustomAdapterVenue adapter = new CustomAdapterVenue(this, rowItems);
 
         venueListView.setAdapter(adapter);
-
 
     }
 
@@ -152,13 +161,71 @@ public class SearchVenueActivity extends Activity {
     {
        if(title.equals("Outlet Details"))
        {
-           getOutletItems();
+           Cursor outletCursor=databaseHelper.selectOutletId();
+
+           if(outletCursor!=null)
+           {
+               if(outletCursor.moveToFirst())
+               {
+                   oldOutletId=outletCursor.getString(0);
+               }
+           }
+
+           if (oldOutletId.equals("null")) {
+               getOutletItems();
+           } else if (oldOutletId.equals(outletId)) {
+               getOutletItems();
+           } else {
+               openDialog();
+           }
+
        }
         else {
            Intent intent = new Intent(SearchVenueActivity.this, OutletActivity.class);
            intent.putExtra("venue_id", venue_id);
            startActivity(intent);
        }
+    }
+
+    private void openDialog() {
+
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_change_outlet);
+
+        TextView txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
+        TextView txtViewCancel = (TextView) dialog.findViewById(R.id.txtViewCancel);
+        TextView txtViewChange = (TextView) dialog.findViewById(R.id.txtViewChange);
+
+        FontHelper.setFontFace(txtViewTitle, FontHelper.FontType.FONT,this);
+        FontHelper.setFontFace(txtViewCancel, FontHelper.FontType.FONT,this);
+        FontHelper.setFontFace(txtViewChange, FontHelper.FontType.FONT,this);
+
+        txtViewCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        txtViewChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatabaseHelper databaseHelper=new DatabaseHelper(SearchVenueActivity.this);
+
+                databaseHelper.deleteModifierTable();
+                databaseHelper.deleteItemTable();;
+                databaseHelper.deleteCheckOutTable();
+
+                dialog.dismiss();
+
+                getOutletItems();
+            }
+        });
+
+        dialog.show();
     }
 
     public void getOutletItems()
