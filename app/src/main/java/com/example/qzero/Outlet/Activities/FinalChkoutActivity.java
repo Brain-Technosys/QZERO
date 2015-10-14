@@ -324,8 +324,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
         tvTotal = (TextView) viewItems[j].findViewById(R.id.item_totalPrice);
 
         FontHelper.applyFont(this, tvName, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this, tvQty, FontHelper.FontType.FONTSANSBOLD);
-        FontHelper.applyFont(this, tvTotal, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, tvQty, FontHelper.FontType.FONT);
+        FontHelper.applyFont(this, tvTotal, FontHelper.FontType.FONT);
 
 
     }

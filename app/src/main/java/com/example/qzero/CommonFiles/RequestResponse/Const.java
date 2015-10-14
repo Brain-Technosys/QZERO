@@ -30,6 +30,7 @@ public class Const {
     public static String GET_ORDER_ITEM = "Order/OrderItems";
     public static String FORGOT_PASSWORD = "Account/ForgotPassword";
     public static String GET_ITEM_DETAIL = "venue/getitemdetail";
+    public static String POST_CHECKOUT = "checkout/PostCheckout";
 
     //Intialize jsonArray parameter
 
@@ -162,7 +163,5 @@ public class Const {
     public static String TAG_DISC_DETAIL = "discountDescription";
     public static String TAG_AFTER_DISC = "afterDiscount";
     public static String TAG_ID = "id";
-
-
 
 }

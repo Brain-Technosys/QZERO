@@ -26,6 +26,7 @@ import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterCartItem;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
+import com.example.qzero.Outlet.ObjectClasses.OrderItemStatusModel;
 import com.example.qzero.R;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class ViewCartActivity extends Activity {
     TextView txt_CartFinalAmount;
 
     ArrayList<HashMap<String, String>> mainCartItem;
-
+  
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
 

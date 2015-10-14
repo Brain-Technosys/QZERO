@@ -956,6 +956,7 @@ public class AddCartFragment extends Fragment {
                         item_price = jsonObjItem.getString(Const.TAG_PRICE);
                         item_desc = jsonObjItem.getString(Const.TAG_DESC);
 
+
                         //Get json array for categories
                         JSONArray jsonArrayModifiers = new JSONArray();
 
@@ -1037,6 +1038,8 @@ public class AddCartFragment extends Fragment {
         saveItemDetails();
 
         getTotalQty();
+
+        saveItemDetailsInCheckout();
 
         Toast.makeText(getActivity(), "Items added to cart.", Toast.LENGTH_LONG).show();
     }
@@ -1225,6 +1228,12 @@ public class AddCartFragment extends Fragment {
         }
 
         ((OutletCategoryActivity) getActivity()).setCountToBadge(String.valueOf(quantity));
+    }
+
+    private void saveItemDetailsInCheckout()
+    {
+        String discountAmt=String.valueOf(Double.parseDouble(item_price)-afterDiscPrice);
+        databaseHelper.insertIntoCheckout(itemId,outletId,String.valueOf(countLength),discountAmt,String.valueOf(afterDiscPrice));
     }
 
 

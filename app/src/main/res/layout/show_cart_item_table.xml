@@ -56,9 +56,10 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="3"
+                    android:focusable="true"
                     android:textColor="@color/black"
                     android:textSize="13sp"
-                    android:background="@drawable/background_editext"
+                    android:background="@drawable/bg_border"
                     android:visibility="gone"
                     android:inputType="number"
                     >

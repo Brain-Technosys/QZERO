@@ -5,22 +5,27 @@ package com.example.qzero.Outlet.ObjectClasses;
  */
 public class OrderItemStatusModel {
 
-    String item_id;
+    String mod_name;
     String quantity;
+    String mod_price;
+    String mod_id;
     Boolean isModifier;
 
-    public OrderItemStatusModel(String item_id, String quantity, Boolean isModifier) {
-        this.item_id = item_id;
+    public OrderItemStatusModel(String mod_name,String quantity, Boolean isModifier,String mod_price,String mod_id) {
+
+        this.mod_name=mod_name;
         this.quantity = quantity;
         this.isModifier = isModifier;
+        this.mod_price=mod_price;
+        this.mod_id=mod_id;
     }
 
-    public String getItem_id() {
-        return item_id;
+    public String getMod_name() {
+        return mod_name;
     }
 
-    public void setItem_id(String item_id) {
-        this.item_id = item_id;
+    public void setMod_name(String mod_name) {
+        this.mod_name = mod_name;
     }
 
     public String getQuantity() {
@@ -37,5 +42,21 @@ public class OrderItemStatusModel {
 
     public void setIsModifier(Boolean isModifier) {
         this.isModifier = isModifier;
+    }
+
+    public String getMod_price() {
+        return mod_price;
+    }
+
+    public void setMod_price(String mod_price) {
+        this.mod_price = mod_price;
+    }
+
+    public String getMod_id() {
+        return mod_id;
+    }
+
+    public void setMod_id(String mod_id) {
+        this.mod_id = mod_id;
     }
 }

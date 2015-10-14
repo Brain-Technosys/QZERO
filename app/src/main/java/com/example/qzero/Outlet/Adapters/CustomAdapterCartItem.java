@@ -162,11 +162,14 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
             ArrayList<DbModifiers> dbListModifiers = hashMapModifiers.get(position);
 
-            String item_id = dbListItem.get(0).getItem_id();
+            String item_id = dbListModifiers.get(0).getItem_name();
 
             //set item_id as tag of view
 
             viewItems[i].setTag(item_id);
+
+            Log.e("setag", item_id);
+            Log.e("seti",""+i);
 
             setIdofTableItems(i, item_id);
 
@@ -332,7 +335,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
                     tableModifier = (TableLayout) view.findViewById(R.id.table_modifier);
 
-                    for (int j = 0; j < tableModifier.getChildCount(); j++) {
+                   /* for (int j = 0; j < tableModifier.getChildCount(); j++) {
                         View tableView = tableModifier.getChildAt(j);
 
                         modifierQty = (TextView) tableView.findViewById(R.id.modifier_qty);
@@ -346,9 +349,9 @@ public class CustomAdapterCartItem extends BaseAdapter {
                         modifierTotal.setText("$" + Utility.formatDecimalByString(String.valueOf(mod_amount)));
 
                         totalItemPriceUpdated = totalItemPriceUpdated + tot_amount + mod_amount;
-
+*/
                         databaseHelper.updateModifiers(itemId, qty);
-                    }
+                  //  }
 
                     holder.txt_item_Price.setText("Total Price: $" + Utility.formatDecimalByString(String.valueOf(totalItemPriceUpdated)));
                 }
