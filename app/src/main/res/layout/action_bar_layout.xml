@@ -21,7 +21,9 @@
             android:id="@+id/cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
             android:layout_marginRight="12dp"
             android:src="@drawable/cart_icon" />
 
@@ -31,9 +33,10 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="11sp"
+            android:text="444"
             android:gravity="top"
             android:layout_gravity="right"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/badge" />
 
 
