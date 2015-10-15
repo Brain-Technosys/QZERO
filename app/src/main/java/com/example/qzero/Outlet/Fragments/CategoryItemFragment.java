@@ -1,10 +1,12 @@
 package com.example.qzero.Outlet.Fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,6 +39,7 @@ import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Outlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
+import com.example.qzero.Outlet.SlidingUpPanel.SlidingUpPanelLayout;
 import com.example.qzero.R;
 import com.squareup.picasso.Picasso;
 
@@ -70,7 +73,19 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
     ImageView imgViewItem;
 
-    RelativeLayout relLayItem;
+    LinearLayout relLayItem;
+
+    TextView txtViewItemNameRight;
+
+    TextView txtViewItemPriceRight;
+
+    TextView txtViewTitleOverlayRight;
+
+    ImageView imgViewItemRight;
+
+    LinearLayout relLayItemRight;
+
+    CardView cardViewRight;
 
     TableRow tableRow;
 
@@ -333,56 +348,84 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         // outer for loop
         for (int i = 1; i <= rows; i++) {
 
+            DisplayMetrics metrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            int screenHeight = metrics.heightPixels/4;
+
+
+
             TableRow row = new TableRow(getActivity());
             row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT));
+                    screenHeight));
 
-            if (length % 2 != 0) {
+           /* if (length % 2 != 0) {
                 Log.e("odd", "" + i);
 
-                if (i == rows) {
-                    Log.e("i", "" + i);
-                    Log.e("inrows", "" + rows);
-                    cols = 1;
-                }
+
             } else {
                 cols = 2;
             }
 
             Log.e("cols", "" + cols);
             // inner for loop
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < cols; j++) {*/
 
 
-                LinearLayout layoutCategoryItem = new LinearLayout(getActivity());
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-                layoutCategoryItem.setGravity(LinearLayout.HORIZONTAL);
-                child = getActivity().getLayoutInflater().inflate(R.layout.item_category, null);
-                child.setPadding(0, 0, 10, 0);
+            child = getActivity().getLayoutInflater().inflate(R.layout.item_category, null);
+            getItemId();
 
-                getItemId();
-                inflateData();
-                // child.setOnClickListener(this);
-                layoutCategoryItem.addView(child, params);
-                row.addView(layoutCategoryItem);
+            inflateData();
+            inflateRightData();
+            // child.setOnClickListener(this);
 
-            }
+            row.addView(child);
+
+
+            //}
 
             tableLayoutItems.addView(row);
+
+            imgViewItem.requestLayout();
+
+            imgViewItem.getLayoutParams().height=screenHeight;
+
+            imgViewItemRight.requestLayout();
+            imgViewItemRight.getLayoutParams().height=screenHeight;
+
+            if (i == rows) {
+                Log.e("i", "" + i);
+                Log.e("inrows", "" + rows);
+
+                cardViewRight.setVisibility(View.INVISIBLE);
+            }
 
         }
     }
 
     private void getItemId() {
-        relLayItem = (RelativeLayout) child.findViewById(R.id.relLayItem);
+        relLayItem = (LinearLayout) child.findViewById(R.id.relLayItem);
 
         imgViewItem = (ImageView) child.findViewById(R.id.imgViewItem);
+
+
+
 
         txtViewItemName = (TextView) child.findViewById(R.id.txtViewItemName);
         txtViewTitleOverlay = (TextView) child.findViewById(R.id.txtViewTitleOverlay);
         txtViewItemPrice = (TextView) child.findViewById(R.id.txtViewItemPrice);
+
+        relLayItemRight = (LinearLayout) child.findViewById(R.id.relLayItemRight);
+
+        imgViewItemRight = (ImageView) child.findViewById(R.id.imgViewItemRight);
+
+        txtViewItemNameRight = (TextView) child.findViewById(R.id.txtViewItemNameRight);
+        txtViewTitleOverlayRight = (TextView) child.findViewById(R.id.txtViewTitleOverlayRight);
+        txtViewItemPriceRight = (TextView) child.findViewById(R.id.txtViewItemPriceRight);
+
+        cardViewRight = (CardView) child.findViewById(R.id.cardViewRight);
+
         setFonts();
-        initializeLayoutWidth();
+        //  initializeLayoutWidth();
         setOnClick();
     }
 
@@ -491,6 +534,18 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             }
         });
 
+        relLayItemRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String item_id = v.getTag().toString();
+
+                Log.e("tag", v.getTag().toString());
+
+                ((OutletCategoryActivity) getActivity()).replaceFragment(venue_id, outlet_id, item_id);
+            }
+        });
+
     }
 
     private void inflateData() {
@@ -507,5 +562,24 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         //Load Image
         Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItem);
 
+    }
+
+    private void inflateRightData() {
+
+        if (pos != length - 1) {
+
+            ItemOutlet itemOutlet = arrayListItems.get(pos);
+
+            relLayItemRight.setTag(itemOutlet.getItem_id());
+
+            txtViewItemNameRight.setText(itemOutlet.getName());
+            txtViewTitleOverlayRight.setText(itemOutlet.getName());
+            txtViewItemPriceRight.setText(Utility.formatCurrency(itemOutlet.getPrice()));
+            pos++;
+
+            //Load Image
+            Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItem);
+
+        }
     }
 }
