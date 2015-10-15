@@ -53,14 +53,14 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     //code change by himanshu
     @InjectView(R.id.txt__item_Name)
-    TextView ModifierName;
+    TextView txt__item_Name;
 
     //code change by himanshu
     @InjectView(R.id.txt__item_qty)
-    TextView modifier_qty;
+    TextView txt__item_qty;
 
     @InjectView(R.id.txt_item_totalPrice)
-    TextView modifier_totalPrice;
+    TextView txt_item_totalPrice;
 
     @InjectView(R.id.txt_final_price)
     TextView txt_final_price;
@@ -134,10 +134,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
     }
 
     private void setFont() {
-        FontHelper.applyFont(this, ModifierName, FontHelper.FontType.FONT);
-        FontHelper.applyFont(this, modifier_qty, FontHelper.FontType.FONT);
-        FontHelper.applyFont(this, modifier_totalPrice, FontHelper.FontType.FONT);
         FontHelper.applyFont(this, txt_final_price, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, txt__item_Name, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, txt__item_qty, FontHelper.FontType.FONTSANSBOLD);
+        FontHelper.applyFont(this, txt_item_totalPrice, FontHelper.FontType.FONTSANSBOLD);
+
 
 
     }
@@ -326,8 +327,6 @@ public class FinalChkoutActivity extends AppCompatActivity {
         FontHelper.applyFont(this, tvName, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(this, tvQty, FontHelper.FontType.FONT);
         FontHelper.applyFont(this, tvTotal, FontHelper.FontType.FONT);
-
-
     }
 
 

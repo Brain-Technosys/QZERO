@@ -297,6 +297,11 @@ public class AddCartFragment extends Fragment {
 
             imgViewAdd.setTag(i);
 
+
+            if(hashMapModifiers.size()==0)
+            {
+                txtViewAddModifiers.setVisibility(View.INVISIBLE);
+            }
             //Hashmap for the data to be inflated in the view
             HashMap<String, String> hashmap = arrayListViewData.get(i);
 
@@ -384,14 +389,14 @@ public class AddCartFragment extends Fragment {
             });
 
 
+
             txtViewAddModifiers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     index = Integer.parseInt(v.getTag().toString());
 
-                    if (hashMapModifiers.size() != 0)
-                        openDialog();
+                    openDialog();
 
 
                 }

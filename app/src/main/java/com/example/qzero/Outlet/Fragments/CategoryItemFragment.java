@@ -402,7 +402,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         float fwidth = dm.density * dm.widthPixels;
         float fheight = dm.density * dm.heightPixels;
 
-
+        Log.e("dm", "" + dm.density);
 
         //for devices whose density is 0.75 mainly idpi ex 320 *240
         if (dm.density == 0.75 || dm.density < 0.75) {
@@ -456,20 +456,18 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             paramsImage.width = Math.round(fwidth / 4) + 90;
             paramsImage.height = Math.round(fheight / 4) - 540;
 
-        }else if((dm.density==4) ||(dm.density>3 && dm.density<4)){
+        } else if ((dm.density == 4) || (dm.density > 3 && dm.density < 4)) {
 
-            paramsLeft.width = Math.round(fwidth / 8)  -80;
+            paramsLeft.width = Math.round(fwidth / 8) - 80;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
             //Image Category icon
             paramsImage.width = Math.round(fwidth / 8) - 60;
             paramsImage.height = Math.round(fheight / 8) - 560;
 
-        }
+        } else {
 
-        else {
-
-            paramsLeft.width = Math.round(fwidth / 8)  -80;
+            paramsLeft.width = Math.round(fwidth / 8) - 80;
             paramsLeft.height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
             //Image Category icon
@@ -479,6 +477,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
         }
     }
+
     public void setOnClick() {
         relLayItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -493,7 +492,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         });
 
     }
-    
+
     private void inflateData() {
 
         ItemOutlet itemOutlet = arrayListItems.get(pos);

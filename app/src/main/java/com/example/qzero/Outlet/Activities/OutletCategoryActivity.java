@@ -86,7 +86,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     int list;
     int lastPos;
-    int noSubCatPos = -1;
+    Integer noSubCatPos[];
 
     String title;
     String venue_id;
@@ -376,11 +376,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         subCatListView = new ExpandableListView[arrayListCat.size()];
 
+        noSubCatPos=new Integer[arrayListCat.size()];
 
         params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         //dynamically adding category item as TextView
         for (int i = 0; i < arrayListCat.size(); i++) {
+
 
             //Create categories
             createCategories(i);
@@ -443,7 +445,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
                 int tag = Integer.parseInt(view.getTag(R.string.Tag).toString());
 
-                if (noSubCatPos != lastPos) {
+                if (noSubCatPos[lastPos] == 0) {
                     if (lastPos != tag) {
 
 
@@ -461,7 +463,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
                 lastPos = tag;
 
-                if (noSubCatPos != tag) {
+                if (noSubCatPos[tag]==0){
 
 
                     if (subCatListView[tag].getVisibility() == View.VISIBLE) {
@@ -525,9 +527,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
             imgViewDownArrow.setVisibility(View.GONE);
 
             //Capture the position of categories containing no sub categories
-            noSubCatPos = pos;
+            noSubCatPos[pos] = 1;
 
             isSubCatPresent = false;
+        }
+        else
+        {
+            noSubCatPos[pos]=0;
         }
 
         //add adapter to listview

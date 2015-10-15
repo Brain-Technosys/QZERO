@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
@@ -202,7 +203,13 @@ public class PickupTabFragment extends Fragment {
 
     private void postToCheckOut(String jsonDetails)
     {
-        new PostCheckOut().execute(jsonDetails);
+       if(CheckInternetHelper.checkInternetConnection(getActivity())) {
+           new PostCheckOut().execute(jsonDetails);
+       }
+        else
+       {
+           AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.server_message),"Alert");
+       }
     }
 
     private class PostCheckOut extends AsyncTask<String, String, String> {
@@ -239,13 +246,13 @@ public class PickupTabFragment extends Fragment {
 
                 if (jsonObject != null) {
                     Log.e("json", jsonString);
-                   /* status = jsonObject.getInt("status");
+                   status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {
 
-                    }*/
+                    }
 
-                    orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
+                  //  orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
                 }
 
             } catch (NullPointerException e) {
@@ -265,27 +272,28 @@ public class PickupTabFragment extends Fragment {
             super.onPostExecute(result);
             ProgresBar.stop();
 
-            PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(((FinalChkoutActivity) getActivity()).getFinalPrice()), "USD", "QZERO",
-                    PayPalPayment.PAYMENT_INTENT_SALE);
+            if(status==1) {
 
-            Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(((FinalChkoutActivity) getActivity()).getFinalPrice()), "USD", "QZERO",
+                        PayPalPayment.PAYMENT_INTENT_SALE);
 
-            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
+                Intent intent = new Intent(getActivity(), PaymentActivity.class);
 
-            startActivityForResult(intent, REQUEST_PAYPAL_PAYMENT);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
 
-           /* if (status == 1) {
-
-
-            } else if (status == 0) {
-
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        message, "Alert");
-
-            } else {
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        getString(R.string.server_message), "Alert");
-            }*/
+                startActivityForResult(intent, REQUEST_PAYPAL_PAYMENT);
+            }
+            else
+                if(status==0)
+                {
+                    AlertDialogHelper.showAlertDialog(getActivity(),
+                            message, "Alert");
+                }
+            else
+                {
+                    AlertDialogHelper.showAlertDialog(getActivity(),
+                            getString(R.string.server_message), "Alert");
+                }
         }
     }
 
