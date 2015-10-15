@@ -35,8 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/darker_gray"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/food1" />
+                    android:scaleType="fitXY"/>
 
                 <TextView
                     android:id="@+id/txtViewTitleOverlay"
@@ -82,7 +81,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardViewRight"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="1"
         card_view:cardBackgroundColor="@android:color/white">

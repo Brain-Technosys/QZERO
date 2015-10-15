@@ -566,7 +566,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
     private void inflateRightData() {
 
-        if (pos != length - 1) {
+        if (pos <= length - 1) {
 
             ItemOutlet itemOutlet = arrayListItems.get(pos);
 
@@ -578,7 +578,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             pos++;
 
             //Load Image
-            Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItem);
+            Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItemRight);
 
         }
     }
