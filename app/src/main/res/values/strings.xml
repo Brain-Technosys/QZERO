@@ -189,4 +189,11 @@
     <string name="empty_cart">There are no items in this cart.</string>
 
 
+    <string name="msg_shipment">Ship to billing address ?</string>
+
+    <!-- Add Address Activity-->
+    <string name="address_saved">Address saved successfully.</string>
+    <string name="address_edit">Address edited successfully.</string>
+
+
 </resources>

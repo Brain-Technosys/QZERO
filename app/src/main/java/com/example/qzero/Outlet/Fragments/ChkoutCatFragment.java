@@ -1,22 +1,50 @@
 package com.example.qzero.Outlet.Fragments;
 
 
+import android.content.Context;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 
 public class ChkoutCatFragment extends Fragment {
 
+
+
     FragmentTabHost mTabHost;
+    Context context;
 
     View tabIndicatorShipment;
     View tabIndicatorPickup;
@@ -26,16 +54,28 @@ public class ChkoutCatFragment extends Fragment {
     TextView titlePickUp;
     TextView titleInHouse;
 
+    LayoutInflater layoutInflater;
+
+
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_chkout_cat, container, false);
+        layoutInflater=inflater;
+        View view = inflater.inflate(R.layout.fragment_chkout_cat, container, false);
 
-        mTabHost = (FragmentTabHost) view
+        ButterKnife.inject(this, view);
+        context = view.getContext();
+
+        mTabHost = (FragmentTabHost)view
                 .findViewById(android.R.id.tabhost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(),
-                R.id.realtabcontent);
+
+        FrameLayout frameLayout=(FrameLayout)view.findViewById( R.id.realtabcontent);
+        mTabHost.setup(context, getChildFragmentManager(),
+                frameLayout.getId());
 
         inflateLayouts();
 
@@ -44,11 +84,11 @@ public class ChkoutCatFragment extends Fragment {
         createInHouseTag();
 
         addTabs();
+
         setFont();
 
         return view;
     }
-
 
 
     @Override
@@ -128,9 +168,9 @@ public class ChkoutCatFragment extends Fragment {
 
     private void setFont() {
 
-        FontHelper.applyFont(getActivity(),titleShipment, FontHelper.FontType.FONT);
-        FontHelper.applyFont(getActivity(),titlePickUp, FontHelper.FontType.FONT);
-        FontHelper.applyFont(getActivity(),titleInHouse, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), titleShipment, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), titlePickUp, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), titleInHouse, FontHelper.FontType.FONT);
     }
 
 

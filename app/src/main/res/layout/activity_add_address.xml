@@ -137,24 +137,36 @@
                 android:textColor="@color/black"
                 android:text="Country:" />
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/edtTxtCountry"
-                style="@style/TextAppearance.AppCompat.Display1"
-                android:layout_width="fill_parent"
+            <Spinner
+                android:id="@+id/spnr_country"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:ems="10"
-                android:gravity="left"
-                android:hint="@string/hint_country"
-                android:inputType="text"
-                android:paddingTop="10dp"
-                android:singleLine="true"
-                android:textColor="@color/color_edittext_background"
-                android:textColorHint="@android:color/darker_gray"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/textSize"
-                android:theme="@style/Theme.MyTheme.EditText" />
+
+                android:layout_centerHorizontal="true"
+
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                ></Spinner>
+
+            <!--<android.support.v7.widget.AppCompatEditText-->
+                <!--android:id="@+id/edtTxtCountry"-->
+                <!--style="@style/TextAppearance.AppCompat.Display1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:ems="10"-->
+                <!--android:gravity="left"-->
+                <!--android:hint="@string/hint_country"-->
+                <!--android:inputType="text"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="@color/color_edittext_background"-->
+                <!--android:textColorHint="@android:color/darker_gray"-->
+                <!--android:textCursorDrawable="@null"-->
+                <!--android:textSize="@dimen/textSize"-->
+                <!--android:theme="@style/Theme.MyTheme.EditText" />-->
 
 
             <TextView
@@ -165,24 +177,34 @@
                 android:textColor="@color/black"
                 android:text="State:" />
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/edtTxtState"
-                style="@style/TextAppearance.AppCompat.Display1"
-                android:layout_width="fill_parent"
+            <Spinner
+                android:id="@+id/spnr_state"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:ems="10"
-                android:gravity="left"
-                android:hint="@string/hint_state"
-                android:inputType="text"
-                android:paddingTop="10dp"
-                android:singleLine="true"
-                android:textColor="@color/color_edittext_background"
-                android:textColorHint="@android:color/darker_gray"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/textSize"
-                android:theme="@style/Theme.MyTheme.EditText" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                ></Spinner>
+
+            <!--<android.support.v7.widget.AppCompatEditText-->
+                <!--android:id="@+id/edtTxtState"-->
+                <!--style="@style/TextAppearance.AppCompat.Display1"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:ems="10"-->
+                <!--android:gravity="left"-->
+                <!--android:hint="@string/hint_state"-->
+                <!--android:inputType="text"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="@color/color_edittext_background"-->
+                <!--android:textColorHint="@android:color/darker_gray"-->
+                <!--android:textCursorDrawable="@null"-->
+                <!--android:textSize="@dimen/textSize"-->
+                <!--android:theme="@style/Theme.MyTheme.EditText" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -198,7 +220,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-
                 android:layout_marginRight="20dp"
                 android:ems="10"
                 android:gravity="left"

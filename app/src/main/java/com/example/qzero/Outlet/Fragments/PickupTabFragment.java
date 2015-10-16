@@ -80,18 +80,8 @@ public class PickupTabFragment extends Fragment {
     ArrayList<OrderItemStatusModel> orderStatusArrayList;
 
     //set the environment for production/sandbox/no netowrk
-    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
-
-    private static final String CONFIG_CLIENT_ID = "ASEg2Vc9lKh1QephLG7NYj4kzcL6MuMzo4GIGeMM5zqaDjxYwtliRgJkxnZx6utGsSfb81Kok3atIvR4";
 
     private static final int REQUEST_PAYPAL_PAYMENT = 1;
-
-    private static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(CONFIG_ENVIRONMENT)
-            .clientId(CONFIG_CLIENT_ID)
-                    // The following are only used in PayPalFuturePaymentActivity.
-            .merchantName("QZERO");
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,10 +99,6 @@ public class PickupTabFragment extends Fragment {
         databaseHelper = new DatabaseHelper(getActivity());
 
         userSession = new UserSession(getActivity());
-
-        Intent intent = new Intent(getActivity(), PayPalService.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-        getActivity().startService(intent);
     }
 
     @OnClick(R.id.btn_PlaceOrder)
@@ -129,7 +115,7 @@ public class PickupTabFragment extends Fragment {
 
                 itemId = Integer.parseInt(outletCursor.getString(1));
                 outletId = Integer.parseInt(outletCursor.getString(2));
-                discountAmount =outletCursor.getDouble(3);
+                discountAmount = outletCursor.getDouble(3);
                 afterDiscountAmount = Double.parseDouble(outletCursor.getString(4));
 
             }
@@ -140,7 +126,7 @@ public class PickupTabFragment extends Fragment {
         try {
             jsonObjDetails.put("itemId", itemId);
             jsonObjDetails.put("outletId", outletId);
-            jsonObjDetails.put("discountAmount",discountAmount);
+            jsonObjDetails.put("discountAmount", discountAmount);
             jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
            /* jsonObjDetails.put("taxApplicable",taxApplicable);
@@ -150,7 +136,7 @@ public class PickupTabFragment extends Fragment {
             jsonObjDetails.put("orderNotes",orderNotes );
             jsonObjDetails.put("billingAddressId",billingAddressId );
             jsonObjDetails.put("deliveryTypeId",deliveryTypeId);*/
-            jsonObjDetails.put("deliveryType",3);
+            jsonObjDetails.put("deliveryType", 3);
 
             JSONArray jsonArrayOrder = new JSONArray();
             JSONArray jsonArrayMod = new JSONArray();
@@ -160,7 +146,7 @@ public class PickupTabFragment extends Fragment {
 
                 JSONObject orderStatusObj = new JSONObject();
 
-                JSONObject modStatusObj=new JSONObject();
+                JSONObject modStatusObj = new JSONObject();
 
                 String modName = orderStatusArrayList.get(i).getMod_name();
                 if (modName.equals("null")) {
@@ -168,31 +154,31 @@ public class PickupTabFragment extends Fragment {
                 } else {
                     isModifier = 1;
 
-                    modifierId=orderStatusArrayList.get(i).getMod_id();
-                    modifierPrice=orderStatusArrayList.get(i).getMod_price();
+                    modifierId = orderStatusArrayList.get(i).getMod_id();
+                    modifierPrice = orderStatusArrayList.get(i).getMod_price();
 
                     modStatusObj.put("itemId", itemId);
-                    modStatusObj.put("modifierId",modifierId);
-                    modStatusObj.put("modifierPrice",modifierPrice);
+                    modStatusObj.put("modifierId", modifierId);
+                    modStatusObj.put("modifierPrice", modifierPrice);
 
                     jsonArrayMod.put(modStatusObj);
                 }
 
                 quantity = orderStatusArrayList.get(i).getQuantity();
 
-                orderStatusObj.put("itemId",itemId);
-                orderStatusObj.put("isModifier",isModifier);
-                orderStatusObj.put("quantity",quantity);
+                orderStatusObj.put("itemId", itemId);
+                orderStatusObj.put("isModifier", isModifier);
+                orderStatusObj.put("quantity", quantity);
 
                 jsonArrayOrder.put(orderStatusObj);
 
 
             }
 
-            jsonObjDetails.putOpt("orderItemStatus",jsonArrayOrder);
-            jsonObjDetails.putOpt("orderItemModifiers",jsonArrayMod);
+            jsonObjDetails.putOpt("orderItemStatus", jsonArrayOrder);
+            jsonObjDetails.putOpt("orderItemModifiers", jsonArrayMod);
 
-            Log.e("json",jsonObjDetails.toString());
+            Log.e("json", jsonObjDetails.toString());
 
             postToCheckOut(jsonObjDetails.toString());
 
@@ -201,15 +187,12 @@ public class PickupTabFragment extends Fragment {
         }
     }
 
-    private void postToCheckOut(String jsonDetails)
-    {
-       if(CheckInternetHelper.checkInternetConnection(getActivity())) {
-           new PostCheckOut().execute(jsonDetails);
-       }
-        else
-       {
-           AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.server_message),"Alert");
-       }
+    private void postToCheckOut(String jsonDetails) {
+        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
+            new PostCheckOut().execute(jsonDetails);
+        } else {
+            AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.server_message), "Alert");
+        }
     }
 
     private class PostCheckOut extends AsyncTask<String, String, String> {
@@ -226,19 +209,19 @@ public class PickupTabFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-           JsonParser jsonParser = new JsonParser();
+            JsonParser jsonParser = new JsonParser();
 
             String url = Const.BASE_URL + Const.POST_CHECKOUT;
 
-            String parameter=params[0];
-            String userId=userSession.getUserID();
+            String parameter = params[0];
+            String userId = userSession.getUserID();
 
-            Log.e("parameter",parameter);
-            Log.e("userId",userId);
+            Log.e("parameter", parameter);
+            Log.e("userId", userId);
 
-            String jsonString = jsonParser.executePost(url,parameter,userId,Const.TIME_OUT);
+            String jsonString = jsonParser.executePost(url, parameter, userId, Const.TIME_OUT);
 
-            Log.e("json",jsonString);
+            Log.e("json", jsonString);
 
 
             try {
@@ -246,13 +229,13 @@ public class PickupTabFragment extends Fragment {
 
                 if (jsonObject != null) {
                     Log.e("json", jsonString);
-                   status = jsonObject.getInt("status");
+                    status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {
 
                     }
 
-                  //  orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
+                    //  orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
                 }
 
             } catch (NullPointerException e) {
@@ -272,34 +255,22 @@ public class PickupTabFragment extends Fragment {
             super.onPostExecute(result);
             ProgresBar.stop();
 
-            if(status==1) {
+            if (status == 1) {
 
-                PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(((FinalChkoutActivity) getActivity()).getFinalPrice()), "USD", "QZERO",
-                        PayPalPayment.PAYMENT_INTENT_SALE);
-
-                Intent intent = new Intent(getActivity(), PaymentActivity.class);
-
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-
-                startActivityForResult(intent, REQUEST_PAYPAL_PAYMENT);
+                ((FinalChkoutActivity)getActivity()).callPayPal();
+            } else if (status == 0) {
+                AlertDialogHelper.showAlertDialog(getActivity(),
+                        message, "Alert");
+            } else {
+                AlertDialogHelper.showAlertDialog(getActivity(),
+                        getString(R.string.server_message), "Alert");
             }
-            else
-                if(status==0)
-                {
-                    AlertDialogHelper.showAlertDialog(getActivity(),
-                            message, "Alert");
-                }
-            else
-                {
-                    AlertDialogHelper.showAlertDialog(getActivity(),
-                            getString(R.string.server_message), "Alert");
-                }
         }
     }
 
     private void getOrderStatusData() {
 
-        orderStatusArrayList=new ArrayList<>();
+        orderStatusArrayList = new ArrayList<>();
         Cursor distinctItemCursor = databaseHelper.getDistinctItems();
 
         if (distinctItemCursor != null) {
@@ -327,14 +298,14 @@ public class PickupTabFragment extends Fragment {
                                     int indexname = modCursor.getColumnIndex(databaseHelper.MOD_COLUMN);
                                     int indexprice = modCursor.getColumnIndex(databaseHelper.MOD_PRICE);
                                     int indexqty = modCursor.getColumnIndex(databaseHelper.QUANTITY);
-                                    int indexModActualId=modCursor.getColumnIndex(databaseHelper.MOD_ACTUAL_ID);
+                                    int indexModActualId = modCursor.getColumnIndex(databaseHelper.MOD_ACTUAL_ID);
 
                                     String mod_name = modCursor.getString(indexname);
                                     String mod_price = modCursor.getString(indexprice);
                                     String quantity = modCursor.getString(indexqty);
-                                    String mod_id=modCursor.getString(indexModActualId);
+                                    String mod_id = modCursor.getString(indexModActualId);
 
-                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true,mod_price,mod_id);
+                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true, mod_price, mod_id);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
@@ -345,39 +316,6 @@ public class PickupTabFragment extends Fragment {
                 }
             }
         }
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_PAYPAL_PAYMENT) {
-            if (resultCode == Activity.RESULT_OK) {
-                PaymentConfirmation confirm = data
-                        .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                if (confirm != null) {
-                    try {
-                        System.out.println("Responseeee" + confirm);
-                        Log.i("paymentExample", confirm.toJSONObject().toString());
-
-
-                        JSONObject jsonObj = new JSONObject(confirm.toJSONObject().toString());
-
-                        String paymentId = jsonObj.getJSONObject("response").getString("id");
-                        System.out.println("payment id:-==" + paymentId);
-                        Toast.makeText(getActivity(), paymentId, Toast.LENGTH_LONG).show();
-
-                    } catch (JSONException e) {
-                        Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
-                    }
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i("paymentExample", "The user canceled.");
-            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-                Log.i("paymentExample", "An invalid Payment was submitted. Please see the docs.");
-            }
-        }
-
-
     }
 
 

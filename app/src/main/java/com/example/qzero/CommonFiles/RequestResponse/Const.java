@@ -31,6 +31,8 @@ public class Const {
     public static String FORGOT_PASSWORD = "Account/ForgotPassword";
     public static String GET_ITEM_DETAIL = "venue/getitemdetail";
     public static String POST_CHECKOUT = "checkout/PostCheckout";
+    public static String GET_CHKOUT_DETAIL = "checkout/GetCheckoutDetails?Outletid=";
+    public static String ADD_EDIT_BILL_ADDRESS="checkout/AddEditBillingAddress?";
 
     //Intialize jsonArray parameter
 
@@ -44,7 +46,6 @@ public class Const {
     public static String TAG_JsonChoiceObj = "choiceGroups";
     public static String TAG_JsonModObj = "modifiers";
     public static String TAG_MODIFIER_ID = "modifierId";
-
 
 
     //Initialize message and status parameter
@@ -145,11 +146,10 @@ public class Const {
     public static String TAG_DISCOUNT_AMOUNT = "discountAmount";
 
     //Constant for choice group
-    public static String TAG_IS_COMPULSORY="isCompulsory";
+    public static String TAG_IS_COMPULSORY = "isCompulsory";
 
     //Constant for modifiers
-    public static String TAG_IS_DEFAULT="isDefault";
-
+    public static String TAG_IS_DEFAULT = "isDefault";
 
 
     //Create odered items constant
@@ -163,5 +163,48 @@ public class Const {
     public static String TAG_DISC_DETAIL = "discountDescription";
     public static String TAG_AFTER_DISC = "afterDiscount";
     public static String TAG_ID = "id";
+
+
+    //Create getChkOutDetail Constant
+
+    public static String TAG_CHKOUT_BILLING_ADDRESS = "billingAddress";
+    public static String TAG_CHKOUT_SHIPPING_ADDRESS = "shipping_Address";
+    public static String TAG_TABLE_NO = "tableNumbers";
+
+
+    public static String TAG_SHIPPING_ID = "shippingAddressId";
+    public static String TAG_BILLING_ID = "billingAddressId";
+    public static String TAG_CUST_ID = "customerId";
+    public static String TAG_FNAME = "firstName";
+    public static String TAG_LNAME = "lastName";
+    public static String TAG_ADDRESS1 = "address1";
+    public static String TAG_ADDRESS2 = "address2";
+    public static String TAG_COUNTRY_NAME="countryName";
+    public static String TAG_STATE_NAME="stateName";
+    public static String TAG_COUNTRY_ID = "countyId";
+    public static String TAG_ZIPCODE= "zipCode";
+    public static String TAG_EMAIL_ADD = "emailAddress";
+   // public static String TAG_PHONE_NO = "phoneNo";
+
+//    public static String TAG_VENUE_ID = "venueId";
+//    public static String TAG_OUTLET_ID = "outletId";
+    public static String TAG_PREFIX = "prefix";
+    public static String TAG_SEAT_NUMBER = "seatNumber";
+    public static String TAG_ASSIGN_NUMBER= "assignSeatNumber";
+
+    public static String TAG_TABLE_NO_ID="tablenoId";
+
+    //ADD EDIT SHIPPING BILLING ADDRESS
+    public static String TAG_ADD_FIRSTNAME="FirstName=";
+    public static String TAG_ADD_LASTNAME="&LastName=";
+    public static String TAG_ADD_ADDRESS="&Address=";
+    public static String TAG_ADD_COUNTRYID="&CountryId=";
+    public static String TAG_ADD_STATEID="&StateId=";
+    public static String TAG_ADD_CITY="&City=";
+    public static String TAG_ADD_ZIPCODE="&ZipCode=";
+    public static String TAG_ADD_PHONE="&PhoneNo=";
+    public static String TAG_ADD_EMAIL="&Email=";
+    public static String TAG_ADD_BILLING_ADDRESS_ID ="&BillingAddressId=";
+    public static String TAG_ADD_SHIPPING_ADDRESS_ID="&ShippingAddressId=";
 
 }

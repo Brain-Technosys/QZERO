@@ -2,16 +2,27 @@ package com.example.qzero.Outlet.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterBillingAddress;
 import com.example.qzero.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +46,9 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
     int type = 1;
 
     CustomAdapterBillingAddress adapter;
-    String[] name = {"A", "B", "C", "D", "E"};
+
+    ShippingAddSession shippingAddSession;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +58,19 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         ButterKnife.inject(this);
 
         txtViewHeading.setText("Shipping Address");
-        inflateAddressList();
+
+        shippingAddSession = new ShippingAddSession(this);
+
+        if (CheckInternetHelper.checkInternetConnection(ShippingAddressActivity.this))
+            new GetShipingAddress().execute();
+        else
+            AlertDialogHelper.showAlertDialog(this, String.valueOf(R.string.internet_connection_message), "ALERT");
+
 
     }
 
     private void inflateAddressList() {
 
-        listAddress = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            HashMap<String, String> hmAddressDetail = new HashMap<>();
-
-            hmAddressDetail.put("NAME", name[i]);
-            hmAddressDetail.put("ADDRESSLINE1", "B-84,D Block");
-            hmAddressDetail.put("CITY", "Noida,sec 63");
-            hmAddressDetail.put("STATE", "UP");
-            hmAddressDetail.put("COUNTRY", "India");
-            hmAddressDetail.put("POSTCODE", "110017");
-            hmAddressDetail.put("CONTACT", "999999999");
-
-            listAddress.add(hmAddressDetail);
-        }
 
         View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
 
@@ -76,8 +81,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         btnAddAddress.setOnClickListener(this);
 
         listShippingAddress.addFooterView(footerView);
-       adapter = new CustomAdapterBillingAddress(ShippingAddressActivity.this, listAddress, type);
 
+        adapter = new CustomAdapterBillingAddress(ShippingAddressActivity.this, listAddress, type);
         listShippingAddress.setAdapter(adapter);
 
     }
@@ -104,17 +109,84 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
-        finish();
+
+        Intent intent = new Intent(ShippingAddressActivity.this, FinalChkoutActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
-        finish();
+
+       finish();
     }
 
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
         listShippingAddress.setAdapter(adapter);
+    }
+
+    private class GetShipingAddress extends AsyncTask<String, String, String> {
+
+        JSONArray jsonArrayShippingAddressDetail;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(ShippingAddressActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+
+            if (shippingAddSession.getChkOutDetail() == null) {
+            } else {
+                try {
+                    JSONObject jsonObjResult = new JSONObject(shippingAddSession.getChkOutDetail());
+                    Log.e("jsonObjResult", shippingAddSession.getChkOutDetail());
+                    jsonArrayShippingAddressDetail = jsonObjResult.getJSONArray(Const.TAG_CHKOUT_SHIPPING_ADDRESS);
+
+                    listAddress = new ArrayList<>();
+
+                    for (int i = 0; i < jsonArrayShippingAddressDetail.length(); i++) {
+
+                        JSONObject jsonShippingAddress = jsonArrayShippingAddressDetail.getJSONObject(i);
+
+                        HashMap<String, String> hmAddressDetail = new HashMap<>();
+
+                        hmAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_CUST_ID));
+                        hmAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME) + " " + jsonShippingAddress.getString(Const.TAG_LNAME));
+                        hmAddressDetail.put(Const.TAG_ADDRESS1, jsonShippingAddress.getString(Const.TAG_ADDRESS1));
+                        hmAddressDetail.put(Const.TAG_ADDRESS2, jsonShippingAddress.getString(Const.TAG_ADDRESS2));
+                        hmAddressDetail.put(Const.TAG_CITY, jsonShippingAddress.getString(Const.TAG_CITY));
+                        hmAddressDetail.put(Const.TAG_STATE, jsonShippingAddress.getString(Const.TAG_STATE_NAME));
+                        hmAddressDetail.put(Const.TAG_COUNTRY, jsonShippingAddress.getString(Const.TAG_COUNTRY_NAME));
+                        hmAddressDetail.put(Const.TAG_ZIPCODE, jsonShippingAddress.getString(Const.TAG_ZIPCODE));
+                        hmAddressDetail.put(Const.TAG_PHONE_NO, jsonShippingAddress.getString(Const.TAG_PHONE_NO));
+                        hmAddressDetail.put(Const.TAG_EMAIL_ADD, jsonShippingAddress.getString(Const.TAG_EMAIL_ADD));
+
+                        listAddress.add(hmAddressDetail);
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (shippingAddSession.getChkOutDetail() == null) {
+
+            } else {
+                inflateAddressList();
+            }
+            ProgresBar.stop();
+        }
     }
 }

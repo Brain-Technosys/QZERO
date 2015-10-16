@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.Outlet.Activities.AddAddressActivity;
 import com.example.qzero.Outlet.Activities.BillingAddressActivity;
@@ -113,13 +114,13 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
     private void addAddressDetail(Holder holder, int i, View view) {
 
-        holder.addressName.setText(addressDetail.get(i).get("NAME"));
-        holder.addressLine1.setText(addressDetail.get(i).get("ADDRESSLINE1"));
-        holder.addressCity.setText(addressDetail.get(i).get("CITY"));
-        holder.addressState.setText(addressDetail.get(i).get("STATE"));
-        holder.addressCountry.setText(addressDetail.get(i).get("COUNTRY"));
-        holder.addressPostcode.setText(addressDetail.get(i).get("POSTCODE"));
-        holder.addressContact.setText(addressDetail.get(i).get("CONTACT"));
+        holder.addressName.setText(addressDetail.get(i).get(Const.TAG_FNAME));
+        holder.addressLine1.setText(addressDetail.get(i).get(Const.TAG_ADDRESS1));
+        holder.addressCity.setText(addressDetail.get(i).get(Const.TAG_CITY));
+        holder.addressState.setText(addressDetail.get(i).get(Const.TAG_STATE));
+        holder.addressCountry.setText(addressDetail.get(i).get(Const.TAG_COUNTRY));
+        holder.addressPostcode.setText(addressDetail.get(i).get(Const.TAG_ZIPCODE));
+        holder.addressContact.setText(addressDetail.get(i).get(Const.TAG_PHONE_NO));
 
     }
 
@@ -145,15 +146,17 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
         //Handling chkBox selection
         if (type == 1) {
-            if (pos == shippingAddSession.getShippingAddressPos())
+            if (pos == shippingAddSession.getShippingAddressPos()) {
                 holder.rb_selected_address.setChecked(true);
-            else
+               // storeAddressInSession(String.valueOf(pos));
+            } else
                 holder.rb_selected_address.setChecked(false);
 
         } else if (type == 2) {
-            if (pos == shippingAddSession.getBillingAddressPos())
+            if (pos == shippingAddSession.getBillingAddressPos()) {
                 holder.rb_selected_address.setChecked(true);
-            else
+              //  storeAddressInSession(String.valueOf(pos));
+            } else
                 holder.rb_selected_address.setChecked(false);
         }
 
@@ -164,51 +167,41 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
                 // addressDetail.get()
                 String pos = String.valueOf(view.getTag());
                 //radioButtonSelection(holder);
-                notifyDataSetChanged();
+               // notifyDataSetChanged();
 
-                HashMap<String, String> hmAddressDetail = addressDetail.get(Integer.parseInt(pos));
-                String name = hmAddressDetail.get("NAME");
-                String address = hmAddressDetail.get("ADDRESSLINE1") + ", " + hmAddressDetail.get("CITY") + ", " + hmAddressDetail.get("STATE") + ", " +
-                        hmAddressDetail.get("COUNTRY") + ", " + hmAddressDetail.get("POSTCODE");
-                String contact = hmAddressDetail.get("CONTACT");
+                storeAddressInSession(pos);
 
-                //For Shipping Address
-                if (type == 1) {
-                    shippingAddSession.saveShippingName(name);
-                    shippingAddSession.saveShippingAddressDetail(address);
-                    shippingAddSession.saveShippingContact(contact);
-                    shippingAddSession.saveShippingAddressPos(Integer.parseInt(pos));
-                    ((ShippingAddressActivity)context).notifyAdapter();
-
-                    // for Billing Address
-                } else if (type == 2) {
-                    shippingAddSession.saveBillingName(name);
-                    shippingAddSession.saveBillingAddress(address);
-                    shippingAddSession.saveBillingContact(contact);
-                    shippingAddSession.saveBillingAddressPos(Integer.parseInt(pos));
-                    ((BillingAddressActivity)context).notifyAdapter();
-
-                }
             }
         });
     }
 
-//    private void radioButtonSelection(Holder holder) {
-//        for (int pos = 0; pos < addressDetail.size(); pos++) {
-//            if (type == 1) {
-//                if (pos == shippingAddSession.getShippingAddressPos())
-//                    holder.rb_selected_address.setChecked(true);
-//                else
-//                    holder.rb_selected_address.setChecked(false);
-//
-//            } else if (type == 2) {
-//                if (pos == shippingAddSession.getBillingAddressPos())
-//                    holder.rb_selected_address.setChecked(true);
-//                else
-//                    holder.rb_selected_address.setChecked(false);
-//            }
-//        }
-//    }
+
+    public void storeAddressInSession(String pos) {
+
+        HashMap<String, String> hmAddressDetail = addressDetail.get(Integer.parseInt(pos));
+        String name = hmAddressDetail.get(Const.TAG_FNAME);
+        String address = hmAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmAddressDetail.get(Const.TAG_CITY) + ", " + hmAddressDetail.get(Const.TAG_STATE) + ", " +
+                hmAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmAddressDetail.get(Const.TAG_ZIPCODE);
+        String contact = hmAddressDetail.get(Const.TAG_PHONE_NO);
+
+        //For Shipping Address
+        if (type == 1) {
+            shippingAddSession.saveShippingName(name);
+            shippingAddSession.saveShippingAddressDetail(address);
+            shippingAddSession.saveShippingContact(contact);
+            shippingAddSession.saveShippingAddressPos(Integer.parseInt(pos));
+            ((ShippingAddressActivity) context).notifyAdapter();
+
+            // for Billing Address
+        } else if (type == 2) {
+            shippingAddSession.saveBillingName(name);
+            shippingAddSession.saveBillingAddress(address);
+            shippingAddSession.saveBillingContact(contact);
+            shippingAddSession.saveBillingAddressPos(Integer.parseInt(pos));
+            ((BillingAddressActivity) context).notifyAdapter();
+
+        }
+    }
 
     private class Holder {
         TextView addressName;

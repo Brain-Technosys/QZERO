@@ -22,6 +22,7 @@ import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
+import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -68,6 +69,8 @@ public class LoginUserFragment extends Fragment {
     int status;
     String LOGINTYPE;
 
+    GetCheckOutDetails getCheckOutDetails;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceView) {
@@ -81,6 +84,8 @@ public class LoginUserFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setFont();
+
+        getCheckOutDetails=new GetCheckOutDetails(getActivity(),"login");
 
     }
 
@@ -206,10 +211,9 @@ public class LoginUserFragment extends Fragment {
 
                 clearFields();
                 if (LOGINTYPE.equals("CHECKOUT")) {
-                    Intent intent = new Intent(getActivity(),
-                            FinalChkoutActivity.class);
-                    getActivity().finish();
-                    startActivity(intent);
+
+                    getCheckOutDetails.managingChkoutDetailAPI();
+
                 } else if(LOGINTYPE.equals("SIMPLELOGIN")) {
                     Intent intent = new Intent(getActivity(),
                             DashBoardActivity.class);

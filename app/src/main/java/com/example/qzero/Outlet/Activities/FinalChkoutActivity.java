@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.qzero.CommonFiles.Common.Utility;
@@ -30,7 +32,16 @@ import com.example.qzero.Outlet.Fragments.ChkoutCatFragment;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
 import com.example.qzero.R;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -97,6 +108,21 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     UserSession userSession;
 
+
+    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
+
+    private static final String CONFIG_CLIENT_ID = "AZoJOGOvT2BOO7sVIRSVRG0Pwtc8XUX0Vl7RykN3KUASlTfkFhr7PQnwQQvo6dS37kf32irnxNwbH8kP";
+
+    private static final int REQUEST_PAYPAL_PAYMENT = 1;
+
+    private static PayPalConfiguration config = new PayPalConfiguration()
+            .environment(CONFIG_ENVIRONMENT)
+            .clientId(CONFIG_CLIENT_ID)
+                    // The following are only used in PayPalFuturePaymentActivity.
+            .merchantName("Android Hub 4 You")
+            .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
+            .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +157,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
         AddChkOutCatfrag();
 
         setFont();
+
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        startService(intent);
+
     }
 
     private void setFont() {
@@ -363,6 +394,50 @@ public class FinalChkoutActivity extends AppCompatActivity {
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
         finish();
+    }
+
+    public void callPayPal()
+    {
+        PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(5), "USD", "I-Shopping",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        Intent intent = new Intent(this, PaymentActivity.class);
+
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
+
+        startActivityForResult(intent, REQUEST_PAYPAL_PAYMENT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_PAYPAL_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation confirm = data
+                        .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+                        System.out.println("Responseeee" + confirm);
+                        Log.i("paymentExample", confirm.toJSONObject().toString());
+
+
+                        JSONObject jsonObj = new JSONObject(confirm.toJSONObject().toString());
+
+                        String paymentId = jsonObj.getJSONObject("response").getString("id");
+                        System.out.println("payment id:-==" + paymentId);
+                        Toast.makeText(this, paymentId, Toast.LENGTH_LONG).show();
+
+                    } catch (JSONException e) {
+                        Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.i("paymentExample", "The user canceled.");
+            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Log.i("paymentExample", "An invalid Payment was submitted. Please see the docs.");
+            }
+        }
+
+
     }
 
 

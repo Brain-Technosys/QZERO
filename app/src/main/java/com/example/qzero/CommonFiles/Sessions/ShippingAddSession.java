@@ -29,6 +29,8 @@ public class ShippingAddSession {
     private static final String TAG_SHIPPING_NAME = "tag_shipping_name";
     private static final String TAG_SHIPPING_CONTACT = "tag_shipping_contact";
 
+    private static final String TAG_CHKOUT_DETAIL = "chkout_detail";
+
     public ShippingAddSession(Context context) {
         this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -78,6 +80,13 @@ public class ShippingAddSession {
         editor.commit();
     }
 
+    //storing chkout_detail jsonObject detail as string
+
+    public void saveChkOutDetail(String chkOutDetail) {
+        editor.putString(TAG_CHKOUT_DETAIL, chkOutDetail);
+        editor.commit();
+    }
+
     //get Address of different type
     public String getBillingAddress() {
         return pref.getString(TAG_BILLING_ADD, null);
@@ -107,9 +116,24 @@ public class ShippingAddSession {
         return pref.getString(TAG_SHIPPING_CONTACT, null);
     }
 
-
     public int getShippingAddressPos() {
         return pref.getInt(TAG_SHIPPING_ADD_POS, 0);
+    }
+
+    //fetching chkOutDetail json as string
+    public String getChkOutDetail() {
+        return pref.getString(TAG_CHKOUT_DETAIL, null);
+    }
+
+
+    public void clearShippingSharPref(){
+        editor.remove(TAG_SHIPPING_ADD);
+        editor.commit();
+    }
+
+    public void clearBillingSharPref(){
+        editor.remove(TAG_BILLING_ADD);
+        editor.commit();
     }
 
 

@@ -2,8 +2,10 @@ package com.example.qzero.Outlet.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,8 +14,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterBillingAddress;
 import com.example.qzero.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +49,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
     Button btnAddAddress;
     Button btnPlaceOrder;
     int type = 2;
-    String[] name={"Braintechnosys pvt. ltd","Himanshu Shekher","Arpit","Rahul","Vijay Dina Nath"};
+
+    ShippingAddSession shippingAddSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,28 +60,17 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
         ButterKnife.inject(this);
 
         txtViewHeading.setText("Billing Address");
-        inflateAddressList();
 
+        shippingAddSession = new ShippingAddSession(this);
+
+        if (CheckInternetHelper.checkInternetConnection(BillingAddressActivity.this))
+            new GetBillingAddressDetail().execute();
+        else
+            AlertDialogHelper.showAlertDialog(this, String.valueOf(R.string.internet_connection_message), "ALERT");
 
     }
 
     private void inflateAddressList() {
-
-        listAddress = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            HashMap<String, String> hmAddressDetail = new HashMap<>();
-
-            hmAddressDetail.put("NAME", name[i]);
-            hmAddressDetail.put("ADDRESSLINE1", "B-84,D Block");
-            hmAddressDetail.put("CITY", "Noida,sec 63");
-            hmAddressDetail.put("STATE", "UP");
-            hmAddressDetail.put("COUNTRY", "India");
-            hmAddressDetail.put("POSTCODE", "110017");
-            hmAddressDetail.put("CONTACT", "999999999");
-
-            listAddress.add(hmAddressDetail);
-        }
-
 
         View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
         listBillingAddress.addFooterView(footerView);
@@ -105,19 +106,86 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
-        finish();
+
+        Intent intent = new Intent(BillingAddressActivity.this, FinalChkoutActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
-        finish();
+       finish();
     }
 
-//
 
-    public void notifyAdapter(){
+    public void notifyAdapter() {
         adapter.notifyDataSetChanged();
         listBillingAddress.setAdapter(adapter);
+    }
+
+    private class GetBillingAddressDetail extends AsyncTask<String, String, String> {
+
+        JSONArray jsonArrayBillingAddressDetail;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(BillingAddressActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            if (shippingAddSession.getChkOutDetail() == null) {
+
+            } else {
+
+
+                try {
+                    JSONObject jsonObjResult = new JSONObject(shippingAddSession.getChkOutDetail());
+
+                    jsonArrayBillingAddressDetail = jsonObjResult.getJSONArray(Const.TAG_CHKOUT_BILLING_ADDRESS);
+
+                    listAddress = new ArrayList<>();
+
+                    for (int i = 0; i < jsonArrayBillingAddressDetail.length(); i++) {
+
+                        JSONObject jsonBillingAddress = jsonArrayBillingAddressDetail.getJSONObject(i);
+
+                        HashMap<String, String> hmAddressDetail = new HashMap<>();
+
+                        hmAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
+                        hmAddressDetail.put(Const.TAG_FNAME, jsonBillingAddress.getString(Const.TAG_FNAME) + " " + jsonBillingAddress.getString(Const.TAG_LNAME));
+                        hmAddressDetail.put(Const.TAG_ADDRESS1, jsonBillingAddress.getString(Const.TAG_ADDRESS1));
+                        hmAddressDetail.put(Const.TAG_ADDRESS2, jsonBillingAddress.getString(Const.TAG_ADDRESS2));
+                        hmAddressDetail.put(Const.TAG_CITY, jsonBillingAddress.getString(Const.TAG_CITY));
+                        hmAddressDetail.put(Const.TAG_STATE, jsonBillingAddress.getString(Const.TAG_STATE_NAME));
+                        hmAddressDetail.put(Const.TAG_COUNTRY, jsonBillingAddress.getString(Const.TAG_COUNTRY_NAME));
+                        hmAddressDetail.put(Const.TAG_ZIPCODE, jsonBillingAddress.getString(Const.TAG_ZIPCODE));
+                        hmAddressDetail.put(Const.TAG_PHONE_NO, jsonBillingAddress.getString(Const.TAG_PHONE_NO));
+                        hmAddressDetail.put(Const.TAG_EMAIL_ADD, jsonBillingAddress.getString(Const.TAG_EMAIL_ADD));
+
+                        listAddress.add(hmAddressDetail);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (shippingAddSession.getChkOutDetail() == null) {
+
+            } else {
+                inflateAddressList();
+            }
+            ProgresBar.stop();
+        }
     }
 }

@@ -30,8 +30,6 @@
         android:layout_below="@+id/relLayTitle"
         android:background="@color/searchbar_color"
         android:textColor="#000000" />
-    <!--android:background="@color/primary_color"-->
-    />
 
     <ScrollView
         android:id="@+id/outlet_scrollView"
@@ -46,7 +44,6 @@
             android:id="@+id/tableLayoutItems"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:background="@android:color/white"
             android:gravity="center_horizontal"
             android:stretchColumns="*" />

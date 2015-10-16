@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +20,16 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterCartItem;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
@@ -29,6 +37,11 @@ import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
 import com.example.qzero.Outlet.ObjectClasses.OrderItemStatusModel;
 import com.example.qzero.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,11 +78,14 @@ public class ViewCartActivity extends Activity {
     //Reference of DatabaseHelper class to access its components
     private DatabaseHelper databaseHelper = null;
 
+    private GetCheckOutDetails getCheckOutDetails;
+
     int pos;
     int itemsLength;
     int position = 0;
 
     String itemName;
+    String outletId;
 
     Cursor itemCursor;
     Cursor itemIdCursorMod;
@@ -80,6 +96,7 @@ public class ViewCartActivity extends Activity {
     View footerView;
 
     UserSession userSession;
+    ShippingAddSession shippingAddSession;
 
 
     @Override
@@ -89,9 +106,13 @@ public class ViewCartActivity extends Activity {
 
         ButterKnife.inject(this);
 
+
+
         userSession = new UserSession(this);
 
         databaseHelper = new DatabaseHelper(this);
+
+        getCheckOutDetails=new GetCheckOutDetails(this,"checkout");
 
         hashMapModifiers = new HashMap<>();
         hashMapListItems = new HashMap<>();
@@ -100,7 +121,6 @@ public class ViewCartActivity extends Activity {
         mainCartItem = new ArrayList<>();
 
         setFont();
-
 
         getDataFromDatabase();
 
@@ -115,7 +135,6 @@ public class ViewCartActivity extends Activity {
             listCartItem.setVisibility(View.VISIBLE);
         }
     }
-
 
     private void setFont() {
         FontHelper.setFontFace(txtViewHeading, FontHelper.FontType.FONT, this);
@@ -285,8 +304,9 @@ public class ViewCartActivity extends Activity {
             public void onClick(View view) {
                 UserSession userSession = new UserSession(ViewCartActivity.this);
                 if (userSession.isUserLoggedIn()) {
-                    Intent intent = new Intent(ViewCartActivity.this, FinalChkoutActivity.class);
-                    startActivity(intent);
+
+                    getCheckOutDetails.managingChkoutDetailAPI();
+
                 } else {
                     Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);
                     intent.putExtra("LOGINTYPE", "CHECKOUT");
@@ -369,4 +389,6 @@ public class ViewCartActivity extends Activity {
     public void gotoOutlet() {
         finish();
     }
+
+
 }

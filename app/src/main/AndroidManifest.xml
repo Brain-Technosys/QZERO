@@ -76,15 +76,21 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Outlet.Activities.SearchActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
 
         <activity
             android:name=".Outlet.Activities.ViewCartActivity"
-            android:label="@string/title_activity_view_cart"></activity>
+            android:label="@string/title_activity_view_cart"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".Outlet.Activities.FinalChkoutActivity"
-            android:label="@string/title_activity_view_cart"></activity>
+            android:label="@string/title_activity_view_cart"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity
             android:name=".Outlet.Activities.BillingAddressActivity"
