@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -150,8 +151,8 @@ public class AddAddressActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_submit)
     void addAddress() {
-
-        getValueFromEditText();
+        Toast.makeText(this, "Coming Soon.", Toast.LENGTH_SHORT).show();
+       /* getValueFromEditText();
 
         //ShippingAddressActivity
         if (addressType == 1) {
@@ -173,7 +174,7 @@ public class AddAddressActivity extends AppCompatActivity {
         } else {
             //do nothing
 
-        }
+        }*/
     }
 
     public void callAddEditAddressAPI(String addTypeID) {

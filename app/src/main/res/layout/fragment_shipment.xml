@@ -134,7 +134,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="ADD NEW"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/txt_msg_shipping"

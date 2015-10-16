@@ -187,87 +187,6 @@ public class PickupTabFragment extends Fragment {
         }
     }
 
-    private void postToCheckOut(String jsonDetails) {
-        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
-            new PostCheckOut().execute(jsonDetails);
-        } else {
-            AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.server_message), "Alert");
-        }
-    }
-
-    private class PostCheckOut extends AsyncTask<String, String, String> {
-
-        String message;
-        int status;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            ProgresBar.start(getActivity());
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            JsonParser jsonParser = new JsonParser();
-
-            String url = Const.BASE_URL + Const.POST_CHECKOUT;
-
-            String parameter = params[0];
-            String userId = userSession.getUserID();
-
-            Log.e("parameter", parameter);
-            Log.e("userId", userId);
-
-            String jsonString = jsonParser.executePost(url, parameter, userId, Const.TIME_OUT);
-
-            Log.e("json", jsonString);
-
-
-            try {
-                JSONObject jsonObject = new JSONObject(jsonString);
-
-                if (jsonObject != null) {
-                    Log.e("json", jsonString);
-                    status = jsonObject.getInt("status");
-                    message = jsonObject.getString("message");
-                    if (status == 1) {
-
-                    }
-
-                    //  orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
-                }
-
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                status = -1;
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-                status = -1;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            super.onPostExecute(result);
-            ProgresBar.stop();
-
-            if (status == 1) {
-
-                ((FinalChkoutActivity)getActivity()).callPayPal();
-            } else if (status == 0) {
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        message, "Alert");
-            } else {
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        getString(R.string.server_message), "Alert");
-            }
-        }
-    }
-
     private void getOrderStatusData() {
 
         orderStatusArrayList = new ArrayList<>();
@@ -317,6 +236,14 @@ public class PickupTabFragment extends Fragment {
             }
         }
     }
+
+    private void postToCheckOut(String jsonDetails) {
+
+        ((FinalChkoutActivity)getActivity()).callPostCheckout(jsonDetails);
+
+    }
+
+
 
 
 }

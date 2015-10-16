@@ -118,8 +118,6 @@ public class ShipmentTabFragment extends Fragment {
 
     Context context;
 
-    DatabaseHelper dbhelper;
-
     int outletId;
     Double totalAmount;
     Double discountAmount;
@@ -164,24 +162,6 @@ public class ShipmentTabFragment extends Fragment {
 
     ArrayList<OrderItemStatusModel> orderStatusArrayList;
 
-   /* private static final int REQUEST_CODE_PAYMENT = 1;
-
-    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
-
-    private static final String CONFIG_CLIENT_ID = "ASEg2Vc9lKh1QephLG7NYj4kzcL6MuMzo4GIGeMM5zqaDjxYwtliRgJkxnZx6utGsSfb81Kok3atIvR4";
-
-
-    private static final int REQUEST_PAYPAL_PAYMENT = 1;*/
-
-
-    // PayPal configuration
-
-/*
-    private static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(CONFIG_ENVIRONMENT)
-            .clientId(CONFIG_CLIENT_ID);*/
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -206,10 +186,6 @@ public class ShipmentTabFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-      /*  Intent intent = new Intent(getActivity(), PayPalService.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-        getActivity().startService(intent);*/
 
         shippingAddSession = new ShippingAddSession(getActivity());
         databaseHelper=new DatabaseHelper(getActivity());
@@ -279,16 +255,16 @@ public class ShipmentTabFragment extends Fragment {
 
         if (shippingAddSession.getShippingAddress() == null) {
 
-            if (hmShipAddressDetail.isEmpty()) {
+            if (hmShipAddressDetail.isEmpty() || chk_shipmentChoice.isChecked()) {
                 btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
                 rly_shippingAddress.setVisibility(View.GONE);
                 txt_msg_shipping.setVisibility(View.GONE);
-                rly_shipping_addressChoice.setVisibility(View.VISIBLE);
+
 
             } else {
 
                 rly_shippingAddress.setVisibility(View.VISIBLE);
-                rly_shipping_addressChoice.setVisibility(View.INVISIBLE);
+
                 txt_msg_shipping.setVisibility(View.GONE);
 
                 //Updating Shipping Address
@@ -299,7 +275,7 @@ public class ShipmentTabFragment extends Fragment {
 
         } else {
             rly_shippingAddress.setVisibility(View.VISIBLE);
-            rly_shipping_addressChoice.setVisibility(View.INVISIBLE);
+
             txt_msg_shipping.setVisibility(View.GONE);
             //Updating Shipping Address
             txt_user_ship.setText(shippingAddSession.getShippingName());
@@ -353,11 +329,7 @@ public class ShipmentTabFragment extends Fragment {
             jsonObjDetails.put("discountAmount",discountAmount);
             jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
-           /*jsonObjDetails.put("taxApplicable",taxApplicable);
-            jsonObjDetails.put("tax",tax);
-            jsonObjDetails.put("tableNoId",tableNoId);
-            jsonObjDetails.put("tableNO",tableNO );*/
-          //  jsonObjDetails.put("orderNotes",orderNotes );
+
             jsonObjDetails.put("billingAddressId",billingAddressId );
             jsonObjDetails.put("deliveryType",2);
 
@@ -412,100 +384,9 @@ public class ShipmentTabFragment extends Fragment {
 
     private void postToCheckOut(String jsonDetails)
     {
-        if(CheckInternetHelper.checkInternetConnection(getActivity())) {
-            new PostCheckOut().execute(jsonDetails);
-        }
-        else
-        {
-            AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.server_message),"Alert");
-        }
+        ((FinalChkoutActivity)getActivity()).callPostCheckout(jsonDetails);
     }
 
-    private class PostCheckOut extends AsyncTask<String, String, String> {
-
-        String message;
-        int status;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            ProgresBar.start(getActivity());
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            JsonParser jsonParser = new JsonParser();
-
-            String url = Const.BASE_URL + Const.POST_CHECKOUT;
-
-            String parameter=params[0];
-            String userId=userSession.getUserID();
-
-            Log.e("parameter",parameter);
-            Log.e("userId",userId);
-
-            String jsonString = jsonParser.executePost(url,parameter,userId,Const.TIME_OUT);
-
-            Log.e("json",jsonString);
-
-
-            try {
-                JSONObject jsonObject = new JSONObject(jsonString);
-
-                if (jsonObject != null) {
-                    Log.e("json", jsonString);
-                    status = jsonObject.getInt("status");
-                    message = jsonObject.getString("message");
-                    if (status == 1) {
-
-                    }
-
-                    //  orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
-                }
-
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                status = -1;
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-                status = -1;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            super.onPostExecute(result);
-            ProgresBar.stop();
-
-            if(status==1) {
-
-               /* PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(1), "USD", "androidhub4you.com",
-                        PayPalPayment.PAYMENT_INTENT_SALE);
-
-                Intent intent = new Intent(getActivity(), PaymentActivity.class);
-
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-
-
-                startActivityForResult(intent, REQUEST_PAYPAL_PAYMENT);*/
-            }
-            else
-            if(status==0)
-            {
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        message, "Alert");
-            }
-            else
-            {
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        getString(R.string.server_message), "Alert");
-            }
-        }
-    }
 
     private void getOrderStatusData() {
 
@@ -558,49 +439,31 @@ public class ShipmentTabFragment extends Fragment {
     }
 
 
-   /* @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_PAYPAL_PAYMENT) {
-            if (resultCode == Activity.RESULT_OK) {
-                PaymentConfirmation confirm = data
-                        .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                if (confirm != null) {
-                    try {
-                        System.out.println("Responseeee"+confirm);
-                        Log.i("paymentExample", confirm.toJSONObject().toString());
-
-
-                        JSONObject jsonObj=new JSONObject(confirm.toJSONObject().toString());
-
-                        String paymentId=jsonObj.getJSONObject("response").getString("id");
-                        System.out.println("payment id:-=="+paymentId);
-                        Toast.makeText(getActivity(), paymentId, Toast.LENGTH_LONG).show();
-
-                    } catch (JSONException e) {
-                        Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
-                    }
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i("paymentExample", "The user canceled.");
-            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-                Log.i("paymentExample", "An invalid Payment was submitted. Please see the docs.");
-            }
-        }
-
-
-    }*/
-
     @OnCheckedChanged(R.id.chk_shipmentChoice)
     public void chk_shipmentChoice(boolean checked) {
         if (checked == true) {
-            //do Something to store address of shipping address in billing address
-        } else {
+            rly_shippingAddress.setVisibility(View.GONE);
+            btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
+            txt_msg_shipping.setVisibility(View.GONE);
+            btn_add_new_billing_address.setVisibility(View.GONE);
+        }
+        else {
+            if(hmShipAddressDetail.isEmpty()) {
+                rly_shippingAddress.setVisibility(View.GONE);
+                btn_add_new_shipping_address.setVisibility(View.VISIBLE);
+                txt_msg_shipping.setVisibility(View.GONE);
+            }
+            else
+            {
+                btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
+                rly_shippingAddress.setVisibility(View.VISIBLE);
+                txt_msg_shipping.setVisibility(View.GONE);
 
-            btn_add_new_shipping_address.setVisibility(View.VISIBLE);
-            rly_shipping_addressChoice.setVisibility(View.INVISIBLE);
-            txt_msg_shipping.setVisibility(View.VISIBLE);
-
-
+                //Updating Billing Address
+                txt_user_ship.setText(bill_add_name);
+                txt_shipping_address.setText(bill_add_address);
+                txt_shipping_contact.setText(bill_add_contact);
+            }
         }
 
     }

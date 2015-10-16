@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 
@@ -24,13 +25,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
+import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.Fragments.ChkoutCatFragment;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
+import com.example.qzero.Outlet.ObjectClasses.OrderItemStatusModel;
 import com.example.qzero.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -41,7 +49,9 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -101,12 +111,18 @@ public class FinalChkoutActivity extends AppCompatActivity {
     int itemsLength;
 
     String itemName;
+    String transactionId;
+
     Cursor itemCursor;
     Cursor itemIdCursorMod;
     int position = 0;
     int posMod = 0;
 
+    int orderId;
+
     UserSession userSession;
+
+    ArrayList<OrderItemStatusModel> orderStatusArrayList;
 
 
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
@@ -119,7 +135,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
             .environment(CONFIG_ENVIRONMENT)
             .clientId(CONFIG_CLIENT_ID)
                     // The following are only used in PayPalFuturePaymentActivity.
-            .merchantName("Android Hub 4 You")
+            .merchantName("QZERO")
             .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
             .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
 
@@ -129,12 +145,12 @@ public class FinalChkoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_final_chkout);
         ButterKnife.inject(this);
 
-        userSession=new UserSession(this);
+        userSession = new UserSession(this);
 
         txtViewHeading.setText("Your Order");
 
         //code changed by himanshu
-        totalpaybleAmount =  Double.parseDouble(userSession.getFinalPaybleAmount());
+        totalpaybleAmount = Double.parseDouble(userSession.getFinalPaybleAmount());
 
         txt_final_price.setText("Total: $" + Utility.formatDecimalByString(String.valueOf(totalpaybleAmount)));
 
@@ -169,7 +185,6 @@ public class FinalChkoutActivity extends AppCompatActivity {
         FontHelper.applyFont(this, txt__item_Name, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(this, txt__item_qty, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(this, txt_item_totalPrice, FontHelper.FontType.FONTSANSBOLD);
-
 
 
     }
@@ -396,9 +411,91 @@ public class FinalChkoutActivity extends AppCompatActivity {
         finish();
     }
 
-    public void callPayPal()
-    {
-        PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(5), "USD", "I-Shopping",
+    public void callPostCheckout(String jsonDetails) {
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new PostCheckOut().execute(jsonDetails);
+        } else {
+            AlertDialogHelper.showAlertDialog(this, getString(R.string.server_message), "Alert");
+        }
+    }
+
+    private class PostCheckOut extends AsyncTask<String, String, String> {
+
+        String message;
+        int status;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(FinalChkoutActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            JsonParser jsonParser = new JsonParser();
+
+            String url = Const.BASE_URL + Const.POST_CHECKOUT;
+
+            String parameter = params[0];
+            String userId = userSession.getUserID();
+
+            Log.e("parameter", parameter);
+            Log.e("userId", userId);
+
+            String jsonString = jsonParser.executePost(url, parameter, userId, Const.TIME_OUT);
+
+            Log.e("json", jsonString);
+
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("json", jsonString);
+                    status = jsonObject.getInt("status");
+                    message = jsonObject.getString("message");
+                    if (status == 1) {
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
+
+                        orderId = Integer.parseInt(jsonObj.getString(Const.TAG_ORDER_ID));
+                    }
+
+                    //  orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                status = -1;
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+                status = -1;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+            ProgresBar.stop();
+
+            if (status == 1) {
+
+                callPayPal();
+            } else if (status == 0) {
+                AlertDialogHelper.showAlertDialog(FinalChkoutActivity.this,
+                        message, "Alert");
+            } else {
+                AlertDialogHelper.showAlertDialog(FinalChkoutActivity.this,
+                        getString(R.string.server_message), "Alert");
+            }
+        }
+    }
+
+    public void callPayPal() {
+        PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(totalpaybleAmount), "USD", "QZERO",
                 PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(this, PaymentActivity.class);
@@ -426,6 +523,10 @@ public class FinalChkoutActivity extends AppCompatActivity {
                         System.out.println("payment id:-==" + paymentId);
                         Toast.makeText(this, paymentId, Toast.LENGTH_LONG).show();
 
+                        //  callTransactionApi();
+
+                        passIntent();
+
                     } catch (JSONException e) {
                         Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
                     }
@@ -438,6 +539,97 @@ public class FinalChkoutActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void callTransactionApi() {
+        new FinalPaymentOrder().execute();
+    }
+
+    private class FinalPaymentOrder extends AsyncTask<String, String, String> {
+
+        int status = -1;
+        String message;
+        String urlParameters;
+
+        JSONObject jsonObjParams;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(FinalChkoutActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            JsonParser jsonParser = new JsonParser();
+
+            String url = Const.BASE_URL + Const.LOGIN_URL;
+
+            try {
+
+                JSONObject jsonObjParams = new JSONObject();
+
+                jsonObjParams.put("OrderId", orderId);
+                jsonObjParams.put("TransactionId", transactionId);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+
+            String jsonString = jsonParser.executePost(url, jsonObjParams.toString(),
+                    Const.TIME_OUT);
+
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("json", jsonString);
+                    status = jsonObject.getInt("status");
+                    message = jsonObject.getString("message");
+                    if (status == 1) {
+
+                    }
+
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                status = -1;
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+                status = -1;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+            ProgresBar.stop();
+
+            if (status == 1) {
+
+
+            } else if (status == 0) {
+
+                AlertDialogHelper.showAlertDialog(FinalChkoutActivity.this,
+                        message, "Alert");
+
+            } else {
+                AlertDialogHelper.showAlertDialog(FinalChkoutActivity.this,
+                        getString(R.string.server_message), "Alert");
+            }
+        }
+    }
+
+
+    public void passIntent() {
+        Intent intent = new Intent(this, ThankYouActivity.class);
+        intent.putExtra("OrderId", orderId);
+        startActivity(intent);
     }
 
 

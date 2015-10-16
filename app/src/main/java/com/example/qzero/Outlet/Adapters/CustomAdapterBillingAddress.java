@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
@@ -138,6 +139,14 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
                     intent.putExtra("ADDRESSTYPE", 3);
                     context.startActivity(intent);
                 }
+            }
+        });
+
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(context, "Coming Soon.", Toast.LENGTH_SHORT).show();
             }
         });
     }
