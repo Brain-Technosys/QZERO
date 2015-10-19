@@ -262,24 +262,30 @@ public class InHouseTabFragment extends Fragment {
 
                 if (modName.equals("null")) {
                     isModifier = 0;
-                } else {
+                } else
                     isModifier = 1;
 
-                    quantity = orderItemStatusArrayList.get(j).getQuantity();
 
-                    orderStatusObj.put("itemId", itemId);
-                    orderStatusObj.put("isModifier", isModifier);
-                    orderStatusObj.put("quantity", quantity);
+                quantity = orderItemStatusArrayList.get(j).getQuantity();
 
-                    jsonArrayOrder.put(orderStatusObj);
-                }
-                for (int i = 0; i < orderStatusArrayList.size(); i++) {
+                orderStatusObj.put("itemId", itemId);
+                orderStatusObj.put("isModifier", isModifier);
+                orderStatusObj.put("quantity", quantity);
 
-                    JSONObject modStatusObj = new JSONObject();
+                jsonArrayOrder.put(orderStatusObj);
+            }
 
+            for (int i = 0; i < orderStatusArrayList.size(); i++) {
 
-                    modifierId = orderStatusArrayList.get(i).getMod_id();
-                    modifierPrice = orderStatusArrayList.get(i).getMod_price();
+                JSONObject modStatusObj = new JSONObject();
+
+                String modName = orderStatusArrayList.get(i).getMod_name();
+                modifierId = orderStatusArrayList.get(i).getMod_id();
+                modifierPrice = orderStatusArrayList.get(i).getMod_price();
+
+                if (modName.equals("null")) {
+                    //do nothing
+                } else {
 
                     modStatusObj.put("itemId", itemId);
                     modStatusObj.put("modifierId", modifierId);
@@ -287,8 +293,9 @@ public class InHouseTabFragment extends Fragment {
 
                     jsonArrayMod.put(modStatusObj);
                 }
-
             }
+
+
 
             jsonObjDetails.putOpt("orderItemStatus", jsonArrayOrder);
             jsonObjDetails.putOpt("orderItemModifiers", jsonArrayMod);

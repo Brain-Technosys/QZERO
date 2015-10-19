@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
@@ -45,6 +46,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
     Button btnPlaceOrder;
     int type = 1;
 
+    Bundle bundle;
+
     CustomAdapterBillingAddress adapter;
 
     ShippingAddSession shippingAddSession;
@@ -71,16 +74,19 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     private void inflateAddressList() {
 
+        if(listShippingAddress.getFooterViewsCount()==0) {
 
-        View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
 
-        btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
-        btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
+            View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
 
-        btnPlaceOrder.setOnClickListener(this);
-        btnAddAddress.setOnClickListener(this);
+            btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
+            btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
 
-        listShippingAddress.addFooterView(footerView);
+            btnPlaceOrder.setOnClickListener(this);
+            btnAddAddress.setOnClickListener(this);
+
+            listShippingAddress.addFooterView(footerView);
+        }
 
         adapter = new CustomAdapterBillingAddress(ShippingAddressActivity.this, listAddress, type);
         listShippingAddress.setAdapter(adapter);
@@ -94,9 +100,13 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
 
             case R.id.btn_addNew:
-                Intent i = new Intent(ShippingAddressActivity.this, AddAddressActivity.class);
-                i.putExtra("ADDRESSTYPE", 1);
-                startActivity(i);
+                Intent intent = new Intent(this,AddAddressActivity.class);
+
+                createBundle("0","0");
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
                 break;
 
             case R.id.btn_PlaceOrder:
@@ -105,6 +115,13 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
         }
 
+    }
+
+    private void createBundle(String type,String addressType)
+    {
+        bundle=new Bundle();
+        bundle.putString(ConstVarIntent.TAG_TYPE,type);
+        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS,addressType);
     }
 
     @Override
@@ -156,6 +173,7 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
                         HashMap<String, String> hmAddressDetail = new HashMap<>();
 
                         hmAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_CUST_ID));
+                        hmAddressDetail.put(Const.TAG_BILLING_ID,jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
                         hmAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME) + " " + jsonShippingAddress.getString(Const.TAG_LNAME));
                         hmAddressDetail.put(Const.TAG_ADDRESS1, jsonShippingAddress.getString(Const.TAG_ADDRESS1));
                         hmAddressDetail.put(Const.TAG_ADDRESS2, jsonShippingAddress.getString(Const.TAG_ADDRESS2));

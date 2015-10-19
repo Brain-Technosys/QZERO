@@ -131,6 +131,9 @@ public class AddAddressActivity extends AppCompatActivity {
 
             addressType = bundle.getString(ConstVarIntent.TAG_TYPE_ADDRESS);
             type = bundle.getString(ConstVarIntent.TAG_TYPE);
+
+            Log.e("addresstype",addressType);
+            Log.e("typeadd",type);
         }
 
         userSession = new UserSession(AddAddressActivity.this);
@@ -265,10 +268,7 @@ public class AddAddressActivity extends AppCompatActivity {
 
             if (addressType.equals("0")) {
 
-
                 manipulateShippingAddress();
-
-
             }
             if (addressType.equals("1")) {
                 manipulateBillingAddress();
@@ -294,7 +294,11 @@ public class AddAddressActivity extends AppCompatActivity {
     }
 
     private void manipulateBillingAddress() {
-
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new AddEditBillingAddress().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(this, getString(R.string.server_message), "Alert");
+        }
     }
 
 
@@ -460,6 +464,85 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObj.put("countryName", countryName);
                 jsonObj.put("stateName", stateName);
                 jsonObj.put("shippingAddressId", type);
+                jsonObj.put("stateId", state_id);
+
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+
+            String jsonString = jsonParser.executePost(url, jsonObj.toString(), userSession.getUserID(), Const.TIME_OUT);
+
+            try {
+                jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("json", jsonString);
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+                    msg = jsonObject.getString(Const.TAG_MESSAGE);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            ProgresBar.stop();
+
+            if (status == 1) {
+
+                AlertDialogHelper.showAlertDialog(AddAddressActivity.this, msg, "Alert");
+
+            } else if (status == 0) {
+                AlertDialogHelper.showAlertDialog(AddAddressActivity.this, msg, "Alert");
+            } else {
+                AlertDialogHelper.showAlertDialog(AddAddressActivity.this, getString(R.string.server_message), "Alert");
+            }
+        }
+    }
+
+    private class AddEditBillingAddress extends AsyncTask<String, String, String> {
+
+        JsonParser jsonParser;
+        JSONObject jsonObject;
+        int status = -1;
+        String msg;
+        String urlParameters;
+        String url;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(AddAddressActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            jsonParser = new JsonParser();
+            url = Const.BASE_URL + Const.POST_BILLING_ADD;
+
+            JSONObject jsonObj = new JSONObject();
+            try {
+
+                Log.e("type", type);
+                jsonObj.put("firstName", fname);
+                jsonObj.put("lastName", lname);
+                jsonObj.put("address1", address);
+                jsonObj.put("city", city);
+                jsonObj.put("countryId",country_id);
+                jsonObj.put("zipCode", zipcode);
+                jsonObj.put("emailAddress", email);
+                jsonObj.put("phoneNo", contact);
+                jsonObj.put("countryName", countryName);
+                jsonObj.put("stateName", stateName);
+                jsonObj.put("billingAddressId", type);
                 jsonObj.put("stateId", state_id);
 
             } catch (JSONException ex) {

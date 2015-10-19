@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
@@ -50,6 +51,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
     Button btnPlaceOrder;
     int type = 2;
 
+    Bundle bundle;
+
     ShippingAddSession shippingAddSession;
 
     @Override
@@ -63,6 +66,13 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
         shippingAddSession = new ShippingAddSession(this);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         if (CheckInternetHelper.checkInternetConnection(BillingAddressActivity.this))
             new GetBillingAddressDetail().execute();
         else
@@ -72,14 +82,17 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     private void inflateAddressList() {
 
-        View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
-        listBillingAddress.addFooterView(footerView);
+        if(listBillingAddress.getFooterViewsCount()==0) {
 
-        btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
-        btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
+            View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
+            listBillingAddress.addFooterView(footerView);
 
-        btnPlaceOrder.setOnClickListener(this);
-        btnAddAddress.setOnClickListener(this);
+            btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
+            btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
+
+            btnPlaceOrder.setOnClickListener(this);
+            btnAddAddress.setOnClickListener(this);
+        }
 
         adapter = new CustomAdapterBillingAddress(BillingAddressActivity.this, listAddress, type);
         listBillingAddress.setAdapter(adapter);
@@ -93,15 +106,26 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
 
             case R.id.btn_addNew:
-                Intent i = new Intent(BillingAddressActivity.this, AddAddressActivity.class);
-                i.putExtra("ADDRESSTYPE", 2);
-                startActivity(i);
+                Intent intent = new Intent(this,AddAddressActivity.class);
+
+                createBundle("0","1");
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
                 break;
 
             case R.id.btn_PlaceOrder:
                 break;
         }
 
+    }
+
+    private void createBundle(String type,String addressType)
+    {
+        bundle=new Bundle();
+        bundle.putString(ConstVarIntent.TAG_TYPE,type);
+        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS,addressType);
     }
 
     @Override
@@ -113,7 +137,7 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
-       finish();
+        finish();
     }
 
 
@@ -154,7 +178,11 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
                         HashMap<String, String> hmAddressDetail = new HashMap<>();
 
+                        Log.e("i",""+i);
+                        Log.e("act",jsonBillingAddress.getString(Const.TAG_BILLING_ID));
+
                         hmAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
+                        hmAddressDetail.put(Const.TAG_BILLING_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));
                         hmAddressDetail.put(Const.TAG_FNAME, jsonBillingAddress.getString(Const.TAG_FNAME) + " " + jsonBillingAddress.getString(Const.TAG_LNAME));
                         hmAddressDetail.put(Const.TAG_ADDRESS1, jsonBillingAddress.getString(Const.TAG_ADDRESS1));
                         hmAddressDetail.put(Const.TAG_ADDRESS2, jsonBillingAddress.getString(Const.TAG_ADDRESS2));

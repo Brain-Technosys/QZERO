@@ -2,6 +2,7 @@ package com.example.qzero.Outlet.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
@@ -35,10 +37,16 @@ import java.util.Set;
 public class CustomAdapterBillingAddress extends BaseAdapter {
 
     Context context;
+
     ArrayList<HashMap<String, String>> addressDetail;
+
     LayoutInflater inflater;
+
     int type = 0;
+
     ShippingAddSession shippingAddSession;
+
+    Bundle bundle;
 
     public CustomAdapterBillingAddress(Context context, ArrayList<HashMap<String, String>> addressDetail, int type) {
         this.context = context;
@@ -69,7 +77,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         if (view == null) {
             view = inflater.inflate(R.layout.list_address, null);
 
-            setID(holder, view);
+            setID(holder, view,i);
             setFont(holder);
             view.setTag(i);
 
@@ -87,7 +95,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
     }
 
 
-    private void setID(Holder holder, View view) {
+    private void setID(Holder holder, View view,int position) {
 
         holder.rb_selected_address = (RadioButton) view.findViewById(R.id.rb_selected_address);
         holder.addressName = (TextView) view.findViewById(R.id.txtName);
@@ -97,8 +105,11 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         holder.addressCountry = (TextView) view.findViewById(R.id.addressCountry);
         holder.addressPostcode = (TextView) view.findViewById(R.id.addressPinCode);
         holder.addressContact = (TextView) view.findViewById(R.id.addressContact);
+
         holder.imgDelete = (ImageView) view.findViewById(R.id.deleteAddress);
+
         holder.imgEdit = (ImageView) view.findViewById(R.id.edit_address);
+
 
     }
 
@@ -123,6 +134,13 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         holder.addressPostcode.setText(addressDetail.get(i).get(Const.TAG_ZIPCODE));
         holder.addressContact.setText(addressDetail.get(i).get(Const.TAG_PHONE_NO));
 
+        holder.imgEdit.setTag(addressDetail.get(i).get(Const.TAG_BILLING_ID));
+
+        Log.e("settag", addressDetail.get(i).get(Const.TAG_BILLING_ID));
+        Log.e("Itag",""+i);
+        holder.imgDelete.setTag(R.string.key_pos, i);
+        holder.imgDelete.setTag(R.string.key_id, addressDetail.get(i).get(Const.TAG_BILLING_ID));
+
     }
 
     public void applyingClickEvent(Holder holder, View view) {
@@ -130,13 +148,19 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
+                String tag=view.getTag().toString();
+
+                Log.e("tag",tag);
+
                 if (context instanceof BillingAddressActivity) {
                     Intent intent = new Intent(context, AddAddressActivity.class);
-                    intent.putExtra("ADDRESSTYPE", 4);
+                    createBundle(tag, "1");
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 } else if (context instanceof ShippingAddressActivity) {
                     Intent intent = new Intent(context, AddAddressActivity.class);
-                    intent.putExtra("ADDRESSTYPE", 3);
+                    createBundle(tag, "0");
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             }
@@ -146,10 +170,18 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(context, "Coming Soon.", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
+
+    private void createBundle(String type,String addressType)
+    {
+        bundle=new Bundle();
+        bundle.putString(ConstVarIntent.TAG_TYPE, type);
+        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS, addressType);
+    }
+
 
     private void handlingRadioButtonEvent(final Holder holder, final View view, int pos) {
 

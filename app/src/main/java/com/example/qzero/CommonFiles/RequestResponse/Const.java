@@ -35,6 +35,7 @@ public class Const {
     public static String ADD_EDIT_BILL_ADDRESS="checkout/AddEditBillingAddress?";
     public static String GET_COUNTRY="checkout/GetStateByCountryId";
     public static String POST_SHIPPING_ADD="checkout/AddEditShippingAddress";
+    public static String POST_BILLING_ADD="checkout/AddEditBillingAddress";
 
     //Intialize jsonArray parameter
 
