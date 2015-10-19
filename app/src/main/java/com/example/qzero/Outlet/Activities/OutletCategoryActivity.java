@@ -187,30 +187,26 @@ public class OutletCategoryActivity extends AppCompatActivity {
         });
         txtViewTitle.setText("Outlet Items");
 
-        txtViewBadge=(TextView) inflatedLayout.findViewById(R.id.txtViewBadge);
+        txtViewBadge = (TextView) inflatedLayout.findViewById(R.id.txtViewBadge);
 
         actionBar.setCustomView(inflatedLayout);
 
 
     }//end of setIconsToActionBar()
 
-    private void getCartCount()
-    {
-        int quantity= GetCartCountHelper.getTotalQty(this);
+    private void getCartCount() {
+        int quantity = GetCartCountHelper.getTotalQty(this);
 
         setCountToBadge(String.valueOf(quantity));
     }
 
-    public void setCountToBadge(String count)
-    {
-       if(count.equals("0"))
-       {
-           txtViewBadge.setVisibility(View.GONE);
-       }
-        else {
-           txtViewBadge.setText(count);
-           txtViewBadge.setVisibility(View.VISIBLE);
-       }
+    public void setCountToBadge(String count) {
+        if (count.equals("0")) {
+            txtViewBadge.setVisibility(View.GONE);
+        } else {
+            txtViewBadge.setText(count);
+            txtViewBadge.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -268,7 +264,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
 
 
         //Check if a user is logged in or not
@@ -376,7 +371,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         subCatListView = new ExpandableListView[arrayListCat.size()];
 
-        noSubCatPos=new Integer[arrayListCat.size()];
+        noSubCatPos = new Integer[arrayListCat.size()];
 
         params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -463,7 +458,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
                 lastPos = tag;
 
-                if (noSubCatPos[tag]==0){
+                if (noSubCatPos[tag] == 0) {
 
 
                     if (subCatListView[tag].getVisibility() == View.VISIBLE) {
@@ -530,10 +525,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
             noSubCatPos[pos] = 1;
 
             isSubCatPresent = false;
-        }
-        else
-        {
-            noSubCatPos[pos]=0;
+        } else {
+            noSubCatPos[pos] = 0;
         }
 
         //add adapter to listview
