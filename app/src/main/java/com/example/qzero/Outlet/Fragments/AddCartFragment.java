@@ -1226,7 +1226,17 @@ public class AddCartFragment extends Fragment {
     }
 
     private void saveItemDetailsInCheckout() {
-        String discountAmt = String.valueOf(Double.parseDouble(item_price) - afterDiscPrice);
+        String discountAmt;
+
+        if(afterDiscPrice==0.0)
+        {
+            discountAmt="0.0";
+        }
+        else
+        {
+            discountAmt = String.valueOf(Double.parseDouble(item_price) - afterDiscPrice);
+        }
+
         databaseHelper.insertIntoCheckout(itemId, outletId, String.valueOf(countLength), discountAmt, String.valueOf(afterDiscPrice));
     }
 
