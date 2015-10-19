@@ -1119,7 +1119,7 @@ public class AddCartFragment extends Fragment {
         }
         else if(hashMapDefaultMod.size()!=0)
         {
-            modifierSaved = hashMapDefaultMod.get(i);
+            modifierSaved = hashMapDefaultMod.get(0);
         }
 
         if (modifierSaved.size() == 0) {
