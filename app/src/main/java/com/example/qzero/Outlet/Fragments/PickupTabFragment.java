@@ -73,11 +73,17 @@ public class PickupTabFragment extends Fragment {
     String modifierId;
     String modifierPrice;
 
+    String mod_name;
+    String mod_qty;
+
     DatabaseHelper databaseHelper;
 
     UserSession userSession;
 
     ArrayList<OrderItemStatusModel> orderStatusArrayList;
+
+    ArrayList<OrderItemStatusModel> orderItemStatusArrayList;
+
 
     //set the environment for production/sandbox/no netowrk
 
@@ -129,30 +135,35 @@ public class PickupTabFragment extends Fragment {
             jsonObjDetails.put("discountAmount", discountAmount);
             jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
-           /* jsonObjDetails.put("taxApplicable",taxApplicable);
-            jsonObjDetails.put("tax",tax);
-            jsonObjDetails.put("tableNoId",tableNoId);
-            jsonObjDetails.put("tableNO",tableNO );
-            jsonObjDetails.put("orderNotes",orderNotes );
-            jsonObjDetails.put("billingAddressId",billingAddressId );
-            jsonObjDetails.put("deliveryTypeId",deliveryTypeId);*/
             jsonObjDetails.put("deliveryType", 3);
 
             JSONArray jsonArrayOrder = new JSONArray();
             JSONArray jsonArrayMod = new JSONArray();
 
             getOrderStatusData();
-            for (int i = 0; i < orderStatusArrayList.size(); i++) {
 
+            for (int j = 0; j < orderItemStatusArrayList.size(); j++) {
                 JSONObject orderStatusObj = new JSONObject();
 
-                JSONObject modStatusObj = new JSONObject();
+                String modName = orderItemStatusArrayList.get(j).getMod_name();
 
-                String modName = orderStatusArrayList.get(i).getMod_name();
                 if (modName.equals("null")) {
                     isModifier = 0;
                 } else {
                     isModifier = 1;
+
+                    quantity = orderItemStatusArrayList.get(j).getQuantity();
+
+                    orderStatusObj.put("itemId", itemId);
+                    orderStatusObj.put("isModifier", isModifier);
+                    orderStatusObj.put("quantity", quantity);
+
+                    jsonArrayOrder.put(orderStatusObj);
+                }
+                for (int i = 0; i < orderStatusArrayList.size(); i++) {
+
+                    JSONObject modStatusObj = new JSONObject();
+
 
                     modifierId = orderStatusArrayList.get(i).getMod_id();
                     modifierPrice = orderStatusArrayList.get(i).getMod_price();
@@ -163,15 +174,6 @@ public class PickupTabFragment extends Fragment {
 
                     jsonArrayMod.put(modStatusObj);
                 }
-
-                quantity = orderStatusArrayList.get(i).getQuantity();
-
-                orderStatusObj.put("itemId", itemId);
-                orderStatusObj.put("isModifier", isModifier);
-                orderStatusObj.put("quantity", quantity);
-
-                jsonArrayOrder.put(orderStatusObj);
-
 
             }
 
@@ -190,6 +192,7 @@ public class PickupTabFragment extends Fragment {
     private void getOrderStatusData() {
 
         orderStatusArrayList = new ArrayList<>();
+        orderItemStatusArrayList = new ArrayList<>();
         Cursor distinctItemCursor = databaseHelper.getDistinctItems();
 
         if (distinctItemCursor != null) {
@@ -213,21 +216,26 @@ public class PickupTabFragment extends Fragment {
                             Cursor modCursor = databaseHelper.getModifiers(item_id);
 
                             if (modCursor != null) {
+
                                 while (modCursor.moveToNext()) {
                                     int indexname = modCursor.getColumnIndex(databaseHelper.MOD_COLUMN);
                                     int indexprice = modCursor.getColumnIndex(databaseHelper.MOD_PRICE);
                                     int indexqty = modCursor.getColumnIndex(databaseHelper.QUANTITY);
                                     int indexModActualId = modCursor.getColumnIndex(databaseHelper.MOD_ACTUAL_ID);
 
-                                    String mod_name = modCursor.getString(indexname);
+                                    mod_name = modCursor.getString(indexname);
                                     String mod_price = modCursor.getString(indexprice);
-                                    String quantity = modCursor.getString(indexqty);
+                                    quantity = modCursor.getString(indexqty);
                                     String mod_id = modCursor.getString(indexModActualId);
 
                                     OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true, mod_price, mod_id);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
+
+                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true, " ", " ");
+                            orderItemStatusArrayList.add(orderItemStatusModel);
+
 
                         } while (itemIdCursor.moveToNext());
                     }
@@ -239,11 +247,9 @@ public class PickupTabFragment extends Fragment {
 
     private void postToCheckOut(String jsonDetails) {
 
-        ((FinalChkoutActivity)getActivity()).callPostCheckout(jsonDetails);
+        ((FinalChkoutActivity) getActivity()).callPostCheckout(jsonDetails);
 
     }
-
-
 
 
 }

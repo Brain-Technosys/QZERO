@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
@@ -31,6 +32,7 @@ import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
+import com.example.qzero.Outlet.Activities.AddAddressActivity;
 import com.example.qzero.Outlet.Activities.BillingAddressActivity;
 import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
 import com.example.qzero.Outlet.Activities.ShippingAddressActivity;
@@ -137,6 +139,9 @@ public class ShipmentTabFragment extends Fragment {
     String quantity;
     int isModifier;
 
+    String mod_name;
+    String mod_qty;
+
     String modifierId;
     String modifierPrice;
 
@@ -160,7 +165,10 @@ public class ShipmentTabFragment extends Fragment {
 
     UserSession userSession;
 
+    Bundle bundle;
+
     ArrayList<OrderItemStatusModel> orderStatusArrayList;
+    ArrayList<OrderItemStatusModel> orderItemStatusArrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -301,10 +309,38 @@ public class ShipmentTabFragment extends Fragment {
         startActivity(intent);
     }
 
+    @OnClick(R.id.btn_add_new_billing_address)
+    void addBillingAddress()
+    {
+        Intent intent = new Intent(getActivity(),AddAddressActivity.class);
+        createBundle("0", "1");
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_add_new_shipping_address)
+    void addShippingAddress()
+    {
+        Intent intent = new Intent(getActivity(),AddAddressActivity.class);
+
+        createBundle("0","0");
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+    }
+
     @OnClick(R.id.btn_Place_Order)
     public void place_Order() {
 
         createPostCheckout();
+    }
+
+    private void createBundle(String type,String addressType)
+    {
+        bundle=new Bundle();
+        bundle.putString(ConstVarIntent.TAG_TYPE,type);
+        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS,addressType);
     }
 
     private void createPostCheckout() {
@@ -337,43 +373,46 @@ public class ShipmentTabFragment extends Fragment {
             JSONArray jsonArrayMod = new JSONArray();
 
             getOrderStatusData();
-            for (int i = 0; i < orderStatusArrayList.size(); i++) {
 
+            for (int j = 0; j < orderItemStatusArrayList.size(); j++) {
                 JSONObject orderStatusObj = new JSONObject();
 
-                JSONObject modStatusObj=new JSONObject();
+                String modName = orderItemStatusArrayList.get(j).getMod_name();
 
-                String modName = orderStatusArrayList.get(i).getMod_name();
                 if (modName.equals("null")) {
                     isModifier = 0;
                 } else {
                     isModifier = 1;
 
-                    modifierId=orderStatusArrayList.get(i).getMod_id();
-                    modifierPrice=orderStatusArrayList.get(i).getMod_price();
+                    quantity = orderItemStatusArrayList.get(j).getQuantity();
+
+                    orderStatusObj.put("itemId", itemId);
+                    orderStatusObj.put("isModifier", isModifier);
+                    orderStatusObj.put("quantity", quantity);
+
+                    jsonArrayOrder.put(orderStatusObj);
+                }
+                for (int i = 0; i < orderStatusArrayList.size(); i++) {
+
+                    JSONObject modStatusObj = new JSONObject();
+
+
+                    modifierId = orderStatusArrayList.get(i).getMod_id();
+                    modifierPrice = orderStatusArrayList.get(i).getMod_price();
 
                     modStatusObj.put("itemId", itemId);
-                    modStatusObj.put("modifierId",modifierId);
-                    modStatusObj.put("modifierPrice",modifierPrice);
+                    modStatusObj.put("modifierId", modifierId);
+                    modStatusObj.put("modifierPrice", modifierPrice);
 
                     jsonArrayMod.put(modStatusObj);
                 }
 
-                quantity = orderStatusArrayList.get(i).getQuantity();
-
-                orderStatusObj.put("itemId",itemId);
-                orderStatusObj.put("isModifier",isModifier);
-                orderStatusObj.put("quantity",quantity);
-
-                jsonArrayOrder.put(orderStatusObj);
-
-
             }
 
-            jsonObjDetails.putOpt("orderItemStatus",jsonArrayOrder);
-            jsonObjDetails.putOpt("orderItemModifiers",jsonArrayMod);
+            jsonObjDetails.putOpt("orderItemStatus", jsonArrayOrder);
+            jsonObjDetails.putOpt("orderItemModifiers", jsonArrayMod);
 
-            Log.e("json",jsonObjDetails.toString());
+            Log.e("json", jsonObjDetails.toString());
 
             postToCheckOut(jsonObjDetails.toString());
 
@@ -390,7 +429,8 @@ public class ShipmentTabFragment extends Fragment {
 
     private void getOrderStatusData() {
 
-        orderStatusArrayList=new ArrayList<>();
+        orderStatusArrayList = new ArrayList<>();
+        orderItemStatusArrayList = new ArrayList<>();
         Cursor distinctItemCursor = databaseHelper.getDistinctItems();
 
         if (distinctItemCursor != null) {
@@ -414,21 +454,26 @@ public class ShipmentTabFragment extends Fragment {
                             Cursor modCursor = databaseHelper.getModifiers(item_id);
 
                             if (modCursor != null) {
+
                                 while (modCursor.moveToNext()) {
                                     int indexname = modCursor.getColumnIndex(databaseHelper.MOD_COLUMN);
                                     int indexprice = modCursor.getColumnIndex(databaseHelper.MOD_PRICE);
                                     int indexqty = modCursor.getColumnIndex(databaseHelper.QUANTITY);
-                                    int indexModActualId=modCursor.getColumnIndex(databaseHelper.MOD_ACTUAL_ID);
+                                    int indexModActualId = modCursor.getColumnIndex(databaseHelper.MOD_ACTUAL_ID);
 
-                                    String mod_name = modCursor.getString(indexname);
+                                    mod_name = modCursor.getString(indexname);
                                     String mod_price = modCursor.getString(indexprice);
-                                    String quantity = modCursor.getString(indexqty);
-                                    String mod_id=modCursor.getString(indexModActualId);
+                                    quantity = modCursor.getString(indexqty);
+                                    String mod_id = modCursor.getString(indexModActualId);
 
-                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true,mod_price,mod_id);
+                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true, mod_price, mod_id);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
+
+                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true, " ", " ");
+                            orderItemStatusArrayList.add(orderItemStatusModel);
+
 
                         } while (itemIdCursor.moveToNext());
                     }
@@ -437,7 +482,6 @@ public class ShipmentTabFragment extends Fragment {
             }
         }
     }
-
 
     @OnCheckedChanged(R.id.chk_shipmentChoice)
     public void chk_shipmentChoice(boolean checked) {

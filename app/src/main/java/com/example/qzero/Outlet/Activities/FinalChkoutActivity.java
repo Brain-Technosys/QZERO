@@ -413,6 +413,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     public void callPostCheckout(String jsonDetails) {
         if (CheckInternetHelper.checkInternetConnection(this)) {
+
+            Log.e("jsonDetailsFinal", jsonDetails);
             new PostCheckOut().execute(jsonDetails);
         } else {
             AlertDialogHelper.showAlertDialog(this, getString(R.string.server_message), "Alert");

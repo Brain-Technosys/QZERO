@@ -33,6 +33,8 @@ public class Const {
     public static String POST_CHECKOUT = "checkout/PostCheckout";
     public static String GET_CHKOUT_DETAIL = "checkout/GetCheckoutDetails?Outletid=";
     public static String ADD_EDIT_BILL_ADDRESS="checkout/AddEditBillingAddress?";
+    public static String GET_COUNTRY="checkout/GetStateByCountryId";
+    public static String POST_SHIPPING_ADD="checkout/AddEditShippingAddress";
 
     //Intialize jsonArray parameter
 
@@ -46,6 +48,7 @@ public class Const {
     public static String TAG_JsonChoiceObj = "choiceGroups";
     public static String TAG_JsonModObj = "modifiers";
     public static String TAG_MODIFIER_ID = "modifierId";
+    public static String TAG_JsonState = "state";
 
 
     //Initialize message and status parameter
@@ -195,16 +198,22 @@ public class Const {
     public static String TAG_TABLE_NO_ID="tablenoId";
 
     //ADD EDIT SHIPPING BILLING ADDRESS
-    public static String TAG_ADD_FIRSTNAME="FirstName=";
-    public static String TAG_ADD_LASTNAME="&LastName=";
-    public static String TAG_ADD_ADDRESS="&Address=";
-    public static String TAG_ADD_COUNTRYID="&CountryId=";
-    public static String TAG_ADD_STATEID="&StateId=";
-    public static String TAG_ADD_CITY="&City=";
-    public static String TAG_ADD_ZIPCODE="&ZipCode=";
-    public static String TAG_ADD_PHONE="&PhoneNo=";
-    public static String TAG_ADD_EMAIL="&Email=";
-    public static String TAG_ADD_BILLING_ADDRESS_ID ="&BillingAddressId=";
-    public static String TAG_ADD_SHIPPING_ADDRESS_ID="&ShippingAddressId=";
+    public static String TAG_ADD_FIRSTNAME="FirstName";
+    public static String TAG_ADD_LASTNAME="LastName";
+    public static String TAG_ADD_ADDRESS="Address";
+    public static String TAG_ADD_COUNTRYID="CountryId";
+    public static String TAG_ADD_STATEID="StateId";
+    public static String TAG_ADD_CITY="City";
+    public static String TAG_ADD_ZIPCODE="ZipCode";
+    public static String TAG_ADD_PHONE="PhoneNo";
+    public static String TAG_ADD_EMAIL="Email";
+    public static String TAG_ADD_BILLING_ADDRESS_ID ="BillingAddressId";
+    public static String TAG_ADD_SHIPPING_ADDRESS_ID="ShippingAddressId";
+
+    //Get county and state AddAddressActivity
+
+    public static String TAG_COUNTRYID="countryId";
+    public static String TAG_STATE_ID="stateId";
+
 
 }

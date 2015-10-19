@@ -12,4 +12,9 @@ public class ConstVarIntent {
     public static String TAG_OUTLET_ID="outletid";
     public static String TAG_LIST_VENUE="arrayListVenue";
 
+    //Intent variable for add or edit shipping address
+    public static String TAG_TYPE="type";
+    public static String TAG_TYPE_ADDRESS="type_add";
+
+
 }

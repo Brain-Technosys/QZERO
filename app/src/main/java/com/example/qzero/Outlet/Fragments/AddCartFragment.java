@@ -1114,8 +1114,13 @@ public class AddCartFragment extends Fragment {
 
         int k;
 
-        if (hashMapChoosenMod.containsKey(i))
+        if (hashMapChoosenMod.containsKey(i)) {
             modifierSaved = hashMapChoosenMod.get(i);
+        }
+        else if(hashMapDefaultMod.size()!=0)
+        {
+            modifierSaved = hashMapDefaultMod.get(i);
+        }
 
         if (modifierSaved.size() == 0) {
             isDuplicate = true;
@@ -1189,8 +1194,13 @@ public class AddCartFragment extends Fragment {
 
         ArrayList<Modifier> modifierSavedUnique = new ArrayList<Modifier>();
 
-        if (hashMapChoosenMod.containsKey(i))
+        if (hashMapChoosenMod.containsKey(i)) {
             modifierSavedUnique = hashMapChoosenMod.get(i);
+        }
+        else if(hashMapDefaultMod.size()!=0)
+        {
+            modifierSavedUnique = hashMapDefaultMod.get(i);
+        }
 
         HashMap<String, String> hashmap = arrayListViewData.get(i);
         if (modifierSavedUnique.size() != 0) {
