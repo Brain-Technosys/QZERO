@@ -92,53 +92,55 @@ public class OrderItemsAdapter extends BaseAdapter {
 
 
             convertView.setTag(holder);
+
+            OrderItems items = rowItems.get(position);
+
+            // Getting modifiers list
+            ArrayList<HashMap<String, String>> modifiersList = new ArrayList<>();
+            modifiersList = items.getModifiersList();
+
+            //Load Image
+            String item_image = Const.BASE_URL + Const.IMAGE_URL + items.getItemId();
+            Picasso.with(context).load(item_image).placeholder(R.drawable.ic_placeholder).into(holder.itemImageView);
+
+
+            holder.tv_item_name.setText(items.getItemName());
+            holder.tv_item_status.setText(items.getItemStatus());
+            holder.tv_item_price.setText(Utility.formatCurrency(items.getItemPrice()));
+            holder.tv_quantity.setText(items.getQuantitiy());
+
+            // If modifier(s) exist with product
+            if (modifiersList != null && modifiersList.size() > 0) {
+                holder.modifiersLayout.setVisibility(View.VISIBLE);
+                holder.dividerView.setVisibility(View.VISIBLE);
+                subTotal = (Double.valueOf(items.getItemPrice()) + drawModifiers(holder.modifiersLayout, modifiersList)) * Double.valueOf(items.getQuantitiy());
+            } else {
+
+                // Calculating
+                subTotal = Double.valueOf(items.getItemPrice()) * Double.valueOf(items.getQuantitiy());
+                holder.modifiersLayout.setVisibility(View.GONE);
+                holder.dividerView.setVisibility(View.GONE);
+            }
+
+            if (Double.valueOf(items.getDiscountAmount()) > 0.0) {
+                holder.discountAmountTextView.setText(Utility.formatCurrency(items.getDiscountAmount()));
+                holder.totalAmountTextView.setText(Utility.formatCurrency(items.getTotalAmount()));
+
+                holder.discontAmountLayout.setVisibility(View.VISIBLE);
+                holder.totalAmountLayout.setVisibility(View.VISIBLE);
+
+            } else {
+                holder.discontAmountLayout.setVisibility(View.GONE);
+                holder.totalAmountLayout.setVisibility(View.GONE);
+            }
+
+            //holder.netAmountTextView.setText(Utility.formatCurrency(items.getNetAmount()));
+            holder.netAmountTextView.setText(Utility.formatCurrency(String.valueOf(subTotal)));
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        OrderItems items = rowItems.get(position);
 
-        // Getting modifiers list
-        ArrayList<HashMap<String, String>> modifiersList = new ArrayList<>();
-        modifiersList = items.getModifiersList();
-
-        //Load Image
-        String item_image = Const.BASE_URL + Const.IMAGE_URL + items.getItemId();
-        Picasso.with(context).load(item_image).placeholder(R.drawable.ic_placeholder).into(holder.itemImageView);
-
-
-        holder.tv_item_name.setText(items.getItemName());
-        holder.tv_item_status.setText(items.getItemStatus());
-        holder.tv_item_price.setText(Utility.formatCurrency(items.getItemPrice()));
-        holder.tv_quantity.setText(items.getQuantitiy());
-
-        // If modifier(s) exist with product
-        if (modifiersList != null && modifiersList.size() > 0) {
-            holder.modifiersLayout.setVisibility(View.VISIBLE);
-            holder.dividerView.setVisibility(View.VISIBLE);
-            subTotal = (Double.valueOf(items.getItemPrice()) + drawModifiers(holder.modifiersLayout, modifiersList)) * Double.valueOf(items.getQuantitiy());
-        } else {
-
-            // Calculating
-            subTotal = Double.valueOf(items.getItemPrice()) * Double.valueOf(items.getQuantitiy());
-            holder.modifiersLayout.setVisibility(View.GONE);
-            holder.dividerView.setVisibility(View.GONE);
-        }
-
-        if (Double.valueOf(items.getDiscountAmount()) > 0.0) {
-            holder.discountAmountTextView.setText(Utility.formatCurrency(items.getDiscountAmount()));
-            holder.totalAmountTextView.setText(Utility.formatCurrency(items.getTotalAmount()));
-
-            holder.discontAmountLayout.setVisibility(View.VISIBLE);
-            holder.totalAmountLayout.setVisibility(View.VISIBLE);
-
-        } else {
-            holder.discontAmountLayout.setVisibility(View.GONE);
-            holder.totalAmountLayout.setVisibility(View.GONE);
-        }
-
-        //holder.netAmountTextView.setText(Utility.formatCurrency(items.getNetAmount()));
-        holder.netAmountTextView.setText(Utility.formatCurrency(String.valueOf(subTotal)));
 
         setFonts(holder);
 
