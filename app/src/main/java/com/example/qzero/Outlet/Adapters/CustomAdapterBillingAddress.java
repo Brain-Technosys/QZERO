@@ -3,6 +3,7 @@ package com.example.qzero.Outlet.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,14 +20,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ConstVarIntent;
+import com.example.qzero.CommonFiles.Common.ProgresBar;
+import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
+import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
+import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Activities.AddAddressActivity;
 import com.example.qzero.Outlet.Activities.BillingAddressActivity;
 import com.example.qzero.Outlet.Activities.ShippingAddressActivity;
 import com.example.qzero.Outlet.Activities.ViewCartActivity;
 import com.example.qzero.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,21 +47,27 @@ import java.util.Set;
  */
 public class CustomAdapterBillingAddress extends BaseAdapter {
 
-    Context context;
+    Activity context;
 
     ArrayList<HashMap<String, String>> addressDetail;
 
     int type = 0;
+    int delPos;
+    int deleteId;
 
     ShippingAddSession shippingAddSession;
 
+    UserSession userSession;
+
     Bundle bundle;
 
-    public CustomAdapterBillingAddress(Context context, ArrayList<HashMap<String, String>> addressDetail, int type) {
+    public CustomAdapterBillingAddress(Activity context, ArrayList<HashMap<String, String>> addressDetail, int type) {
         this.context = context;
         this.addressDetail = addressDetail;
         this.type = type;
         shippingAddSession = new ShippingAddSession(context);
+
+        userSession=new UserSession(context);
     }
 
     @Override
@@ -155,15 +170,14 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
-                String tag = view.getTag(R.string.key_id).toString();
+                deleteId = Integer.parseInt(view.getTag(R.string.key_id).toString());
 
-                int pos = Integer.parseInt(view.getTag(R.string.key_pos).toString());
+                delPos = Integer.parseInt(view.getTag(R.string.key_pos).toString());
 
-                Log.e("position", "" + pos);
+                Log.e("position", "" + delPos);
 
-                addressDetail.remove(pos);
+                deleteAddress();
 
-                notifyDataSetChanged();
 
             }
         });
@@ -181,6 +195,8 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
 
     private void handlingRadioButtonEvent(final Holder holder, final View view, int pos) {
+
+        holder.rb_selected_address.setTag(pos);
 
         //Handling chkBox selection
         if (type == 1) {
@@ -203,20 +219,20 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 // addressDetail.get()
-                String pos = String.valueOf(view.getTag());
+                String position = String.valueOf(holder.rb_selected_address.getTag());
                 //radioButtonSelection(holder);
                 // notifyDataSetChanged();
 
-                storeAddressInSession(pos);
+                storeAddressInSession(position);
 
             }
         });
     }
 
 
-    public void storeAddressInSession(String pos) {
+    public void storeAddressInSession(String position) {
 
-        HashMap<String, String> hmAddressDetail = addressDetail.get(Integer.parseInt(pos));
+        HashMap<String, String> hmAddressDetail = addressDetail.get(Integer.parseInt(position));
         String name = hmAddressDetail.get(Const.TAG_FNAME);
         String address = hmAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmAddressDetail.get(Const.TAG_CITY) + ", " + hmAddressDetail.get(Const.TAG_STATE) + ", " +
                 hmAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmAddressDetail.get(Const.TAG_ZIPCODE);
@@ -227,7 +243,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             shippingAddSession.saveShippingName(name);
             shippingAddSession.saveShippingAddressDetail(address);
             shippingAddSession.saveShippingContact(contact);
-            shippingAddSession.saveShippingAddressPos(Integer.parseInt(pos));
+            shippingAddSession.saveShippingAddressPos(Integer.parseInt(position));
             ((ShippingAddressActivity) context).notifyAdapter();
 
             // for Billing Address
@@ -235,7 +251,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             shippingAddSession.saveBillingName(name);
             shippingAddSession.saveBillingAddress(address);
             shippingAddSession.saveBillingContact(contact);
-            shippingAddSession.saveBillingAddressPos(Integer.parseInt(pos));
+            shippingAddSession.saveBillingAddressPos(Integer.parseInt(position));
             ((BillingAddressActivity) context).notifyAdapter();
 
         }
@@ -252,5 +268,93 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         RadioButton rb_selected_address;
         ImageView imgDelete;
         ImageView imgEdit;
+    }
+
+    private void deleteAddress() {
+        String addressType;
+        if (context instanceof BillingAddressActivity)
+            addressType = "billing";
+        else
+            addressType = "shipping";
+
+        if (CheckInternetHelper.checkInternetConnection(context)) {
+            new DeleteAddress().execute(addressType);
+        } else {
+            AlertDialogHelper.showAlertDialog(context,
+                    context.getString(R.string.internet_connection_message), "Alert");
+        }
+    }
+
+    private class DeleteAddress extends AsyncTask<String, String, String> {
+
+        int status = -1;
+
+        String message;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(context);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            JsonParser jsonParser = new JsonParser();
+
+
+            String url = Const.BASE_URL + Const.DELETE_ADDRESS + deleteId+"?type="+params[0];
+
+            Log.e("urel",url);
+
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT,userSession.getUserID());
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("json", jsonString);
+                    status = jsonObject.getInt("status");
+                    message = jsonObject.getString("message");
+                    if (status == 1) {
+
+                    }
+
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                status = -1;
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+                status = -1;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+            ProgresBar.stop();
+
+            if (status == 1) {
+
+                addressDetail.remove(delPos);
+
+                notifyDataSetChanged();
+
+            } else if (status == 0) {
+
+                AlertDialogHelper.showAlertDialog(context,
+                        message, "Alert");
+
+            } else {
+                AlertDialogHelper.showAlertDialog(context,
+                        context.getString(R.string.server_message), "Alert");
+            }
+        }
     }
 }

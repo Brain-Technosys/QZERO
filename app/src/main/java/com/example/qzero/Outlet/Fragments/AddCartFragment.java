@@ -564,8 +564,6 @@ public class AddCartFragment extends Fragment {
 
                             String radioChoice = radioBtn.getText().toString();
 
-                            int tag = Integer.parseInt(radioBtn.getTag().toString());
-
                             hashMap.put(i, radioChoice);
                         } else {
                             hashMap.remove(i);
@@ -1073,6 +1071,13 @@ public class AddCartFragment extends Fragment {
                         Log.e("while", "" + isDuplicate);
                         if (isDuplicate)
                             break;
+                       /* else {
+                            long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                            for (int mod = 0; mod < modifierSaved.size(); mod++) {
+
+                                databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_id(), modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId), item_name);
+                            }
+                        }*/
                     }
 
                     if (!isDuplicate) {
@@ -1122,6 +1127,7 @@ public class AddCartFragment extends Fragment {
             modifierSaved = hashMapDefaultMod.get(0);
         }
 
+
         if (modifierSaved.size() == 0) {
             isDuplicate = true;
             Cursor nullModCursor = databaseHelper.getNullModifiers(item_name, "null");
@@ -1157,7 +1163,7 @@ public class AddCartFragment extends Fragment {
 
                     if (modifierSaved.size() == arrayListMod.size()) {
                         for (k = 0; k < modifierSaved.size(); k++) {
-                            if (arrayListMod.contains(modifierSaved.get(k).getMod_name())) {
+                            if (arrayListMod.get(k).equals(modifierSaved.get(k).getMod_name())) {
                                 isDuplicate = true;
                             } else {
                                 isDuplicate = false;

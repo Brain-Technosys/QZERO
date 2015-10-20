@@ -524,10 +524,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
                         String paymentId = jsonObj.getJSONObject("response").getString("id");
                         System.out.println("payment id:-==" + paymentId);
                         Toast.makeText(this, paymentId, Toast.LENGTH_LONG).show();
-
-                        //  callTransactionApi();
-
-                        passIntent();
+                        transactionId = paymentId;
+                        callTransactionApi();
 
                     } catch (JSONException e) {
                         Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
@@ -566,23 +564,17 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             JsonParser jsonParser = new JsonParser();
 
-            String url = Const.BASE_URL + Const.LOGIN_URL;
+            String url = Const.BASE_URL + Const.POST_FINAL_PAYMENT + orderId + "?TransactionId=" + transactionId;
 
-            try {
-
-                JSONObject jsonObjParams = new JSONObject();
-
-                jsonObjParams.put("OrderId", orderId);
-                jsonObjParams.put("TransactionId", transactionId);
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
-
-            String jsonString = jsonParser.executePost(url, jsonObjParams.toString(),
-                    Const.TIME_OUT);
+            Log.e("urel", url);
 
 
             try {
+
+                String jsonString = jsonParser.getJSONFromUrl(url,
+                        Const.TIME_OUT,userSession.getUserID());
+
+                Log.e("jsonfinalcheck", jsonString);
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
@@ -614,6 +606,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             if (status == 1) {
 
+                passIntent();
 
             } else if (status == 0) {
 
