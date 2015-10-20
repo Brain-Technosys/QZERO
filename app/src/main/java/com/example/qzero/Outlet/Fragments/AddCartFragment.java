@@ -115,6 +115,8 @@ public class AddCartFragment extends Fragment {
     String choice;
     String discountDesc;
 
+    ArrayList<String> duplicateItems;
+
     Boolean isDuplicate = false;
 
     Double afterDiscPrice;
@@ -1147,6 +1149,7 @@ public class AddCartFragment extends Fragment {
             }
         } else {
 
+            duplicateItems=new ArrayList<>();
             Cursor modCursor = databaseHelper.getModifiers(item_id);
             if (modCursor != null) {
                 if (modCursor.getCount() != 0) {
@@ -1164,12 +1167,26 @@ public class AddCartFragment extends Fragment {
                     if (modifierSaved.size() == arrayListMod.size()) {
                         for (k = 0; k < modifierSaved.size(); k++) {
                             if (arrayListMod.get(k).equals(modifierSaved.get(k).getMod_name())) {
-                                isDuplicate = true;
+
+                                duplicateItems.add("true");
                             } else {
-                                isDuplicate = false;
+
+                                duplicateItems.add("false");
                             }
                         }
                         Log.e("isDup", "" + isDuplicate);
+
+                        if(duplicateItems.contains("false"))
+                        {
+                            isDuplicate=false;
+
+                            duplicateItems.clear();
+                        }
+                        else
+                        {
+                            isDuplicate=true;
+                            duplicateItems.clear();
+                        }
                         if (!isDuplicate) {
                             //do nothing
                         } else {
