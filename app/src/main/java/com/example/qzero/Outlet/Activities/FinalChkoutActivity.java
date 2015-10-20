@@ -31,6 +31,7 @@ import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -192,6 +193,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
     }
 
 
@@ -606,6 +609,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             if (status == 1) {
 
+                clearCart();
+
                 passIntent();
 
             } else if (status == 0) {
@@ -620,6 +625,13 @@ public class FinalChkoutActivity extends AppCompatActivity {
         }
     }
 
+    private void clearCart()
+    {
+        DatabaseHelper databaseHelper=new DatabaseHelper(FinalChkoutActivity.this);
+        databaseHelper.deleteModifierTable();
+        databaseHelper.deleteItemTable();;
+        databaseHelper.deleteCheckOutTable();
+    }
 
     public void passIntent() {
         Intent intent = new Intent(this, ThankYouActivity.class);

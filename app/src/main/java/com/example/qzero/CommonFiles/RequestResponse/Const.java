@@ -38,6 +38,7 @@ public class Const {
     public static String POST_BILLING_ADD="checkout/AddEditBillingAddress";
     public static String DELETE_ADDRESS="checkout/DeleteAddress";
     public static String POST_FINAL_PAYMENT="checkout/FinalPaymentOrder";
+    public static String GET_DELIVERY_TYPE="checkout/GetDeliveryType?";
 
     //Intialize jsonArray parameter
 

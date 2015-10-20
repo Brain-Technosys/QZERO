@@ -55,6 +55,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     GetCheckOutDetails getCheckOutDetails;
 
+    View footerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +90,10 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         if (listShippingAddress.getFooterViewsCount() == 0) {
 
 
-            View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
+           footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
 
             btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
-            btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
 
-            btnPlaceOrder.setOnClickListener(this);
             btnAddAddress.setOnClickListener(this);
 
             listShippingAddress.addFooterView(footerView);
@@ -119,11 +119,6 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
                 startActivity(intent);
                 break;
-
-            case R.id.btn_PlaceOrder:
-                break;
-
-
         }
 
     }
@@ -137,19 +132,28 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(ShippingAddressActivity.this, FinalChkoutActivity.class);
-        startActivity(intent);
+
+        finish();
+
     }
 
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
 
         finish();
+
     }
 
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
         listShippingAddress.setAdapter(adapter);
+    }
+
+    public void clearList()
+    {
+        footerView.setVisibility(View.INVISIBLE);
+
+        shippingAddSession.clear();
     }
 
     private class GetShipingAddress extends AsyncTask<String, String, String> {

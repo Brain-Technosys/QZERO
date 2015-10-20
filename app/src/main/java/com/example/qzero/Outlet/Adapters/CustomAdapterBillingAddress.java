@@ -346,6 +346,18 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
                 notifyDataSetChanged();
 
+                if(addressDetail.size()==0)
+                {
+                    if(context instanceof BillingAddressActivity)
+                    {
+                        ((BillingAddressActivity) context).clearList();
+                    }
+                    else  if(context instanceof ShippingAddressActivity)
+                    {
+                        ((ShippingAddressActivity) context).clearList();
+                    }
+                }
+
             } else if (status == 0) {
 
                 AlertDialogHelper.showAlertDialog(context,

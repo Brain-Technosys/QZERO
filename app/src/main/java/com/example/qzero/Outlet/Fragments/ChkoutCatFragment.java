@@ -79,6 +79,8 @@ public class ChkoutCatFragment extends Fragment {
 
         inflateLayouts();
 
+        getDeliveryType();
+
         createShipmentTag();
         createPickUpTag();
         createInHouseTag();
@@ -88,6 +90,18 @@ public class ChkoutCatFragment extends Fragment {
         setFont();
 
         return view;
+    }
+
+    private void getDeliveryType()
+    {
+        if(CheckInternetHelper.checkInternetConnection(getActivity()))
+        {
+            new GetDeliveryType().execute();
+        }
+        else
+        {
+            AlertDialogHelper.showAlertDialog(getActivity(),getString(R.string.internet_connection_message),"Alert");
+        }
     }
 
 

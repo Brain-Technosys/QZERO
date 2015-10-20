@@ -28,6 +28,7 @@ import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
@@ -224,6 +225,12 @@ public class ShipmentTabFragment extends Fragment {
         super.onResume();
         Log.e("onresume", "onresume");
 
+        hmBillAddressDetail.clear();
+        hmShipAddressDetail.clear();
+
+        GetCheckOutDetails getCheckOutDetails = new GetCheckOutDetails(getActivity(), "addedit");
+        getCheckOutDetails.managingChkoutDetailAPI();
+
         new GetAddressAtFirstPosition().execute();
     }
 
@@ -263,10 +270,18 @@ public class ShipmentTabFragment extends Fragment {
 
         if (shippingAddSession.getShippingAddress() == null) {
 
-            if (hmShipAddressDetail.isEmpty() || chk_shipmentChoice.isChecked()) {
+
+            if (chk_shipmentChoice.isChecked()) {
                 btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
                 rly_shippingAddress.setVisibility(View.GONE);
                 txt_msg_shipping.setVisibility(View.GONE);
+
+            } else if (hmShipAddressDetail.isEmpty()) {
+                if (!chk_shipmentChoice.isChecked()) {
+                    btn_add_new_shipping_address.setVisibility(View.VISIBLE);
+                    rly_shippingAddress.setVisibility(View.GONE);
+                    txt_msg_shipping.setVisibility(View.VISIBLE);
+                }
 
 
             } else {
@@ -274,6 +289,8 @@ public class ShipmentTabFragment extends Fragment {
                 rly_shippingAddress.setVisibility(View.VISIBLE);
 
                 txt_msg_shipping.setVisibility(View.GONE);
+
+                btn_add_new_shipping_address.setVisibility(View.GONE);
 
                 //Updating Shipping Address
                 txt_user_ship.setText(ship_add_name);
@@ -496,16 +513,16 @@ public class ShipmentTabFragment extends Fragment {
             if (hmShipAddressDetail.isEmpty()) {
                 rly_shippingAddress.setVisibility(View.GONE);
                 btn_add_new_shipping_address.setVisibility(View.VISIBLE);
-                txt_msg_shipping.setVisibility(View.GONE);
+                txt_msg_shipping.setVisibility(View.VISIBLE);
             } else {
                 btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
                 rly_shippingAddress.setVisibility(View.VISIBLE);
                 txt_msg_shipping.setVisibility(View.GONE);
 
                 //Updating Billing Address
-                txt_user_ship.setText(bill_add_name);
-                txt_shipping_address.setText(bill_add_address);
-                txt_shipping_contact.setText(bill_add_contact);
+                txt_user_ship.setText(ship_add_name);
+                txt_shipping_address.setText(ship_add_address);
+                txt_shipping_contact.setText(ship_add_contact);
             }
         }
 
@@ -574,7 +591,6 @@ public class ShipmentTabFragment extends Fragment {
 
                         if (jsonArrayBillingAddressDetail != null) {
 
-
                             for (int i = 0; i < 1; i++) {
                                 billingStatus = 1;
 
@@ -623,7 +639,7 @@ public class ShipmentTabFragment extends Fragment {
             }
             if (shippingStatus == 0) {
             } else {
-                shipping_id = hmBillAddressDetail.get(Const.TAG_SHIPPING_ADDRESS);
+                shipping_id = hmShipAddressDetail.get(Const.TAG_SHIPPING_ADDRESS);
                 ship_add_name = hmShipAddressDetail.get(Const.TAG_FNAME);
                 ship_add_address = hmShipAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmShipAddressDetail.get(Const.TAG_CITY) + ", " + hmShipAddressDetail.get(Const.TAG_STATE) + ", " +
                         hmShipAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmShipAddressDetail.get(Const.TAG_ZIPCODE);

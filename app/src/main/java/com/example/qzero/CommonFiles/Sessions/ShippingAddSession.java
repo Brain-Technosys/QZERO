@@ -126,19 +126,24 @@ public class ShippingAddSession {
     }
 
 
-    public void clearShippingSharPref(){
+    public void clearShippingSharPref() {
         editor.remove(TAG_SHIPPING_ADD);
         editor.remove(TAG_SHIPPING_ADD_POS);
         editor.remove(TAG_SHIPPING_CONTACT);
         editor.commit();
     }
 
-    public void clearBillingSharPref(){
+    public void clearBillingSharPref() {
         editor.remove(TAG_BILLING_ADD);
         editor.remove(TAG_BILLING_ADD_POS);
         editor.remove(TAG_BILLING_CONTACT);
+        editor.remove(TAG_BILLING_NAME);
         editor.commit();
     }
 
+    public void clear() {
+        editor.clear();
+        editor.commit();
+    }
 
 }

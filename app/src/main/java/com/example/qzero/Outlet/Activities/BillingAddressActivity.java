@@ -58,6 +58,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     GetCheckOutDetails getCheckOutDetails;
 
+    View footerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,15 +90,13 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     private void inflateAddressList() {
 
-        if(listBillingAddress.getFooterViewsCount()==0) {
+        if (listBillingAddress.getFooterViewsCount() == 0) {
 
-            View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
+            footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
             listBillingAddress.addFooterView(footerView);
 
             btnAddAddress = (Button) footerView.findViewById(R.id.btn_addNew);
-            btnPlaceOrder = (Button) footerView.findViewById(R.id.btn_PlaceOrder);
 
-            btnPlaceOrder.setOnClickListener(this);
             btnAddAddress.setOnClickListener(this);
         }
 
@@ -112,44 +112,51 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
 
             case R.id.btn_addNew:
-                Intent intent = new Intent(this,AddAddressActivity.class);
+                Intent intent = new Intent(this, AddAddressActivity.class);
 
-                createBundle("0","1");
+                createBundle("0", "1");
 
                 intent.putExtras(bundle);
 
                 startActivity(intent);
                 break;
-
-            case R.id.btn_PlaceOrder:
-                break;
         }
 
     }
 
-    private void createBundle(String type,String addressType)
-    {
-        bundle=new Bundle();
-        bundle.putString(ConstVarIntent.TAG_TYPE,type);
-        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS,addressType);
+    private void createBundle(String type, String addressType) {
+        bundle = new Bundle();
+        bundle.putString(ConstVarIntent.TAG_TYPE, type);
+        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS, addressType);
     }
 
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(BillingAddressActivity.this, FinalChkoutActivity.class);
-        startActivity(intent);
+
+        finish();
+
+
     }
 
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
+
+
         finish();
+
     }
 
 
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
         listBillingAddress.setAdapter(adapter);
+    }
+
+    public void clearList() {
+        footerView.setVisibility(View.INVISIBLE);
+
+        shippingAddSession.clear();
     }
 
     private class GetBillingAddressDetail extends AsyncTask<String, String, String> {
@@ -186,8 +193,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
                         HashMap<String, String> hmAddressDetail = new HashMap<>();
 
-                        Log.e("i",""+i);
-                        Log.e("act",jsonBillingAddress.getString(Const.TAG_BILLING_ID));
+                        Log.e("i", "" + i);
+                        Log.e("act", jsonBillingAddress.getString(Const.TAG_BILLING_ID));
 
                         hmAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
                         hmAddressDetail.put(Const.TAG_BILLING_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));
