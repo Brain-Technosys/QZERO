@@ -88,7 +88,7 @@ public class ChkoutCatFragment extends Fragment {
 
         inflateLayouts();
 
-       getDeliveryType();
+      // getDeliveryType();
 
         createShipmentTag();
         createPickUpTag();
@@ -101,7 +101,7 @@ public class ChkoutCatFragment extends Fragment {
         return view;
     }
 
-    private void getDeliveryType() {
+  /*  private void getDeliveryType() {
 
         Cursor cursorOutletId = databaseHelper.selectOutletId();
 
@@ -208,7 +208,7 @@ public class ChkoutCatFragment extends Fragment {
 
         }
     }
-
+*/
     @Override
     public void onDestroyView() {
         super.onDestroyView();

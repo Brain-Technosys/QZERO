@@ -606,7 +606,7 @@ public class AddCartFragment extends Fragment {
             checkBox[i].setChecked(true);
             checkBox[i].setEnabled(false);
 
-            radioButton[0].setChecked(true);// check the first radiobutton automatically
+           // radioButton[0].setChecked(true);// check the first radiobutton automatically
         }
 
         if (hashMapSelectedMod.containsKey(index)) { //if a user has manually selected the modifier
