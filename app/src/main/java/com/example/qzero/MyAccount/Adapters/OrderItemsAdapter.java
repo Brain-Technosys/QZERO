@@ -63,6 +63,7 @@ public class OrderItemsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         double subTotal = 0;
+        double itemPrice = 0;
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context
@@ -106,14 +107,17 @@ public class OrderItemsAdapter extends BaseAdapter {
 
             holder.tv_item_name.setText(items.getItemName());
             holder.tv_item_status.setText(items.getItemStatus());
-            holder.tv_item_price.setText(Utility.formatCurrency(items.getItemPrice()));
+
+            itemPrice = Double.valueOf(items.getItemPrice()) * Double.valueOf(items.getQuantitiy());
+            holder.tv_item_price.setText(Utility.formatCurrency(String.valueOf(itemPrice)));
+
             holder.tv_quantity.setText(items.getQuantitiy());
 
             // If modifier(s) exist with product
             if (modifiersList != null && modifiersList.size() > 0) {
                 holder.modifiersLayout.setVisibility(View.VISIBLE);
                 holder.dividerView.setVisibility(View.VISIBLE);
-                subTotal = (Double.valueOf(items.getItemPrice()) + drawModifiers(holder.modifiersLayout, modifiersList)) * Double.valueOf(items.getQuantitiy());
+                subTotal = (Double.valueOf(items.getItemPrice()) + drawModifiers(holder.modifiersLayout, modifiersList, items)) * Double.valueOf(items.getQuantitiy());
             } else {
 
                 // Calculating
@@ -141,7 +145,6 @@ public class OrderItemsAdapter extends BaseAdapter {
         }
 
 
-
         setFonts(holder);
 
 
@@ -159,7 +162,7 @@ public class OrderItemsAdapter extends BaseAdapter {
         FontHelper.applyFont(context, holder.netAmountTextView, FontHelper.FontType.FONT);
     }
 
-    private double drawModifiers(LinearLayout tableLayout, ArrayList<HashMap<String, String>> modifiers) {
+    private double drawModifiers(LinearLayout tableLayout, ArrayList<HashMap<String, String>> modifiers, OrderItems items) {
         int noOfModifiers = modifiers.size();
         double modifierPrice = 0;
         LinearLayout[] tableRow = new LinearLayout[noOfModifiers];
@@ -181,7 +184,8 @@ public class OrderItemsAdapter extends BaseAdapter {
 
             // Setting text to text views
             modifierNameTextViews[i].setText(map.get(Const.TAG_NAME));
-            modifierPriceTextViews[i].setText(Utility.formatCurrency(map.get(Const.TAG_PRICE)));
+            double modiferP = Double.valueOf(map.get(Const.TAG_PRICE)) * Double.valueOf(items.getQuantitiy());
+            modifierPriceTextViews[i].setText(Utility.formatCurrency(String.valueOf(modiferP)));
             modifierPrice = modifierPrice + Double.valueOf(map.get(Const.TAG_PRICE));
 
             modifierNameTextViews[i].setTextColor(Color.BLACK);
