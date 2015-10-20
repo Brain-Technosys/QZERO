@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.txt_userName)
     TextView txt_userName;
 
-    String LOGINTYPE;
+    String LOGINTYPE="SIMPLELOGIN";
 
 
     @Override
@@ -52,7 +52,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //getting intent from HomeScreen and CartScreen, LOGINTYPE will differenciate
         Intent intent = getIntent();
-        LOGINTYPE = intent.getStringExtra("LOGINTYPE");
+        if(getIntent().hasExtra("LOGINTYPE")) {
+            LOGINTYPE = intent.getStringExtra("LOGINTYPE");
+        }
 
     }
 

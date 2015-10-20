@@ -112,8 +112,11 @@ public class AddAddressActivity extends AppCompatActivity {
 
     HashMap<Integer, ArrayList<State>> hashMapState;
 
+    ArrayList<HashMap<String, String>> addressDetail;
+
     String addressType;
     String type;
+    int position;
 
 
     @Override
@@ -132,8 +135,15 @@ public class AddAddressActivity extends AppCompatActivity {
             addressType = bundle.getString(ConstVarIntent.TAG_TYPE_ADDRESS);
             type = bundle.getString(ConstVarIntent.TAG_TYPE);
 
-            Log.e("addresstype",addressType);
-            Log.e("typeadd",type);
+            if(!type.equals("0")) {
+
+                addressDetail = (ArrayList<HashMap<String, String>>) bundle.getSerializable(ConstVarIntent.TAG_LIST_ADDRESS);
+
+                position = Integer.parseInt(bundle.getString(ConstVarIntent.TAG_POS));
+            }
+
+            Log.e("addresstype", addressType);
+            Log.e("typeadd", type);
         }
 
         userSession = new UserSession(AddAddressActivity.this);
@@ -142,14 +152,20 @@ public class AddAddressActivity extends AppCompatActivity {
 
         ArrayList<State> arrayListState = new ArrayList<>();
 
-
         fillDataCountrySpinner(country);
 
         fillDataStateSpinner(state);
 
         getCountryAndState();
 
+        if (!type.equals("0")) {
+
+            setPrefiiledData();
+        }
+
+
     }
+
 
     private void fillDataStateSpinner(String[] state) {
         stateAdapter = new ArrayAdapter(AddAddressActivity.this, R.layout.layout_spinner, state);
@@ -163,6 +179,17 @@ public class AddAddressActivity extends AppCompatActivity {
         countryAdapter = new ArrayAdapter(AddAddressActivity.this, R.layout.layout_spinner, country);
         countryAdapter.setDropDownViewResource(R.layout.layout_spinner_drop_down);
         spnr_country.setAdapter(countryAdapter);
+    }
+
+    private void setPrefiiledData() {
+
+        edtTxtFirstName.setText(addressDetail.get(position).get(Const.TAG_FNAME));
+        edtTxtAddress.setText(addressDetail.get(position).get(Const.TAG_ADDRESS1));
+        edtTxtTownCity.setText(addressDetail.get(position).get(Const.TAG_CITY));
+        edtTxtEmail.setText(addressDetail.get(position).get(Const.TAG_EMAIL_ADD));
+        edtTxtZipCode.setText(addressDetail.get(position).get(Const.TAG_ZIPCODE));
+        edtTxtContact.setText(addressDetail.get(position).get(Const.TAG_PHONE_NO));
+
     }
 
     public void getCountryAndState() {
@@ -457,7 +484,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObj.put("lastName", lname);
                 jsonObj.put("address1", address);
                 jsonObj.put("city", city);
-                jsonObj.put("countryId",country_id);
+                jsonObj.put("countryId", country_id);
                 jsonObj.put("zipCode", zipcode);
                 jsonObj.put("emailAddress", email);
                 jsonObj.put("phoneNo", contact);
@@ -536,7 +563,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObj.put("lastName", lname);
                 jsonObj.put("address1", address);
                 jsonObj.put("city", city);
-                jsonObj.put("countryId",country_id);
+                jsonObj.put("countryId", country_id);
                 jsonObj.put("zipCode", zipcode);
                 jsonObj.put("emailAddress", email);
                 jsonObj.put("phoneNo", contact);

@@ -573,8 +573,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     private void passIntentHome() {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("LOGINTYPE", "OUTLET");
         startActivity(intent);
-        finish();
     }
 
     //Edited by himanshu shekher

@@ -196,8 +196,8 @@ public class ShipmentTabFragment extends Fragment {
 
 
         shippingAddSession = new ShippingAddSession(getActivity());
-        databaseHelper=new DatabaseHelper(getActivity());
-        userSession=new UserSession(getActivity());
+        databaseHelper = new DatabaseHelper(getActivity());
+        userSession = new UserSession(getActivity());
 
         hmBillAddressDetail = new HashMap<>();
         hmShipAddressDetail = new HashMap<>();
@@ -310,20 +310,18 @@ public class ShipmentTabFragment extends Fragment {
     }
 
     @OnClick(R.id.btn_add_new_billing_address)
-    void addBillingAddress()
-    {
-        Intent intent = new Intent(getActivity(),AddAddressActivity.class);
+    void addBillingAddress() {
+        Intent intent = new Intent(getActivity(), AddAddressActivity.class);
         createBundle("0", "1");
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
     @OnClick(R.id.btn_add_new_shipping_address)
-    void addShippingAddress()
-    {
-        Intent intent = new Intent(getActivity(),AddAddressActivity.class);
+    void addShippingAddress() {
+        Intent intent = new Intent(getActivity(), AddAddressActivity.class);
 
-        createBundle("0","0");
+        createBundle("0", "0");
 
         intent.putExtras(bundle);
 
@@ -336,11 +334,10 @@ public class ShipmentTabFragment extends Fragment {
         createPostCheckout();
     }
 
-    private void createBundle(String type,String addressType)
-    {
-        bundle=new Bundle();
-        bundle.putString(ConstVarIntent.TAG_TYPE,type);
-        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS,addressType);
+    private void createBundle(String type, String addressType) {
+        bundle = new Bundle();
+        bundle.putString(ConstVarIntent.TAG_TYPE, type);
+        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS, addressType);
     }
 
     private void createPostCheckout() {
@@ -351,7 +348,7 @@ public class ShipmentTabFragment extends Fragment {
 
                 itemId = Integer.parseInt(outletCursor.getString(1));
                 outletId = Integer.parseInt(outletCursor.getString(2));
-                discountAmount =outletCursor.getDouble(3);
+                discountAmount = outletCursor.getDouble(3);
                 afterDiscountAmount = Double.parseDouble(outletCursor.getString(4));
 
             }
@@ -362,12 +359,12 @@ public class ShipmentTabFragment extends Fragment {
         try {
             jsonObjDetails.put("itemId", itemId);
             jsonObjDetails.put("outletId", outletId);
-            jsonObjDetails.put("discountAmount",discountAmount);
+            jsonObjDetails.put("discountAmount", discountAmount);
             jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
 
-            jsonObjDetails.put("billingAddressId",billingAddressId );
-            jsonObjDetails.put("deliveryType",2);
+            jsonObjDetails.put("billingAddressId", billingAddressId);
+            jsonObjDetails.put("deliveryType", 2);
 
             JSONArray jsonArrayOrder = new JSONArray();
             JSONArray jsonArrayMod = new JSONArray();
@@ -415,7 +412,6 @@ public class ShipmentTabFragment extends Fragment {
             }
 
 
-
             jsonObjDetails.putOpt("orderItemStatus", jsonArrayOrder);
             jsonObjDetails.putOpt("orderItemModifiers", jsonArrayMod);
 
@@ -428,9 +424,8 @@ public class ShipmentTabFragment extends Fragment {
         }
     }
 
-    private void postToCheckOut(String jsonDetails)
-    {
-        ((FinalChkoutActivity)getActivity()).callPostCheckout(jsonDetails);
+    private void postToCheckOut(String jsonDetails) {
+        ((FinalChkoutActivity) getActivity()).callPostCheckout(jsonDetails);
     }
 
 
@@ -496,16 +491,13 @@ public class ShipmentTabFragment extends Fragment {
             rly_shippingAddress.setVisibility(View.GONE);
             btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
             txt_msg_shipping.setVisibility(View.GONE);
-            btn_add_new_billing_address.setVisibility(View.GONE);
-        }
-        else {
-            if(hmShipAddressDetail.isEmpty()) {
+            btn_add_new_shipping_address.setVisibility(View.GONE);
+        } else {
+            if (hmShipAddressDetail.isEmpty()) {
                 rly_shippingAddress.setVisibility(View.GONE);
                 btn_add_new_shipping_address.setVisibility(View.VISIBLE);
                 txt_msg_shipping.setVisibility(View.GONE);
-            }
-            else
-            {
+            } else {
                 btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
                 rly_shippingAddress.setVisibility(View.VISIBLE);
                 txt_msg_shipping.setVisibility(View.GONE);
@@ -544,62 +536,69 @@ public class ShipmentTabFragment extends Fragment {
                 billingStatus = 0;
             } else {
                 try {
-
-                    shippingStatus = 1;
-
                     JSONObject jsonObjResult = new JSONObject(shippingAddSession.getChkOutDetail());
                     Log.e("jsonObjResult", shippingAddSession.getChkOutDetail());
-                    jsonArrayShippingAddressDetail = jsonObjResult.getJSONArray(Const.TAG_CHKOUT_SHIPPING_ADDRESS);
+                    try {
 
-                    if (jsonArrayShippingAddressDetail.length() != 0) {
 
-                        shippingStatus = 1;
+                        jsonArrayShippingAddressDetail = jsonObjResult.getJSONArray(Const.TAG_CHKOUT_SHIPPING_ADDRESS);
 
-                        for (int i = 0; i < 1; i++) {
+                        if (jsonArrayShippingAddressDetail != null) {
 
-                            JSONObject jsonShippingAddress = jsonArrayShippingAddressDetail.getJSONObject(i);
+                            shippingStatus = 1;
 
-                            hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
-                            hmShipAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_CUST_ID));
-                            hmShipAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME) + " " + jsonShippingAddress.getString(Const.TAG_LNAME));
-                            hmShipAddressDetail.put(Const.TAG_ADDRESS1, jsonShippingAddress.getString(Const.TAG_ADDRESS1));
-                            hmShipAddressDetail.put(Const.TAG_ADDRESS2, jsonShippingAddress.getString(Const.TAG_ADDRESS2));
-                            hmShipAddressDetail.put(Const.TAG_CITY, jsonShippingAddress.getString(Const.TAG_CITY));
-                            hmShipAddressDetail.put(Const.TAG_STATE, jsonShippingAddress.getString(Const.TAG_STATE_NAME));
-                            hmShipAddressDetail.put(Const.TAG_COUNTRY, jsonShippingAddress.getString(Const.TAG_COUNTRY_NAME));
-                            hmShipAddressDetail.put(Const.TAG_ZIPCODE, jsonShippingAddress.getString(Const.TAG_ZIPCODE));
-                            hmShipAddressDetail.put(Const.TAG_PHONE_NO, jsonShippingAddress.getString(Const.TAG_PHONE_NO));
-                            hmShipAddressDetail.put(Const.TAG_EMAIL_ADD, jsonShippingAddress.getString(Const.TAG_EMAIL_ADD));
+                            for (int i = 0; i < 1; i++) {
 
+                                JSONObject jsonShippingAddress = jsonArrayShippingAddressDetail.getJSONObject(i);
+
+                                hmShipAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
+                                hmShipAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_CUST_ID));
+                                hmShipAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME) + " " + jsonShippingAddress.getString(Const.TAG_LNAME));
+                                hmShipAddressDetail.put(Const.TAG_ADDRESS1, jsonShippingAddress.getString(Const.TAG_ADDRESS1));
+                                hmShipAddressDetail.put(Const.TAG_ADDRESS2, jsonShippingAddress.getString(Const.TAG_ADDRESS2));
+                                hmShipAddressDetail.put(Const.TAG_CITY, jsonShippingAddress.getString(Const.TAG_CITY));
+                                hmShipAddressDetail.put(Const.TAG_STATE, jsonShippingAddress.getString(Const.TAG_STATE_NAME));
+                                hmShipAddressDetail.put(Const.TAG_COUNTRY, jsonShippingAddress.getString(Const.TAG_COUNTRY_NAME));
+                                hmShipAddressDetail.put(Const.TAG_ZIPCODE, jsonShippingAddress.getString(Const.TAG_ZIPCODE));
+                                hmShipAddressDetail.put(Const.TAG_PHONE_NO, jsonShippingAddress.getString(Const.TAG_PHONE_NO));
+                                hmShipAddressDetail.put(Const.TAG_EMAIL_ADD, jsonShippingAddress.getString(Const.TAG_EMAIL_ADD));
+
+                            }
                         }
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
                     }
+                    try {
 
-                    jsonArrayBillingAddressDetail = jsonObjResult.getJSONArray(Const.TAG_CHKOUT_BILLING_ADDRESS);
+                        jsonArrayBillingAddressDetail = jsonObjResult.getJSONArray(Const.TAG_CHKOUT_BILLING_ADDRESS);
 
-                    if (jsonArrayBillingAddressDetail != null) {
+                        if (jsonArrayBillingAddressDetail != null) {
 
-                        billingStatus = 1;
 
-                        for (int i = 0; i < 1; i++) {
+                            for (int i = 0; i < 1; i++) {
+                                billingStatus = 1;
 
-                            JSONObject jsonBillingAddress = jsonArrayBillingAddressDetail.getJSONObject(i);
+                                JSONObject jsonBillingAddress = jsonArrayBillingAddressDetail.getJSONObject(i);
 
-                            hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));
-                            hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
-                            hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
-                            hmBillAddressDetail.put(Const.TAG_FNAME, jsonBillingAddress.getString(Const.TAG_FNAME) + " " + jsonBillingAddress.getString(Const.TAG_LNAME));
-                            hmBillAddressDetail.put(Const.TAG_ADDRESS1, jsonBillingAddress.getString(Const.TAG_ADDRESS1));
-                            hmBillAddressDetail.put(Const.TAG_ADDRESS2, jsonBillingAddress.getString(Const.TAG_ADDRESS2));
-                            hmBillAddressDetail.put(Const.TAG_CITY, jsonBillingAddress.getString(Const.TAG_CITY));
-                            hmBillAddressDetail.put(Const.TAG_STATE, jsonBillingAddress.getString(Const.TAG_STATE_NAME));
-                            hmBillAddressDetail.put(Const.TAG_COUNTRY, jsonBillingAddress.getString(Const.TAG_COUNTRY_NAME));
-                            hmBillAddressDetail.put(Const.TAG_ZIPCODE, jsonBillingAddress.getString(Const.TAG_ZIPCODE));
-                            hmBillAddressDetail.put(Const.TAG_PHONE_NO, jsonBillingAddress.getString(Const.TAG_PHONE_NO));
-                            hmBillAddressDetail.put(Const.TAG_EMAIL_ADD, jsonBillingAddress.getString(Const.TAG_EMAIL_ADD));
+                                hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));
+                                hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
+                                hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
+                                hmBillAddressDetail.put(Const.TAG_FNAME, jsonBillingAddress.getString(Const.TAG_FNAME) + " " + jsonBillingAddress.getString(Const.TAG_LNAME));
+                                hmBillAddressDetail.put(Const.TAG_ADDRESS1, jsonBillingAddress.getString(Const.TAG_ADDRESS1));
+                                hmBillAddressDetail.put(Const.TAG_ADDRESS2, jsonBillingAddress.getString(Const.TAG_ADDRESS2));
+                                hmBillAddressDetail.put(Const.TAG_CITY, jsonBillingAddress.getString(Const.TAG_CITY));
+                                hmBillAddressDetail.put(Const.TAG_STATE, jsonBillingAddress.getString(Const.TAG_STATE_NAME));
+                                hmBillAddressDetail.put(Const.TAG_COUNTRY, jsonBillingAddress.getString(Const.TAG_COUNTRY_NAME));
+                                hmBillAddressDetail.put(Const.TAG_ZIPCODE, jsonBillingAddress.getString(Const.TAG_ZIPCODE));
+                                hmBillAddressDetail.put(Const.TAG_PHONE_NO, jsonBillingAddress.getString(Const.TAG_PHONE_NO));
+                                hmBillAddressDetail.put(Const.TAG_EMAIL_ADD, jsonBillingAddress.getString(Const.TAG_EMAIL_ADD));
+                            }
                         }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

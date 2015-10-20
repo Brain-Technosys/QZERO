@@ -18,6 +18,7 @@ import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterBillingAddress;
@@ -55,6 +56,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     ShippingAddSession shippingAddSession;
 
+    GetCheckOutDetails getCheckOutDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +75,9 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
     @Override
     protected void onResume() {
         super.onResume();
+
+        getCheckOutDetails = new GetCheckOutDetails(this, "addedit");
+        getCheckOutDetails.managingChkoutDetailAPI();
 
         if (CheckInternetHelper.checkInternetConnection(BillingAddressActivity.this))
             new GetBillingAddressDetail().execute();
@@ -172,6 +178,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
                     listAddress = new ArrayList<>();
 
+                    listAddress.clear();
+
                     for (int i = 0; i < jsonArrayBillingAddressDetail.length(); i++) {
 
                         JSONObject jsonBillingAddress = jsonArrayBillingAddressDetail.getJSONObject(i);
@@ -192,6 +200,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
                         hmAddressDetail.put(Const.TAG_ZIPCODE, jsonBillingAddress.getString(Const.TAG_ZIPCODE));
                         hmAddressDetail.put(Const.TAG_PHONE_NO, jsonBillingAddress.getString(Const.TAG_PHONE_NO));
                         hmAddressDetail.put(Const.TAG_EMAIL_ADD, jsonBillingAddress.getString(Const.TAG_EMAIL_ADD));
+                        hmAddressDetail.put(Const.TAG_COUNTRY_ID, jsonBillingAddress.getString(Const.TAG_COUNTRYID));
+                        hmAddressDetail.put(Const.TAG_STATE_ID, jsonBillingAddress.getString(Const.TAG_STATE_ID));
 
                         listAddress.add(hmAddressDetail);
 

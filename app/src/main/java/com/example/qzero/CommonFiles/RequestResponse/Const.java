@@ -36,6 +36,7 @@ public class Const {
     public static String GET_COUNTRY="checkout/GetStateByCountryId";
     public static String POST_SHIPPING_ADD="checkout/AddEditShippingAddress";
     public static String POST_BILLING_ADD="checkout/AddEditBillingAddress";
+    public static String DELETE_ADDRESS="checkout/DeleteAddress";
 
     //Intialize jsonArray parameter
 
@@ -185,7 +186,7 @@ public class Const {
     public static String TAG_ADDRESS2 = "address2";
     public static String TAG_COUNTRY_NAME="countryName";
     public static String TAG_STATE_NAME="stateName";
-    public static String TAG_COUNTRY_ID = "countyId";
+    public static String TAG_COUNTRY_ID = "countryID";
     public static String TAG_ZIPCODE= "zipCode";
     public static String TAG_EMAIL_ADD = "emailAddress";
    // public static String TAG_PHONE_NO = "phoneNo";

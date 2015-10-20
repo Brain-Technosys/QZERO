@@ -66,7 +66,7 @@ public class ShippingAddSession {
     }
 
     public void saveShippingAddressPos(int pos) {
-        editor.putInt(TAG_BILLING_ADD_POS, pos);
+        editor.putInt(TAG_SHIPPING_ADD_POS, pos);
         editor.commit();
     }
 

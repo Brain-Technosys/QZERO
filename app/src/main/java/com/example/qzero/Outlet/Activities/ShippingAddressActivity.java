@@ -16,6 +16,7 @@ import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterBillingAddress;
@@ -52,6 +53,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     ShippingAddSession shippingAddSession;
 
+    GetCheckOutDetails getCheckOutDetails;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,19 +65,27 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
         txtViewHeading.setText("Shipping Address");
 
+
         shippingAddSession = new ShippingAddSession(this);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCheckOutDetails = new GetCheckOutDetails(this, "addedit");
+        getCheckOutDetails.managingChkoutDetailAPI();
 
         if (CheckInternetHelper.checkInternetConnection(ShippingAddressActivity.this))
             new GetShipingAddress().execute();
         else
             AlertDialogHelper.showAlertDialog(this, String.valueOf(R.string.internet_connection_message), "ALERT");
-
-
     }
 
     private void inflateAddressList() {
 
-        if(listShippingAddress.getFooterViewsCount()==0) {
+        if (listShippingAddress.getFooterViewsCount() == 0) {
 
 
             View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_list_billing_address, null, false);
@@ -100,9 +111,9 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
 
             case R.id.btn_addNew:
-                Intent intent = new Intent(this,AddAddressActivity.class);
+                Intent intent = new Intent(this, AddAddressActivity.class);
 
-                createBundle("0","0");
+                createBundle("0", "0");
 
                 intent.putExtras(bundle);
 
@@ -117,11 +128,10 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     }
 
-    private void createBundle(String type,String addressType)
-    {
-        bundle=new Bundle();
-        bundle.putString(ConstVarIntent.TAG_TYPE,type);
-        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS,addressType);
+    private void createBundle(String type, String addressType) {
+        bundle = new Bundle();
+        bundle.putString(ConstVarIntent.TAG_TYPE, type);
+        bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS, addressType);
     }
 
     @Override
@@ -134,7 +144,7 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
     @OnClick(R.id.imgViewBack)
     void imgViewBack() {
 
-       finish();
+        finish();
     }
 
     public void notifyAdapter() {
@@ -166,6 +176,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
                     listAddress = new ArrayList<>();
 
+                    listAddress.clear();
+
                     for (int i = 0; i < jsonArrayShippingAddressDetail.length(); i++) {
 
                         JSONObject jsonShippingAddress = jsonArrayShippingAddressDetail.getJSONObject(i);
@@ -173,7 +185,7 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
                         HashMap<String, String> hmAddressDetail = new HashMap<>();
 
                         hmAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_CUST_ID));
-                        hmAddressDetail.put(Const.TAG_BILLING_ID,jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
+                        hmAddressDetail.put(Const.TAG_BILLING_ID, jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
                         hmAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME) + " " + jsonShippingAddress.getString(Const.TAG_LNAME));
                         hmAddressDetail.put(Const.TAG_ADDRESS1, jsonShippingAddress.getString(Const.TAG_ADDRESS1));
                         hmAddressDetail.put(Const.TAG_ADDRESS2, jsonShippingAddress.getString(Const.TAG_ADDRESS2));
@@ -183,6 +195,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
                         hmAddressDetail.put(Const.TAG_ZIPCODE, jsonShippingAddress.getString(Const.TAG_ZIPCODE));
                         hmAddressDetail.put(Const.TAG_PHONE_NO, jsonShippingAddress.getString(Const.TAG_PHONE_NO));
                         hmAddressDetail.put(Const.TAG_EMAIL_ADD, jsonShippingAddress.getString(Const.TAG_EMAIL_ADD));
+                        hmAddressDetail.put(Const.TAG_COUNTRY_ID, jsonShippingAddress.getString(Const.TAG_COUNTRY_ID));
+                        hmAddressDetail.put(Const.TAG_STATE_ID, jsonShippingAddress.getString(Const.TAG_STATE_ID));
 
                         listAddress.add(hmAddressDetail);
 

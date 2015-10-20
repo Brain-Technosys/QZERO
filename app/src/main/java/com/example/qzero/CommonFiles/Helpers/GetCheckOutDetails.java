@@ -125,12 +125,17 @@ public class GetCheckOutDetails {
             ProgresBar.stop();
 
             if (status == 1) {
-                Intent intent = new Intent(context, FinalChkoutActivity.class);
-                if(className.equals("login"))
-                {
-                    context.finish();
+
+                if(className.equals("addedit")) {
+                //do nothing
                 }
-                context.startActivity(intent);
+                else {
+                    Intent intent = new Intent(context, FinalChkoutActivity.class);
+                    if (className.equals("login")) {
+                        context.finish();
+                    }
+                    context.startActivity(intent);
+                }
             } else if (status == 0) {
                 AlertDialogHelper.showAlertDialog(context, msg, "Alert");
             } else if (status == -1) {

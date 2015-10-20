@@ -67,7 +67,7 @@ public class LoginUserFragment extends Fragment {
     String password;
 
     int status;
-    String LOGINTYPE;
+    String LOGINTYPE="SIMPLELOGIN";
 
     GetCheckOutDetails getCheckOutDetails;
 
@@ -220,7 +220,9 @@ public class LoginUserFragment extends Fragment {
                     intent.putExtra("name", name);
                     startActivity(intent);
                 }
-
+                else if(LOGINTYPE.equals("OUTLET")) {
+                   getActivity().finish();
+                }
 
             } else if (status == 0) {
 

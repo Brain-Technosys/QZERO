@@ -1,5 +1,6 @@
 package com.example.qzero.Outlet.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +42,6 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
     ArrayList<HashMap<String, String>> addressDetail;
 
-    LayoutInflater inflater;
-
     int type = 0;
 
     ShippingAddSession shippingAddSession;
@@ -53,7 +53,6 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         this.addressDetail = addressDetail;
         this.type = type;
         shippingAddSession = new ShippingAddSession(context);
-        inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -73,58 +72,45 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Holder holder = new Holder();
+        Holder holder;
         if (view == null) {
-            view = inflater.inflate(R.layout.list_address, null);
 
-            setID(holder, view,i);
-            setFont(holder);
-            view.setTag(i);
+            holder = new Holder();
 
-            //Adding address Detail in List
-            addAddressDetail(holder, i, view);
 
-            //Handling all click event
-            applyingClickEvent(holder, view);
+            LayoutInflater mInflater = (LayoutInflater) context
+                    .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            view = mInflater.inflate(R.layout.list_address, null);
+
+            holder.rb_selected_address = (RadioButton) view.findViewById(R.id.rb_selected_address);
+            holder.addressName = (TextView) view.findViewById(R.id.txtName);
+            holder.addressLine1 = (TextView) view.findViewById(R.id.addressLine1);
+            holder.addressCity = (TextView) view.findViewById(R.id.addressCity);
+            holder.addressState = (TextView) view.findViewById(R.id.addressState);
+            holder.addressCountry = (TextView) view.findViewById(R.id.addressCountry);
+            holder.addressPostcode = (TextView) view.findViewById(R.id.addressPinCode);
+            holder.addressContact = (TextView) view.findViewById(R.id.addressContact);
+
+            holder.imgDelete = (ImageView) view.findViewById(R.id.deleteAddress);
+
+            holder.imgEdit = (ImageView) view.findViewById(R.id.edit_address);
+
+            FontHelper.applyFont(context, holder.addressName, FontHelper.FontType.FONT);
+            FontHelper.applyFont(context, holder.addressLine1, FontHelper.FontType.FONT);
+            FontHelper.applyFont(context, holder.addressCity, FontHelper.FontType.FONT);
+            FontHelper.applyFont(context, holder.addressState, FontHelper.FontType.FONT);
+            FontHelper.applyFont(context, holder.addressCountry, FontHelper.FontType.FONT);
+            FontHelper.applyFont(context, holder.addressPostcode, FontHelper.FontType.FONT);
+            FontHelper.applyFont(context, holder.addressContact, FontHelper.FontType.FONT);
 
             //Handling all chkbox event
             handlingRadioButtonEvent(holder, view, i);
+
+            view.setTag(holder);
+        } else {
+            holder = (Holder) view.getTag();
         }
 
-        return view;
-    }
-
-
-    private void setID(Holder holder, View view,int position) {
-
-        holder.rb_selected_address = (RadioButton) view.findViewById(R.id.rb_selected_address);
-        holder.addressName = (TextView) view.findViewById(R.id.txtName);
-        holder.addressLine1 = (TextView) view.findViewById(R.id.addressLine1);
-        holder.addressCity = (TextView) view.findViewById(R.id.addressCity);
-        holder.addressState = (TextView) view.findViewById(R.id.addressState);
-        holder.addressCountry = (TextView) view.findViewById(R.id.addressCountry);
-        holder.addressPostcode = (TextView) view.findViewById(R.id.addressPinCode);
-        holder.addressContact = (TextView) view.findViewById(R.id.addressContact);
-
-        holder.imgDelete = (ImageView) view.findViewById(R.id.deleteAddress);
-
-        holder.imgEdit = (ImageView) view.findViewById(R.id.edit_address);
-
-
-    }
-
-
-    private void setFont(Holder holder) {
-        FontHelper.applyFont(context, holder.addressName, FontHelper.FontType.FONT);
-        FontHelper.applyFont(context, holder.addressLine1, FontHelper.FontType.FONT);
-        FontHelper.applyFont(context, holder.addressCity, FontHelper.FontType.FONT);
-        FontHelper.applyFont(context, holder.addressState, FontHelper.FontType.FONT);
-        FontHelper.applyFont(context, holder.addressCountry, FontHelper.FontType.FONT);
-        FontHelper.applyFont(context, holder.addressPostcode, FontHelper.FontType.FONT);
-        FontHelper.applyFont(context, holder.addressContact, FontHelper.FontType.FONT);
-    }
-
-    private void addAddressDetail(Holder holder, int i, View view) {
 
         holder.addressName.setText(addressDetail.get(i).get(Const.TAG_FNAME));
         holder.addressLine1.setText(addressDetail.get(i).get(Const.TAG_ADDRESS1));
@@ -134,32 +120,31 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         holder.addressPostcode.setText(addressDetail.get(i).get(Const.TAG_ZIPCODE));
         holder.addressContact.setText(addressDetail.get(i).get(Const.TAG_PHONE_NO));
 
-        holder.imgEdit.setTag(addressDetail.get(i).get(Const.TAG_BILLING_ID));
+        holder.imgEdit.setTag(R.string.key_pos, i);
+        holder.imgEdit.setTag(R.string.key_id, addressDetail.get(i).get(Const.TAG_BILLING_ID));
 
         Log.e("settag", addressDetail.get(i).get(Const.TAG_BILLING_ID));
-        Log.e("Itag",""+i);
+        Log.e("Itag", "" + i);
         holder.imgDelete.setTag(R.string.key_pos, i);
         holder.imgDelete.setTag(R.string.key_id, addressDetail.get(i).get(Const.TAG_BILLING_ID));
 
-    }
-
-    public void applyingClickEvent(Holder holder, View view) {
         holder.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String tag=view.getTag().toString();
+                String tag = view.getTag(R.string.key_id).toString();
+                String pos = view.getTag(R.string.key_pos).toString();
 
-                Log.e("tag",tag);
+                Log.e("tag", tag);
 
                 if (context instanceof BillingAddressActivity) {
                     Intent intent = new Intent(context, AddAddressActivity.class);
-                    createBundle(tag, "1");
+                    createBundle(tag, "1", pos);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 } else if (context instanceof ShippingAddressActivity) {
                     Intent intent = new Intent(context, AddAddressActivity.class);
-                    createBundle(tag, "0");
+                    createBundle(tag, "0", pos);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
@@ -170,16 +155,28 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
+                String tag = view.getTag(R.string.key_id).toString();
+
+                int pos = Integer.parseInt(view.getTag(R.string.key_pos).toString());
+
+                Log.e("position", "" + pos);
+
+                addressDetail.remove(pos);
+
+                notifyDataSetChanged();
 
             }
         });
+
+        return view;
     }
 
-    private void createBundle(String type,String addressType)
-    {
-        bundle=new Bundle();
+    private void createBundle(String type, String addressType, String pos) {
+        bundle = new Bundle();
         bundle.putString(ConstVarIntent.TAG_TYPE, type);
         bundle.putString(ConstVarIntent.TAG_TYPE_ADDRESS, addressType);
+        bundle.putSerializable(ConstVarIntent.TAG_LIST_ADDRESS, addressDetail);
+        bundle.putString(ConstVarIntent.TAG_POS, pos);
     }
 
 
@@ -189,14 +186,14 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         if (type == 1) {
             if (pos == shippingAddSession.getShippingAddressPos()) {
                 holder.rb_selected_address.setChecked(true);
-               // storeAddressInSession(String.valueOf(pos));
+                // storeAddressInSession(String.valueOf(pos));
             } else
                 holder.rb_selected_address.setChecked(false);
 
         } else if (type == 2) {
             if (pos == shippingAddSession.getBillingAddressPos()) {
                 holder.rb_selected_address.setChecked(true);
-              //  storeAddressInSession(String.valueOf(pos));
+                //  storeAddressInSession(String.valueOf(pos));
             } else
                 holder.rb_selected_address.setChecked(false);
         }
@@ -208,7 +205,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
                 // addressDetail.get()
                 String pos = String.valueOf(view.getTag());
                 //radioButtonSelection(holder);
-               // notifyDataSetChanged();
+                // notifyDataSetChanged();
 
                 storeAddressInSession(pos);
 
