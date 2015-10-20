@@ -569,7 +569,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             String url = Const.BASE_URL + Const.POST_FINAL_PAYMENT + orderId + "?TransactionId=" + transactionId;
 
-            Log.e("urel", url);
+           // Log.e("urel", url);
 
 
             try {
@@ -577,11 +577,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
                 String jsonString = jsonParser.getJSONFromUrl(url,
                         Const.TIME_OUT,userSession.getUserID());
 
-                Log.e("jsonfinalcheck", jsonString);
+              //  Log.e("jsonfinalcheck", jsonString);
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                    Log.e("json", jsonString);
+                   // Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {

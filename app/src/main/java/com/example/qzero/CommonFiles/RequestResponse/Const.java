@@ -215,9 +215,14 @@ public class Const {
     public static String TAG_ADD_SHIPPING_ADDRESS_ID="ShippingAddressId";
 
     //Get county and state AddAddressActivity
-
     public static String TAG_COUNTRYID="countryId";
     public static String TAG_STATE_ID="stateId";
+
+    //Get delivery type
+    public static String TAG_DELIVERY_ID="deliveryTypeId";
+    public static String TAG_DELIVERY_NAME="deliveryTypeName";
+
+
 
 
 }

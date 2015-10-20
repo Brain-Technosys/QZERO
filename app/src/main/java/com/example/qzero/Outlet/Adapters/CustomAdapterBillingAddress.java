@@ -138,8 +138,8 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         holder.imgEdit.setTag(R.string.key_pos, i);
         holder.imgEdit.setTag(R.string.key_id, addressDetail.get(i).get(Const.TAG_BILLING_ID));
 
-        Log.e("settag", addressDetail.get(i).get(Const.TAG_BILLING_ID));
-        Log.e("Itag", "" + i);
+       // Log.e("settag", addressDetail.get(i).get(Const.TAG_BILLING_ID));
+       // Log.e("Itag", "" + i);
         holder.imgDelete.setTag(R.string.key_pos, i);
         holder.imgDelete.setTag(R.string.key_id, addressDetail.get(i).get(Const.TAG_BILLING_ID));
 
@@ -150,7 +150,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
                 String tag = view.getTag(R.string.key_id).toString();
                 String pos = view.getTag(R.string.key_pos).toString();
 
-                Log.e("tag", tag);
+              //  Log.e("tag", tag);
 
                 if (context instanceof BillingAddressActivity) {
                     Intent intent = new Intent(context, AddAddressActivity.class);
@@ -174,7 +174,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
                 delPos = Integer.parseInt(view.getTag(R.string.key_pos).toString());
 
-                Log.e("position", "" + delPos);
+               // Log.e("position", "" + delPos);
 
                 deleteAddress();
 
@@ -305,7 +305,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
 
             String url = Const.BASE_URL + Const.DELETE_ADDRESS + deleteId+"?type="+params[0];
 
-            Log.e("urel",url);
+            //Log.e("urel",url);
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT,userSession.getUserID());
@@ -314,7 +314,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                    Log.e("json", jsonString);
+                   // Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {

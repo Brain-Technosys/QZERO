@@ -153,7 +153,7 @@ public class ViewCartActivity extends Activity {
 
                 itemName = distinctItemCursor.getString(index);
 
-                Log.e("item_name", itemName);
+                //Log.e("item_name", itemName);
 
                 Cursor itemIdCursor = databaseHelper.selectItems(itemName);
 
@@ -165,7 +165,7 @@ public class ViewCartActivity extends Activity {
 
                         item_id = itemIdCursor.getString(indexItemId);
 
-                        Log.e("item_id", item_id);
+                       // Log.e("item_id", item_id);
                         itemCursor = databaseHelper.getItems(item_id);
 
                         itemsLength = itemIdCursor.getCount();
@@ -204,10 +204,10 @@ public class ViewCartActivity extends Activity {
     }
 
     private void getListData(String itemd) {
-        Log.e("ietm", itemd);
+       // Log.e("ietm", itemd);
         if (itemIdCursorMod != null) {
 
-            Log.e("itemId", "" + itemIdCursorMod.getCount());
+           // Log.e("itemId", "" + itemIdCursorMod.getCount());
             if (itemIdCursorMod.moveToFirst()) {
                 do {
                     ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
@@ -216,7 +216,7 @@ public class ViewCartActivity extends Activity {
 
                     String item_id = itemIdCursorMod.getString(indexItemId);
 
-                    Log.e("modItemId", item_id);
+                  //  Log.e("modItemId", item_id);
 
                     Cursor modCursor = databaseHelper.getModifiers(item_id);
 
@@ -230,8 +230,8 @@ public class ViewCartActivity extends Activity {
                             String mod_price = modCursor.getString(indexprice);
                             String quantity = modCursor.getString(indexqty);
 
-                            Log.e("mod_name", mod_name);
-                            Log.e("position", "" + position);
+                            //Log.e("mod_name", mod_name);
+                           // Log.e("position", "" + position);
 
                             DbModifiers dbModifiers = new DbModifiers(item_id, quantity, mod_name, mod_price);
                             arrayListDbMod.add(dbModifiers);
@@ -345,7 +345,7 @@ public class ViewCartActivity extends Activity {
 
                 itemName = distinctItemCursor.getString(index);
 
-                Log.e("item_name", itemName);
+               // Log.e("item_name", itemName);
 
                 Cursor itemIdCursor = databaseHelper.selectItems(itemName);
 
@@ -357,7 +357,7 @@ public class ViewCartActivity extends Activity {
 
                         item_id = itemIdCursor.getString(indexItemId);
 
-                        Log.e("item_id", item_id);
+                     //   Log.e("item_id", item_id);
                         itemCursor = databaseHelper.getItems(item_id);
 
                         itemsLength = itemIdCursor.getCount();

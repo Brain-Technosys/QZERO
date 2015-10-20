@@ -193,8 +193,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
                         HashMap<String, String> hmAddressDetail = new HashMap<>();
 
-                        Log.e("i", "" + i);
-                        Log.e("act", jsonBillingAddress.getString(Const.TAG_BILLING_ID));
+                      //  Log.e("i", "" + i);
+                      //  Log.e("act", jsonBillingAddress.getString(Const.TAG_BILLING_ID));
 
                         hmAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
                         hmAddressDetail.put(Const.TAG_BILLING_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));

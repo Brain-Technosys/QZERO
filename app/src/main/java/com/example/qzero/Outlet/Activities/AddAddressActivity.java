@@ -142,8 +142,8 @@ public class AddAddressActivity extends AppCompatActivity {
                 position = Integer.parseInt(bundle.getString(ConstVarIntent.TAG_POS));
             }
 
-            Log.e("addresstype", addressType);
-            Log.e("typeadd", type);
+          //  Log.e("addresstype", addressType);
+           // Log.e("typeadd", type);
         }
 
         userSession = new UserSession(AddAddressActivity.this);
@@ -366,12 +366,12 @@ public class AddAddressActivity extends AppCompatActivity {
 
                 String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-                Log.e("json", jsonString);
+               // Log.e("json", jsonString);
 
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                    Log.e("json", jsonString);
+                   // Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {
@@ -479,7 +479,7 @@ public class AddAddressActivity extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject();
             try {
 
-                Log.e("type", type);
+               // Log.e("type", type);
                 jsonObj.put("firstName", fname);
                 jsonObj.put("lastName", lname);
                 jsonObj.put("address1", address);
@@ -503,7 +503,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                    Log.e("json", jsonString);
+                  //  Log.e("json", jsonString);
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     msg = jsonObject.getString(Const.TAG_MESSAGE);
 
@@ -558,7 +558,7 @@ public class AddAddressActivity extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject();
             try {
 
-                Log.e("type", type);
+               // Log.e("type", type);
                 jsonObj.put("firstName", fname);
                 jsonObj.put("lastName", lname);
                 jsonObj.put("address1", address);
@@ -582,7 +582,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                    Log.e("json", jsonString);
+                  // Log.e("json", jsonString);
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     msg = jsonObject.getString(Const.TAG_MESSAGE);
 
