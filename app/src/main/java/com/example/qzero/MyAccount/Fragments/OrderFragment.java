@@ -14,8 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -64,7 +68,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         ButterKnife.inject(this, view);
 
-       // getActivity().setTitle(getString(R.string.order_title));
+        // getActivity().setTitle(getString(R.string.order_title));
         searchView.setFocusable(false);
         orderListView.setTextFilterEnabled(true);
         searchView.setSubmitButtonEnabled(false);
@@ -94,6 +98,39 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
                     "Alert");
         }
 
+
+        orderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Order order = orderArrayList.get(position);
+
+                String orderId = String.valueOf(order.getOrderId());
+
+                Log.e("order", "" + orderId);
+                
+                Bundle bundle = new Bundle();
+                bundle.putString(Const.TAG_ORDER_ID, ((TextView) view.findViewById(R.id.txtOrderID)).getText().toString());
+                bundle.putString(Const.TAG_BILLING_ADDRESS, order.getOrderBillingAddress());
+                bundle.putString(Const.TAG_SHIPPING_ADDRESS, order.getShippingAddress());
+
+                bundle.putString(Const.TAG_PURCHASE_DATE, ((TextView) view.findViewById(R.id.txtDate)).getText().toString());
+                bundle.putString(Const.TAG_ITEM_COUNT, ((TextView) view.findViewById(R.id.txtItemCount)).getText().toString());
+                bundle.putString(Const.TAG_ORDER_STATUS, ((TextView) view.findViewById(R.id.txtStatus)).getText().toString());
+                bundle.putString(Const.TAG_DISCOUNT, ((TextView) view.findViewById(R.id.txtDiscount)).getText().toString().replace("$", ""));
+                bundle.putString(Const.TAG_AMOUNT, ((TextView) view.findViewById(R.id.txtAmount)).getText().toString().replace("$", ""));
+
+
+                OrderDetailFragment fragment = new OrderDetailFragment();
+                fragment.setArguments(bundle);
+                // this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, fragment.getClass().getName()).addToBackStack(null).commit();
+//
+                getFragmentManager().beginTransaction()
+                        .hide(getFragmentManager().findFragmentByTag(getTag()))
+                        .add(R.id.flContent, fragment, fragment.getClass().getName())
+                        .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+            }
+        });
 
         return view;
     }
@@ -125,38 +162,6 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
         return false;
     }
 
-    // Item click event of order list view
-    @OnItemClick(R.id.orderListView)
-    void onItemClick(int pos) {
-
-        Order order = orderArrayList.get(pos);
-
-        String orderId = String.valueOf(order.getOrderId());
-
-        Log.e("order", "" + orderId);
-
-        Bundle bundle = new Bundle();
-        bundle.putString(Const.TAG_ORDER_ID, orderId);
-        bundle.putString(Const.TAG_BILLING_ADDRESS, order.getOrderBillingAddress());
-        bundle.putString(Const.TAG_SHIPPING_ADDRESS, order.getShippingAddress());
-
-        bundle.putString(Const.TAG_PURCHASE_DATE, order.getPurchaseDate());
-        bundle.putString(Const.TAG_ITEM_COUNT, String.valueOf(order.getItemsCount()));
-        bundle.putString(Const.TAG_ORDER_STATUS, order.getOrderStatus());
-        bundle.putString(Const.TAG_DISCOUNT, order.getDiscount());
-        bundle.putString(Const.TAG_AMOUNT, order.getAmount());
-
-
-        OrderDetailFragment fragment = new OrderDetailFragment();
-        fragment.setArguments(bundle);
-        // this.getFragmentManager().beginTransaction().replace(R.id.flContent, fragment, fragment.getClass().getName()).addToBackStack(null).commit();
-//
-        this.getFragmentManager().beginTransaction()
-                .hide(getFragmentManager().findFragmentByTag(this.getTag()))
-                .add(R.id.flContent, fragment, fragment.getClass().getName())
-                .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
-
-    }
 
     private void setupSearchView() {
         searchView.setIconifiedByDefault(false);
@@ -244,7 +249,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
                 OrdersAdapter adapter = new OrdersAdapter(getActivity(), orderArrayList);
                 orderListView.setAdapter(adapter);
 
-                
+
             }
         }
     }

@@ -194,6 +194,7 @@
     <!-- Add Address Activity-->
     <string name="address_saved">Address saved successfully.</string>
     <string name="address_edit">Address edited successfully.</string>
-
+    <string name="holder">Holder</string>
+    <string name="object">Object</string>
 
 </resources>
