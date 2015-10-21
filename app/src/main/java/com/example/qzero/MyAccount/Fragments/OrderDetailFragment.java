@@ -228,7 +228,7 @@ public class OrderDetailFragment extends Fragment {
                             }
 
 
-                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, netAmount, remarks, qty, discount, discountAmount, totalAmount, netAmount, modifiersList);
+                            OrderItems orderItems = new OrderItems(orderId, itemId, itemCode, itemName, timing, itemStatus, itemPrice, remarks, qty, discount, discountAmount, totalAmount, netAmount, modifiersList);
 
                             orderItemArrayList.add(orderItems);
                         }
