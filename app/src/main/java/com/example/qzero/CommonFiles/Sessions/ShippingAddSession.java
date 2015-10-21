@@ -116,8 +116,8 @@ public class ShippingAddSession {
         return pref.getInt(TAG_BILLING_ADD_POS, 0);
     }
 
-    public int getBillingID() {
-        return pref.getInt(TAG_BILLING_ID, 0);
+    public String getBillingID() {
+        return pref.getString(TAG_BILLING_ID," ");
     }
 
     public String getShippingAddress() {
@@ -136,8 +136,8 @@ public class ShippingAddSession {
         return pref.getInt(TAG_SHIPPING_ADD_POS, 0);
     }
 
-    public int getShippingID() {
-        return pref.getInt(TAG_SHIPPING_ID, 0);
+    public String getShippingID() {
+        return pref.getString(TAG_SHIPPING_ID, " ");
     }
 
     //fetching chkOutDetail json as string

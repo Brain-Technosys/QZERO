@@ -406,7 +406,7 @@ public class CustomAdapterCartItem extends BaseAdapter {
 
     private void setFont(ViewHolder holder) {
         FontHelper.applyFont(context, holder.totalAmountWithModifier, FontHelper.FontType.FONT);
-        FontHelper.applyFont(context, holder.txt_item_name, FontHelper.FontType.FONT);
+        FontHelper.applyFont(context, holder.txt_item_name, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(context, holder.txtViewModName, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(context, holder.txtViewModQty, FontHelper.FontType.FONTSANSBOLD);
         FontHelper.applyFont(context, holder.txtViewModTotal, FontHelper.FontType.FONTSANSBOLD);

@@ -235,8 +235,8 @@ public class InHouseTabFragment extends Fragment {
             jsonObjDetails.put("outletId", outletId);
             jsonObjDetails.put("totalAmount", totalAmount);
             jsonObjDetails.put("tableNoId",tableNo_ID);
-            jsonObjDetails.put("tableNO",seatNo);
-            jsonObjDetails.put("deliveryType","InHouse");
+            jsonObjDetails.put("tableNO",tableNo_ID);
+            jsonObjDetails.put("deliveryType",1);
             jsonObjDetails.put("deliveryTypeId",1);
 
             JSONArray jsonArrayOrder = new JSONArray();
@@ -263,15 +263,21 @@ public class InHouseTabFragment extends Fragment {
                 itemPrice=orderItemStatusArrayList.get(j).getItemPrice();
                 discountAmount=orderItemStatusArrayList.get(j).getDiscountAmt();
 
-                afterDiscountAmount=itemPrice-discountAmount;
+                if(discountAmount==0.0)
+                {
+                    afterDiscountAmount=0.0;
+                }
+                else {
+                    afterDiscountAmount = itemPrice - discountAmount;
+                }
 
                 orderStatusObj.put("statusId",status_id);
                 orderStatusObj.put("itemId", itemId);
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
                 orderStatusObj.put("itemPrice", itemPrice);
-                orderStatusObj.put("discountAmount", discountAmount);
-                orderStatusObj.put("afterDiscountAmount", afterDiscountAmount);
+                orderStatusObj.put("discountAmount", afterDiscountAmount);
+                orderStatusObj.put("afterDiscountAmount", discountAmount);
 
 
                 jsonArrayOrder.put(orderStatusObj);

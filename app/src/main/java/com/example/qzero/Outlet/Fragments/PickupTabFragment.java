@@ -123,7 +123,7 @@ public class PickupTabFragment extends Fragment {
 
             jsonObjDetails.put("outletId", outletId);
             jsonObjDetails.put("totalAmount", totalAmount);
-            jsonObjDetails.put("deliveryType", "PickUp");
+            jsonObjDetails.put("deliveryType",3);
             jsonObjDetails.put("deliveryTypeId", 3);
 
 
@@ -165,8 +165,8 @@ public class PickupTabFragment extends Fragment {
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
                 orderStatusObj.put("itemPrice", itemPrice);
-                orderStatusObj.put("discountAmount", discountAmount);
-                orderStatusObj.put("afterDiscountAmount", afterDiscountAmount);
+                orderStatusObj.put("discountAmount", afterDiscountAmount);
+                orderStatusObj.put("afterDiscountAmount",discountAmount);
 
                 jsonArrayOrder.put(orderStatusObj);
             }

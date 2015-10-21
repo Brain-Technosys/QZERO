@@ -232,83 +232,7 @@ public class ShipmentTabFragment extends Fragment {
         new GetAddressAtFirstPosition().execute();
     }
 
-    private void setAddressDetail() {
 
-        if (shippingAddSession.getBillingAddress() == null) {
-
-            if (hmBillAddressDetail.isEmpty()) {
-                btn_add_new_billing_address.setVisibility(View.VISIBLE);
-                rly_billing_address.setVisibility(View.GONE);
-                txt_msg_billing.setVisibility(View.VISIBLE);
-
-            } else {
-                btn_add_new_billing_address.setVisibility(View.INVISIBLE);
-                rly_billing_address.setVisibility(View.VISIBLE);
-                txt_msg_billing.setVisibility(View.GONE);
-
-                //Updating Billing Address
-                txt_user_bill_add.setText(bill_add_name);
-                txt_billing_address.setText(bill_add_address);
-                txt_billingContact.setText(bill_add_contact);
-            }
-        } else {
-
-            btn_add_new_billing_address.setVisibility(View.INVISIBLE);
-            rly_billing_address.setVisibility(View.VISIBLE);
-            txt_msg_billing.setVisibility(View.GONE);
-
-            //Updating Billing Address
-            txt_user_bill_add.setText(shippingAddSession.getBillingName());
-            txt_billing_address.setText(shippingAddSession.getBillingAddress());
-            txt_billingContact.setText(shippingAddSession.getBillingContact());
-
-            shippingAddSession.clearBillingSharPref();
-        }
-
-
-        if (shippingAddSession.getShippingAddress() == null) {
-
-
-            if (chk_shipmentChoice.isChecked()) {
-                btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
-                rly_shippingAddress.setVisibility(View.GONE);
-                txt_msg_shipping.setVisibility(View.GONE);
-
-            } else if (hmShipAddressDetail.isEmpty()) {
-                if (!chk_shipmentChoice.isChecked()) {
-                    btn_add_new_shipping_address.setVisibility(View.VISIBLE);
-                    rly_shippingAddress.setVisibility(View.GONE);
-                    txt_msg_shipping.setVisibility(View.VISIBLE);
-                }
-
-
-            } else {
-
-                rly_shippingAddress.setVisibility(View.VISIBLE);
-
-                txt_msg_shipping.setVisibility(View.GONE);
-
-                btn_add_new_shipping_address.setVisibility(View.GONE);
-
-                //Updating Shipping Address
-                txt_user_ship.setText(ship_add_name);
-                txt_shipping_address.setText(ship_add_address);
-                txt_shipping_contact.setText(ship_add_contact);
-            }
-
-        } else {
-            rly_shippingAddress.setVisibility(View.VISIBLE);
-
-            txt_msg_shipping.setVisibility(View.GONE);
-            //Updating Shipping Address
-            txt_user_ship.setText(shippingAddSession.getShippingName());
-            txt_shipping_address.setText(shippingAddSession.getShippingAddress());
-            txt_shipping_contact.setText(shippingAddSession.getShippingContact());
-
-            shippingAddSession.clearShippingSharPref();
-        }
-
-    }
 
     @OnClick(R.id.iv_edit_shipping_add)
     public void gotoShippingAddressFragment() {
@@ -356,6 +280,8 @@ public class ShipmentTabFragment extends Fragment {
     }
 
     private void createPostCheckout() {
+
+        orderNotes=et_orderNote.getText().toString();
         Cursor outletCursor = databaseHelper.getCheckoutItems();
 
         if (outletCursor != null) {
@@ -368,11 +294,14 @@ public class ShipmentTabFragment extends Fragment {
 
         JSONObject jsonObjDetails = new JSONObject();
         try {
+
             jsonObjDetails.put("outletId", outletId);
             jsonObjDetails.put("totalAmount", totalAmount);
-            jsonObjDetails.put("billingAddressId", billingAddressId);
-            jsonObjDetails.put("deliveryType","Shipment");
+           /* jsonObjDetails.put("billingAddressId", billingAddressId);
+            jsonObjDetails.put("shippingAdressId",shipping_id);*/
+            jsonObjDetails.put("deliveryType",2);
             jsonObjDetails.put("deliveryTypeId",2);
+            jsonObjDetails.put("orderNotes",orderNotes);
 
             JSONArray jsonArrayOrder = new JSONArray();
             JSONArray jsonArrayMod = new JSONArray();
@@ -400,13 +329,21 @@ public class ShipmentTabFragment extends Fragment {
 
                 afterDiscountAmount=itemPrice-discountAmount;
 
+                if(discountAmount==0.0)
+                {
+                    afterDiscountAmount=0.0;
+                }
+                else {
+                    afterDiscountAmount = itemPrice - discountAmount;
+                }
+
                 orderStatusObj.put("statusId",status_id);
                 orderStatusObj.put("itemId", itemId);
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
                 orderStatusObj.put("itemPrice", itemPrice);
-                orderStatusObj.put("discountAmount", discountAmount);
-                orderStatusObj.put("afterDiscountAmount", afterDiscountAmount);
+                orderStatusObj.put("discountAmount", afterDiscountAmount);
+                orderStatusObj.put("afterDiscountAmount",discountAmount);
 
 
                 jsonArrayOrder.put(orderStatusObj);
@@ -663,5 +600,87 @@ public class ShipmentTabFragment extends Fragment {
             }
             setAddressDetail();
         }
+    }
+
+    private void setAddressDetail() {
+
+        if (shippingAddSession.getBillingAddress() == null) {
+
+            if (hmBillAddressDetail.isEmpty()) {
+                btn_add_new_billing_address.setVisibility(View.VISIBLE);
+                rly_billing_address.setVisibility(View.GONE);
+                txt_msg_billing.setVisibility(View.VISIBLE);
+
+            } else {
+                btn_add_new_billing_address.setVisibility(View.INVISIBLE);
+                rly_billing_address.setVisibility(View.VISIBLE);
+                txt_msg_billing.setVisibility(View.GONE);
+
+                //Updating Billing Address
+                txt_user_bill_add.setText(bill_add_name);
+                txt_billing_address.setText(bill_add_address);
+                txt_billingContact.setText(bill_add_contact);
+            }
+        } else {
+
+            btn_add_new_billing_address.setVisibility(View.INVISIBLE);
+            rly_billing_address.setVisibility(View.VISIBLE);
+            txt_msg_billing.setVisibility(View.GONE);
+
+            //Updating Billing Address
+            txt_user_bill_add.setTag(shippingAddSession.getBillingID());
+            txt_user_bill_add.setText(shippingAddSession.getBillingName());
+            txt_user_bill_add.setTag(shippingAddSession.getBillingID());
+            txt_billing_address.setText(shippingAddSession.getBillingAddress());
+            txt_billingContact.setText(shippingAddSession.getBillingContact());
+
+            shippingAddSession.clearBillingSharPref();
+        }
+
+
+        if (shippingAddSession.getShippingAddress() == null) {
+
+
+            if (chk_shipmentChoice.isChecked()) {
+                btn_add_new_shipping_address.setVisibility(View.INVISIBLE);
+                rly_shippingAddress.setVisibility(View.GONE);
+                txt_msg_shipping.setVisibility(View.GONE);
+
+            } else if (hmShipAddressDetail.isEmpty()) {
+                if (!chk_shipmentChoice.isChecked()) {
+                    btn_add_new_shipping_address.setVisibility(View.VISIBLE);
+                    rly_shippingAddress.setVisibility(View.GONE);
+                    txt_msg_shipping.setVisibility(View.VISIBLE);
+                }
+
+
+            } else {
+
+                rly_shippingAddress.setVisibility(View.VISIBLE);
+
+                txt_msg_shipping.setVisibility(View.GONE);
+
+                btn_add_new_shipping_address.setVisibility(View.GONE);
+
+                //Updating Shipping Address
+                txt_user_ship.setText(ship_add_name);
+                txt_shipping_address.setText(ship_add_address);
+                txt_shipping_contact.setText(ship_add_contact);
+            }
+
+        } else {
+            rly_shippingAddress.setVisibility(View.VISIBLE);
+
+            txt_msg_shipping.setVisibility(View.GONE);
+
+            //Updating Shipping Address
+            shipping_id=shippingAddSession.getShippingID();
+            txt_user_ship.setText(shippingAddSession.getShippingName());
+            txt_shipping_address.setText(shippingAddSession.getShippingAddress());
+            txt_shipping_contact.setText(shippingAddSession.getShippingContact());
+
+            shippingAddSession.clearShippingSharPref();
+        }
+
     }
 }
