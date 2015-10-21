@@ -628,9 +628,9 @@ public class ShipmentTabFragment extends Fragment {
             txt_msg_billing.setVisibility(View.GONE);
 
             //Updating Billing Address
-            txt_user_bill_add.setTag(shippingAddSession.getBillingID());
+          //  txt_user_bill_add.setTag(shippingAddSession.getBillingID());
             txt_user_bill_add.setText(shippingAddSession.getBillingName());
-            txt_user_bill_add.setTag(shippingAddSession.getBillingID());
+           // txt_user_bill_add.setTag(shippingAddSession.getBillingID());
             txt_billing_address.setText(shippingAddSession.getBillingAddress());
             txt_billingContact.setText(shippingAddSession.getBillingContact());
 
