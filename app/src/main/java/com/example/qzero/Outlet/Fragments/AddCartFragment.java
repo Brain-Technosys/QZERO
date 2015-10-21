@@ -106,6 +106,8 @@ public class AddCartFragment extends Fragment {
     String outletId;
     String subCatId;
 
+    String itemCode;
+
     String item_name;
     String item_desc;
     String item_price;
@@ -300,8 +302,7 @@ public class AddCartFragment extends Fragment {
             imgViewAdd.setTag(i);
 
 
-            if(hashMapModifiers.size()==0)
-            {
+            if (hashMapModifiers.size() == 0) {
                 txtViewAddModifiers.setVisibility(View.INVISIBLE);
             }
             //Hashmap for the data to be inflated in the view
@@ -389,7 +390,6 @@ public class AddCartFragment extends Fragment {
                     }
                 }
             });
-
 
 
             txtViewAddModifiers.setOnClickListener(new View.OnClickListener() {
@@ -606,7 +606,7 @@ public class AddCartFragment extends Fragment {
             checkBox[i].setChecked(true);
             checkBox[i].setEnabled(false);
 
-           radioButton[0].setChecked(true);// check the first radiobutton automatically
+            radioButton[0].setChecked(true);// check the first radiobutton automatically
         }
 
         if (hashMapSelectedMod.containsKey(index)) { //if a user has manually selected the modifier
@@ -952,6 +952,8 @@ public class AddCartFragment extends Fragment {
 
                         String item_id = jsonObj.getString(Const.TAG_ITEM_ID);
 
+                        itemCode = item_id;
+
                         item_image = Const.BASE_URL + Const.IMAGE_URL + item_id;
 
                         //Get json Object for item details
@@ -1084,7 +1086,7 @@ public class AddCartFragment extends Fragment {
 
                     if (!isDuplicate) {
                         Log.e("not", "duplicate");
-                        long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                        long itemId = databaseHelper.insertIntoItem(itemCode,item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                         for (int mod = 0; mod < modifierSaved.size(); mod++) {
 
                             databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_id(), modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId), item_name);
@@ -1093,7 +1095,7 @@ public class AddCartFragment extends Fragment {
                 } else {
 
                     Log.e("inside", "item not present");
-                    long item_id = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                    long item_id = databaseHelper.insertIntoItem(itemCode,item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                     saveModDb(i, String.valueOf(item_id));
                 }
             }
@@ -1123,9 +1125,7 @@ public class AddCartFragment extends Fragment {
 
         if (hashMapChoosenMod.containsKey(i)) {
             modifierSaved = hashMapChoosenMod.get(i);
-        }
-        else if(hashMapDefaultMod.size()!=0)
-        {
+        } else if (hashMapDefaultMod.size() != 0) {
             modifierSaved = hashMapDefaultMod.get(0);
         }
 
@@ -1135,7 +1135,7 @@ public class AddCartFragment extends Fragment {
             Cursor nullModCursor = databaseHelper.getNullModifiers(item_name, "null");
 
             if (nullModCursor.getCount() == 0) {
-                long itemId = databaseHelper.insertIntoItem(item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                long itemId = databaseHelper.insertIntoItem(itemCode,item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                 databaseHelper.insertIntoModifiers("null", "null", "null", hashmap.get("qty"), String.valueOf(itemId), item_name);
             } else {
                 while (nullModCursor.moveToNext()) {
@@ -1149,7 +1149,7 @@ public class AddCartFragment extends Fragment {
             }
         } else {
 
-            duplicateItems=new ArrayList<>();
+            duplicateItems = new ArrayList<>();
             Cursor modCursor = databaseHelper.getModifiers(item_id);
             if (modCursor != null) {
                 if (modCursor.getCount() != 0) {
@@ -1176,15 +1176,12 @@ public class AddCartFragment extends Fragment {
                         }
                         Log.e("isDup", "" + isDuplicate);
 
-                        if(duplicateItems.contains("false"))
-                        {
-                            isDuplicate=false;
+                        if (duplicateItems.contains("false")) {
+                            isDuplicate = false;
 
                             duplicateItems.clear();
-                        }
-                        else
-                        {
-                            isDuplicate=true;
+                        } else {
+                            isDuplicate = true;
                             duplicateItems.clear();
                         }
                         if (!isDuplicate) {
@@ -1219,9 +1216,7 @@ public class AddCartFragment extends Fragment {
 
         if (hashMapChoosenMod.containsKey(i)) {
             modifierSavedUnique = hashMapChoosenMod.get(i);
-        }
-        else if(hashMapDefaultMod.size()!=0)
-        {
+        } else if (hashMapDefaultMod.size() != 0) {
             modifierSavedUnique = hashMapDefaultMod.get(i);
         }
 
@@ -1251,12 +1246,9 @@ public class AddCartFragment extends Fragment {
     private void saveItemDetailsInCheckout() {
         String discountAmt;
 
-        if(afterDiscPrice==0.0)
-        {
-            discountAmt="0.0";
-        }
-        else
-        {
+        if (afterDiscPrice == 0.0) {
+            discountAmt = "0.0";
+        } else {
             discountAmt = String.valueOf(Double.parseDouble(item_price) - afterDiscPrice);
         }
 

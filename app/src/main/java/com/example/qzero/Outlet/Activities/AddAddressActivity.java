@@ -280,7 +280,7 @@ public class AddAddressActivity extends AppCompatActivity {
         } else if (address.length() == 0) {
             AlertDialogHelper.showAlertDialog(this, "Please enter address.", "Alert");
         } else if (zipcode.length() == 0) {
-            AlertDialogHelper.showAlertDialog(this, "Please enter address.", "Alert");
+            AlertDialogHelper.showAlertDialog(this, "Please enter zipcode.", "Alert");
         } else if (countryName == null) {
             AlertDialogHelper.showAlertDialog(this, "Please select country.", "Alert");
         } else if (stateName == null) {
@@ -288,7 +288,7 @@ public class AddAddressActivity extends AppCompatActivity {
         } else if (city.length() == 0) {
             AlertDialogHelper.showAlertDialog(this, "Please enter city.", "Alert");
         } else if (!checkEmail(email)) {
-            AlertDialogHelper.showAlertDialog(this, "Please enter valid email address.", "Alert");
+            AlertDialogHelper.showAlertDialog(this, "Please enter a valid email address.", "Alert");
         } else if (contact.length() == 0) {
             AlertDialogHelper.showAlertDialog(this, "Please enter phone number.", "Alert");
         } else {

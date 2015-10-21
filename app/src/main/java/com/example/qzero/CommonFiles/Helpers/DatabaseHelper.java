@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "qzerodbnew";
+    private static final String DATABASE_NAME = "qzerodb";
     private static final int DATABASE_VERSION = 1;
 
     public static final String ITEM_TABLE = "itemDetails";
@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String ID_COLUMN = "id";
 
+    public static final String ITEM_CODE = "item_code";
     public static final String NAME_COLUMN = "item_name";
     public static final String ITEM_PRICE = "item_price";
     public static final String ITEM_DISCOUNT = "item_discount";
@@ -61,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ITEM_TABLE + "(" + ID_COLUMN + "));");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + ITEM_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                NAME_COLUMN + " TEXT ," + ITEM_PRICE + " TEXT ," + ITEM_IMAGE + " TEXT ," + ITEM_DISCOUNT + " TEXT );");
+                NAME_COLUMN + " TEXT ," + ITEM_PRICE + " TEXT ," + ITEM_IMAGE + " TEXT ," + ITEM_DISCOUNT + " TEXT ,"+ ITEM_CODE + " TEXT );");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + CHECKOUT_ITEM + "(" + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 ITEM_ID + " TEXT ," + OUTLET_ID + " TEXT ," + DISC_AMT + " TEXT ," + AFTER_DISC + " TEXT ," + COUNT + " TEXT );");
@@ -85,10 +86,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public long insertIntoItem(String item_name, String item_price, String discount_price, String item_image) {
+    public long insertIntoItem(String itemCode,String item_name, String item_price, String discount_price, String item_image) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(NAME_COLUMN, item_name);
+        cv.put(ITEM_CODE, itemCode);
         cv.put(ITEM_PRICE, item_price);
         cv.put(ITEM_DISCOUNT, discount_price);
         cv.put(ITEM_IMAGE, item_image);
@@ -177,7 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor selectItems(String item_name) {
         SQLiteDatabase database = getReadableDatabase();
-        String selectMod = "select " + ID_COLUMN + " from " + ITEM_TABLE + " where " + NAME_COLUMN + " = '" + item_name + "'";
+        String selectMod = "select * from " + ITEM_TABLE + " where " + NAME_COLUMN + " = '" + item_name + "'";
         Cursor valueItem = database.rawQuery(selectMod, null);
         return valueItem;
     }

@@ -18,5 +18,8 @@ public class ConstVarIntent {
     public static String TAG_LIST_ADDRESS="arrayListAddress";
     public static String TAG_POS="position";
 
+    //Intent variable for Finalcheckout activity
+    public static String TAG_DELIVERY_TYPE="type";
+
 
 }

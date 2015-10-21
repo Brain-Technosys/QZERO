@@ -237,12 +237,14 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         String address = hmAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmAddressDetail.get(Const.TAG_CITY) + ", " + hmAddressDetail.get(Const.TAG_STATE) + ", " +
                 hmAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmAddressDetail.get(Const.TAG_ZIPCODE);
         String contact = hmAddressDetail.get(Const.TAG_PHONE_NO);
+        String id=hmAddressDetail.get(Const.TAG_BILLING_ID);
 
         //For Shipping Address
         if (type == 1) {
             shippingAddSession.saveShippingName(name);
             shippingAddSession.saveShippingAddressDetail(address);
             shippingAddSession.saveShippingContact(contact);
+            shippingAddSession.saveShippingID(id);
             shippingAddSession.saveShippingAddressPos(Integer.parseInt(position));
             ((ShippingAddressActivity) context).notifyAdapter();
 
@@ -251,6 +253,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
             shippingAddSession.saveBillingName(name);
             shippingAddSession.saveBillingAddress(address);
             shippingAddSession.saveBillingContact(contact);
+            shippingAddSession.saveBillingID(id);
             shippingAddSession.saveBillingAddressPos(Integer.parseInt(position));
             ((BillingAddressActivity) context).notifyAdapter();
 

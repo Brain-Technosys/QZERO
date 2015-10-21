@@ -23,11 +23,13 @@ public class ShippingAddSession {
     private static final String TAG_BILLING_ADD_POS = "tag_billing_pos";
     private static final String TAG_BILLING_NAME = "tag_billing_name";
     private static final String TAG_BILLING_CONTACT = "tag_billing_contact";
+    private static final String TAG_BILLING_ID = "tag_billing_id";
 
     private static final String TAG_SHIPPING_ADD = "tag_shipping_add";
     private static final String TAG_SHIPPING_ADD_POS = "tag_shipping_pos";
     private static final String TAG_SHIPPING_NAME = "tag_shipping_name";
     private static final String TAG_SHIPPING_CONTACT = "tag_shipping_contact";
+    private static final String TAG_SHIPPING_ID = "tag_shipping_id";
 
     private static final String TAG_CHKOUT_DETAIL = "chkout_detail";
 
@@ -60,6 +62,11 @@ public class ShippingAddSession {
         editor.commit();
     }
 
+    public void saveBillingID(String id) {
+        editor.putString(TAG_BILLING_ID,id);
+        editor.commit();
+    }
+
     public void saveShippingAddressDetail(String address) {
         editor.putString(TAG_SHIPPING_ADD, address);
         editor.commit();
@@ -77,6 +84,11 @@ public class ShippingAddSession {
 
     public void saveShippingContact(String contact) {
         editor.putString(TAG_SHIPPING_CONTACT, contact);
+        editor.commit();
+    }
+
+    public void saveShippingID(String id) {
+        editor.putString(TAG_SHIPPING_ID, id);
         editor.commit();
     }
 
@@ -104,6 +116,10 @@ public class ShippingAddSession {
         return pref.getInt(TAG_BILLING_ADD_POS, 0);
     }
 
+    public int getBillingID() {
+        return pref.getInt(TAG_BILLING_ID, 0);
+    }
+
     public String getShippingAddress() {
         return pref.getString(TAG_SHIPPING_ADD, null);
     }
@@ -118,6 +134,10 @@ public class ShippingAddSession {
 
     public int getShippingAddressPos() {
         return pref.getInt(TAG_SHIPPING_ADD_POS, 0);
+    }
+
+    public int getShippingID() {
+        return pref.getInt(TAG_SHIPPING_ID, 0);
     }
 
     //fetching chkOutDetail json as string

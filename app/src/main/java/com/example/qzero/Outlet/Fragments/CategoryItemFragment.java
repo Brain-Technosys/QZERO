@@ -396,7 +396,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
                 Log.e("i", "" + i);
                 Log.e("inrows", "" + rows);
 
-                cardViewRight.setVisibility(View.INVISIBLE);
+
             }
 
         }
@@ -552,6 +552,8 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
         ItemOutlet itemOutlet = arrayListItems.get(pos);
 
+        Log.e("position1",""+pos);
+
         relLayItem.setTag(itemOutlet.getItem_id());
 
         txtViewItemName.setText(itemOutlet.getName());
@@ -565,7 +567,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
     }
 
     private void inflateRightData() {
-
+        Log.e("position2",""+pos);
         if (pos <= length - 1) {
 
             ItemOutlet itemOutlet = arrayListItems.get(pos);
@@ -580,6 +582,10 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             //Load Image
             Picasso.with(getActivity()).load(itemOutlet.getItem_image()).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItemRight);
 
+        }
+        else
+        {
+            cardViewRight.setVisibility(View.INVISIBLE);
         }
     }
 }

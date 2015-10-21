@@ -62,20 +62,12 @@ public class InHouseTabFragment extends Fragment {
     DatabaseHelper databaseHelper;
 
     int outletId;
-    Double totalAmount;
-    Double discountAmount;
-    Double afterDiscountAmount;
-    String taxApplicable;
-    String tax;
-    String tableNoId;
-    String tableNO;
-    String orderNotes;
-    String billingAddressId;
-    String deliveryTypeId;
-    String deliveryType;
     int itemId;
 
-    int orderId;
+    Double totalAmount;
+    Double itemPrice;
+    Double discountAmount;
+    Double afterDiscountAmount;
 
     String quantity;
     int isModifier;
@@ -230,10 +222,8 @@ public class InHouseTabFragment extends Fragment {
         if (outletCursor != null) {
             if (outletCursor.moveToFirst()) {
 
-                itemId = Integer.parseInt(outletCursor.getString(1));
+
                 outletId = Integer.parseInt(outletCursor.getString(2));
-                discountAmount = outletCursor.getDouble(3);
-                afterDiscountAmount = Double.parseDouble(outletCursor.getString(4));
 
             }
         }
@@ -243,11 +233,9 @@ public class InHouseTabFragment extends Fragment {
         try {
 
             jsonObjDetails.put("outletId", outletId);
-            jsonObjDetails.put("discountAmount", discountAmount);
-            jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
-            jsonObjDetails.put("tableNoId",tableNoId);
-            jsonObjDetails.put("tableNO",tableNO );
+            jsonObjDetails.put("tableNoId",tableNo_ID);
+            jsonObjDetails.put("tableNO",seatNo);
             jsonObjDetails.put("deliveryType","InHouse");
             jsonObjDetails.put("deliveryTypeId",1);
 
@@ -270,10 +258,21 @@ public class InHouseTabFragment extends Fragment {
                 quantity = orderItemStatusArrayList.get(j).getQuantity();
                 String status_id=orderItemStatusArrayList.get(j).getItemId();
 
+                int itemId=Integer.parseInt(orderItemStatusArrayList.get(j).getItemCode());
+
+                itemPrice=orderItemStatusArrayList.get(j).getItemPrice();
+                discountAmount=orderItemStatusArrayList.get(j).getDiscountAmt();
+
+                afterDiscountAmount=itemPrice-discountAmount;
+
                 orderStatusObj.put("statusId",status_id);
                 orderStatusObj.put("itemId", itemId);
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
+                orderStatusObj.put("itemPrice", itemPrice);
+                orderStatusObj.put("discountAmount", discountAmount);
+                orderStatusObj.put("afterDiscountAmount", afterDiscountAmount);
+
 
                 jsonArrayOrder.put(orderStatusObj);
             }
@@ -283,7 +282,9 @@ public class InHouseTabFragment extends Fragment {
                 JSONObject modStatusObj = new JSONObject();
 
                 String modName = orderStatusArrayList.get(i).getMod_name();
-                String statusId=orderItemStatusArrayList.get(i).getItemId();
+                String statusId=orderStatusArrayList.get(i).getItemId();
+
+                int itemId = Integer.parseInt(orderStatusArrayList.get(i).getItemCode());
 
                 modifierId = orderStatusArrayList.get(i).getMod_id();
                 modifierPrice = orderStatusArrayList.get(i).getMod_price();
@@ -340,8 +341,16 @@ public class InHouseTabFragment extends Fragment {
                             ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
 
                             int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
+                            int indexItemCode = itemIdCursor.getColumnIndex(databaseHelper.ITEM_CODE);
+                            int indexItemPrice=itemIdCursor.getColumnIndex(databaseHelper.ITEM_PRICE);
+                            int indexItemDiscount=itemIdCursor.getColumnIndex(databaseHelper.ITEM_DISCOUNT);
 
                             String item_id = itemIdCursor.getString(indexItemId);
+                            String itemCode = itemIdCursor.getString(indexItemCode);
+
+                            Double item_price = Double.parseDouble(itemIdCursor.getString(indexItemPrice));
+                            Double discount_amount = Double.parseDouble(itemIdCursor.getString(indexItemDiscount));
+
 
                             Cursor modCursor = databaseHelper.getModifiers(item_id);
 
@@ -358,12 +367,12 @@ public class InHouseTabFragment extends Fragment {
                                     quantity = modCursor.getString(indexqty);
                                     String mod_id = modCursor.getString(indexModActualId);
 
-                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, mod_price, mod_id);
+                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode,item_id,mod_name, quantity, true, mod_price, mod_id,0.0,0.0);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
 
-                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, " ", " ");
+                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode,item_id,mod_name, quantity, true, " ", " ",item_price,discount_amount);
                             orderItemStatusArrayList.add(orderItemStatusModel);
 
 

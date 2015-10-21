@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -47,6 +48,7 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -90,6 +92,9 @@ public class FinalChkoutActivity extends AppCompatActivity {
     HashMap<Integer, ArrayList<DbItems>> hashMapItems;
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
+
+    ArrayList<String> arrayListDeliveryName;
+
     View[] viewItems;
 
     TableLayout tableModifier;
@@ -113,6 +118,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     String itemName;
     String transactionId;
+
+    String outletId;
 
     Cursor itemCursor;
     Cursor itemIdCursorMod;
@@ -171,13 +178,13 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
         createTableItems();
 
-        AddChkOutCatfrag();
-
         setFont();
 
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         startService(intent);
+
+        getDeliveryType();
 
     }
 
@@ -394,6 +401,9 @@ public class FinalChkoutActivity extends AppCompatActivity {
                 .beginTransaction();
 
         ChkoutCatFragment chkoutCatFragment = new ChkoutCatFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ConstVarIntent.TAG_DELIVERY_TYPE, arrayListDeliveryName);
+        chkoutCatFragment.setArguments(bundle);
         fragmentTransaction.add(R.id.chkout_detail_frag, chkoutCatFragment, "login");
         fragmentTransaction.commit();
     }
@@ -569,19 +579,19 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             String url = Const.BASE_URL + Const.POST_FINAL_PAYMENT + orderId + "?TransactionId=" + transactionId;
 
-           // Log.e("urel", url);
+            // Log.e("urel", url);
 
 
             try {
 
                 String jsonString = jsonParser.getJSONFromUrl(url,
-                        Const.TIME_OUT,userSession.getUserID());
+                        Const.TIME_OUT, userSession.getUserID());
 
-              //  Log.e("jsonfinalcheck", jsonString);
+                //  Log.e("jsonfinalcheck", jsonString);
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                   // Log.e("json", jsonString);
+                    // Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {
@@ -625,11 +635,11 @@ public class FinalChkoutActivity extends AppCompatActivity {
         }
     }
 
-    private void clearCart()
-    {
-        DatabaseHelper databaseHelper=new DatabaseHelper(FinalChkoutActivity.this);
+    private void clearCart() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(FinalChkoutActivity.this);
         databaseHelper.deleteModifierTable();
-        databaseHelper.deleteItemTable();;
+        databaseHelper.deleteItemTable();
+        ;
         databaseHelper.deleteCheckOutTable();
     }
 
@@ -637,6 +647,109 @@ public class FinalChkoutActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ThankYouActivity.class);
         intent.putExtra("OrderId", orderId);
         startActivity(intent);
+    }
+
+    private void getDeliveryType() {
+
+        Cursor cursorOutletId = databaseHelper.selectOutletId();
+
+        if (cursorOutletId != null) {
+            if (cursorOutletId.moveToFirst()) {
+                outletId = cursorOutletId.getString(0);
+            }
+        }
+
+
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new GetDeliveryType().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(this, getString(R.string.internet_connection_message), "Alert");
+        }
+    }
+
+    private class GetDeliveryType extends AsyncTask<String, String, String> {
+
+
+        String message;
+        int status;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(FinalChkoutActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            JsonParser jsonParser = new JsonParser();
+
+            arrayListDeliveryName = new ArrayList<>();
+
+            String url = Const.BASE_URL + Const.GET_DELIVERY_TYPE + "outletId=" + outletId;
+
+            String userId = userSession.getUserID();
+
+
+            Log.e("userId", userId);
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, userId);
+
+            Log.e("json", jsonString);
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("json", jsonString);
+                    status = jsonObject.getInt("status");
+                    message = jsonObject.getString("message");
+                    if (status == 1) {
+                        JSONArray jsonArray = jsonObject.getJSONArray(Const.TAG_JsonObj);
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject jsonObj = jsonArray.getJSONObject(i);
+
+                            String deliveryTypeId = jsonObj.getString(Const.TAG_DELIVERY_ID);
+                            String deliveryTypeName = jsonObj.getString(Const.TAG_DELIVERY_NAME);
+
+                            arrayListDeliveryName.add(deliveryTypeName);
+                        }
+
+
+                    }
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                status = -1;
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+                status = -1;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+            ProgresBar.stop();
+
+            if (status == 1) {
+
+                AddChkOutCatfrag();
+
+            } else if (status == 0) {
+                AlertDialogHelper.showAlertDialog(FinalChkoutActivity.this,
+                        message, "Alert");
+            } else {
+                AlertDialogHelper.showAlertDialog(FinalChkoutActivity.this,
+                        getString(R.string.server_message), "Alert");
+            }
+        }
     }
 
 

@@ -10,16 +10,34 @@ public class OrderItemStatusModel {
     String quantity;
     String mod_price;
     String mod_id;
+    String itemCode;
+
+    Double itemPrice;
+    Double discountAmt;
+
     Boolean isModifier;
 
-    public OrderItemStatusModel(String itemId, String mod_name, String quantity, Boolean isModifier, String mod_price, String mod_id) {
 
+    public OrderItemStatusModel(String itemCode,String itemId, String mod_name, String quantity, Boolean isModifier, String mod_price, String mod_id,Double itemPrice,Double discountAmt) {
+
+       this.itemCode=itemCode;
         this.itemId = itemId;
         this.mod_name = mod_name;
         this.quantity = quantity;
         this.isModifier = isModifier;
         this.mod_price = mod_price;
         this.mod_id = mod_id;
+
+        this.discountAmt=discountAmt;
+        this.itemPrice=itemPrice;
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
     public String getItemId() {
@@ -68,5 +86,21 @@ public class OrderItemStatusModel {
 
     public void setMod_id(String mod_id) {
         this.mod_id = mod_id;
+    }
+
+    public Double getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(Double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public Double getDiscountAmt() {
+        return discountAmt;
+    }
+
+    public void setDiscountAmt(Double discountAmt) {
+        this.discountAmt = discountAmt;
     }
 }

@@ -52,21 +52,12 @@ import butterknife.OnClick;
 public class PickupTabFragment extends Fragment {
 
     int outletId;
-    Double totalAmount;
-    Double discountAmount;
-    Double afterDiscountAmount;
-    String taxApplicable;
-    String tax;
-    String tableNoId;
-    String tableNO;
-    String orderNotes;
-    String billingAddressId;
-    String deliveryTypeId;
-    String deliveryType;
     int itemId;
 
-    int orderId;
-
+    Double totalAmount;
+    Double itemPrice;
+    Double discountAmount;
+    Double afterDiscountAmount;
     String quantity;
     int isModifier;
 
@@ -119,7 +110,6 @@ public class PickupTabFragment extends Fragment {
         if (outletCursor != null) {
             if (outletCursor.moveToFirst()) {
 
-                itemId = Integer.parseInt(outletCursor.getString(1));
                 outletId = Integer.parseInt(outletCursor.getString(2));
                 discountAmount = outletCursor.getDouble(3);
                 afterDiscountAmount = Double.parseDouble(outletCursor.getString(4));
@@ -132,11 +122,9 @@ public class PickupTabFragment extends Fragment {
         try {
 
             jsonObjDetails.put("outletId", outletId);
-            jsonObjDetails.put("discountAmount", discountAmount);
-            jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
-            jsonObjDetails.put("deliveryType","PickUp");
-            jsonObjDetails.put("deliveryTypeId",3);
+            jsonObjDetails.put("deliveryType", "PickUp");
+            jsonObjDetails.put("deliveryTypeId", 3);
 
 
             JSONArray jsonArrayOrder = new JSONArray();
@@ -156,38 +144,57 @@ public class PickupTabFragment extends Fragment {
 
 
                 quantity = orderItemStatusArrayList.get(j).getQuantity();
-                String status_id=orderItemStatusArrayList.get(j).getItemId();
+                String status_id = orderItemStatusArrayList.get(j).getItemId();
 
-                orderStatusObj.put("statusId",status_id);
+                int itemId = Integer.parseInt(orderItemStatusArrayList.get(j).getItemCode());
+
+                itemPrice = orderItemStatusArrayList.get(j).getItemPrice();
+                discountAmount = orderItemStatusArrayList.get(j).getDiscountAmt();
+
+               if(discountAmount==0.0)
+               {
+                   afterDiscountAmount=0.0;
+               }
+                else {
+                   afterDiscountAmount = itemPrice - discountAmount;
+               }
+
+
+                orderStatusObj.put("statusId", status_id);
                 orderStatusObj.put("itemId", itemId);
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
+                orderStatusObj.put("itemPrice", itemPrice);
+                orderStatusObj.put("discountAmount", discountAmount);
+                orderStatusObj.put("afterDiscountAmount", afterDiscountAmount);
 
                 jsonArrayOrder.put(orderStatusObj);
             }
 
-                for (int i = 0; i < orderStatusArrayList.size(); i++) {
+            for (int i = 0; i < orderStatusArrayList.size(); i++) {
 
-                    JSONObject modStatusObj = new JSONObject();
+                JSONObject modStatusObj = new JSONObject();
 
-                    String modName = orderStatusArrayList.get(i).getMod_name();
-                    String statusId=orderItemStatusArrayList.get(i).getItemId();
-                    modifierId = orderStatusArrayList.get(i).getMod_id();
-                    modifierPrice = orderStatusArrayList.get(i).getMod_price();
+                String modName = orderStatusArrayList.get(i).getMod_name();
+                String statusId = orderStatusArrayList.get(i).getItemId();
 
-                    if (modName.equals("null")) {
-                       //do nothing
-                    } else {
+                int itemId = Integer.parseInt(orderStatusArrayList.get(i).getItemCode());
 
-                        modStatusObj.put("statusId",statusId);
-                        modStatusObj.put("itemId", itemId);
-                        modStatusObj.put("modifierId", modifierId);
-                        modStatusObj.put("modifierPrice", modifierPrice);
+                modifierId = orderStatusArrayList.get(i).getMod_id();
+                modifierPrice = orderStatusArrayList.get(i).getMod_price();
 
-                        jsonArrayMod.put(modStatusObj);
-                    }
+                if (modName.equals("null")) {
+                    //do nothing
+                } else {
+
+                    modStatusObj.put("statusId", statusId);
+                    modStatusObj.put("itemId", itemId);
+                    modStatusObj.put("modifierId", modifierId);
+                    modStatusObj.put("modifierPrice", modifierPrice);
+
+                    jsonArrayMod.put(modStatusObj);
                 }
-
+            }
 
 
             jsonObjDetails.putOpt("orderItemStatus", jsonArrayOrder);
@@ -223,8 +230,20 @@ public class PickupTabFragment extends Fragment {
                             ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
 
                             int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
+                            int indexItemCode = itemIdCursor.getColumnIndex(databaseHelper.ITEM_CODE);
+                            int indexItemPrice = itemIdCursor.getColumnIndex(databaseHelper.ITEM_PRICE);
+                            int indexItemDiscount = itemIdCursor.getColumnIndex(databaseHelper.ITEM_DISCOUNT);
+
+                            Log.e("indexitemcode", "" + indexItemCode);
 
                             String item_id = itemIdCursor.getString(indexItemId);
+                            String itemCode = itemIdCursor.getString(indexItemCode);
+
+                            Double item_price = Double.parseDouble(itemIdCursor.getString(indexItemPrice));
+                            Log.e("indexprice",itemIdCursor.getString(indexItemPrice));
+                            Double discount_amount = Double.parseDouble(itemIdCursor.getString(indexItemDiscount));
+                            Log.e("indexdis",itemIdCursor.getString(indexItemDiscount));
+
 
                             Cursor modCursor = databaseHelper.getModifiers(item_id);
 
@@ -241,12 +260,12 @@ public class PickupTabFragment extends Fragment {
                                     quantity = modCursor.getString(indexqty);
                                     String mod_id = modCursor.getString(indexModActualId);
 
-                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, mod_price, mod_id);
+                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode, item_id, mod_name, quantity, true, mod_price, mod_id,0.0,0.0);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
 
-                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, " ", " ");
+                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode, item_id, mod_name, quantity, true, " ", " ", item_price, discount_amount);
                             orderItemStatusArrayList.add(orderItemStatusModel);
 
 

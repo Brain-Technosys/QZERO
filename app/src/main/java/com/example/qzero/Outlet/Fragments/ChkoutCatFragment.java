@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
@@ -62,10 +64,6 @@ public class ChkoutCatFragment extends Fragment {
     DatabaseHelper databaseHelper;
 
     ArrayList<String> arrayListDeliveryName;
-    ArrayList<String> arrayListDeliveryId;
-
-    String outletId;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,9 +84,9 @@ public class ChkoutCatFragment extends Fragment {
         mTabHost.setup(context, getChildFragmentManager(),
                 frameLayout.getId());
 
-        inflateLayouts();
+        getBundle();
 
-        getDeliveryType();
+        inflateLayouts();
 
         createShipmentTag();
         createPickUpTag();
@@ -101,113 +99,35 @@ public class ChkoutCatFragment extends Fragment {
         return view;
     }
 
-     private void getDeliveryType() {
+    private void getBundle()
+    {
+        if(getArguments()!=null)
+        {
+            Bundle bundle=getArguments();
 
-        Cursor cursorOutletId = databaseHelper.selectOutletId();
-
-        if (cursorOutletId != null) {
-            if (cursorOutletId.moveToFirst()) {
-                outletId = cursorOutletId.getString(0);
-            }
-        }
-
-        if (CheckInternetHelper.checkInternetConnection(getActivity())) {
-            new GetDeliveryType().execute();
-        } else {
-            AlertDialogHelper.showAlertDialog(getActivity(), getString(R.string.internet_connection_message), "Alert");
+            arrayListDeliveryName=(ArrayList<String>)bundle.getSerializable(ConstVarIntent.TAG_DELIVERY_TYPE);
         }
     }
 
-    private class GetDeliveryType extends AsyncTask<String, String, String> {
-
-
-        String message;
-        int status;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            ProgresBar.start(getActivity());
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            JsonParser jsonParser = new JsonParser();
-
-            arrayListDeliveryName = new ArrayList<>();
-            arrayListDeliveryId = new ArrayList<>();
-
-
-            String url = Const.BASE_URL + Const.GET_DELIVERY_TYPE+"outletId="+outletId;
-
-            String userId = userSession.getUserID();
-
-
-            Log.e("userId", userId);
-
-            String jsonString = jsonParser.getJSONFromUrl(url,Const.TIME_OUT,userId);
-
-            Log.e("json", jsonString);
-
-            try {
-                JSONObject jsonObject = new JSONObject(jsonString);
-
-                if (jsonObject != null) {
-                    Log.e("json", jsonString);
-                    status = jsonObject.getInt("status");
-                    message = jsonObject.getString("message");
-                    if (status == 1) {
-                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
-
-                        String deliveryTypeId = jsonObject.getString(Const.TAG_DELIVERY_ID);
-                        String deliveryTypeName = jsonObject.getString(Const.TAG_DELIVERY_NAME);
-
-                        arrayListDeliveryId.add(deliveryTypeId);
-                        arrayListDeliveryName.add(deliveryTypeName);
-                    }
-
-                    //  orderId=jsonObject.getInt(Const.TAG_ORDER_ID);
-                }
-
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                status = -1;
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-                status = -1;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            super.onPostExecute(result);
-            ProgresBar.stop();
-
-            if (status == 1) {
-
-                checkTabsPresent();
-
-            } else if (status == 0) {
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        message, "Alert");
-            } else {
-                AlertDialogHelper.showAlertDialog(getActivity(),
-                        getString(R.string.server_message), "Alert");
-            }
-        }
-    }
 
     private void checkTabsPresent() {
 
-        if(arrayListDeliveryName.contains("In-House"))
-        {
+        if (!arrayListDeliveryName.contains("In-House")) {
+            tabIndicatorInHouse.setVisibility(View.INVISIBLE);
+        }
 
+        if(!arrayListDeliveryName.contains("Shipment"))
+        {
+            tabIndicatorShipment.setVisibility(View.INVISIBLE);
+        }
+
+
+        if(!arrayListDeliveryName.contains("Pick Up"))
+        {
+            tabIndicatorPickup.setVisibility(View.INVISIBLE);
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -270,24 +190,28 @@ public class ChkoutCatFragment extends Fragment {
 
     public void addTabs() {
 
-       // if(arrayListDeliveryName.contains("Shipment")) {
-            mTabHost.addTab(
-                    mTabHost.newTabSpec("Shipment").setIndicator(tabIndicatorShipment),
-                    ShipmentTabFragment.class, null);
-       // }
 
-       // if(arrayListDeliveryName.contains("Pick Up")) {
-            mTabHost.addTab(
-                    mTabHost.newTabSpec("Pick Up").setIndicator(tabIndicatorPickup),
-                    PickupTabFragment.class, null);
-      //  }
+        if(arrayListDeliveryName.contains("Shipment")) {
+            TabHost.TabSpec shipmentspec = mTabHost.newTabSpec("Shipment");
+            // setting Title and Icon for the Tab
+            shipmentspec.setIndicator(tabIndicatorShipment);
 
-      /*  if(arrayListDeliveryName.contains("In-House")) {*/
+            mTabHost.addTab(shipmentspec, ShipmentTabFragment.class, null);
+        }
 
-            mTabHost.addTab(
-                    mTabHost.newTabSpec("In House").setIndicator(tabIndicatorInHouse),
-                    InHouseTabFragment.class, null);
-       // }
+
+        if(arrayListDeliveryName.contains("Pick Up")) {
+        mTabHost.addTab(
+                mTabHost.newTabSpec("Pick Up").setIndicator(tabIndicatorPickup),
+                PickupTabFragment.class, null);
+         }
+
+       if(arrayListDeliveryName.contains("In-House")) {
+
+        mTabHost.addTab(
+                mTabHost.newTabSpec("In House").setIndicator(tabIndicatorInHouse),
+                InHouseTabFragment.class, null);
+        }
     }
 
     private void setFont() {

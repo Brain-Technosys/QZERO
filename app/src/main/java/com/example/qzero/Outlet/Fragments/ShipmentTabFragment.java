@@ -122,17 +122,15 @@ public class ShipmentTabFragment extends Fragment {
     Context context;
 
     int outletId;
+
     Double totalAmount;
+    Double itemPrice;
     Double discountAmount;
     Double afterDiscountAmount;
-    String taxApplicable;
-    String tax;
-    String tableNoId;
-    String tableNO;
+
     String orderNotes;
     String billingAddressId;
-    String deliveryTypeId;
-    String deliveryType;
+
     int itemId;
 
     int orderId;
@@ -363,11 +361,7 @@ public class ShipmentTabFragment extends Fragment {
         if (outletCursor != null) {
             if (outletCursor.moveToFirst()) {
 
-                itemId = Integer.parseInt(outletCursor.getString(1));
                 outletId = Integer.parseInt(outletCursor.getString(2));
-                discountAmount = outletCursor.getDouble(3);
-                afterDiscountAmount = Double.parseDouble(outletCursor.getString(4));
-
             }
         }
         totalAmount = Double.parseDouble(userSession.getFinalPaybleAmount());
@@ -375,8 +369,6 @@ public class ShipmentTabFragment extends Fragment {
         JSONObject jsonObjDetails = new JSONObject();
         try {
             jsonObjDetails.put("outletId", outletId);
-            jsonObjDetails.put("discountAmount", discountAmount);
-            jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
             jsonObjDetails.put("billingAddressId", billingAddressId);
             jsonObjDetails.put("deliveryType","Shipment");
@@ -401,10 +393,21 @@ public class ShipmentTabFragment extends Fragment {
                 quantity = orderItemStatusArrayList.get(j).getQuantity();
                 String status_id=orderItemStatusArrayList.get(j).getItemId();
 
+                int itemId=Integer.parseInt(orderItemStatusArrayList.get(j).getItemCode());
+
+                itemPrice=orderItemStatusArrayList.get(j).getItemPrice();
+                discountAmount=orderItemStatusArrayList.get(j).getDiscountAmt();
+
+                afterDiscountAmount=itemPrice-discountAmount;
+
                 orderStatusObj.put("statusId",status_id);
                 orderStatusObj.put("itemId", itemId);
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
+                orderStatusObj.put("itemPrice", itemPrice);
+                orderStatusObj.put("discountAmount", discountAmount);
+                orderStatusObj.put("afterDiscountAmount", afterDiscountAmount);
+
 
                 jsonArrayOrder.put(orderStatusObj);
             }
@@ -414,7 +417,8 @@ public class ShipmentTabFragment extends Fragment {
                 JSONObject modStatusObj = new JSONObject();
 
                 String modName = orderStatusArrayList.get(i).getMod_name();
-                String statusId=orderItemStatusArrayList.get(i).getItemId();
+                String statusId=orderStatusArrayList.get(i).getItemId();
+                int itemId = Integer.parseInt(orderStatusArrayList.get(i).getItemCode());
 
                 modifierId = orderStatusArrayList.get(i).getMod_id();
                 modifierPrice = orderStatusArrayList.get(i).getMod_price();
@@ -461,6 +465,7 @@ public class ShipmentTabFragment extends Fragment {
 
                 int index = distinctItemCursor.getColumnIndex(databaseHelper.NAME_COLUMN);
 
+
                 String itemName = distinctItemCursor.getString(index);
 
                 Cursor itemIdCursor = databaseHelper.selectItems(itemName);
@@ -471,8 +476,14 @@ public class ShipmentTabFragment extends Fragment {
                             ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
 
                             int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
+                            int indexItemCode = itemIdCursor.getColumnIndex(databaseHelper.ITEM_CODE);
+                            int indexItemPrice=itemIdCursor.getColumnIndex(databaseHelper.ITEM_PRICE);
+                            int indexItemDiscount=itemIdCursor.getColumnIndex(databaseHelper.ITEM_DISCOUNT);
 
                             String item_id = itemIdCursor.getString(indexItemId);
+                            String itemCode = itemIdCursor.getString(indexItemCode);
+                            Double item_price = Double.parseDouble(itemIdCursor.getString(indexItemPrice));
+                            Double discount_amount = Double.parseDouble(itemIdCursor.getString(indexItemDiscount));
 
                             Cursor modCursor = databaseHelper.getModifiers(item_id);
 
@@ -489,12 +500,12 @@ public class ShipmentTabFragment extends Fragment {
                                     quantity = modCursor.getString(indexqty);
                                     String mod_id = modCursor.getString(indexModActualId);
 
-                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, mod_price, mod_id);
+                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode,item_id,mod_name, quantity, true, mod_price, mod_id,0.0,0.0);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
 
-                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, " ", " ");
+                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode,item_id,mod_name, quantity, true, " ", " ",item_price,item_price);
                             orderItemStatusArrayList.add(orderItemStatusModel);
 
 
@@ -572,7 +583,7 @@ public class ShipmentTabFragment extends Fragment {
 
                                 JSONObject jsonShippingAddress = jsonArrayShippingAddressDetail.getJSONObject(i);
 
-                                hmShipAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
+                                hmShipAddressDetail.put(Const.TAG_SHIPPING_ID, jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
                                 hmShipAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_CUST_ID));
                                 hmShipAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME) + " " + jsonShippingAddress.getString(Const.TAG_LNAME));
                                 hmShipAddressDetail.put(Const.TAG_ADDRESS1, jsonShippingAddress.getString(Const.TAG_ADDRESS1));
@@ -600,7 +611,7 @@ public class ShipmentTabFragment extends Fragment {
 
                                 JSONObject jsonBillingAddress = jsonArrayBillingAddressDetail.getJSONObject(i);
 
-                                hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));
+                                hmBillAddressDetail.put(Const.TAG_BILLING_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));
                                 hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
                                 hmBillAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
                                 hmBillAddressDetail.put(Const.TAG_FNAME, jsonBillingAddress.getString(Const.TAG_FNAME) + " " + jsonBillingAddress.getString(Const.TAG_LNAME));
