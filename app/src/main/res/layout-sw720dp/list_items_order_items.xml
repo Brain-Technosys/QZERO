@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="3dp"
     android:paddingRight="3dp"
     android:paddingTop="1.5dp">
@@ -11,8 +11,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="3dp"
-        android:background="#FFF">
+        android:background="#FFF"
+        app:cardElevation="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="5dp"
                         android:text="Price"
-                        android:textColor="@color/color_red" />
+                        android:textColor="#000" />
 
 
                 </RelativeLayout>
@@ -124,8 +124,8 @@
                 android:id="@+id/ll_modifiers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@+id/dividerView">
+                android:layout_below="@+id/dividerView"
+                android:orientation="vertical">
 
             </LinearLayout>
 
@@ -143,8 +143,9 @@
                 android:layout_below="@+id/dividerView1"
                 android:paddingTop="5dp">
 
+
                 <LinearLayout
-                    android:id="@+id/ll_discountAmount"
+                    android:id="@+id/ll_totalAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -152,34 +153,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:text="@string/discount_amount"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tv_discountAmount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-
-                        android:layout_weight="0"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_totalAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_discountAmount">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
                         android:text="@string/total_amount"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_totalAmount"
@@ -193,7 +169,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_netAmount"
+                    android:id="@+id/ll_discountAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_totalAmount">
@@ -202,18 +178,42 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/net_amount"
-                        android:textStyle="bold"
-                        android:textColor="@color/black" />
+                        android:text="@string/discount_amount"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_netAmount"
+                        android:id="@+id/tv_discountAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
 
                         android:layout_weight="0"
                         android:textColor="@color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_netAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_discountAmount">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/net_amount"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_netAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0"
+                        android:textColor="@color/color_red" />
 
                 </LinearLayout>
             </RelativeLayout>

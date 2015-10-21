@@ -33,7 +33,6 @@ public class OrderItemsAdapter extends BaseAdapter {
     ArrayList<OrderItems> rowItems;
     LayoutInflater mInflater = null;
 
-
     public OrderItemsAdapter(Context context,
                              ArrayList<OrderItems> rowItems) {
 
@@ -97,7 +96,9 @@ public class OrderItemsAdapter extends BaseAdapter {
         }
 
 /// Setting values
+
         OrderItems items = rowItems.get(position);
+        holder.totalAmount = Double.valueOf(items.getTotalAmount());
 
         // Getting modifiers list
         ArrayList<HashMap<String, String>> modifiersList = items.getModifiersList();
@@ -115,6 +116,7 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         holder.tv_quantity.setText(items.getQuantitiy());
 
+
         if (holder.modifiersLayout.getChildCount() > 0)
             holder.modifiersLayout.removeAllViews();
         // If modifier(s) exist with product
@@ -122,7 +124,7 @@ public class OrderItemsAdapter extends BaseAdapter {
             holder.modifiersLayout.setVisibility(View.VISIBLE);
             holder.dividerView.setVisibility(View.VISIBLE);
             // Calculating
-            subTotal = (Double.valueOf(items.getItemPrice()) + drawModifiers(holder.modifiersLayout, modifiersList, items)) * Double.valueOf(items.getQuantitiy());
+            subTotal = (Double.valueOf(items.getItemPrice()) + drawModifiers(holder.modifiersLayout, modifiersList, items, holder)) * Double.valueOf(items.getQuantitiy());
         } else {
 
             // Calculating
@@ -133,8 +135,9 @@ public class OrderItemsAdapter extends BaseAdapter {
 
         if (Double.valueOf(items.getDiscountAmount()) > 0.0) {
             holder.discountAmountTextView.setText(Utility.formatCurrency(items.getDiscountAmount()));
-            holder.totalAmountTextView.setText(Utility.formatCurrency(items.getTotalAmount()));
-
+            //holder.totalAmountTextView.setText(Utility.formatCurrency(items.getTotalAmount()));
+            holder.totalAmountTextView.setText(Utility.formatCurrency(String.valueOf(holder.totalAmount)));
+            subTotal = subTotal - Double.valueOf(items.getDiscountAmount());
             holder.discontAmountLayout.setVisibility(View.VISIBLE);
             holder.totalAmountLayout.setVisibility(View.VISIBLE);
 
@@ -162,7 +165,7 @@ public class OrderItemsAdapter extends BaseAdapter {
         FontHelper.applyFont(context, holder.netAmountTextView, FontHelper.FontType.FONT);
     }
 
-    private double drawModifiers(LinearLayout tableLayout, ArrayList<HashMap<String, String>> modifiers, OrderItems items) {
+    private double drawModifiers(LinearLayout tableLayout, ArrayList<HashMap<String, String>> modifiers, OrderItems items, ViewHolder viewHolder) {
         int noOfModifiers = modifiers.size();
         double modifierPrice = 0;
         LinearLayout[] tableRow = new LinearLayout[noOfModifiers];
@@ -185,6 +188,8 @@ public class OrderItemsAdapter extends BaseAdapter {
             // Setting text to text views
             modifierNameTextViews[i].setText(map.get(Const.TAG_NAME));
             double modiferP = Double.valueOf(map.get(Const.TAG_PRICE)) * Double.valueOf(items.getQuantitiy());
+            viewHolder.totalAmount = viewHolder.totalAmount + Double.valueOf(map.get(Const.TAG_PRICE));
+
             modifierPriceTextViews[i].setText(Utility.formatCurrency(String.valueOf(modiferP)));
             modifierPrice = modifierPrice + Double.valueOf(map.get(Const.TAG_PRICE));
 
@@ -226,6 +231,7 @@ public class OrderItemsAdapter extends BaseAdapter {
         LinearLayout modifiersLayout;
 
         View dividerView;
+        double totalAmount = 0;
 
     }
 }
