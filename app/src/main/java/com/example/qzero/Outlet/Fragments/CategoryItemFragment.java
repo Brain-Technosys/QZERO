@@ -392,7 +392,7 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
             imgViewItemRight.requestLayout();
             imgViewItemRight.getLayoutParams().height=screenHeight;
 
-            if (i == rows) {
+            if (pos>length-1) {
                 Log.e("i", "" + i);
                 Log.e("inrows", "" + rows);
 

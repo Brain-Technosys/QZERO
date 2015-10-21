@@ -130,12 +130,14 @@ public class PickupTabFragment extends Fragment {
 
         JSONObject jsonObjDetails = new JSONObject();
         try {
-            jsonObjDetails.put("itemId", itemId);
+
             jsonObjDetails.put("outletId", outletId);
             jsonObjDetails.put("discountAmount", discountAmount);
             jsonObjDetails.put("afterDiscountAmount", afterDiscountAmount);
             jsonObjDetails.put("totalAmount", totalAmount);
-            jsonObjDetails.put("deliveryType", 3);
+            jsonObjDetails.put("deliveryType","PickUp");
+            jsonObjDetails.put("deliveryTypeId",3);
+
 
             JSONArray jsonArrayOrder = new JSONArray();
             JSONArray jsonArrayMod = new JSONArray();
@@ -154,7 +156,9 @@ public class PickupTabFragment extends Fragment {
 
 
                 quantity = orderItemStatusArrayList.get(j).getQuantity();
+                String status_id=orderItemStatusArrayList.get(j).getItemId();
 
+                orderStatusObj.put("statusId",status_id);
                 orderStatusObj.put("itemId", itemId);
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
@@ -167,6 +171,7 @@ public class PickupTabFragment extends Fragment {
                     JSONObject modStatusObj = new JSONObject();
 
                     String modName = orderStatusArrayList.get(i).getMod_name();
+                    String statusId=orderItemStatusArrayList.get(i).getItemId();
                     modifierId = orderStatusArrayList.get(i).getMod_id();
                     modifierPrice = orderStatusArrayList.get(i).getMod_price();
 
@@ -174,6 +179,7 @@ public class PickupTabFragment extends Fragment {
                        //do nothing
                     } else {
 
+                        modStatusObj.put("statusId",statusId);
                         modStatusObj.put("itemId", itemId);
                         modStatusObj.put("modifierId", modifierId);
                         modStatusObj.put("modifierPrice", modifierPrice);
@@ -235,12 +241,12 @@ public class PickupTabFragment extends Fragment {
                                     quantity = modCursor.getString(indexqty);
                                     String mod_id = modCursor.getString(indexModActualId);
 
-                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true, mod_price, mod_id);
+                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, mod_price, mod_id);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
 
-                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(mod_name, quantity, true, " ", " ");
+                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(item_id,mod_name, quantity, true, " ", " ");
                             orderItemStatusArrayList.add(orderItemStatusModel);
 
 
