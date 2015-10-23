@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
+        android:layout_above="@+id/linLayAdvertisement"
         android:layout_marginTop="10dp">
 
         <LinearLayout
@@ -149,26 +150,6 @@
                 android:layout_marginLeft="10dp"
                 ></Spinner>
 
-            <!--<android.support.v7.widget.AppCompatEditText-->
-                <!--android:id="@+id/edtTxtCountry"-->
-                <!--style="@style/TextAppearance.AppCompat.Display1"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:ems="10"-->
-                <!--android:gravity="left"-->
-                <!--android:hint="@string/hint_country"-->
-                <!--android:inputType="text"-->
-                <!--android:paddingTop="10dp"-->
-                <!--android:singleLine="true"-->
-                <!--android:textColor="@color/color_edittext_background"-->
-                <!--android:textColorHint="@android:color/darker_gray"-->
-                <!--android:textCursorDrawable="@null"-->
-                <!--android:textSize="@dimen/textSize"-->
-                <!--android:theme="@style/Theme.MyTheme.EditText" />-->
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -187,24 +168,6 @@
                 android:layout_marginLeft="10dp"
                 ></Spinner>
 
-            <!--<android.support.v7.widget.AppCompatEditText-->
-                <!--android:id="@+id/edtTxtState"-->
-                <!--style="@style/TextAppearance.AppCompat.Display1"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:ems="10"-->
-                <!--android:gravity="left"-->
-                <!--android:hint="@string/hint_state"-->
-                <!--android:inputType="text"-->
-                <!--android:paddingTop="10dp"-->
-                <!--android:singleLine="true"-->
-                <!--android:textColor="@color/color_edittext_background"-->
-                <!--android:textColorHint="@android:color/darker_gray"-->
-                <!--android:textCursorDrawable="@null"-->
-                <!--android:textSize="@dimen/textSize"-->
-                <!--android:theme="@style/Theme.MyTheme.EditText" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -308,4 +271,28 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linLayAdvertisement"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgViewAd1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:background="#ffde665d">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/imgViewAd2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:background="@android:color/black">
+        </ImageView>
+    </LinearLayout>
 </RelativeLayout>

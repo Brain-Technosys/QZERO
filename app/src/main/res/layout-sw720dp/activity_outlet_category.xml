@@ -20,19 +20,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
-            android:layout_above="@+id/advertisement">
+            android:layout_above="@+id/linLayAdvertisement">
 
         </FrameLayout>
 
-
-        <ImageView
-            android:id="@+id/advertisement"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/linLayAdvertisement"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:background="#ffde665d">
+            android:orientation="horizontal">
 
-        </ImageView>
+            <ImageView
+                android:id="@+id/imgViewAd1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:background="#ffde665d">
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/imgViewAd2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:background="@android:color/black">
+            </ImageView>
+        </LinearLayout>
     </RelativeLayout>
 
     <!-- The navigation drawer -->

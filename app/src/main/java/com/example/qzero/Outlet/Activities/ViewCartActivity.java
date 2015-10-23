@@ -406,7 +406,6 @@ public class ViewCartActivity extends Activity {
 
     private class GetPaymentGatewayDetails extends AsyncTask<String, String, String> {
 
-
         String message;
         int status;
 

@@ -13,8 +13,32 @@
         android:id="@+id/listShippingAddress"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/header"
+        android:layout_above="@+id/linLayAdvertisement"
+        android:layout_below="@+id/header">
 
-        ></ListView>
+    </ListView>
+
+
+    <LinearLayout
+        android:id="@+id/linLayAdvertisement"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgViewAd1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#ffde665d"></ImageView>
+
+        <ImageView
+            android:id="@+id/imgViewAd2"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@android:color/black"></ImageView>
+    </LinearLayout>
 
 </RelativeLayout>
