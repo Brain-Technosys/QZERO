@@ -127,7 +127,7 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
         }
 
 
-        holder.addressName.setText(addressDetail.get(i).get(Const.TAG_FNAME));
+        holder.addressName.setText(addressDetail.get(i).get(Const.TAG_FNAME)+" "+addressDetail.get(i).get(Const.TAG_LAST_NAME));
         holder.addressLine1.setText(addressDetail.get(i).get(Const.TAG_ADDRESS1));
         holder.addressCity.setText(addressDetail.get(i).get(Const.TAG_CITY));
         holder.addressState.setText(addressDetail.get(i).get(Const.TAG_STATE));
@@ -238,6 +238,8 @@ public class CustomAdapterBillingAddress extends BaseAdapter {
                 hmAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmAddressDetail.get(Const.TAG_ZIPCODE);
         String contact = hmAddressDetail.get(Const.TAG_PHONE_NO);
         String id=hmAddressDetail.get(Const.TAG_BILLING_ID);
+
+        Log.e("billingid",id);
 
         //For Shipping Address
         if (type == 1) {

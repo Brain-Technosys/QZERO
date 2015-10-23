@@ -25,8 +25,11 @@
             android:layout_centerVertical="true"
             android:textSize="@dimen/outlet_heading_size"
             android:layout_marginLeft="10dp"
+
             android:textColor="@color/color_tab_text_selected"/>
+
     </RelativeLayout>
+
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
@@ -40,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/relLayHeading"
+        android:layout_below="@+id/search_view"
         android:background="#DFDFDF">
 
         <LinearLayout

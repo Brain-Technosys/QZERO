@@ -67,7 +67,7 @@
             android:padding="10dp"
             android:scaleType="centerCrop"
             android:layout_centerVertical="true"
-            android:src="@drawable/home_icon"
+            android:src="@drawable/ic_home"
             />
 
 
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Change Outlet"
+            android:text="Home"
             android:layout_toRightOf="@+id/img_outlet"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"

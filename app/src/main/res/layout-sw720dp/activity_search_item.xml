@@ -16,7 +16,6 @@
         android:layout_below="@+id/include"
         android:listSelector="@android:color/transparent"
         android:divider="@android:color/transparent"
-        android:scrollbars="none"
-        />
+        android:scrollbars="none"/>
 
 </RelativeLayout>

@@ -9,7 +9,7 @@ public class ConstVarIntent {
 
     //Intent variable for search outlet
     public static String TAG_CLASSNAME="classname";
-    public static String TAG_OUTLET_ID="outletid";
+    public static String TAG_VENUE_ID="venueId";
     public static String TAG_LIST_VENUE="arrayListVenue";
 
     //Intent variable for add or edit shipping address

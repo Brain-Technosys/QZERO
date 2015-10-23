@@ -51,9 +51,19 @@ android:background="@color/cardview_back"
         android:layout_height="match_parent"
         android:layout_below="@+id/inclue_header"
         android:divider="@android:color/transparent"
-        android:layout_above="@+id/bottomCartLayout"
+        android:layout_above="@+id/advertisement"
         android:text="@string/hello_blank_fragment"
         android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/advertisement"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ffde665d">
+
+    </ImageView>
+
 
 
 </RelativeLayout>

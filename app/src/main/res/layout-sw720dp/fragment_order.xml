@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/texture_bg"
+    android:orientation="vertical">
 
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="@color/searchbar_color"
         android:queryHint="Order Id" />
 
     <ListView
         android:id="@+id/orderListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/searchView"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:divider="@android:color/transparent"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none" />
 
+
     <ImageView
         android:id="@+id/img_banner"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
+        android:layout_weight="0"
         android:background="#ffde665d" />
-</RelativeLayout>
+
+
+</LinearLayout>

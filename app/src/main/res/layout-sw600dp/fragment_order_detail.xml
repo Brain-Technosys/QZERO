@@ -15,13 +15,13 @@
 
 
 
-    <!--  <View
-          android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:layout_above="@+id/rl_addresses"
-          android:layout_below="@+id/orderListView"
-          android:layout_weight="0"
-          android:background="@color/color_red"></View>-->
+  <!--  <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/rl_addresses"
+        android:layout_below="@+id/orderListView"
+        android:layout_weight="0"
+        android:background="@color/color_red"></View>-->
 
 
 

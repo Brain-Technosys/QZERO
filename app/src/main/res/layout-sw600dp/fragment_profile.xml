@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDFDF">
+    android:background="@drawable/texture_bg">
 
     <ScrollView
         android:id="@+id/scroll"
@@ -19,11 +19,13 @@
                 android:id="@+id/card_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
                 card_view:cardBackgroundColor="#fff2f9fb"
                 card_view:cardCornerRadius="1dp"
-                card_view:cardElevation="5dp"
+                card_view:cardElevation="2dp"
                 card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -60,7 +62,7 @@
                                 android:id="@+id/tv_firstName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Deepak"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -80,7 +82,7 @@
                                 android:id="@+id/tv_lastName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Kumar"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -100,7 +102,7 @@
                                 android:id="@+id/tv_userName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="deepak"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -120,7 +122,7 @@
                                 android:id="@+id/tv_createdOn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="20-07-2015"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
                     </TableLayout>
@@ -136,11 +138,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_profile"
-                android:layout_margin="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
+                card_view:cardElevation="2dp"
                 card_view:cardBackgroundColor="#fff2f9fb"
                 card_view:cardCornerRadius="1dp"
-                card_view:cardElevation="5dp"
+
                 card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -177,8 +181,8 @@
                                 android:id="@+id/tv_email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
                                 android:inputType="textEmailAddress"
-                                android:text="ashish@braintechnosys.com "
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -190,7 +194,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Phone Number:"
+                                android:text="Phone Number: "
                                 android:textColor="#000"
                                 android:textStyle="bold" />
 
@@ -198,7 +202,7 @@
                                 android:id="@+id/tv_phone_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8750292901"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -210,7 +214,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Mobile Number:"
+                                android:text="Mobile Number: "
                                 android:textColor="#000"
                                 android:textStyle="bold" />
 
@@ -218,7 +222,7 @@
                                 android:id="@+id/tv_mobile_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8750292901"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -238,11 +242,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_contact"
-                android:layout_margin="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
                 card_view:cardBackgroundColor="#fff2f9fb"
                 card_view:cardCornerRadius="1dp"
-                card_view:cardElevation="5dp"
+                card_view:cardElevation="2dp"
                 card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -279,7 +284,7 @@
                                 android:id="@+id/tv_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Brain Technosys PVT LTD, G-84, Sector-63"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -299,7 +304,7 @@
                                 android:id="@+id/tv_city"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="NOIDA"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -319,7 +324,7 @@
                                 android:id="@+id/tv_state"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Uttar Pradesh"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -339,7 +344,7 @@
                                 android:id="@+id/tv_country"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="INDIA"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -359,7 +364,7 @@
                                 android:id="@+id/tv_zipcode"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="201301"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -379,8 +384,7 @@
                                 android:id="@+id/tv_updated_on"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
-                                android:text="7/22/2015"
+                                android:layout_marginLeft="5dp"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -396,10 +400,13 @@
             <Button
                 android:id="@+id/btn_edit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_below="@+id/card_address"
-                android:layout_marginLeft="5dp"
-                android:text="Edit Profile" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/selector"
+                android:text="Edit" />
 
 
         </RelativeLayout>

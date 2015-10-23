@@ -1,73 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="@android:color/white"
-    >
 
-    <RelativeLayout
-        android:id="@+id/relLayItem"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        android:layout_gravity="center_horizontal"
         android:layout_margin="5dp"
-        android:background="@drawable/item_border"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        card_view:cardBackgroundColor="@android:color/white">
 
-        <FrameLayout
-            android:id="@+id/layout_strip"
+        <LinearLayout
+            android:id="@+id/relLayItem"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/item_border"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imgViewItem"
+            <FrameLayout
+                android:id="@+id/layout_strip"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:scaleType="fitXY" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imgViewItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:id="@+id/txtViewTitleOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/oulet_image_strip"
+                    android:gravity="center_horizontal"
+                    android:padding="3dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white" />
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/txtViewTitleOverlay"
-                android:layout_width="match_parent"
+                android:id="@+id/txtViewItemName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="15dp"
-                android:background="@color/oulet_image_strip"
-                android:gravity="center_horizontal"
-                android:padding="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:text="kdlkdl"
                 android:singleLine="true"
-                android:textColor="@android:color/white" />
-        </FrameLayout>
+                android:textColor="@android:color/black"
+                android:textSize="13sp" />
 
-        <TextView
-            android:id="@+id/txtViewItemName"
+            <TextView
+                android:id="@+id/txtViewItemPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="left"
+                android:text="kdlkdl"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardViewRight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        card_view:cardBackgroundColor="@android:color/white">
+
+        <LinearLayout
+            android:id="@+id/relLayItemRight"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_strip"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/item_border"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <FrameLayout
+                android:id="@+id/layout_stripRight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_above="@+id/txtViewItemNameRight">
 
-        <TextView
-            android:id="@+id/txtViewItemPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtViewItemName"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="left"
-            android:textColor="@android:color/black"
-            android:textSize="15dp" />
+                <ImageView
+                    android:id="@+id/imgViewItemRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/txtViewTitleOverlayRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/oulet_image_strip"
+                    android:gravity="center_horizontal"
+                    android:padding="3dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/txtViewItemNameRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txtViewItemPriceRight"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:singleLine="true"
+                android:text="kdlkdl"
+                android:textColor="@android:color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/txtViewItemPriceRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                android:gravity="left"
+                android:text="hhdkadhak"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
 
 
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+

@@ -40,7 +40,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/tv_transaction_type"
-                    android:text="Amount" />
+                     />
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="10dp"
-                        android:text="Deepak Kumar" />
+                          />
                 </TableRow>
 
                 <TableRow
@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="10dp"
-                        android:text="XXXXXXXX" />
+                         />
                 </TableRow>
 
                 <TableRow
@@ -119,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="10dp"
-                        android:text="sdksdksdksds" />
+                         />
                 </TableRow>
             </TableLayout>
 

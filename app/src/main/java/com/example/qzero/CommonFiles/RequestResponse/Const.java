@@ -39,6 +39,7 @@ public class Const {
     public static String DELETE_ADDRESS="checkout/DeleteAddress";
     public static String POST_FINAL_PAYMENT="checkout/FinalPaymentOrder";
     public static String GET_DELIVERY_TYPE="checkout/GetDeliveryType?";
+    public static String GET_PAYMENTGATEWAY_DETAILS="checkout/PaymentGatewayDetails?VenueId=";
 
     //Intialize jsonArray parameter
 
@@ -221,6 +222,10 @@ public class Const {
     //Get delivery type
     public static String TAG_DELIVERY_ID="deliveryTypeId";
     public static String TAG_DELIVERY_NAME="deliveryTypeName";
+
+    //Get paymentgateway details
+    public static String TAG_KEY="key";
+    public static String TAG_GATEWAY_NAME="gatewayName";
 
 
 

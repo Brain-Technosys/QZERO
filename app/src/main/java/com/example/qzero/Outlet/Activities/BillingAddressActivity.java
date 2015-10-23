@@ -198,7 +198,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
                         hmAddressDetail.put(Const.TAG_CUST_ID, jsonBillingAddress.getString(Const.TAG_CUST_ID));
                         hmAddressDetail.put(Const.TAG_BILLING_ID, jsonBillingAddress.getString(Const.TAG_BILLING_ID));
-                        hmAddressDetail.put(Const.TAG_FNAME, jsonBillingAddress.getString(Const.TAG_FNAME) + " " + jsonBillingAddress.getString(Const.TAG_LNAME));
+                        hmAddressDetail.put(Const.TAG_FNAME, jsonBillingAddress.getString(Const.TAG_FNAME));
+                        hmAddressDetail.put(Const.TAG_LAST_NAME, jsonBillingAddress.getString(Const.TAG_LNAME));
                         hmAddressDetail.put(Const.TAG_ADDRESS1, jsonBillingAddress.getString(Const.TAG_ADDRESS1));
                         hmAddressDetail.put(Const.TAG_ADDRESS2, jsonBillingAddress.getString(Const.TAG_ADDRESS2));
                         hmAddressDetail.put(Const.TAG_CITY, jsonBillingAddress.getString(Const.TAG_CITY));

@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Common.Utility;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
@@ -37,6 +38,7 @@ import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
 import com.example.qzero.Outlet.ObjectClasses.OrderItemStatusModel;
 import com.example.qzero.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +77,8 @@ public class ViewCartActivity extends Activity {
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
 
+    HashMap<String, String> hashMapPaymentDetails;
+
     //Reference of DatabaseHelper class to access its components
     private DatabaseHelper databaseHelper = null;
 
@@ -85,7 +89,7 @@ public class ViewCartActivity extends Activity {
     int position = 0;
 
     String itemName;
-    String outletId;
+    String venueId;
 
     Cursor itemCursor;
     Cursor itemIdCursorMod;
@@ -98,6 +102,8 @@ public class ViewCartActivity extends Activity {
     UserSession userSession;
     ShippingAddSession shippingAddSession;
 
+    public static String client_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,12 +113,11 @@ public class ViewCartActivity extends Activity {
         ButterKnife.inject(this);
 
 
-
         userSession = new UserSession(this);
 
         databaseHelper = new DatabaseHelper(this);
 
-        getCheckOutDetails=new GetCheckOutDetails(this,"checkout");
+        getCheckOutDetails = new GetCheckOutDetails(this, "checkout");
 
         hashMapModifiers = new HashMap<>();
         hashMapListItems = new HashMap<>();
@@ -121,6 +126,8 @@ public class ViewCartActivity extends Activity {
         mainCartItem = new ArrayList<>();
 
         setFont();
+
+        getIntentData();
 
         getDataFromDatabase();
 
@@ -139,6 +146,13 @@ public class ViewCartActivity extends Activity {
     private void setFont() {
         FontHelper.setFontFace(txtViewHeading, FontHelper.FontType.FONT, this);
         FontHelper.setFontFace(txt_empty_cart_msg, FontHelper.FontType.FONT, this);
+    }
+
+    private void getIntentData() {
+        if (getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            venueId = bundle.getString(ConstVarIntent.TAG_VENUE_ID);
+        }
     }
 
     public void getDataFromDatabase() {
@@ -165,7 +179,7 @@ public class ViewCartActivity extends Activity {
 
                         item_id = itemIdCursor.getString(indexItemId);
 
-                       // Log.e("item_id", item_id);
+                        // Log.e("item_id", item_id);
                         itemCursor = databaseHelper.getItems(item_id);
 
                         itemsLength = itemIdCursor.getCount();
@@ -204,10 +218,10 @@ public class ViewCartActivity extends Activity {
     }
 
     private void getListData(String itemd) {
-       // Log.e("ietm", itemd);
+        // Log.e("ietm", itemd);
         if (itemIdCursorMod != null) {
 
-           // Log.e("itemId", "" + itemIdCursorMod.getCount());
+            // Log.e("itemId", "" + itemIdCursorMod.getCount());
             if (itemIdCursorMod.moveToFirst()) {
                 do {
                     ArrayList<DbModifiers> arrayListDbMod = new ArrayList<>();
@@ -216,7 +230,7 @@ public class ViewCartActivity extends Activity {
 
                     String item_id = itemIdCursorMod.getString(indexItemId);
 
-                  //  Log.e("modItemId", item_id);
+                    //  Log.e("modItemId", item_id);
 
                     Cursor modCursor = databaseHelper.getModifiers(item_id);
 
@@ -231,7 +245,7 @@ public class ViewCartActivity extends Activity {
                             String quantity = modCursor.getString(indexqty);
 
                             //Log.e("mod_name", mod_name);
-                           // Log.e("position", "" + position);
+                            // Log.e("position", "" + position);
 
                             DbModifiers dbModifiers = new DbModifiers(item_id, quantity, mod_name, mod_price);
                             arrayListDbMod.add(dbModifiers);
@@ -299,19 +313,14 @@ public class ViewCartActivity extends Activity {
     }
 
     private void clickEventOfPlaceOrder() {
+
+
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserSession userSession = new UserSession(ViewCartActivity.this);
-                if (userSession.isUserLoggedIn()) {
 
-                    getCheckOutDetails.managingChkoutDetailAPI();
+                callPaymentDetailsApi();
 
-                } else {
-                    Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);
-                    intent.putExtra("LOGINTYPE", "CHECKOUT");
-                    startActivity(intent);
-                }
             }
         });
     }
@@ -328,6 +337,11 @@ public class ViewCartActivity extends Activity {
         finish();
     }
 
+    //code changed by himanshu
+    @OnClick(R.id.btn_countinue_shop)
+    public void gotoOutlet() {
+        finish();
+    }
 
     public void refreshDatabase() {
         pos = 0;
@@ -345,7 +359,7 @@ public class ViewCartActivity extends Activity {
 
                 itemName = distinctItemCursor.getString(index);
 
-               // Log.e("item_name", itemName);
+                // Log.e("item_name", itemName);
 
                 Cursor itemIdCursor = databaseHelper.selectItems(itemName);
 
@@ -357,7 +371,7 @@ public class ViewCartActivity extends Activity {
 
                         item_id = itemIdCursor.getString(indexItemId);
 
-                     //   Log.e("item_id", item_id);
+                        //   Log.e("item_id", item_id);
                         itemCursor = databaseHelper.getItems(item_id);
 
                         itemsLength = itemIdCursor.getCount();
@@ -384,10 +398,99 @@ public class ViewCartActivity extends Activity {
         }
     }
 
-    //code changed by himanshu
-    @OnClick(R.id.btn_countinue_shop)
-    public void gotoOutlet() {
-        finish();
+    private void callPaymentDetailsApi() {
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new GetPaymentGatewayDetails().execute();
+        }
+    }
+
+    private class GetPaymentGatewayDetails extends AsyncTask<String, String, String> {
+
+
+        String message;
+        int status;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ProgresBar.start(ViewCartActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            JsonParser jsonParser = new JsonParser();
+
+            hashMapPaymentDetails = new HashMap<String, String>();
+
+            String url = Const.BASE_URL + Const.GET_PAYMENTGATEWAY_DETAILS +venueId;
+
+
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT," ");
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+                    Log.e("json", jsonString);
+                    status = jsonObject.getInt("status");
+                    message = jsonObject.getString("message");
+                    if (status == 1) {
+                        JSONArray jsonArray = jsonObject.getJSONArray(Const.TAG_JsonObj);
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject jsonObj = jsonArray.getJSONObject(i);
+
+                            client_id = jsonObj.getString(Const.TAG_KEY);
+                            String gatewayName = jsonObj.getString(Const.TAG_GATEWAY_NAME);
+
+                            //  hashMapPaymentDetails.put(Const.TAG_KEY,key);
+                            hashMapPaymentDetails.put(Const.TAG_GATEWAY_NAME, gatewayName);
+
+                        }
+                    }
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                status = -1;
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+                status = -1;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+            ProgresBar.stop();
+
+            if (status == 1) {
+
+                UserSession userSession = new UserSession(ViewCartActivity.this);
+                if (userSession.isUserLoggedIn()) {
+
+                    getCheckOutDetails.managingChkoutDetailAPI();
+
+                } else {
+                    Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);
+                    intent.putExtra("LOGINTYPE", "CHECKOUT");
+                    startActivity(intent);
+                }
+
+            } else if (status == 0) {
+                AlertDialogHelper.showAlertDialog(ViewCartActivity.this,
+                        message, "Alert");
+            } else {
+                AlertDialogHelper.showAlertDialog(ViewCartActivity.this,
+                        getString(R.string.server_message), "Alert");
+            }
+        }
     }
 
 

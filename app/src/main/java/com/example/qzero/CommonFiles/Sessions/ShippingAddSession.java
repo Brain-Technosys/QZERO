@@ -117,7 +117,7 @@ public class ShippingAddSession {
     }
 
     public String getBillingID() {
-        return pref.getString(TAG_BILLING_ID," ");
+        return pref.getString(TAG_BILLING_ID,"null");
     }
 
     public String getShippingAddress() {
@@ -137,7 +137,7 @@ public class ShippingAddSession {
     }
 
     public String getShippingID() {
-        return pref.getString(TAG_SHIPPING_ID, " ");
+        return pref.getString(TAG_SHIPPING_ID, "null");
     }
 
     //fetching chkOutDetail json as string
@@ -150,6 +150,7 @@ public class ShippingAddSession {
         editor.remove(TAG_SHIPPING_ADD);
         editor.remove(TAG_SHIPPING_ADD_POS);
         editor.remove(TAG_SHIPPING_CONTACT);
+        editor.remove(TAG_SHIPPING_ID);
         editor.commit();
     }
 
@@ -158,6 +159,7 @@ public class ShippingAddSession {
         editor.remove(TAG_BILLING_ADD_POS);
         editor.remove(TAG_BILLING_CONTACT);
         editor.remove(TAG_BILLING_NAME);
+        editor.remove(TAG_BILLING_ID);
         editor.commit();
     }
 

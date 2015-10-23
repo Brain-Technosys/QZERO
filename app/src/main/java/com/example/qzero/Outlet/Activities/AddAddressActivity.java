@@ -41,6 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import butterknife.OnTouch;
 
 public class AddAddressActivity extends AppCompatActivity {
 
@@ -77,7 +78,7 @@ public class AddAddressActivity extends AppCompatActivity {
     TextView txtViewHeading;
 
     String countryId;
-    String stateId;
+
 
     String fname;
     String lname;
@@ -87,6 +88,7 @@ public class AddAddressActivity extends AppCompatActivity {
     int country_id;
     int state_id;
 
+    int stateId = 0;
 
     String city;
     String email;
@@ -135,15 +137,13 @@ public class AddAddressActivity extends AppCompatActivity {
             addressType = bundle.getString(ConstVarIntent.TAG_TYPE_ADDRESS);
             type = bundle.getString(ConstVarIntent.TAG_TYPE);
 
-            if(!type.equals("0")) {
+            if (!type.equals("0")) {
 
                 addressDetail = (ArrayList<HashMap<String, String>>) bundle.getSerializable(ConstVarIntent.TAG_LIST_ADDRESS);
 
                 position = Integer.parseInt(bundle.getString(ConstVarIntent.TAG_POS));
             }
 
-          //  Log.e("addresstype", addressType);
-           // Log.e("typeadd", type);
         }
 
         userSession = new UserSession(AddAddressActivity.this);
@@ -154,23 +154,20 @@ public class AddAddressActivity extends AppCompatActivity {
 
         fillDataCountrySpinner(country);
 
-        fillDataStateSpinner(state);
+        fillDataStateSpinner(state, 0);
 
         getCountryAndState();
-
-        if (!type.equals("0")) {
-
-            setPrefiiledData();
-        }
 
 
     }
 
 
-    private void fillDataStateSpinner(String[] state) {
+    private void fillDataStateSpinner(String[] state, int pos) {
         stateAdapter = new ArrayAdapter(AddAddressActivity.this, R.layout.layout_spinner, state);
         stateAdapter.setDropDownViewResource(R.layout.layout_spinner_drop_down);
         spnr_state.setAdapter(stateAdapter);
+
+        spnr_state.setSelection(pos, true);
 
     }
 
@@ -184,11 +181,46 @@ public class AddAddressActivity extends AppCompatActivity {
     private void setPrefiiledData() {
 
         edtTxtFirstName.setText(addressDetail.get(position).get(Const.TAG_FNAME));
+        edtTxtLastName.setText(addressDetail.get(position).get(Const.TAG_LAST_NAME));
         edtTxtAddress.setText(addressDetail.get(position).get(Const.TAG_ADDRESS1));
         edtTxtTownCity.setText(addressDetail.get(position).get(Const.TAG_CITY));
         edtTxtEmail.setText(addressDetail.get(position).get(Const.TAG_EMAIL_ADD));
         edtTxtZipCode.setText(addressDetail.get(position).get(Const.TAG_ZIPCODE));
         edtTxtContact.setText(addressDetail.get(position).get(Const.TAG_PHONE_NO));
+
+        int country_id = Integer.parseInt(addressDetail.get(position).get(Const.TAG_COUNTRY_ID));
+        stateId = Integer.parseInt(addressDetail.get(position).get(Const.TAG_STATE_ID));
+
+        spnr_country.setSelection(country_id);
+
+        if (hashMapState.containsKey(country_id)) {
+            stateArrayList = new ArrayList<State>();
+
+            stateArrayList = hashMapState.get(country_id);
+            state = new String[stateArrayList.size() + 1];
+            if (stateArrayList.size() != 0) {
+
+                state[0] = "Select State";
+                for (int i = 0; i < stateArrayList.size(); i++) {
+
+                    if (stateArrayList.get(i).getStateId() == stateId) {
+                        stateId = i + 1;
+
+
+                    }
+                    state[i + 1] = stateArrayList.get(i).getStateName();
+                }
+
+                fillDataStateSpinner(state, stateId);
+
+            } else {
+                state[0] = "Select State";
+
+                fillDataStateSpinner(state, 0);
+            }
+
+        }
+
 
     }
 
@@ -227,7 +259,7 @@ public class AddAddressActivity extends AppCompatActivity {
                         state[0] = "Select State";
                     }
 
-                    fillDataStateSpinner(state);
+                    fillDataStateSpinner(state, stateId);
                 }
             }
         }
@@ -240,6 +272,7 @@ public class AddAddressActivity extends AppCompatActivity {
         if (pos == 0) {
             //do nothing
         } else {
+
             stateName = state[pos];
 
             state_id = stateArrayList.get(pos - 1).getStateId();
@@ -247,6 +280,11 @@ public class AddAddressActivity extends AppCompatActivity {
 
     }
 
+    @OnTouch(R.id.spnr_country)
+    boolean onTouchSpinner() {
+        stateId = 0;
+        return false;
+    }
 
     @OnClick(R.id.btn_submit)
     void addAddress() {
@@ -273,7 +311,10 @@ public class AddAddressActivity extends AppCompatActivity {
     }
 
     private void validateValues() {
-        if (fname.length() == 0) {
+
+        if (fname.length() == 0 && lname.length() == 0 && address.length() == 0 && zipcode.length() == 0 && countryName == null && stateName == null && city.length() == 0 && email.length() == 0 && contact.length() == 0) {
+            AlertDialogHelper.showAlertDialog(this, "Please enter all fields.", "Alert");
+        } else if (fname.length() == 0) {
             AlertDialogHelper.showAlertDialog(this, "Please enter first name.", "Alert");
         } else if (lname.length() == 0) {
             AlertDialogHelper.showAlertDialog(this, "Please enter last name.", "Alert");
@@ -287,6 +328,8 @@ public class AddAddressActivity extends AppCompatActivity {
             AlertDialogHelper.showAlertDialog(this, "Please select state.", "Alert");
         } else if (city.length() == 0) {
             AlertDialogHelper.showAlertDialog(this, "Please enter city.", "Alert");
+        } else if (email.length() == 0) {
+            AlertDialogHelper.showAlertDialog(this, "Please enter email address.", "Alert");
         } else if (!checkEmail(email)) {
             AlertDialogHelper.showAlertDialog(this, "Please enter a valid email address.", "Alert");
         } else if (contact.length() == 0) {
@@ -366,12 +409,12 @@ public class AddAddressActivity extends AppCompatActivity {
 
                 String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-               // Log.e("json", jsonString);
+                // Log.e("json", jsonString);
 
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                   // Log.e("json", jsonString);
+                    // Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {
@@ -440,6 +483,10 @@ public class AddAddressActivity extends AppCompatActivity {
 
                 fillDataCountrySpinner(country);
 
+                if (!type.equals("0")) {
+
+                    setPrefiiledData();
+                }
 
             } else if (status == 0) {
                 AlertDialogHelper.showAlertDialog(AddAddressActivity.this,
@@ -479,7 +526,7 @@ public class AddAddressActivity extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject();
             try {
 
-               // Log.e("type", type);
+                // Log.e("type", type);
                 jsonObj.put("firstName", fname);
                 jsonObj.put("lastName", lname);
                 jsonObj.put("address1", address);
@@ -503,7 +550,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                  //  Log.e("json", jsonString);
+                    //  Log.e("json", jsonString);
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     msg = jsonObject.getString(Const.TAG_MESSAGE);
 
@@ -558,7 +605,7 @@ public class AddAddressActivity extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject();
             try {
 
-               // Log.e("type", type);
+                // Log.e("type", type);
                 jsonObj.put("firstName", fname);
                 jsonObj.put("lastName", lname);
                 jsonObj.put("address1", address);
@@ -582,7 +629,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                  // Log.e("json", jsonString);
+                    // Log.e("json", jsonString);
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     msg = jsonObject.getString(Const.TAG_MESSAGE);
 

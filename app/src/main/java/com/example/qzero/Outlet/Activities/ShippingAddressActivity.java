@@ -190,7 +190,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
                         hmAddressDetail.put(Const.TAG_CUST_ID, jsonShippingAddress.getString(Const.TAG_CUST_ID));
                         hmAddressDetail.put(Const.TAG_BILLING_ID, jsonShippingAddress.getString(Const.TAG_SHIPPING_ID));
-                        hmAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME) + " " + jsonShippingAddress.getString(Const.TAG_LNAME));
+                        hmAddressDetail.put(Const.TAG_FNAME, jsonShippingAddress.getString(Const.TAG_FNAME));
+                        hmAddressDetail.put(Const.TAG_LAST_NAME, jsonShippingAddress.getString(Const.TAG_LNAME));
                         hmAddressDetail.put(Const.TAG_ADDRESS1, jsonShippingAddress.getString(Const.TAG_ADDRESS1));
                         hmAddressDetail.put(Const.TAG_ADDRESS2, jsonShippingAddress.getString(Const.TAG_ADDRESS2));
                         hmAddressDetail.put(Const.TAG_CITY, jsonShippingAddress.getString(Const.TAG_CITY));

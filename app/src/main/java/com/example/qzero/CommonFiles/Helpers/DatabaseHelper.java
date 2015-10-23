@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
    //Checkout table variables
     public static final String OUTLET_ID = "outlet_id";
+    public static final String VENUE_ID = "venue_id";
     public static final String ITEM_ID = "item_id";
     public static final String DISC_AMT = "discount_amt";
     public static final String AFTER_DISC = "after_discount";
@@ -65,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 NAME_COLUMN + " TEXT ," + ITEM_PRICE + " TEXT ," + ITEM_IMAGE + " TEXT ," + ITEM_DISCOUNT + " TEXT ,"+ ITEM_CODE + " TEXT );");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + CHECKOUT_ITEM + "(" + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                ITEM_ID + " TEXT ," + OUTLET_ID + " TEXT ," + DISC_AMT + " TEXT ," + AFTER_DISC + " TEXT ," + COUNT + " TEXT );");
+                ITEM_ID + " TEXT ," + OUTLET_ID + " TEXT ," + DISC_AMT + " TEXT ," + AFTER_DISC + " TEXT ," + COUNT + " TEXT ," + VENUE_ID + " TEXT);");
 
     }
 
@@ -74,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertIntoCheckout(String item_id, String outlet_id, String item_count,String discount_amt,String after_disc) {
+    public void insertIntoCheckout(String item_id, String outlet_id, String item_count,String discount_amt,String after_disc,String venue_id) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(ITEM_ID, item_id);
@@ -82,6 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COUNT, item_count);
         cv.put(DISC_AMT,discount_amt);
         cv.put(AFTER_DISC,after_disc);
+        cv.put(VENUE_ID,venue_id);
         database.insert(CHECKOUT_ITEM, null, cv);
     }
 

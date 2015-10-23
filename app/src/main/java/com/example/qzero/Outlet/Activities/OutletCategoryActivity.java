@@ -580,6 +580,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     //Edited by himanshu shekher
     public void gotoCartItem() {
         Intent intent = new Intent(this, ViewCartActivity.class);
+        intent.putExtra(ConstVarIntent.TAG_VENUE_ID,venue_id);
         startActivity(intent);
     }
 

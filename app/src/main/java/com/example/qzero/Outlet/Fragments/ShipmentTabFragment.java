@@ -181,6 +181,7 @@ public class ShipmentTabFragment extends Fragment {
 
         setFont();
 
+
         return view;
     }
 
@@ -200,6 +201,9 @@ public class ShipmentTabFragment extends Fragment {
 
         hmBillAddressDetail = new HashMap<>();
         hmShipAddressDetail = new HashMap<>();
+
+        shippingAddSession.clearBillingSharPref();
+        shippingAddSession.clearShippingSharPref();
 
     }
 
@@ -231,7 +235,6 @@ public class ShipmentTabFragment extends Fragment {
 
         new GetAddressAtFirstPosition().execute();
     }
-
 
 
     @OnClick(R.id.iv_edit_shipping_add)
@@ -281,7 +284,7 @@ public class ShipmentTabFragment extends Fragment {
 
     private void createPostCheckout() {
 
-        orderNotes=et_orderNote.getText().toString();
+        orderNotes = et_orderNote.getText().toString();
         Cursor outletCursor = databaseHelper.getCheckoutItems();
 
         if (outletCursor != null) {
@@ -295,13 +298,19 @@ public class ShipmentTabFragment extends Fragment {
         JSONObject jsonObjDetails = new JSONObject();
         try {
 
+            if(chk_shipmentChoice.isChecked())
+            {
+                shipping_id=billing_id;
+            }
+            Log.e("bill2", billing_id);
+            Log.e("ship2", shipping_id);
             jsonObjDetails.put("outletId", outletId);
             jsonObjDetails.put("totalAmount", totalAmount);
-           /* jsonObjDetails.put("billingAddressId", billingAddressId);
-            jsonObjDetails.put("shippingAdressId",shipping_id);*/
-            jsonObjDetails.put("deliveryType",2);
-            jsonObjDetails.put("deliveryTypeId",2);
-            jsonObjDetails.put("orderNotes",orderNotes);
+            jsonObjDetails.put("billingAddressId", billing_id);
+            jsonObjDetails.put("shippingAdressId", shipping_id);
+            jsonObjDetails.put("deliveryType", 2);
+            jsonObjDetails.put("deliveryTypeId", 2);
+            jsonObjDetails.put("orderNotes", orderNotes);
 
             JSONArray jsonArrayOrder = new JSONArray();
             JSONArray jsonArrayMod = new JSONArray();
@@ -320,30 +329,28 @@ public class ShipmentTabFragment extends Fragment {
 
 
                 quantity = orderItemStatusArrayList.get(j).getQuantity();
-                String status_id=orderItemStatusArrayList.get(j).getItemId();
+                String status_id = orderItemStatusArrayList.get(j).getItemId();
 
-                int itemId=Integer.parseInt(orderItemStatusArrayList.get(j).getItemCode());
+                int itemId = Integer.parseInt(orderItemStatusArrayList.get(j).getItemCode());
 
-                itemPrice=orderItemStatusArrayList.get(j).getItemPrice();
-                discountAmount=orderItemStatusArrayList.get(j).getDiscountAmt();
+                itemPrice = orderItemStatusArrayList.get(j).getItemPrice();
+                discountAmount = orderItemStatusArrayList.get(j).getDiscountAmt();
 
-                afterDiscountAmount=itemPrice-discountAmount;
+                afterDiscountAmount = itemPrice - discountAmount;
 
-                if(discountAmount==0.0)
-                {
-                    afterDiscountAmount=0.0;
-                }
-                else {
+                if (discountAmount == 0.0) {
+                    afterDiscountAmount = 0.0;
+                } else {
                     afterDiscountAmount = itemPrice - discountAmount;
                 }
 
-                orderStatusObj.put("statusId",status_id);
+                orderStatusObj.put("statusId", status_id);
                 orderStatusObj.put("itemId", itemId);
                 orderStatusObj.put("isModifier", isModifier);
                 orderStatusObj.put("quantity", quantity);
                 orderStatusObj.put("itemPrice", itemPrice);
                 orderStatusObj.put("discountAmount", afterDiscountAmount);
-                orderStatusObj.put("afterDiscountAmount",discountAmount);
+                orderStatusObj.put("afterDiscountAmount", discountAmount);
 
 
                 jsonArrayOrder.put(orderStatusObj);
@@ -354,7 +361,7 @@ public class ShipmentTabFragment extends Fragment {
                 JSONObject modStatusObj = new JSONObject();
 
                 String modName = orderStatusArrayList.get(i).getMod_name();
-                String statusId=orderStatusArrayList.get(i).getItemId();
+                String statusId = orderStatusArrayList.get(i).getItemId();
                 int itemId = Integer.parseInt(orderStatusArrayList.get(i).getItemCode());
 
                 modifierId = orderStatusArrayList.get(i).getMod_id();
@@ -364,7 +371,7 @@ public class ShipmentTabFragment extends Fragment {
                     //do nothing
                 } else {
 
-                    modStatusObj.put("statusId",statusId);
+                    modStatusObj.put("statusId", statusId);
                     modStatusObj.put("itemId", itemId);
                     modStatusObj.put("modifierId", modifierId);
                     modStatusObj.put("modifierPrice", modifierPrice);
@@ -414,8 +421,8 @@ public class ShipmentTabFragment extends Fragment {
 
                             int indexItemId = itemIdCursor.getColumnIndex(databaseHelper.ID_COLUMN);
                             int indexItemCode = itemIdCursor.getColumnIndex(databaseHelper.ITEM_CODE);
-                            int indexItemPrice=itemIdCursor.getColumnIndex(databaseHelper.ITEM_PRICE);
-                            int indexItemDiscount=itemIdCursor.getColumnIndex(databaseHelper.ITEM_DISCOUNT);
+                            int indexItemPrice = itemIdCursor.getColumnIndex(databaseHelper.ITEM_PRICE);
+                            int indexItemDiscount = itemIdCursor.getColumnIndex(databaseHelper.ITEM_DISCOUNT);
 
                             String item_id = itemIdCursor.getString(indexItemId);
                             String itemCode = itemIdCursor.getString(indexItemCode);
@@ -437,12 +444,12 @@ public class ShipmentTabFragment extends Fragment {
                                     quantity = modCursor.getString(indexqty);
                                     String mod_id = modCursor.getString(indexModActualId);
 
-                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode,item_id,mod_name, quantity, true, mod_price, mod_id,0.0,0.0);
+                                    OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode, item_id, mod_name, quantity, true, mod_price, mod_id, 0.0, 0.0);
                                     orderStatusArrayList.add(orderItemStatusModel);
                                 }
                             }
 
-                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode,item_id,mod_name, quantity, true, " ", " ",item_price,item_price);
+                            OrderItemStatusModel orderItemStatusModel = new OrderItemStatusModel(itemCode, item_id, mod_name, quantity, true, " ", " ", item_price, discount_amount);
                             orderItemStatusArrayList.add(orderItemStatusModel);
 
 
@@ -583,19 +590,27 @@ public class ShipmentTabFragment extends Fragment {
 
             } else {
 
-                billing_id = hmBillAddressDetail.get(Const.TAG_BILLING_ADDRESS);
-                bill_add_name = hmBillAddressDetail.get(Const.TAG_FNAME);
-                bill_add_address = hmBillAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmBillAddressDetail.get(Const.TAG_CITY) + ", " + hmBillAddressDetail.get(Const.TAG_STATE) + ", " +
-                        hmBillAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmBillAddressDetail.get(Const.TAG_ZIPCODE);
-                bill_add_contact = hmBillAddressDetail.get(Const.TAG_PHONE_NO);
+                billing_id=shippingAddSession.getBillingID();
+                if (billing_id.equals("null")) {
+                    billing_id = hmBillAddressDetail.get(Const.TAG_BILLING_ID);
+                    Log.e("bill1", billing_id);
+                    bill_add_name = hmBillAddressDetail.get(Const.TAG_FNAME);
+                    bill_add_address = hmBillAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmBillAddressDetail.get(Const.TAG_CITY) + ", " + hmBillAddressDetail.get(Const.TAG_STATE) + ", " +
+                            hmBillAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmBillAddressDetail.get(Const.TAG_ZIPCODE);
+                    bill_add_contact = hmBillAddressDetail.get(Const.TAG_PHONE_NO);
+                }
             }
             if (shippingStatus == 0) {
             } else {
-                shipping_id = hmShipAddressDetail.get(Const.TAG_SHIPPING_ADDRESS);
-                ship_add_name = hmShipAddressDetail.get(Const.TAG_FNAME);
-                ship_add_address = hmShipAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmShipAddressDetail.get(Const.TAG_CITY) + ", " + hmShipAddressDetail.get(Const.TAG_STATE) + ", " +
-                        hmShipAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmShipAddressDetail.get(Const.TAG_ZIPCODE);
-                ship_add_contact = hmShipAddressDetail.get(Const.TAG_PHONE_NO);
+                shipping_id=shippingAddSession.getShippingID();
+                if (shipping_id.equals("null")) {
+                    shipping_id = hmShipAddressDetail.get(Const.TAG_SHIPPING_ID);
+                    Log.e("ship1", shipping_id);
+                    ship_add_name = hmShipAddressDetail.get(Const.TAG_FNAME);
+                    ship_add_address = hmShipAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmShipAddressDetail.get(Const.TAG_CITY) + ", " + hmShipAddressDetail.get(Const.TAG_STATE) + ", " +
+                            hmShipAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmShipAddressDetail.get(Const.TAG_ZIPCODE);
+                    ship_add_contact = hmShipAddressDetail.get(Const.TAG_PHONE_NO);
+                }
 
             }
             setAddressDetail();
@@ -628,13 +643,13 @@ public class ShipmentTabFragment extends Fragment {
             txt_msg_billing.setVisibility(View.GONE);
 
             //Updating Billing Address
-          //  txt_user_bill_add.setTag(shippingAddSession.getBillingID());
+            billing_id = shippingAddSession.getBillingID();
+
+            Log.e("bill3", billing_id);
             txt_user_bill_add.setText(shippingAddSession.getBillingName());
-           // txt_user_bill_add.setTag(shippingAddSession.getBillingID());
+            // txt_user_bill_add.setTag(shippingAddSession.getBillingID());
             txt_billing_address.setText(shippingAddSession.getBillingAddress());
             txt_billingContact.setText(shippingAddSession.getBillingContact());
-
-            shippingAddSession.clearBillingSharPref();
         }
 
 
@@ -674,12 +689,11 @@ public class ShipmentTabFragment extends Fragment {
             txt_msg_shipping.setVisibility(View.GONE);
 
             //Updating Shipping Address
-            shipping_id=shippingAddSession.getShippingID();
+            shipping_id = shippingAddSession.getShippingID();
+            Log.e("ship3", shipping_id);
             txt_user_ship.setText(shippingAddSession.getShippingName());
             txt_shipping_address.setText(shippingAddSession.getShippingAddress());
             txt_shipping_contact.setText(shippingAddSession.getShippingContact());
-
-            shippingAddSession.clearShippingSharPref();
         }
 
     }

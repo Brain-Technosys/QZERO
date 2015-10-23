@@ -135,7 +135,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
 
-    private static final String CONFIG_CLIENT_ID = "AZoJOGOvT2BOO7sVIRSVRG0Pwtc8XUX0Vl7RykN3KUASlTfkFhr7PQnwQQvo6dS37kf32irnxNwbH8kP";
+    private static final String CONFIG_CLIENT_ID = ViewCartActivity.client_id;
+    //"AZoJOGOvT2BOO7sVIRSVRG0Pwtc8XUX0Vl7RykN3KUASlTfkFhr7PQnwQQvo6dS37kf32irnxNwbH8kP";
 
     private static final int REQUEST_PAYPAL_PAYMENT = 1;
 
@@ -694,8 +695,6 @@ public class FinalChkoutActivity extends AppCompatActivity {
             Log.e("userId", userId);
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, userId);
-
-            Log.e("json", jsonString);
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
