@@ -96,6 +96,7 @@ public class Const {
     public static String TAG_PH_NUM = "phoneNumber";
     public static String TAG_MOB_NUM = "mobileNumber";
     public static String TAG_OUTLET_ACTIVE = "isActive";
+    public static String TAG_OUTLET_IMAGE = "imageUrl";
 
     //Initialize item variables
     public static String TAG_CAT_ITEM_NAME = "name";
@@ -152,6 +153,8 @@ public class Const {
     public static String TAG_QUANTITY = "quantity";
     public static String TAG_DISC = "discount";
     public static String TAG_DISCOUNT_AMOUNT = "discountAmount";
+    public static String TAG_DELIVERY_TYPE = "deliveryType";
+    public static String TAG_SEAT_NO = "seatNo";
 
     //Constant for choice group
     public static String TAG_IS_COMPULSORY = "isCompulsory";

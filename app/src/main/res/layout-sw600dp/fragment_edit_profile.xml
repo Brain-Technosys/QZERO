@@ -38,7 +38,7 @@
                     android:enabled="false"
                     android:inputType="text"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -60,7 +60,7 @@
                     android:enabled="false"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -81,7 +81,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="text"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -102,7 +102,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="text"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -123,7 +123,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="text"
                     android:lines="3"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -142,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -163,7 +163,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="text"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -184,7 +184,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="text"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -205,7 +205,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -226,7 +226,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -247,7 +247,7 @@
                     android:layout_marginTop="20dp"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:textSize="@dimen/textSize" />
+                    android:textSize="@dimen/text_size_content_600" />
             </RelativeLayout>
 
             <Button

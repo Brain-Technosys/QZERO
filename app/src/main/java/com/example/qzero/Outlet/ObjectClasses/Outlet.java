@@ -7,16 +7,19 @@ public class Outlet {
     String outlet_desc;
     String phone_num;
     String mobile_num;
+    String outlet_image;
+
     Boolean isActive;
 
 
-    public Outlet(String outlet_id, String outlet_name, String outlet_desc, String phone_num, String mobile_num, Boolean isActive) {
+    public Outlet(String outlet_id, String outlet_name, String outlet_desc, String phone_num, String mobile_num,String outlet_image,Boolean isActive) {
         this.outlet_id = outlet_id;
         this.outlet_name = outlet_name;
         this.outlet_desc = outlet_desc;
         this.isActive = isActive;
         this.phone_num = phone_num;
         this.mobile_num = mobile_num;
+        this.outlet_image=outlet_image;
 
     }
 
@@ -58,6 +61,14 @@ public class Outlet {
 
     public void setMobile_num(String mobile_num) {
         this.mobile_num = mobile_num;
+    }
+
+    public String getOutlet_image() {
+        return outlet_image;
+    }
+
+    public void setOutlet_image(String outlet_image) {
+        this.outlet_image = outlet_image;
     }
 
     public Boolean getIsActive() {

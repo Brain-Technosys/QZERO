@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="Order ID:"
                     android:textColor="@android:color/black"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_content_600"
                     android:textStyle="bold" />
 
                 <TextView
@@ -42,7 +42,7 @@
                     android:layout_toRightOf="@+id/lblOrderID"
 
                     android:textColor="@android:color/black"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_content_600" />
 
 
             </RelativeLayout>
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="Purchase Date:"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_content_600"
                     android:textStyle="bold" />
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:layout_toRightOf="@+id/lblDate"
 
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_content_600" />
 
 
             </RelativeLayout>
@@ -94,7 +94,7 @@
                     android:text="Items:"
 
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_content_600"
                     android:textStyle="bold" />
 
 
@@ -107,7 +107,7 @@
                     android:layout_toRightOf="@+id/lblItems"
                     android:textColor="@color/black"
 
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_content_600" />
 
                 <TextView
                     android:id="@+id/lblStatus"
@@ -116,7 +116,7 @@
                     android:layout_toLeftOf="@+id/txtStatus"
                     android:text="Status:"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_content_600"
                     android:textStyle="bold" />
 
                 <TextView
@@ -127,7 +127,7 @@
                     android:layout_marginLeft="5dp"
 
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_content_600" />
 
 
             </RelativeLayout>
@@ -147,7 +147,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="Discount:"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_content_600"
                     android:textStyle="bold" />
 
 
@@ -159,7 +159,7 @@
                     android:layout_toRightOf="@+id/lblDiscount"
 
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_content_600" />
 
                 <TextView
                     android:id="@+id/lblAmount"
@@ -169,7 +169,7 @@
                     android:layout_toLeftOf="@+id/txtAmount"
                     android:text="Amount:"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_size_content_600"
                     android:textStyle="bold" />
 
                 <TextView
@@ -180,7 +180,7 @@
                     android:layout_marginLeft="5dp"
 
                     android:textColor="@color/color_red"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_size_content_600" />
 
 
             </RelativeLayout>

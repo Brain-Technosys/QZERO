@@ -2,10 +2,14 @@ package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -19,6 +23,7 @@ import android.view.Display;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -44,6 +49,8 @@ import com.example.qzero.Outlet.ObjectClasses.Outlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.Outlet.ObjectClasses.Venue;
 import com.example.qzero.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -135,6 +142,15 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     @InjectView(R.id.linLayMobLeft)
     LinearLayout linLayMobLeft;
 
+    @InjectView(R.id.imgViewRight)
+    ImageView imgViewRight;
+
+    @InjectView(R.id.imgViewLeft)
+    ImageView imgViewLeft;
+
+    @InjectView(R.id.imgViewLand)
+    ImageView imgViewLand;
+
     TextView txtViewHeading;
     TextView txtViewSubHeading;
 
@@ -174,13 +190,15 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     DatabaseHelper databaseHelper;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outlet);
 
 
-        databaseHelper=new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(this);
 
         getIntents();
 
@@ -192,6 +210,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         onFinishActivity();
 
         setupSearchView();
+
+        context = OutletActivity.this;
     }
 
     public void getIntents() {
@@ -331,9 +351,10 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                             String outlet_desc = outletObj.getString(Const.TAG_OUTLET_DESC);
                             String phone_num = outletObj.getString(Const.TAG_PH_NUM);
                             String mobile_num = outletObj.getString(Const.TAG_MOB_NUM);
+                            String outlet_image = outletObj.getString(Const.TAG_OUTLET_IMAGE);
                             Boolean isActive = outletObj.getBoolean(Const.TAG_OUTLET_ACTIVE);
 
-                            Outlet outlet = new Outlet(outlet_id, outlet_name, outlet_desc, phone_num, mobile_num, isActive);
+                            Outlet outlet = new Outlet(outlet_id, outlet_name, outlet_desc, phone_num, mobile_num, outlet_image, isActive);
                             arrayListOutlet.add(outlet);
                         }
                     }
@@ -474,6 +495,24 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     private void inflateLandscapeValues() {
         getValues();
         relLayDesc.setTag(outlet.getOutlet_id());
+
+        ViewTreeObserver observer = relLayDesc.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                int a = relLayDesc.getHeight();
+
+                imgViewLand.requestLayout();
+                imgViewLand.getLayoutParams().height = a;
+
+
+                relLayDesc.getViewTreeObserver().removeGlobalOnLayoutListener(
+                        this);
+            }
+        });
+        Picasso.with(OutletActivity.this).load(outlet.getOutlet_image()).into(imgViewLand);
         txtViewTitleLandscape.setText(outlet.getOutlet_name());
 
         if (outlet.getOutlet_desc().equals("null")) {
@@ -498,7 +537,27 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     private void inflateLeftLayout() {
         getValues();
         relLayDescOutletLeft.setTag(outlet.getOutlet_id());
+
+
+        ViewTreeObserver observer = relLayDescOutletLeft.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                int a = relLayDescOutletLeft.getHeight();
+
+                imgViewLeft.requestLayout();
+                imgViewLeft.getLayoutParams().height = a;
+
+
+                relLayDescOutletLeft.getViewTreeObserver().removeGlobalOnLayoutListener(
+                        this);
+            }
+        });
+        Picasso.with(OutletActivity.this).load(outlet.getOutlet_image()).into(imgViewLeft);
         txtViewtitlePotraitLeft.setText(outlet.getOutlet_name());
+
 
         if (outlet.getOutlet_desc().equals("null")) {
 
@@ -524,6 +583,24 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     private void inflateRightLayout() {
         getValues();
         relLayDescOutletRight.setTag(outlet.getOutlet_id());
+
+        ViewTreeObserver observer = relLayDescOutletRight.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                int a = relLayDescOutletRight.getHeight();
+
+                imgViewRight.requestLayout();
+                imgViewRight.getLayoutParams().height = a;
+
+
+                relLayDescOutletRight.getViewTreeObserver().removeGlobalOnLayoutListener(
+                        this);
+            }
+        });
+        Picasso.with(OutletActivity.this).load(outlet.getOutlet_image()).into(imgViewRight);
         txtViewtitlePotraitRight.setText(outlet.getOutlet_name());
 
         if (outlet.getOutlet_desc().equals("null")) {
@@ -642,13 +719,11 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
         outletId = view.getTag().toString();
 
-        Cursor outletCursor=databaseHelper.selectOutletId();
+        Cursor outletCursor = databaseHelper.selectOutletId();
 
-        if(outletCursor!=null)
-        {
-            if(outletCursor.moveToFirst())
-            {
-                oldOutletId=outletCursor.getString(0);
+        if (outletCursor != null) {
+            if (outletCursor.moveToFirst()) {
+                oldOutletId = outletCursor.getString(0);
             }
         }
 
@@ -672,9 +747,9 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         TextView txtViewCancel = (TextView) dialog.findViewById(R.id.txtViewCancel);
         TextView txtViewChange = (TextView) dialog.findViewById(R.id.txtViewChange);
 
-        FontHelper.setFontFace(txtViewTitle, FontHelper.FontType.FONT,this);
-        FontHelper.setFontFace(txtViewCancel, FontHelper.FontType.FONT,this);
-        FontHelper.setFontFace(txtViewChange, FontHelper.FontType.FONT,this);
+        FontHelper.setFontFace(txtViewTitle, FontHelper.FontType.FONT, this);
+        FontHelper.setFontFace(txtViewCancel, FontHelper.FontType.FONT, this);
+        FontHelper.setFontFace(txtViewChange, FontHelper.FontType.FONT, this);
 
         txtViewCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -687,10 +762,11 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             @Override
             public void onClick(View v) {
 
-                DatabaseHelper databaseHelper=new DatabaseHelper(OutletActivity.this);
+                DatabaseHelper databaseHelper = new DatabaseHelper(OutletActivity.this);
 
                 databaseHelper.deleteModifierTable();
-                databaseHelper.deleteItemTable();;
+                databaseHelper.deleteItemTable();
+                ;
                 databaseHelper.deleteCheckOutTable();
 
                 dialog.dismiss();
@@ -861,5 +937,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         startActivity(intent);
     }
 
+    protected void init() {
 
+    }
 }

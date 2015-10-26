@@ -56,7 +56,7 @@
                     android:padding="10dp"
                     android:text="My Profile"
                     android:textColor="@color/navigation_text_color"
-                    android:textSize="15sp" />
+                    android:textSize="17sp" />
 
 
             </RelativeLayout>
@@ -90,7 +90,7 @@
                     android:padding="10dp"
                     android:text="Home"
                     android:textColor="@android:color/white"
-                    android:textSize="15sp" />
+                    android:textSize="17sp" />
 
 
             </RelativeLayout>

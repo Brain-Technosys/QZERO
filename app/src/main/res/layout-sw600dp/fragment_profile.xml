@@ -38,7 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
-                        android:padding="5dp"
+                        android:padding="7dp"
                         android:text="Personal Info" />
 
                     <TableLayout
@@ -56,6 +56,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="First Name:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -63,6 +64,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -76,6 +78,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Last Name:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -83,6 +86,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -96,6 +100,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="User Name:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -103,6 +108,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -116,6 +122,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Created On:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -123,6 +130,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
                     </TableLayout>
@@ -157,7 +165,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
-                        android:padding="5dp"
+                        android:padding="7dp"
                         android:text="Contact Info" />
 
                     <TableLayout
@@ -175,6 +183,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Email:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -182,6 +191,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:inputType="textEmailAddress"
                                 android:textColor="#000" />
                         </TableRow>
@@ -196,6 +206,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Phone Number: "
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -203,6 +214,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -216,6 +228,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Mobile Number: "
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -223,6 +236,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -278,6 +292,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Address:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -285,6 +300,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -298,6 +314,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="City:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -305,6 +322,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -318,6 +336,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="State:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -325,6 +344,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -338,6 +358,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Country:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -345,6 +366,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -357,6 +379,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Zip Code:"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000"
                                 android:textStyle="bold" />
 
@@ -365,6 +388,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 
@@ -378,6 +402,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Updated On:"
                                 android:textColor="#000"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -385,6 +410,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:textSize="@dimen/text_size_content_600"
                                 android:textColor="#000" />
                         </TableRow>
 

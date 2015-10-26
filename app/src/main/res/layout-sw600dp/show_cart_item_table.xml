@@ -32,7 +32,7 @@
                     android:singleLine="true"
                     android:text="Roasted Stuffed Mushroom"
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
 
                     ></TextView>
 
@@ -45,7 +45,7 @@
                     android:singleLine="true"
                     android:text="3"
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
                     ></TextView>
 
                 <EditText
@@ -57,7 +57,7 @@
                     android:singleLine="true"
                     android:text="3"
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
                     android:background="@drawable/bg_border"
                     android:visibility="gone"
                     android:inputType="number"
@@ -74,7 +74,7 @@
                     android:singleLine="true"
                     android:text="$30.00"
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
 
                     ></TextView>
                 <ImageView

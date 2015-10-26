@@ -111,15 +111,17 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
                 
                 Bundle bundle = new Bundle();
                 bundle.putString(Const.TAG_ORDER_ID, ((TextView) view.findViewById(R.id.txtOrderID)).getText().toString());
-                bundle.putString(Const.TAG_BILLING_ADDRESS, order.getOrderBillingAddress());
-                bundle.putString(Const.TAG_SHIPPING_ADDRESS, order.getShippingAddress());
+                bundle.putString(Const.TAG_BILLING_ADDRESS, ((TextView) view.findViewById(R.id.txtViewBilling)).getText().toString());
+                bundle.putString(Const.TAG_SHIPPING_ADDRESS,((TextView) view.findViewById(R.id.txtViewShipping)).getText().toString());
 
                 bundle.putString(Const.TAG_PURCHASE_DATE, ((TextView) view.findViewById(R.id.txtDate)).getText().toString());
                 bundle.putString(Const.TAG_ITEM_COUNT, ((TextView) view.findViewById(R.id.txtItemCount)).getText().toString());
                 bundle.putString(Const.TAG_ORDER_STATUS, ((TextView) view.findViewById(R.id.txtStatus)).getText().toString());
                 bundle.putString(Const.TAG_DISCOUNT, ((TextView) view.findViewById(R.id.txtDiscount)).getText().toString().replace("$", ""));
                 bundle.putString(Const.TAG_AMOUNT, ((TextView) view.findViewById(R.id.txtAmount)).getText().toString().replace("$", ""));
-
+                bundle.putString(Const.TAG_DELIVERY_TYPE,((TextView) view.findViewById(R.id.txtViewDeliveryType)).getText().toString());
+                bundle.putString(Const.TAG_SEAT_NO,((TextView) view.findViewById(R.id.txtViewSeatNo)).getText().toString());
+                bundle.putString(Const.TAG_AMOUNT, ((TextView) view.findViewById(R.id.txtAmount)).getText().toString().replace("$", ""));
 
                 OrderDetailFragment fragment = new OrderDetailFragment();
                 fragment.setArguments(bundle);
@@ -225,7 +227,10 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
                             String billingAddress = orderJson.getString(Const.TAG_BILLING_ADDRESS);
                             String discount = orderJson.getString(Const.TAG_DISCOUNT);
                             String amount = orderJson.getString(Const.TAG_AMOUNT);
-                            Order order = new Order(orderId, purchaseDate, isShipped, orderStatus, itemCount, customer, shippingAddress, billingAddress, discount, amount);
+                            String seatNo=orderJson.getString(Const.TAG_SEAT_NO);
+                            String deliveryType=orderJson.getString(Const.TAG_DELIVERY_TYPE);
+
+                            Order order = new Order(orderId, purchaseDate, isShipped, orderStatus, itemCount, customer, shippingAddress, billingAddress, discount, amount,deliveryType,seatNo);
                             orderArrayList.add(order);
 
                         }

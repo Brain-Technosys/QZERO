@@ -21,7 +21,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <EditText
         android:id="@+id/edtTxtLastName"
@@ -38,7 +38,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <EditText
         android:id="@+id/edtTextEmail"
@@ -55,7 +55,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <EditText
         android:id="@+id/edtTxtUname"
@@ -72,7 +72,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <EditText
         android:id="@+id/edtTextPass"
@@ -89,7 +89,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <EditText
         android:id="@+id/edtTxtConfPassword"
@@ -106,7 +106,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <LinearLayout
         android:layout_width="wrap_content"

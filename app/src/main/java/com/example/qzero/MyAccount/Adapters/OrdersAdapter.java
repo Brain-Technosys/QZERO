@@ -47,8 +47,15 @@ public class OrdersAdapter extends BaseAdapter implements Filterable {
             holder.txtDiscount = (TextView) convertView.findViewById(R.id.txtDiscount);
             holder.txtAmount = (TextView) convertView.findViewById(R.id.txtAmount);
 
+
             // Labels
             holder.lblDiscount = (TextView) convertView.findViewById(R.id.lblDiscount);
+
+            //Get id's of extra textviews
+            holder.txtViewDeliveryType = (TextView) convertView.findViewById(R.id.txtViewDeliveryType);
+            holder.txtViewSeatNo = (TextView) convertView.findViewById(R.id.txtViewSeatNo);
+            holder.txtViewBilling = (TextView) convertView.findViewById(R.id.txtViewBilling);
+            holder.txtViewShipping = (TextView) convertView.findViewById(R.id.txtViewShipping);
 
             setFonts(holder);
 
@@ -67,6 +74,11 @@ public class OrdersAdapter extends BaseAdapter implements Filterable {
         String discount = order.getDiscount();
         String amount = order.getAmount();
 
+        String deliveryType=order.getDeliveryType();
+        String seatNo=order.getSeatNo();
+        String billingAddress=order.getOrderBillingAddress();
+        String shippingAddress=order.getShippingAddress();
+
 
         holder.txtOrderId.setText(String.valueOf(order.getOrderId()));
         holder.txtPurchaseDate.setText(order.getPurchaseDate());
@@ -75,6 +87,10 @@ public class OrdersAdapter extends BaseAdapter implements Filterable {
         holder.txtDiscount.setText(Utility.formatCurrency(discount));
         holder.txtAmount.setText(Utility.formatCurrency(amount));
 
+        holder.txtViewDeliveryType.setText(deliveryType);
+        holder.txtViewSeatNo.setText(seatNo);
+        holder.txtViewBilling.setText(billingAddress);
+        holder.txtViewShipping.setText(shippingAddress);
 
 
         if (Double.valueOf(discount) > 0) {
@@ -151,6 +167,12 @@ public class OrdersAdapter extends BaseAdapter implements Filterable {
         TextView txtAmount;
 
         TextView lblDiscount;
+
+        //Extra textviews
+        TextView txtViewDeliveryType;
+        TextView txtViewSeatNo;
+        TextView txtViewShipping;
+        TextView txtViewBilling;
 
     }
 

@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "qzerodb";
+    private static final String DATABASE_NAME = "qzeronew1";
     private static final int DATABASE_VERSION = 1;
 
     public static final String ITEM_TABLE = "itemDetails";

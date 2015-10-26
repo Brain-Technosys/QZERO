@@ -45,7 +45,7 @@
                         android:singleLine="true"
                         android:text="Product"
                         android:textColor="@color/black"
-                        android:textSize="15sp"></TextView>
+                        android:textSize="@dimen/text_size_content_600"></TextView>
 
 
                     <TextView
@@ -57,7 +57,7 @@
                         android:singleLine="true"
                         android:text="Price/Qty"
                         android:textColor="@color/black"
-                        android:textSize="15sp"></TextView>
+                        android:textSize="@dimen/text_size_content_600"></TextView>
 
                     <TextView
                         android:id="@+id/txt_item_totalPrice"
@@ -68,7 +68,7 @@
                         android:singleLine="true"
                         android:text="Total"
                         android:textColor="@color/black"
-                        android:textSize="15sp"></TextView>
+                        android:textSize="@dimen/text_size_content_600"></TextView>
 
                 </TableRow>
 
@@ -80,7 +80,7 @@
                 android:layout_below="@+id/layout_your_order"
                 android:textColor="@color/black"
                 android:padding="5dp"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_size_content_600"
                 android:gravity="right"/>
 
 

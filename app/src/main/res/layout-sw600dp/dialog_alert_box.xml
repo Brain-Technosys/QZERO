@@ -65,7 +65,7 @@
             android:padding="10dp"
             android:text="@string/alertbox_ok"
             android:textColor="@color/color_tab_text_selected"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView

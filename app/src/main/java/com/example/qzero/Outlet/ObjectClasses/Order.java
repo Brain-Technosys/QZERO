@@ -22,13 +22,15 @@ public class Order {
     String orderBillingAddress;
     String discount;
     String amount;
+    String deliveryType;
+    String seatNo;
 
     // Default Constructor
     public Order() {
     }
 
     // Parametrised constructor
-    public Order(int orderId, String purchaseDate, boolean isShipped, String orderStatus, int itemsCount, String customer, String shippingAdress, String orderBillingAdress, String discount, String amount) {
+    public Order(int orderId, String purchaseDate, boolean isShipped, String orderStatus, int itemsCount, String customer, String shippingAdress, String orderBillingAdress, String discount, String amount,String deliveryType, String seatNo) {
         this.orderId = orderId;
         this.purchaseDate = purchaseDate;
         this.isShipped = isShipped;
@@ -39,6 +41,8 @@ public class Order {
         this.orderBillingAddress = orderBillingAdress;
         this.discount = discount;
         this.amount = amount;
+        this.seatNo=seatNo;
+        this.deliveryType=deliveryType;
     }
 
    /* @Override
@@ -142,5 +146,21 @@ public class Order {
 
     public String getAmount() {
         return this.amount;
+    }
+
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public String getSeatNo() {
+        return seatNo;
+    }
+
+    public void setSeatNo(String seatNo) {
+        this.seatNo = seatNo;
     }
 }

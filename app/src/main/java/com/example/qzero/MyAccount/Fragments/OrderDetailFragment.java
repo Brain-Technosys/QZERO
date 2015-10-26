@@ -55,6 +55,9 @@ public class OrderDetailFragment extends Fragment {
     TextView lblDiscountTextView;
     TextView discountTextView;
 
+    TextView txtViewOrderType;
+    TextView txtViewSeatNo;
+
     View footerView;
     View headerView;
 
@@ -70,6 +73,9 @@ public class OrderDetailFragment extends Fragment {
     String orderStatus;
     String orderAmount;
     String orderDiscount;
+    String seatNo;
+
+    int deliveryType;
 
 
     ArrayList<OrderItems> orderItemArrayList;
@@ -94,6 +100,8 @@ public class OrderDetailFragment extends Fragment {
         lblShippingAddress = (TextView) footerView.findViewById(R.id.lbl_shipping_address);
         txtBillingAddress = (TextView) footerView.findViewById(R.id.tv_billing_address);
         txtShippingAddress = (TextView) footerView.findViewById(R.id.tv_shipping_address);
+        txtViewOrderType = (TextView) footerView.findViewById(R.id.txtViewOrderType);
+        txtViewSeatNo = (TextView) footerView.findViewById(R.id.txtViewSeatNo);
 
         // Header views
         orderIDTextView = (TextView) headerView.findViewById(R.id.txtOrderID);
@@ -133,6 +141,10 @@ public class OrderDetailFragment extends Fragment {
             orderAmount = bundle.getString(Const.TAG_AMOUNT);
             orderDiscount = bundle.getString(Const.TAG_DISCOUNT);
 
+            deliveryType = Integer.parseInt(bundle.getString(Const.TAG_DELIVERY_TYPE));
+
+            seatNo = bundle.getString(Const.TAG_SEAT_NO);
+
             Log.e("orderact", orderId);
             getItemData();
         }
@@ -156,8 +168,10 @@ public class OrderDetailFragment extends Fragment {
         //getActivity().setTitle("Order Details");
         FontHelper.applyFont(getActivity(), lblBillingAddress, FontHelper.FontType.FONTROBOLD);
         FontHelper.applyFont(getActivity(), lblShippingAddress, FontHelper.FontType.FONTROBOLD);
+        FontHelper.applyFont(getActivity(), txtViewOrderType, FontHelper.FontType.FONTROBOLD);
         FontHelper.applyFont(getActivity(), txtBillingAddress, FontHelper.FontType.FONT);
         FontHelper.applyFont(getActivity(), txtShippingAddress, FontHelper.FontType.FONT);
+        FontHelper.applyFont(getActivity(), txtViewSeatNo, FontHelper.FontType.FONT);
     }
 
 
@@ -252,19 +266,44 @@ public class OrderDetailFragment extends Fragment {
                 OrderItemsAdapter adapter = new OrderItemsAdapter(getActivity(), orderItemArrayList);
                 orderListView.setAdapter(adapter);
 
-                if (billingAddress != null && billingAddress.length() > 0) {
-                    txtBillingAddress.setText(billingAddress);
-                } else {
-                    lblBillingAddress.setVisibility(View.GONE);
-                    txtBillingAddress.setVisibility(View.GONE);
-                }
+                if (deliveryType == 1) {
+                    txtViewOrderType.setText("Order Type: In-House");
 
-                if (shippingAddress != null && shippingAddress.length() > 0) {
-                    txtShippingAddress.setText(shippingAddress);
-                } else {
+                    txtViewSeatNo.setVisibility(View.VISIBLE);
+
+                    txtViewSeatNo.setText("Table No: " + seatNo);
+
+                    lblBillingAddress.setVisibility(View.GONE);
                     lblShippingAddress.setVisibility(View.GONE);
+
+                    txtBillingAddress.setVisibility(View.GONE);
+                    txtShippingAddress.setVisibility(View.GONE);
+                } else if (deliveryType == 2) {
+                    txtViewOrderType.setText("Order Type: Shipment");
+
+                    if (billingAddress != null && billingAddress.length() > 0) {
+                        txtBillingAddress.setText(billingAddress);
+                    } else {
+                        lblBillingAddress.setVisibility(View.GONE);
+                        txtBillingAddress.setVisibility(View.GONE);
+                    }
+
+                    if (shippingAddress != null && shippingAddress.length() > 0) {
+                        txtShippingAddress.setText(shippingAddress);
+                    } else {
+                        lblShippingAddress.setVisibility(View.GONE);
+                        txtShippingAddress.setVisibility(View.GONE);
+                    }
+                } else if (deliveryType == 3) {
+                    txtViewOrderType.setText("Order Type: Pick Up");
+
+                    lblBillingAddress.setVisibility(View.GONE);
+                    lblShippingAddress.setVisibility(View.GONE);
+
+                    txtBillingAddress.setVisibility(View.GONE);
                     txtShippingAddress.setVisibility(View.GONE);
                 }
+
 
                 orderIDTextView.setText(orderId);
                 purchaseDateTextView.setText(purchaseDate);

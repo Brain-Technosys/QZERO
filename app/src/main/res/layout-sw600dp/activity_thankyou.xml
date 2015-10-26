@@ -22,7 +22,7 @@
         android:gravity="center_horizontal"
         android:text="Thank You for your order."
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <TextView
         android:id="@+id/txtViewOrderId"
@@ -31,7 +31,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <Button
         android:id="@+id/btn_home"

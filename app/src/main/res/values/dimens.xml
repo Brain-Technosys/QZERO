@@ -5,7 +5,7 @@
     <dimen name="home_text_size">20dp</dimen>
     <dimen name="textSize">15dp</dimen>
     <dimen name="heading_fot_size">20dp</dimen>
-
+    <dimen name="home_bar_size">50dp</dimen>
     <!-- Search-->
     <dimen name="outlet_heading_size">18sp</dimen>
 
@@ -19,6 +19,11 @@
     <dimen name="heading_fot_size_600">30dp</dimen>
     <dimen name="button_text_size_600">30sp</dimen>
     <dimen name="text_size_content_600">20sp</dimen>
+    <dimen name="home_text_size_600">22dp</dimen>
+    <dimen name="outlet_heading_size_600">22sp</dimen>
+    <dimen name="home_bar_size_600">60dp</dimen>
+    <dimen name="menu_text_size_600">18sp</dimen>
+
     <!-- Tablet-720-->
     <dimen name="common_text_size_720">25sp</dimen>
     <dimen name="heading_fot_size_720">30dp</dimen>

@@ -45,7 +45,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="My Profile"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_content_600"
             android:padding="10dp"
             android:textColor="@android:color/white"
             />
@@ -79,7 +79,7 @@
             android:layout_toRightOf="@+id/img_outlet"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_content_600"
             android:gravity="start"
             android:padding="10dp"
             android:textColor="@android:color/white"
