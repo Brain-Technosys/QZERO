@@ -146,6 +146,8 @@ public class OrderDetailFragment extends Fragment {
             seatNo = bundle.getString(Const.TAG_SEAT_NO);
 
             Log.e("orderact", orderId);
+
+            Log.e("seatno",seatNo);
             getItemData();
         }
     }
