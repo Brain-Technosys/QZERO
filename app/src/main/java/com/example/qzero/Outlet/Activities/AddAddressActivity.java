@@ -96,6 +96,7 @@ public class AddAddressActivity extends AppCompatActivity {
     String countryName;
     String stateName;
 
+    //Check email address
     public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
             .compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
 
