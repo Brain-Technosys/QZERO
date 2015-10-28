@@ -61,6 +61,8 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
     private boolean saved;
     private static final String _FRAGMENT_STATE = "FRAGMENT_STATE";
 
+    /*android.widget.Filter filter;*/
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
         // getActivity().setTitle(getString(R.string.order_title));
         searchView.setFocusable(false);
-        orderListView.setTextFilterEnabled(true);
+        orderListView.setTextFilterEnabled(false);
         searchView.setSubmitButtonEnabled(false);
 
         setupSearchView();
@@ -151,10 +153,15 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onQueryTextChange(String newText) {
+
+        OrdersAdapter ca = (OrdersAdapter)orderListView.getAdapter();
+
         if (TextUtils.isEmpty(newText)) {
+            System.out.println("isEmpty");
             orderListView.clearTextFilter();
         } else {
-            orderListView.setFilterText(newText);
+
+            ca.getFilter().filter(newText);
         }
         return true;
     }
@@ -254,7 +261,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
                 OrdersAdapter adapter = new OrdersAdapter(getActivity(), orderArrayList);
                 orderListView.setAdapter(adapter);
 
-
+              //  filter = adapter.getFilter();
             }
         }
     }
