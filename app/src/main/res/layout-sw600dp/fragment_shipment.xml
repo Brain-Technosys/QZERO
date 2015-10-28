@@ -24,7 +24,7 @@
                 android:padding="10dp"
                 android:text="Billing Address"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="@dimen/text_size_content_600" />
 
             <Button
                 android:id="@+id/btn_add_new_billing_address"
@@ -170,6 +170,7 @@
                 android:layout_toRightOf="@+id/chk_shipmentChoice"
                 android:layout_centerVertical="true"
                 android:text="@string/msg_shipment"
+                android:textSize="16sp"
                 android:textColor="@color/black" />
         </RelativeLayout>
 

@@ -19,7 +19,7 @@
             android:layout_marginLeft="10dp"
             android:text="@string/all_outlet"
             android:textColor="@color/color_tab_text_selected"
-            android:textSize="18sp" />
+            android:textSize="@dimen/outlet_heading_size_600" />
 
     </RelativeLayout>
 

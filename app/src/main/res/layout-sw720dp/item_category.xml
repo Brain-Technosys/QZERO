@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/darker_gray"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY" />
 
                 <TextView
                     android:id="@+id/txtViewTitleOverlay"
@@ -58,10 +58,9 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
                 android:gravity="left"
-                android:text="kdlkdl"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:textSize="13sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/txtViewItemPrice"
@@ -69,9 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:gravity="left"
-                android:text="kdlkdl"
                 android:textColor="@android:color/black"
-                android:textSize="13dp" />
+                android:textSize="15dp" />
 
 
         </LinearLayout>
@@ -99,8 +97,8 @@
                 android:id="@+id/layout_stripRight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_above="@+id/txtViewItemNameRight">
+                android:layout_above="@+id/txtViewItemNameRight"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:id="@+id/imgViewItemRight"
@@ -132,9 +130,9 @@
                 android:layout_marginTop="5dp"
                 android:gravity="left"
                 android:singleLine="true"
-                android:text="kdlkdl"
+
                 android:textColor="@android:color/black"
-                android:textSize="13sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/txtViewItemPriceRight"
@@ -143,9 +141,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_margin="5dp"
                 android:gravity="left"
-                android:text="hhdkadhak"
+
                 android:textColor="@android:color/black"
-                android:textSize="13dp" />
+                android:textSize="15dp" />
 
 
         </LinearLayout>

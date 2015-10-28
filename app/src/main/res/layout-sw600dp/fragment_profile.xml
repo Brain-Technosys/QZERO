@@ -39,6 +39,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
                         android:padding="7dp"
+                        android:textSize="18dp"
                         android:text="Personal Info" />
 
                     <TableLayout
@@ -166,6 +167,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
                         android:padding="7dp"
+                        android:textSize="18dp"
                         android:text="Contact Info" />
 
                     <TableLayout
@@ -275,6 +277,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
                         android:padding="5dp"
+                        android:textSize="18dp"
                         android:text="Address Info" />
 
                     <TableLayout

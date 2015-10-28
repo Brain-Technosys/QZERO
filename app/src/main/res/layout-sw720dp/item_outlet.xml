@@ -43,7 +43,7 @@
                     android:gravity="center_horizontal"
                     android:maxLines="1"
                     android:textColor="@color/item_detail"
-                    android:textSize="21dp" />
+                    android:textSize="24dp" />
 
                 <TextView
                     android:id="@+id/txtViewDescLand"
@@ -54,7 +54,7 @@
                     android:gravity="center_horizontal"
                     android:maxLines="2"
                     android:textColor="@color/item_detail"
-                    android:textSize="14dp" />
+                    android:textSize="16dp" />
 
 
                 <LinearLayout
@@ -87,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="2dp"
-
+                            android:textSize="16dp"
                             android:textColor="@color/item_detail" />
 
                     </LinearLayout>
@@ -114,6 +114,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="2dp"
+                            android:textSize="16dp"
                             android:textColor="@color/item_detail"/>
 
                     </LinearLayout>
@@ -175,7 +176,7 @@
                             android:gravity="center_horizontal"
                             android:singleLine="true"
                             android:textColor="@color/item_detail"
-                            android:textSize="21dp" />
+                            android:textSize="24dp" />
 
                         <TextView
                             android:id="@+id/txtViewDesPotLeft"
@@ -187,7 +188,7 @@
                             android:gravity="center_horizontal"
                             android:maxLines="4"
                             android:textColor="@color/item_detail"
-                            android:textSize="14dp" />
+                            android:textSize="16dp" />
 
 
                         <LinearLayout
@@ -219,6 +220,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="2dp"
+                                    android:textSize="16dp"
                                     android:textColor="@color/item_detail" />
 
                             </LinearLayout>
@@ -245,6 +247,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="2dp"
+                                    android:textSize="16dp"
                                     android:textColor="@color/item_detail" />
 
                             </LinearLayout>
@@ -299,7 +302,7 @@
                             android:maxLines="2"
                             android:singleLine="true"
                             android:textColor="@color/item_detail"
-                            android:textSize="21dp" />
+                            android:textSize="24dp" />
 
                         <TextView
 
@@ -312,7 +315,7 @@
                             android:gravity="center_horizontal"
                             android:maxLines="4"
                             android:textColor="@color/item_detail"
-                            android:textSize="14dp" />
+                            android:textSize="16dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -344,7 +347,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="2dp"
-
+                                    android:textSize="16dp"
                                     android:textColor="@color/item_detail" />
 
                             </LinearLayout>
@@ -371,6 +374,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="2dp"
+                                    android:textSize="16dp"
                                     android:textColor="@color/item_detail" />
 
                             </LinearLayout>

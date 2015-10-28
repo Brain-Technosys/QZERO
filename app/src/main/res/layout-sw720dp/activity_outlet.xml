@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/all_outlet"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/outlet_heading_size"
+            android:textSize="@dimen/outlet_heading_size_600"
             android:layout_marginLeft="10dp"
 
             android:textColor="@color/color_tab_text_selected"/>

@@ -27,7 +27,7 @@ android:background="@color/cardview_back"
         android:text="@string/empty_cart"
         android:gravity="center_horizontal"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_content_600"
         />
         <Button
             android:id="@+id/btn_countinue_shop"

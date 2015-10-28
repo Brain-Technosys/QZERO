@@ -22,7 +22,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <EditText
         android:id="@+id/edtTextCity"
@@ -39,7 +39,7 @@
         android:paddingTop="10dp"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <EditText
         android:id="@+id/edtTextZip"
@@ -57,7 +57,7 @@
         android:paddingTop="10dp"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/textSize" />
+        android:textSize="@dimen/text_size_content_600" />
 
     <ImageView
         android:id="@+id/imgViewSubmit"
