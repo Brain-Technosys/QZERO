@@ -21,7 +21,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <EditText
         android:id="@+id/edtTxtLastName"
@@ -34,11 +34,11 @@
         android:gravity="center_horizontal"
         android:hint="@string/hint_lname"
         android:inputType="text"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <EditText
         android:id="@+id/edtTextEmail"
@@ -51,11 +51,11 @@
         android:gravity="center_horizontal"
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <EditText
         android:id="@+id/edtTxtUname"
@@ -68,11 +68,11 @@
         android:gravity="center_horizontal"
         android:hint="@string/hint_uname"
         android:inputType="text"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <EditText
         android:id="@+id/edtTextPass"
@@ -85,11 +85,11 @@
         android:gravity="center_horizontal"
         android:hint="@string/hint_pass"
         android:inputType="textPassword"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <EditText
         android:id="@+id/edtTxtConfPassword"
@@ -102,11 +102,11 @@
         android:gravity="center_horizontal"
         android:hint="@string/hint_conf_pass"
         android:inputType="textPassword"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -125,6 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:textSize="@dimen/text_size_content_600"
             android:text="@string/text_agreement1" />
 
         <TextView
@@ -133,6 +134,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_agreement2"
             android:layout_marginLeft="2dp"
+            android:textSize="@dimen/text_size_content_600"
             android:textColor="@color/color_tab_text_selected" />
     </LinearLayout>
 

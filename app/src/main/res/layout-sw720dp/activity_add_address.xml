@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="First Name:" />
 
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:text="Last Name:" />
 
             <android.support.v7.widget.AppCompatEditText
@@ -73,14 +73,14 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:theme="@style/Theme.MyTheme.EditText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="Address:" />
 
@@ -100,14 +100,14 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:theme="@style/Theme.MyTheme.EditText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="Zip Code:" />
 
@@ -127,14 +127,14 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:theme="@style/Theme.MyTheme.EditText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="Country:" />
 
@@ -154,7 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="State:" />
 
@@ -173,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="Town/City:" />
 
@@ -193,14 +193,14 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:theme="@style/Theme.MyTheme.EditText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="Email:" />
 
@@ -229,7 +229,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:textColor="@color/black"
                 android:text="Phone:" />
 
@@ -252,7 +252,7 @@
                 android:textColorHint="@android:color/darker_gray"
 
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:theme="@style/Theme.MyTheme.EditText" />
 
 

@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/relLayTitle"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/sub_heading_height_720"
         android:background="@android:color/white">
 
         <TextView
@@ -19,7 +19,7 @@
             android:layout_marginLeft="10dp"
             android:text="@string/all_outlet"
             android:textColor="@color/color_tab_text_selected"
-            android:textSize="@dimen/outlet_heading_size_600" />
+            android:textSize="@dimen/outlet_heading_size_720" />
 
     </RelativeLayout>
 

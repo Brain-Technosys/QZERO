@@ -21,7 +21,7 @@
         android:paddingTop="10dp"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <ImageView
         android:id="@+id/imgViewSubmit"

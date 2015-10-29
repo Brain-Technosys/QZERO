@@ -4,7 +4,7 @@
     android:textColor="@android:color/white"
     android:layout_width="match_parent"
     android:singleLine="true"
-    android:textSize="@dimen/menu_text_size_600"
+    android:textSize="@dimen/menu_text_size_720"
     android:paddingTop="10dp"
     android:paddingLeft="65dp"
     android:paddingBottom="10dp"

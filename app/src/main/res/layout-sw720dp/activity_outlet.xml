@@ -13,7 +13,7 @@
     <RelativeLayout
        android:id="@+id/relLayHeading"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/sub_heading_height_720"
         android:layout_below="@+id/include"
         android:background="@android:color/white">
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/all_outlet"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/outlet_heading_size_600"
+            android:textSize="@dimen/outlet_heading_size_720"
             android:layout_marginLeft="10dp"
 
             android:textColor="@color/color_tab_text_selected"/>
@@ -59,7 +59,7 @@
     <LinearLayout
         android:id="@+id/linLayAdvertisement"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/add_size_720"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 

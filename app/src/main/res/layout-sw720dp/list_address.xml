@@ -24,9 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/rb_selected_address"
             android:layout_toRightOf="@+id/rb_selected_address"
-            android:text="Sample Name"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_content_600" />
+            android:textSize="@dimen/text_size_content_720" />
 
         <ImageView
             android:id="@+id/edit_address"
@@ -65,9 +64,8 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:singleLine="true"
-            android:text="B62, Sarmoula, east of kailash"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_content_600" />
+            android:textSize="@dimen/text_size_content_720" />
 
         <TextView
             android:id="@+id/addressCity"
@@ -78,7 +76,7 @@
             android:singleLine="true"
             android:text="kailash"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_content_600" />
+            android:textSize="@dimen/text_size_content_720" />
 
         <LinearLayout
             android:id="@+id/layoutState"
@@ -95,7 +93,7 @@
                 android:singleLine="true"
                 android:text="Delhi,"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_content_600" />
+                android:textSize="@dimen/text_size_content_720" />
 
             <TextView
                 android:id="@+id/addressCountry"
@@ -105,7 +103,7 @@
                 android:singleLine="true"
                 android:text="India"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_content_600" />
+                android:textSize="@dimen/text_size_content_720" />
 
         </LinearLayout>
 
@@ -118,7 +116,7 @@
             android:singleLine="true"
             android:text="110017"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_content_600" />
+            android:textSize="@dimen/text_size_content_720" />
 
         <TextView
             android:id="@+id/addressContact"
@@ -129,7 +127,7 @@
             android:singleLine="true"
             android:text="9999999999"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_content_600" />
+            android:textSize="@dimen/text_size_content_720" />
     </RelativeLayout>
 
     <View

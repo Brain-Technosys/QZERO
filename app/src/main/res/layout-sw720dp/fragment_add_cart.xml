@@ -36,8 +36,8 @@
 
                     <ImageView
                         android:id="@+id/imgViewItem"
-                        android:layout_width="150dp"
-                        android:layout_height="159dp"
+                        android:layout_width="170dp"
+                        android:layout_height="179dp"
                         android:scaleType="fitXY"/>
 
                     <Button
@@ -61,7 +61,7 @@
                         android:layout_toRightOf="@+id/imgViewItem"
                         android:gravity="center_vertical"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_content_600" />
+                        android:textSize="@dimen/text_size_content_720" />
 
                     <LinearLayout
                         android:id="@+id/linLayQty"
@@ -89,7 +89,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:text="@string/item_price"
                                 android:textColor="@color/item_detail"
-                                android:textSize="@dimen/text_size_content_600" />
+                                android:textSize="@dimen/text_size_content_720" />
 
                             <TextView
                                 android:id="@+id/txtViewOrigPrice"
@@ -98,7 +98,7 @@
                                 android:layout_marginLeft="3dp"
                                 android:background="@drawable/drawable_strikethrough"
                                 android:textColor="@color/item_detail"
-                                android:textSize="@dimen/text_size_content_600" />
+                                android:textSize="@dimen/text_size_content_720" />
 
                             <TextView
                                 android:id="@+id/txtViewDiscPrice"
@@ -106,7 +106,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:textColor="@color/item_detail_green"
-                                android:textSize="@dimen/text_size_content_600" />
+                                android:textSize="@dimen/text_size_content_720" />
 
 
                         </LinearLayout>
@@ -129,7 +129,7 @@
                                 android:text="@string/item_discount"
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/item_detail"
-                                android:textSize="@dimen/text_size_content_600" />
+                                android:textSize="@dimen/text_size_content_720" />
 
                             <TextView
                                android:id="@+id/txtViewDiscount"
@@ -137,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:textColor="@color/item_detail"
-                                android:textSize="@dimen/text_size_content_600" />
+                                android:textSize="@dimen/text_size_content_720" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -152,7 +152,7 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginTop="7dp"
                         android:textColor="@android:color/black"
-                        android:textSize="17sp" />
+                        android:textSize="20sp" />
 
                     <RelativeLayout
                         android:id="@+id/relLayAddItem"

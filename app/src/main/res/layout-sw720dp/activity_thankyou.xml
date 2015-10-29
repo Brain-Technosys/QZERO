@@ -18,11 +18,11 @@
         android:id="@+id/txtViewThankYou"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:text="Thank You for your order."
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <TextView
         android:id="@+id/txtViewOrderId"
@@ -31,7 +31,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <Button
         android:id="@+id/btn_home"

@@ -21,7 +21,7 @@
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <EditText
         android:id="@+id/edtTextCity"
@@ -35,11 +35,11 @@
         android:ems="10"
         android:gravity="center_horizontal"
         android:hint="@string/search_city"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
     <EditText
         android:id="@+id/edtTextZip"
@@ -54,11 +54,11 @@
         android:inputType="number"
         android:gravity="center_horizontal"
         android:hint="@string/search_zip"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:singleLine="true"
         android:textColor="@color/color_edittext_background"
         android:textColorHint="@color/color_edittext_background"
-        android:textSize="@dimen/text_size_content_600" />
+        android:textSize="@dimen/text_size_content_720" />
 
 
     <ImageView

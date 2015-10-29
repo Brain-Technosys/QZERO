@@ -36,7 +36,7 @@
                     android:padding="2dp"
                     android:text="QTY:"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_content_600" />
+                    android:textSize="@dimen/text_size_content_720" />
 
                 <ImageView
                     android:id="@+id/imgViewSub"
@@ -55,7 +55,7 @@
                     android:layout_marginRight="7dp"
                     android:text="1"
                     android:textColor="@android:color/black"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <ImageView
                     android:id="@+id/imgViewAdd"
@@ -73,7 +73,7 @@
                 android:padding="2dp"
                 android:text="Add Modifier"
                 android:textColor="@drawable/addmodifier_selector"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/imgViewDelete"
@@ -92,7 +92,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Modifiers"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:visibility="invisible" />
 
             <TableLayout
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="Total"
-                    android:textSize="@dimen/text_size_content_600"
+                    android:textSize="@dimen/text_size_content_720"
                     android:textColor="#000000" />
 
                 <TextView
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textColor="#000000" />
 
             </LinearLayout>

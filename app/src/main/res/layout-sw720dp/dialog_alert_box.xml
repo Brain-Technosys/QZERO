@@ -6,8 +6,8 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="35dp"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/alertbox_title_layout_design" >
 
@@ -18,13 +18,13 @@
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_content_720"
 
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="250dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/alertbox_text_layout_border" >
@@ -39,10 +39,10 @@
             android:paddingLeft="10dp"
             android:text="Sample text"
             android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_size_content_720" />
     </LinearLayout>
     <RelativeLayout
-        android:layout_width="250dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:background="@color/color_background">
@@ -65,7 +65,7 @@
             android:padding="10dp"
             android:text="@string/alertbox_ok"
             android:textColor="@color/color_tab_text_selected"
-            android:textSize="17sp"
+            android:textSize="@dimen/text_size_content_720"
             android:textStyle="bold" />
 
         <TextView

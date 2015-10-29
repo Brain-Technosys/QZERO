@@ -60,7 +60,7 @@
                 android:gravity="left"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/txtViewItemPrice"
@@ -69,7 +69,7 @@
                 android:layout_margin="5dp"
                 android:gravity="left"
                 android:textColor="@android:color/black"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
 
         </LinearLayout>
@@ -132,7 +132,7 @@
                 android:singleLine="true"
 
                 android:textColor="@android:color/black"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/txtViewItemPriceRight"
@@ -143,7 +143,7 @@
                 android:gravity="left"
 
                 android:textColor="@android:color/black"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
 
         </LinearLayout>

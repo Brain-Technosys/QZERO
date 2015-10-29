@@ -48,7 +48,7 @@
                             android:layout_marginTop="20dp"
                             android:text="@string/profile_info"
                             android:textColor="@android:color/white"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/text_size_content_720" />
 
 
                     </LinearLayout>
@@ -85,7 +85,7 @@
                             android:layout_marginTop="20dp"
                             android:text="@string/order"
                             android:textColor="@android:color/white"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/text_size_content_720" />
 
                         <TextView
                             android:id="@+id/tv_order_count"
@@ -95,7 +95,7 @@
                             android:layout_marginTop="10dp"
 
                             android:textColor="@android:color/white"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/text_size_content_720" />
 
                     </LinearLayout>
 

@@ -26,9 +26,8 @@
 
                 <ImageView
                     android:id="@+id/img_item"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/food3" />
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -45,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:text="Item Name"
                     android:textColor="#000"
-                    android:textSize="@dimen/text_size_content_600"
+                    android:textSize="@dimen/text_size_content_720"
                     android:textStyle="bold" />
 
 
@@ -63,8 +62,8 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:text="Status:"
-                    android:textSize="@dimen/text_size_content_600"
-                        android:textColor="#000" />
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_size_content_720" />
 
                     <TextView
                         android:id="@+id/tv_item_status"
@@ -72,7 +71,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="Status"
-                        android:textColor="#000" />
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_size_content_720" />
 
 
                 </LinearLayout>
@@ -91,8 +91,8 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:text="Quantity:"
-                        android:textSize="@dimen/text_size_content_600"
-                        android:textColor="#000" />
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_size_content_720" />
 
                     <TextView
                         android:id="@+id/tv_item_qty"
@@ -100,8 +100,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_toRightOf="@+id/lbl_item_qty"
-
-                        android:textColor="#000" />
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_size_content_720" />
 
                     <TextView
                         android:id="@+id/tv_item_price"
@@ -110,8 +110,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="5dp"
                         android:text="Price"
-                        android:textSize="@dimen/text_size_content_600"
-                        android:textColor="#000" />
+                        android:textColor="#000"
+                        android:textSize="@dimen/text_size_content_720" />
 
 
                 </RelativeLayout>
@@ -159,7 +159,7 @@
                         android:layout_weight="1"
                         android:text="@string/total_amount"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_content_600"
+                        android:textSize="@dimen/text_size_content_720"
                         android:textStyle="bold" />
 
                     <TextView
@@ -185,7 +185,7 @@
                         android:layout_weight="1"
                         android:text="@string/discount_amount"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_content_600"
+                        android:textSize="@dimen/text_size_content_720"
                         android:textStyle="bold" />
 
                     <TextView
@@ -219,8 +219,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="0"
-                        android:textSize="@dimen/text_size_content_600"
-                        android:textColor="@color/color_red" />
+                        android:textColor="@color/color_red"
+                        android:textSize="@dimen/text_size_content_720" />
 
                 </LinearLayout>
             </RelativeLayout>

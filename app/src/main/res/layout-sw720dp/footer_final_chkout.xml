@@ -18,7 +18,7 @@
         android:background="@android:color/white"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_size_content_720"
         android:gravity="right"
 
         android:padding="5dp"

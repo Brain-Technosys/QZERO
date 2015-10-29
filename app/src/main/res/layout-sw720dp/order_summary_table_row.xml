@@ -15,7 +15,7 @@
         android:singleLine="true"
         android:text="Melted Butter"
         android:textColor="@color/black"
-        android:textSize="12sp"></TextView>
+        android:textSize="17sp"></TextView>
 
 
     <TextView
@@ -27,7 +27,7 @@
         android:singleLine="true"
         android:layout_weight="0.5"
         android:textColor="@color/black"
-        android:textSize="14sp"></TextView>
+        android:textSize="17sp"></TextView>
 
     <TextView
         android:id="@+id/modifier_totalPrice"
@@ -38,7 +38,7 @@
         android:singleLine="true"
         android:layout_weight="0.5"
         android:textColor="@color/black"
-        android:textSize="14sp"></TextView>
+        android:textSize="17sp"></TextView>
 
 
 </TableRow>

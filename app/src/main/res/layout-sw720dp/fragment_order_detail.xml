@@ -28,7 +28,7 @@
     <ImageView
         android:id="@+id/img_banner"
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/add_size_720"
         android:layout_alignParentBottom="true"
         android:layout_weight="0"
         android:background="#ffde665d" />

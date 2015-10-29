@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="Name"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_content_600" />
+                android:textSize="@dimen/text_size_content_720" />
 
             <LinearLayout
                 android:id="@+id/linLayAddress"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Address"
-                    android:textSize="@dimen/text_size_content_600"
+                    android:textSize="@dimen/text_size_content_720"
                     android:textColor="@color/black" />
 
 

@@ -27,7 +27,7 @@ android:background="@color/cardview_back"
         android:text="@string/empty_cart"
         android:gravity="center_horizontal"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_content_600"
+        android:textSize="@dimen/text_size_content_720"
         />
         <Button
             android:id="@+id/btn_countinue_shop"
@@ -52,13 +52,12 @@ android:background="@color/cardview_back"
         android:layout_below="@+id/inclue_header"
         android:divider="@android:color/transparent"
         android:layout_above="@+id/linLayAdvertisement"
-        android:text="@string/hello_blank_fragment"
         android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/linLayAdvertisement"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/add_size_720"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 

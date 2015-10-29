@@ -10,7 +10,7 @@
         android:id="@+id/header"
         layout="@layout/nav_header_catogery"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
 
         />
     <RelativeLayout
@@ -45,7 +45,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="My Profile"
-            android:textSize="@dimen/text_size_content_600"
+            android:textSize="@dimen/text_size_content_720"
             android:padding="10dp"
             android:textColor="@android:color/white"
             />
@@ -79,7 +79,7 @@
             android:layout_toRightOf="@+id/img_outlet"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/text_size_content_600"
+            android:textSize="@dimen/text_size_content_720"
             android:gravity="start"
             android:padding="10dp"
             android:textColor="@android:color/white"

@@ -39,7 +39,7 @@
             android:paddingLeft="10dp"
             android:text="My Profile"
             android:textColor="@color/navigation_text_color"
-            android:textSize="17sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/imgViewDownArrow"

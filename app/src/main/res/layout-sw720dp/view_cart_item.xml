@@ -57,7 +57,7 @@
                             android:singleLine="true"
                             android:text="Roasted Stuffed Mushroom"
                             android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:textSize="20sp" />
 
 
                         <TextView
@@ -72,7 +72,7 @@
                             android:singleLine="true"
                             android:text="Total Price : $ 100.00"
                             android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -132,7 +132,7 @@
                     android:singleLine="true"
                     android:text="Product"
                     android:textColor="@color/black"
-                    android:textSize="18sp"></TextView>
+                    android:textSize="20sp"></TextView>
 
 
                 <TextView
@@ -145,7 +145,7 @@
                     android:singleLine="true"
                     android:text="Qty"
                     android:textColor="@color/black"
-                    android:textSize="18sp"></TextView>
+                    android:textSize="20sp"></TextView>
 
                 <TextView
                     android:id="@+id/txtViewModTotal"
@@ -157,7 +157,7 @@
                     android:singleLine="true"
                     android:text="Total"
                     android:textColor="@color/black"
-                    android:textSize="18sp"></TextView>
+                    android:textSize="20sp"></TextView>
 
                 <ImageView
                     android:id="@+id/img_delete"

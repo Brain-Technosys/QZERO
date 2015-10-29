@@ -21,7 +21,7 @@
     <LinearLayout
         android:id="@+id/linLayAdvertisement"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/add_size_720"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 

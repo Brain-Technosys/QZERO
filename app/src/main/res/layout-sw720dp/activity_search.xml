@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/relLaySearch"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/home_bar_size_600"
+        android:layout_height="@dimen/home_bar_size_720"
         android:background="@color/primary_color">
 
         <TextView
@@ -19,7 +19,7 @@
             android:layout_marginLeft="24dp"
             android:text="@string/txt_search"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/home_text_size_600" />
+            android:textSize="@dimen/home_text_size_720" />
 
         <ImageView
             android:id="@+id/imgViewSearchButton"

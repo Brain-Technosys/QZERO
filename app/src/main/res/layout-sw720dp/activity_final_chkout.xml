@@ -45,7 +45,7 @@
                         android:singleLine="true"
                         android:text="Product"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_content_600"></TextView>
+                        android:textSize="@dimen/text_size_content_720"></TextView>
 
 
                     <TextView
@@ -57,7 +57,7 @@
                         android:singleLine="true"
                         android:text="Price/Qty"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_content_600"></TextView>
+                        android:textSize="@dimen/text_size_content_720"></TextView>
 
                     <TextView
                         android:id="@+id/txt_item_totalPrice"
@@ -68,7 +68,7 @@
                         android:singleLine="true"
                         android:text="Total"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_content_600"></TextView>
+                        android:textSize="@dimen/text_size_content_720"></TextView>
 
                 </TableRow>
 
@@ -80,7 +80,7 @@
                 android:layout_below="@+id/layout_your_order"
                 android:textColor="@color/black"
                 android:padding="5dp"
-                android:textSize="@dimen/text_size_content_600"
+                android:textSize="@dimen/text_size_content_720"
                 android:gravity="right"/>
 
 
@@ -99,7 +99,7 @@
     <LinearLayout
         android:id="@+id/linLayAdvertisement"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/add_size_720"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
