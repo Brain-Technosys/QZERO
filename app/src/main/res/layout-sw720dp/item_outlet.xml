@@ -18,7 +18,7 @@
             android:id="@+id/relLayDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg">
+            android:background="@drawable/bg4x">
 
             <ImageView
                 android:id="@+id/imgViewLand"
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_trans"
+                android:background="@drawable/bg4x_trans"
                 android:paddingLeft="7dp"
                 android:paddingBottom="20dp"
                 android:paddingRight="7dp"
@@ -151,7 +151,7 @@
                     android:id="@+id/relLayDescOutletLeft"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/leftb">
+                    android:background="@drawable/leftb4x">
 
                     <ImageView
                         android:id="@+id/imgViewLeft"
@@ -163,7 +163,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:background="@drawable/leftb_trans"
+                        android:background="@drawable/leftb4x_trans"
                         android:paddingBottom="20dp"
                         android:paddingLeft="7dp"
                         android:paddingRight="7dp"
@@ -276,7 +276,7 @@
                     android:id="@+id/relLayDescOutletRight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/leftb_trans_300">
+                    android:background="@drawable/leftb4x">
 
                     <ImageView
                         android:id="@+id/imgViewRight"
@@ -288,7 +288,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:background="@drawable/leftb_trans_300"
+                        android:background="@drawable/leftb4x_trans"
                         android:paddingBottom="20dp"
                         android:paddingLeft="7dp"
                         android:paddingRight="7dp"

@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         style="@style/TabTextTabTheme"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textColor="@drawable/text_color_selector"/>
 
 </LinearLayout>

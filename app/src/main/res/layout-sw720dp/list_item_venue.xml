@@ -39,7 +39,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/location" />
+                    android:layout_marginTop="3dp"
+                    android:src="@drawable/loaction3x" />
 
                 <TextView
                     android:id="@+id/txtViewAddress"
@@ -47,8 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Address"
-                    android:textSize="@dimen/text_size_content_720"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_content_720" />
 
 
                 <!--<TextView
@@ -102,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/phone" />
+                        android:src="@drawable/call3x" />
 
                     <TextView
                         android:id="@+id/txtViewPhone"
@@ -111,7 +112,8 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -126,7 +128,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/mobile" />
+                        android:src="@drawable/locatin3x" />
 
 
                     <TextView
@@ -134,7 +136,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </RelativeLayout>
