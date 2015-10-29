@@ -23,6 +23,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.example.qzero.CommonFiles.Helpers.GCMHelper;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.R;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -35,6 +37,8 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
 
+    UserSession userSession;
+
     public RegistrationIntentService() {
         super(TAG);
     }
@@ -42,6 +46,8 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        userSession=new UserSession(this);
 
         try {
             // [START register_for_gcm]
@@ -53,6 +59,12 @@ public class RegistrationIntentService extends IntentService {
             // See https://developers.google.com/cloud-messaging/android/start for details on this file.
             String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+
+            userSession.saveGCMToken(token);
+
+            GCMHelper gcmHelper=new GCMHelper(this);
+
+            gcmHelper.checkRegisterDevice();
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
 

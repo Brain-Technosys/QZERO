@@ -9,13 +9,12 @@
         android:layout_height="wrap_content"
         android:text=";lsdka;lsdk;ldk"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/heading_fot_size" />
+        android:textSize="@dimen/heading_fot_size_720" />
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true">
-
 
         <ImageView
             android:id="@+id/cart"
@@ -32,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:textSize="11sp"
+            android:textSize="20sp"
             android:gravity="top"
             android:text="5"
             android:layout_gravity="right"

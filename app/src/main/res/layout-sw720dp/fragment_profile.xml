@@ -39,7 +39,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
                         android:padding="9dp"
-                        android:textSize="20dp"
+                        android:textSize="22dp"
                         android:text="Personal Info" />
 
                     <TableLayout
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
                         android:padding="9dp"
-                        android:textSize="20dp"
+                        android:textSize="22dp"
                         android:text="Contact Info" />
 
                     <TableLayout
@@ -277,7 +277,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary_color"
                         android:padding="7dp"
-                        android:textSize="20dp"
+                        android:textSize="22dp"
                         android:text="Address Info" />
 
                     <TableLayout
@@ -429,11 +429,14 @@
             <Button
                 android:id="@+id/btn_edit"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/btn_height_720"
                 android:layout_below="@+id/card_address"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="5dp"
+                android:paddingLeft="@dimen/btn_padding_720"
+                android:paddingRight="@dimen/btn_padding_720"
+                android:textSize="@dimen/btn_text_size_720"
                 android:background="@drawable/selector"
                 android:text="Edit" />
 

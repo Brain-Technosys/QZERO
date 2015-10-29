@@ -27,7 +27,7 @@
 
     <!-- Tablet-720-->
     <dimen name="common_text_size_720">25sp</dimen>
-    <dimen name="heading_fot_size_720">30dp</dimen>
+    <dimen name="heading_fot_size_720">34dp</dimen>
     <dimen name="button_text_size_720">30sp</dimen>
     <dimen name="text_size_content_720">25sp</dimen>
     <dimen name="add_size_720">80dp</dimen>
@@ -37,6 +37,11 @@
     <dimen name="sub_heading_height_720">50dp</dimen>
     <dimen name="home_bar_size_720">65dp</dimen>
     <dimen name="menu_text_size_720">20sp</dimen>
+    <dimen name="btn_text_size_720">18sp</dimen>
+    <dimen name="btn_padding_720">15dp</dimen>
+    <dimen name="btn_height_720">55dp</dimen>
+
+
 
 
 </resources>

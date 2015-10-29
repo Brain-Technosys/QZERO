@@ -47,6 +47,7 @@
                     android:gravity="center_horizontal"
                     android:padding="3dp"
                     android:singleLine="true"
+                    android:textSize="18sp"
                     android:textColor="@android:color/white" />
             </FrameLayout>
 
@@ -60,7 +61,7 @@
                 android:gravity="left"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/txtViewItemPrice"
@@ -69,7 +70,7 @@
                 android:layout_margin="5dp"
                 android:gravity="left"
                 android:textColor="@android:color/black"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
 
 
         </LinearLayout>
@@ -117,6 +118,7 @@
                     android:gravity="center_horizontal"
                     android:padding="3dp"
                     android:singleLine="true"
+                    android:textSize="18sp"
                     android:textColor="@android:color/white" />
             </FrameLayout>
 
@@ -132,7 +134,7 @@
                 android:singleLine="true"
 
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/txtViewItemPriceRight"
@@ -143,7 +145,7 @@
                 android:gravity="left"
 
                 android:textColor="@android:color/black"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
 
 
         </LinearLayout>

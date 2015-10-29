@@ -40,6 +40,9 @@ public class Const {
     public static String POST_FINAL_PAYMENT="checkout/FinalPaymentOrder";
     public static String GET_DELIVERY_TYPE="checkout/GetDeliveryType?";
     public static String GET_PAYMENTGATEWAY_DETAILS="checkout/PaymentGatewayDetails?VenueId=";
+    public static String POST_REGISTER_DEVICE="checkout/DeviceRegisteration";
+    public static String GET_REGISTER_DEVICE="checkout/getDeviceRegistered";
+    public static String POST_DEVICE_LOGIN_LOGOUT="checkout/DeviceLoginLogout";
 
     //Intialize jsonArray parameter
 

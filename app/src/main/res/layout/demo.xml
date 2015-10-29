@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/BuyerDashboardLayout"
+    android:paddingBottom="30dp"
+    android:paddingTop="30dp"
+    tools:context=".MainActivity">
+    <RelativeLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/toptext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ll1"
+        android:background="#000000" />
+    <ScrollView
+        android:id="@+id/scrolllayout"
+        android:layout_width="fill_parent"
+        android:fadeScrollbars="false"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view3">
+        <RelativeLayout
+            android:id="@+id/dashboardwithview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view4"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+                <!--First Row Start-->
+                <LinearLayout
+                    android:id="@+id/ll_firstRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="40dp">
+                    <RelativeLayout
+                        android:id="@+id/HomeRelativeLayout"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="15dp">
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/HomeImage"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_launcher" />
+                            <ImageView
+                                android:id="@+id/HomeImageGFrame"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_launcher" />
+                            <TextView
+                                android:id="@+id/HomeImageText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="70dp"
+                                android:gravity="center_horizontal"
+                                android:textColor="#000000"
+                                android:textStyle="normal" />
+                        </FrameLayout>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/AddressRelativeLayout"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="15dp">
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/AddressImage"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                android:contentDescription="vfddsfvvcfd "
+                                android:src="@drawable/ic_launcher" />
+                            <ImageView
+                                android:id="@+id/AddressFrame"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_launcher" />
+                            <TextView
+                                android:id="@+id/AddressText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="70dp"
+                                android:gravity="center_horizontal"
+                                android:textColor="#000000"
+                                android:textStyle="normal" />
+                        </FrameLayout>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/CartRelativeLayout"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="15dp">
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/CartImage"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_launcher" />
+                            <ImageView
+                                android:id="@+id/CartFrame"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_launcher" />
+                            <TextView
+                                android:id="@+id/CartText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/statusimage"
+                                android:layout_marginTop="70dp"
+                                android:gravity="center_horizontal"
+                                android:textColor="#000000"
+                                android:textStyle="normal" />
+                        </FrameLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+                <!--First Row End-->
+                <!--Second Row Start-->
+                <LinearLayout
+                    android:id="@+id/ll_SecondRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_below="@+id/ll_firstRow"
+                    android:paddingLeft="40dp">
+                    <RelativeLayout
+                        android:id="@+id/WishListRelativeLayout"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="15dp">
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/WishListImage"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/ic_launcher" />
+                            <ImageView
+                                android:id="@+id/WishListImageFrame"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_centerHorizontal="true"
+                                 />
+                            <TextView
+                                android:id="@+id/WishListImageText"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="70dp"
+                                android:gravity="center_horizontal"
+                                android:textColor="#000000"
+                                android:textStyle="normal" />
+                        </FrameLayout>
+                    </RelativeLayout>
+                    <!--<RelativeLayout
+                  android:id="@+id/DepartmentRelativeLayout"
+                  android:layout_width="90dp"
+                  android:layout_height="90dp"
+                  android:layout_marginBottom="2dp"
+                  android:layout_marginLeft="5dp"
+                  android:layout_weight="1"
+                  android:layout_marginRight="5dp"
+                  android:layout_marginTop="15dp">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                  <ImageView
+                      android:id="@+id/DepartmentImage"
+                      android:layout_width="70dp"
+                      android:layout_height="70dp"
+                      android:layout_centerHorizontal="true"
+                      android:src="@drawable/Department" />
+                  <ImageView
+                      android:id="@+id/DepartmentImageFrame"
+                      android:layout_width="70dp"
+                      android:layout_height="70dp"
+                      android:layout_centerHorizontal="true"
+                      android:src="@drawable/StyleApp" />
+                  <TextView
+                      android:id="@+id/DepartmentImageText"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="70dp"
+                      android:gravity="center_horizontal"
+                      android:text="Department"
+                      android:textColor="#ffffff"
+                      android:textStyle="normal" />
+                </FrameLayout>
+              </RelativeLayout>
+              <RelativeLayout
+                  android:id="@+id/LinkingRelativeLayout"
+                  android:layout_width="90dp"
+                  android:layout_height="90dp"
+                  android:layout_weight="1"
+                  android:layout_marginBottom="2dp"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginTop="15dp">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                  <ImageView
+                      android:id="@+id/LinkingImage"
+                      android:layout_width="70dp"
+                      android:layout_height="70dp"
+                      android:layout_centerHorizontal="true"
+                      android:contentDescription="vfddsfvvcfd "
+                      android:src="@drawable/Linking" />
+                  <ImageView
+                      android:id="@+id/LinkingFrame"
+                      android:layout_width="70dp"
+                      android:layout_height="70dp"
+                      android:layout_centerHorizontal="true"
+                      android:src="@drawable/StyleApp" />
+                  <TextView
+                      android:id="@+id/LinkingText"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="70dp"
+                      android:gravity="center_horizontal"
+                      android:text="Linking"
+                      android:textColor="#ffffff"
+                      android:textStyle="normal" />
+                </FrameLayout>
+              </RelativeLayout>-->
+                </LinearLayout>
+                <!--Second Row End-->
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view4"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_below="@+id/dashboard" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

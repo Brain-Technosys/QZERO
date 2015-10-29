@@ -57,6 +57,7 @@
                 android:singleLine="true"
                 android:background="@drawable/selector"
                 android:text="CONTINUE SHOPPING"
+                android:textSize="15sp"
                 android:layout_margin="5dp"/>
 
             <Button
@@ -67,6 +68,7 @@
                 android:singleLine="true"
                 android:background="@drawable/green_selector"
                 android:layout_margin="5dp"
+                android:textSize="18sp"
                 android:text="PLACE ORDER"/>
         </LinearLayout>
     </LinearLayout>

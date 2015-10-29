@@ -93,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.relLayLogin)
     public void finishLoginActivity() {
-        finish();
+        Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btn_myProfile)

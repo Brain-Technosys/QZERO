@@ -2,6 +2,7 @@ package com.example.qzero.CommonFiles.Sessions;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by Braintech on 7/22/2015.
@@ -28,6 +29,9 @@ public class UserSession {
 
     //Session for OrderSummary and CartViewActivity
     public static final String KEY_FINALPAYBLE_AMOUNT = "final_amount";
+
+    //GCM Token
+    public static final String GCM_TOKEN = "gcm_token";
 
 
     public UserSession(Context _context) {
@@ -84,6 +88,14 @@ public class UserSession {
         editor.commit();
     }
 
+    //save GCM Token
+    public void saveGCMToken(String token)
+    {
+       Log.e("session", token);
+        editor.putString(GCM_TOKEN,token);
+        editor.commit();
+    }
+
     public boolean getUserPermissionLoc() {
         return pref.getBoolean(KEY_LOCATION_PERM, true);
     }
@@ -106,6 +118,11 @@ public class UserSession {
     /**
      * Clear session details
      */
+
+    public String getGcmToken()
+    {
+        return pref.getString(GCM_TOKEN, "null");
+    }
 
     public void clearCartSession() { // Clearing all data from Shared
         editor.remove(KEY_FINALPAYBLE_AMOUNT);

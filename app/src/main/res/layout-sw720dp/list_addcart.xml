@@ -73,7 +73,7 @@
                 android:padding="2dp"
                 android:text="Add Modifier"
                 android:textColor="@drawable/addmodifier_selector"
-                android:textSize="20sp" />
+                android:textSize="25sp" />
 
             <ImageView
                 android:id="@+id/imgViewDelete"
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/text_size_content_720"
                     android:textColor="#000000" />
 
             </LinearLayout>

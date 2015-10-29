@@ -30,8 +30,8 @@
 
                 <ImageView
                     android:id="@+id/item_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_placeholder" />
 
@@ -57,7 +57,7 @@
                             android:singleLine="true"
                             android:text="Roasted Stuffed Mushroom"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="22sp" />
 
 
                         <TextView
@@ -72,7 +72,7 @@
                             android:singleLine="true"
                             android:text="Total Price : $ 100.00"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="22sp" />
 
                     </LinearLayout>
 

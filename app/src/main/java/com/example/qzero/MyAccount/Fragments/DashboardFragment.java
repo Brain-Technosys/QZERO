@@ -2,6 +2,7 @@ package com.example.qzero.MyAccount.Fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
+import com.example.qzero.CommonFiles.Helpers.GCMHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -55,6 +57,8 @@ public class DashboardFragment extends Fragment {
 
     String userIDString;
     String orderCount;
+
+    String deviceId;
 
     CheckInternetHelper internetHelper;
 
@@ -232,7 +236,9 @@ public class DashboardFragment extends Fragment {
             }
 
             orderCountTextView.setText(orderCount);
-
         }
     }
+
+
+
 }

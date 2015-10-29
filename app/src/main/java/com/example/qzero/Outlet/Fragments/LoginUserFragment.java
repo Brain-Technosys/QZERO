@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
+import com.example.qzero.CommonFiles.Helpers.GCMHelper;
 import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
 
 import com.example.qzero.CommonFiles.Push.QuickstartPreferences;
@@ -77,17 +79,19 @@ public class LoginUserFragment extends Fragment {
     String userName;
     String password;
 
+    String deviceId;
+
     int status;
-    String LOGINTYPE="SIMPLELOGIN";
+    String LOGINTYPE = "SIMPLELOGIN";
 
     GetCheckOutDetails getCheckOutDetails;
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "login";
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
-    private TextView mInformationTextView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,7 +107,7 @@ public class LoginUserFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setFont();
 
-        getCheckOutDetails=new GetCheckOutDetails(getActivity(),"login");
+        getCheckOutDetails = new GetCheckOutDetails(getActivity(), "login");
 
     }
 
@@ -111,7 +115,7 @@ public class LoginUserFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        LOGINTYPE=((LoginActivity)getActivity()).getloginType();
+        LOGINTYPE = ((LoginActivity) getActivity()).getloginType();
     }
 
     public void setFont() {
@@ -228,19 +232,29 @@ public class LoginUserFragment extends Fragment {
                 userSession.createUserSession(user_id, name);
 
                 clearFields();
-               // registerToGCM();
+
+                //Check if the device has not been registered to GCM
+                if (userSession.getGcmToken().equals("null")) {
+                    Log.e("insde","registerToGCM");
+                    registerToGCM();
+                }
+                else
+                {
+                    GCMHelper gcmHelper=new GCMHelper(getActivity());
+                    gcmHelper.checkRegisterDevice();
+                }
+
                 if (LOGINTYPE.equals("CHECKOUT")) {
 
                     getCheckOutDetails.managingChkoutDetailAPI();
 
-                } else if(LOGINTYPE.equals("SIMPLELOGIN")) {
+                } else if (LOGINTYPE.equals("SIMPLELOGIN")) {
                     Intent intent = new Intent(getActivity(),
                             DashBoardActivity.class);
                     intent.putExtra("name", name);
                     startActivity(intent);
-                }
-                else if(LOGINTYPE.equals("OUTLET")) {
-                   getActivity().finish();
+                } else if (LOGINTYPE.equals("OUTLET")) {
+                    getActivity().finish();
                 }
 
             } else if (status == 0) {
@@ -283,23 +297,26 @@ public class LoginUserFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void registerToGCM()
-    {
+    private void registerToGCM() {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-             ProgresBar.start(getActivity());
+                ProgresBar.start(getActivity());
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences
                         .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
-                    Log.e("gcm message",getString(R.string.gcm_send_message));
+
+                    Log.e("gcm message", getString(R.string.gcm_send_message));
                 } else {
                     Log.e("gcm message", getString(R.string.token_error_message));
                 }
             }
         };
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
@@ -307,7 +324,6 @@ public class LoginUserFragment extends Fragment {
             getActivity().startService(intent);
         }
     }
-
 
 
     private boolean checkPlayServices() {
@@ -326,17 +342,12 @@ public class LoginUserFragment extends Fragment {
         return true;
     }
 
+
     @Override
     public void onPause() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-    }
 
 }

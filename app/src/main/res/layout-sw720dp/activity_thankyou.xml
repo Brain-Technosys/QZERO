@@ -36,14 +36,15 @@
     <Button
         android:id="@+id/btn_home"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/btn_height_720"
         android:layout_below="@+id/card_address"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/selector"
-        android:padding="10dp"
+        android:padding="@dimen/btn_padding_720"
+        android:textSize="@dimen/btn_text_size_720"
         android:text="Go To Home" />
 
 </LinearLayout>
