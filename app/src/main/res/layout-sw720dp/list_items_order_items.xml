@@ -27,7 +27,8 @@
                 <ImageView
                     android:id="@+id/img_item"
                     android:layout_width="150dp"
-                    android:layout_height="150dp" />
+                    android:layout_height="150dp"
+                    android:scaleType="fitXY" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -44,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:text="Item Name"
                     android:textColor="#000"
-                    android:textSize="@dimen/text_size_content_720"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
 
@@ -63,7 +64,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Status:"
                         android:textColor="#000"
-                        android:textSize="@dimen/text_size_content_720" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/tv_item_status"
@@ -72,7 +73,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Status"
                         android:textColor="#000"
-                        android:textSize="@dimen/text_size_content_720" />
+                        android:textSize="22sp" />
 
 
                 </LinearLayout>
@@ -92,7 +93,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Quantity:"
                         android:textColor="#000"
-                        android:textSize="@dimen/text_size_content_720" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/tv_item_qty"
@@ -111,7 +112,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Price"
                         android:textColor="#000"
-                        android:textSize="@dimen/text_size_content_720" />
+                        android:textSize="22sp" />
 
 
                 </RelativeLayout>
@@ -159,7 +160,7 @@
                         android:layout_weight="1"
                         android:text="@string/total_amount"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_content_720"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -167,7 +168,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-
+                        android:textSize="22sp"
                         android:layout_weight="0"
                         android:textColor="@color/black" />
 
@@ -185,7 +186,7 @@
                         android:layout_weight="1"
                         android:text="@string/discount_amount"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_content_720"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -193,9 +194,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-
                         android:layout_weight="0"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
 
                 </LinearLayout>
 
@@ -211,6 +212,7 @@
                         android:layout_weight="1"
                         android:text="@string/net_amount"
                         android:textColor="@color/black"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -219,8 +221,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="0"
+                        android:textSize="22sp"
                         android:textColor="@color/color_red"
-                        android:textSize="@dimen/text_size_content_720" />
+                        />
 
                 </LinearLayout>
             </RelativeLayout>

@@ -85,6 +85,7 @@ public class DashBoardActivity extends AppCompatActivity {
         // Getting user name from session
         userNameString = userSession.getUserName();
         userNameTextView.setText(userNameString);
+        userNameTextView.setTextSize(18);
         // Getting Intent
         Intent intent = getIntent();
         // Getting value from intent and setting to header

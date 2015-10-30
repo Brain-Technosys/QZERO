@@ -15,6 +15,7 @@
         android:hint="@string/old_password"
         android:inputType="textPassword"
         android:singleLine="true"
+        android:layout_marginTop="20dp"
         android:textSize="@dimen/text_size_content_720"
 
         />
@@ -29,6 +30,7 @@
         android:hint="@string/new_password"
         android:inputType="textPassword"
         android:singleLine="true"
+        android:layout_marginTop="15dp"
         android:textSize="@dimen/text_size_content_720" />
 
 
@@ -41,6 +43,7 @@
         android:textSize="@dimen/text_size_content_720"
         android:hint="@string/cnf_password"
         android:inputType="textPassword"
+        android:layout_marginTop="15dp"
         android:singleLine="true" />
 
     <Button
@@ -53,6 +56,7 @@
         android:paddingLeft="@dimen/btn_padding_720"
         android:paddingRight="@dimen/btn_padding_720"
         android:textSize="@dimen/btn_text_size_720"
+        android:layout_marginTop="10dp"
         android:text="@string/save" />
 
 
