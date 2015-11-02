@@ -1,5 +1,6 @@
 package com.example.qzero.Outlet.Activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -42,8 +43,14 @@ public class SearchActivity extends AppCompatActivity {
 
     @OnClick(R.id.relLaySearch)
     public void closeSearchActivity() {
-        finish();
+        Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, R.anim.slide_down);
+    }
 
 }

@@ -59,6 +59,8 @@ public class DashBoardActivity extends AppCompatActivity {
 
     Boolean navigationFromSearch;
 
+    String loginType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,6 +68,13 @@ public class DashBoardActivity extends AppCompatActivity {
 
         setContentView(layout.activity_dashboard);
         ButterKnife.inject(this);
+
+        if(getIntent().hasExtra("LOGINTYPE"))
+        {
+            Bundle bundle=getIntent().getExtras();
+
+            loginType=bundle.getString("LOGINTYPE");
+        }
 
         userSession = new UserSession(getApplicationContext());
         // Set a Toolbar to replace the ActionBar.

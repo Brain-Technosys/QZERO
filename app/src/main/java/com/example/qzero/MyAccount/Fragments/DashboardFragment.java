@@ -1,11 +1,18 @@
 package com.example.qzero.MyAccount.Fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +25,14 @@ import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.GCMHelper;
+import com.example.qzero.CommonFiles.Push.QuickstartPreferences;
+import com.example.qzero.CommonFiles.Push.RegistrationIntentService;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,6 +73,10 @@ public class DashboardFragment extends Fragment {
 
     CheckInternetHelper internetHelper;
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "login";
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Nullable
     @Override
@@ -70,7 +85,7 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, null);
         ButterKnife.inject(this, view);
 
-       // getActivity().setTitle(getString(R.string.dashboard_title));
+        // getActivity().setTitle(getString(R.string.dashboard_title));
 
         internetHelper = new CheckInternetHelper();
         userSession = new UserSession(getActivity().getApplicationContext());
@@ -220,6 +235,8 @@ public class DashboardFragment extends Fragment {
             ProgresBar.stop();
             switch (status) {
                 case 1:
+
+
                     break;
 
                 case 0:
@@ -236,9 +253,76 @@ public class DashboardFragment extends Fragment {
             }
 
             orderCountTextView.setText(orderCount);
+            if (userSession.getLogin()) {
+                //Check if the device has not been registered to GCM
+                if (userSession.getGcmToken().equals("null")) {
+                    Log.e("insde", "registerToGCM");
+                    registerToGCM();
+                } else {
+                    GCMHelper gcmHelper = new GCMHelper(getActivity());
+                    gcmHelper.checkRegisterDevice();
+                }
+            }
         }
     }
 
+    private void registerToGCM() {
+        ProgresBar.start(getActivity());
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ProgresBar.stop();
+
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+
+                    Log.e("gcm message", getString(R.string.gcm_send_message));
+
+                    GCMHelper gcmHelper = new GCMHelper(getActivity());
+
+                    gcmHelper.checkRegisterDevice();
+
+                } else {
+                    Log.e("gcm message", getString(R.string.token_error_message));
+                }
+            }
+        };
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(getActivity(), RegistrationIntentService.class);
+            getActivity().startService(intent);
+        }
+    }
+
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(getActivity());
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(getActivity(), resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                getActivity().finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+    }
 
 
 }

@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.txt_userName)
     TextView txt_userName;
 
-    String LOGINTYPE="SIMPLELOGIN";
+    String LOGINTYPE = "SIMPLELOGIN";
 
 
     @Override
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //getting intent from HomeScreen and CartScreen, LOGINTYPE will differenciate
         Intent intent = getIntent();
-        if(getIntent().hasExtra("LOGINTYPE")) {
+        if (getIntent().hasExtra("LOGINTYPE")) {
             LOGINTYPE = intent.getStringExtra("LOGINTYPE");
         }
 
@@ -87,23 +87,34 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public String getloginType(){
+    public String getloginType() {
         return LOGINTYPE;
     }
 
     @OnClick(R.id.relLayLogin)
     public void finishLoginActivity() {
-        Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        intent.putExtra("LOGINTYPE", LOGINTYPE);
+        finish();
         startActivity(intent);
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, R.anim.slide_down);
     }
 
     @OnClick(R.id.btn_myProfile)
     public void goto_myProfile() {
 
-
-            Intent intent = new Intent(LoginActivity.this,
-                    DashBoardActivity.class);
-            startActivity(intent);
+        userSession.saveLogin(false);
+        Intent intent = new Intent(LoginActivity.this,
+                DashBoardActivity.class);
+       intent.putExtra("LOGINTYPE","myProfile");
+        startActivity(intent);
 
     }
 

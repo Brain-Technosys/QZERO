@@ -28,7 +28,7 @@ import java.net.URL;
 
 public class GcmSender {
 
-    public static final String API_KEY = "API_KEY";
+    public static final String API_KEY = "AIzaSyChZkjVeLGMz7RLQRKQbTkH6eWQ-BQ-bUc";
 
     public static void main(String[] args) {
         if (args.length < 1 || args.length > 2 || args[0] == null) {

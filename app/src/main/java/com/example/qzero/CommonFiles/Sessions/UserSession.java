@@ -33,6 +33,9 @@ public class UserSession {
     //GCM Token
     public static final String GCM_TOKEN = "gcm_token";
 
+    public static final String GCM_LOGIN = "gcm_login";
+
+
 
     public UserSession(Context _context) {
         this.context = _context;
@@ -96,6 +99,12 @@ public class UserSession {
         editor.commit();
     }
 
+    public void saveLogin(Boolean value)
+    {
+        editor.putBoolean(GCM_LOGIN, value);
+        editor.commit();
+    }
+
     public boolean getUserPermissionLoc() {
         return pref.getBoolean(KEY_LOCATION_PERM, true);
     }
@@ -124,6 +133,10 @@ public class UserSession {
         return pref.getString(GCM_TOKEN, "null");
     }
 
+    public boolean getLogin() {
+        return pref.getBoolean(GCM_LOGIN, false);
+    }
+
     public void clearCartSession() { // Clearing all data from Shared
         editor.remove(KEY_FINALPAYBLE_AMOUNT);
         editor.commit();
@@ -134,6 +147,8 @@ public class UserSession {
         editor.remove(IS_LOGIN);
         editor.remove(KEY_USER_ID);
         editor.remove(KEY_NAME);
+        editor.remove(GCM_LOGIN);
+        editor.remove(GCM_TOKEN);
         editor.commit();
     }
 

@@ -86,12 +86,6 @@ public class LoginUserFragment extends Fragment {
 
     GetCheckOutDetails getCheckOutDetails;
 
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "login";
-
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -231,18 +225,9 @@ public class LoginUserFragment extends Fragment {
                 userSession = new UserSession(getActivity().getApplicationContext());
                 userSession.createUserSession(user_id, name);
 
-                clearFields();
+                userSession.saveLogin(true);
 
-                //Check if the device has not been registered to GCM
-                if (userSession.getGcmToken().equals("null")) {
-                    Log.e("insde","registerToGCM");
-                    registerToGCM();
-                }
-                else
-                {
-                    GCMHelper gcmHelper=new GCMHelper(getActivity());
-                    gcmHelper.checkRegisterDevice();
-                }
+                clearFields();
 
                 if (LOGINTYPE.equals("CHECKOUT")) {
 
@@ -253,9 +238,10 @@ public class LoginUserFragment extends Fragment {
                             DashBoardActivity.class);
                     intent.putExtra("name", name);
                     startActivity(intent);
-                } else if (LOGINTYPE.equals("OUTLET")) {
-                    getActivity().finish();
                 }
+                else if (LOGINTYPE.equals("OUTLET")) {
+                  getActivity().finish();
+               }
 
             } else if (status == 0) {
 
@@ -297,57 +283,9 @@ public class LoginUserFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void registerToGCM() {
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                ProgresBar.start(getActivity());
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken) {
-
-                    Log.e("gcm message", getString(R.string.gcm_send_message));
-                } else {
-                    Log.e("gcm message", getString(R.string.token_error_message));
-                }
-            }
-        };
-
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(getActivity(), RegistrationIntentService.class);
-            getActivity().startService(intent);
-        }
-    }
 
 
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(getActivity());
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(getActivity(), resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                getActivity().finish();
-            }
-            return false;
-        }
-        return true;
-    }
 
-
-    @Override
-    public void onPause() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mRegistrationBroadcastReceiver);
-        super.onPause();
-    }
 
 
 }

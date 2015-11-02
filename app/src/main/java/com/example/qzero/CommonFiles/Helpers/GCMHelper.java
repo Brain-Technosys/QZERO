@@ -49,9 +49,8 @@ public class GCMHelper {
     }
 
     private void registerDevice() {
-        if (CheckInternetHelper.checkInternetConnection(context)) {
+
             new RegisterDevice().execute();
-        }
     }
 
     private void changeLoginBit() {
@@ -68,7 +67,7 @@ public class GCMHelper {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            ProgresBar.start(context);
+
         }
 
         @Override
@@ -125,7 +124,7 @@ public class GCMHelper {
         protected void onPostExecute(String result) {
 
             super.onPostExecute(result);
-            ProgresBar.stop();
+
 
             if (status == 1) {
 
@@ -149,7 +148,6 @@ public class GCMHelper {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            ProgresBar.start(context);
         }
 
         @Override
@@ -204,7 +202,7 @@ public class GCMHelper {
         protected void onPostExecute(String result) {
 
             super.onPostExecute(result);
-            ProgresBar.stop();
+
 
             if (status == 1) {
 
@@ -227,7 +225,7 @@ public class GCMHelper {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            ProgresBar.start(context);
+
         }
 
         @Override
@@ -280,7 +278,7 @@ public class GCMHelper {
         protected void onPostExecute(String result) {
 
             super.onPostExecute(result);
-            ProgresBar.stop();
+
 
             if (status == 1) {
 

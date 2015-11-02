@@ -58,6 +58,8 @@ public class HomeActivity extends FragmentActivity {
     List<Address> addresses;
     Double latitude, longitude;
 
+    String LOGINTYPE = "SIMPLELOGIN";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,13 @@ public class HomeActivity extends FragmentActivity {
         setFonts();
 
         userSession = new UserSession(HomeActivity.this);
+
+        //getting intent from Login Screen, LOGINTYPE will differentiate login between Simple Login, Login From Cart Screen, And Login From Outlet
+        Intent intent = getIntent();
+
+        if (getIntent().hasExtra("LOGINTYPE")) {
+            LOGINTYPE = intent.getStringExtra("LOGINTYPE");
+        }
 
         openPopUpWindowToGetPermissionAbtLoc();
     }
@@ -105,7 +114,7 @@ public class HomeActivity extends FragmentActivity {
 
     }
 
-    @SuppressLint("NewApi")
+
     @OnClick(R.id.relLaySearch)
     void openSearchFragment() {
 
@@ -118,8 +127,16 @@ public class HomeActivity extends FragmentActivity {
     @OnClick(R.id.relLayLogin)
     void openLoginFragment() {
 
+
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-        intent.putExtra("LOGINTYPE","SIMPLELOGIN");
+        intent.putExtra("LOGINTYPE", LOGINTYPE);
+
+        if (getIntent().hasExtra("LOGINTYPE")) {
+            if (LOGINTYPE.equals("OUTLET")||LOGINTYPE.equals("CHECKOUT")) {
+                finish();
+            }
+        }
+
         startActivity(intent);
     }
 
