@@ -978,8 +978,6 @@ public class AddCartFragment extends Fragment {
                         for (int i = 0; i < jsonArrayModifiers.length(); i++) {
                             JSONObject jsonObjGroup = jsonArrayModifiers.getJSONObject(i);
 
-                            String choice_id = jsonObjGroup.getString(Const.TAG_ID);
-
                             String choice_name = jsonObjGroup.getString(Const.TAG_NAME);
 
                             Boolean isCompulsory = jsonObjGroup.getBoolean(Const.TAG_IS_COMPULSORY);

@@ -130,12 +130,23 @@ public class GetCheckOutDetails {
                 //do nothing
                 }
                 else {
+
+                    if (userSession.getLogin()) {
+                        //Check if the device has not been registered to GCM
+                        if (userSession.getGcmToken().equals("null")) {
+                            Log.e("insde", "registerToGCM");
+                        } else {
+                            GCMHelper gcmHelper = new GCMHelper(context);
+                            gcmHelper.checkRegisterDevice();
+                        }
+                    }
                     Intent intent = new Intent(context, FinalChkoutActivity.class);
                     if (className.equals("login")) {
                         context.finish();
                     }
                     context.startActivity(intent);
                 }
+
             } else if (status == 0) {
                 AlertDialogHelper.showAlertDialog(context, msg, "Alert");
             } else if (status == -1) {

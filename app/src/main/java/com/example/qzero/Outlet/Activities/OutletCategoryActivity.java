@@ -544,6 +544,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @OnClick(R.id.relLayProfile)
     void navigate() {
         if (userSession.isUserLoggedIn()) {
+            userSession.saveLogin(false);
             Intent intent = new Intent(this, DashBoardActivity.class);
             startActivity(intent);
         } else {
