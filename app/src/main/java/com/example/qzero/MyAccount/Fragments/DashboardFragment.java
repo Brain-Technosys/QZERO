@@ -281,9 +281,7 @@ public class DashboardFragment extends Fragment {
 
                     Log.e("gcm message", getString(R.string.gcm_send_message));
 
-                    GCMHelper gcmHelper = new GCMHelper(getActivity());
 
-                    gcmHelper.checkRegisterDevice();
 
                 } else {
                     Log.e("gcm message", getString(R.string.token_error_message));

@@ -98,6 +98,10 @@ public class RegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
+
+        GCMHelper gcmHelper = new GCMHelper(this);
+
+        gcmHelper.checkRegisterDevice();
     }
 
     /**
