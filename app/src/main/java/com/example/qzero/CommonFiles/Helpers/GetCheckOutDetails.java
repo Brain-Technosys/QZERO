@@ -144,6 +144,8 @@ public class GetCheckOutDetails {
                     if (className.equals("login")) {
                         context.finish();
                     }
+
+                    intent.putExtra("gcm","gcm");
                     context.startActivity(intent);
                 }
 

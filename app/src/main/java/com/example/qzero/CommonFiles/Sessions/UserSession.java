@@ -148,7 +148,6 @@ public class UserSession {
         editor.remove(KEY_USER_ID);
         editor.remove(KEY_NAME);
         editor.remove(GCM_LOGIN);
-        editor.remove(GCM_TOKEN);
         editor.commit();
     }
 

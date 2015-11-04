@@ -232,7 +232,6 @@ public class LoginUserFragment extends Fragment {
                 if (LOGINTYPE.equals("CHECKOUT")) {
 
                     getCheckOutDetails.managingChkoutDetailAPI();
-
                 } else if (LOGINTYPE.equals("SIMPLELOGIN")) {
                     Intent intent = new Intent(getActivity(),
                             DashBoardActivity.class);
@@ -240,7 +239,8 @@ public class LoginUserFragment extends Fragment {
                     startActivity(intent);
                 }
                 else if (LOGINTYPE.equals("OUTLET")) {
-                  getActivity().finish();
+
+                    getActivity().finish();
                }
 
             } else if (status == 0) {

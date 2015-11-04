@@ -1,13 +1,19 @@
 package com.example.qzero.Outlet.Activities;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -31,7 +37,10 @@ import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.GCMHelper;
 import com.example.qzero.CommonFiles.Helpers.GetCartCountHelper;
+import com.example.qzero.CommonFiles.Push.QuickstartPreferences;
+import com.example.qzero.CommonFiles.Push.RegistrationIntentService;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -44,6 +53,8 @@ import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,6 +131,12 @@ public class OutletCategoryActivity extends AppCompatActivity {
     View child[];
 
     Boolean isAddToCartOpen = false;
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "login";
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -399,6 +416,19 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 txtViewLogout.setVisibility(View.VISIBLE);
             }
 
+            if (userSession.getLogin()) {
+
+                userSession.saveLogin(false);
+                //Check if the device has not been registered to GCM
+                if (userSession.getGcmToken().equals("null")) {
+                    Log.e("insde", "registerToGCM");
+                    registerToGCM();
+                } else {
+                    GCMHelper gcmHelper = new GCMHelper(this);
+                    gcmHelper.checkRegisterDevice();
+                }
+            }
+
         } else {
 
             toggleLogout();
@@ -562,6 +592,10 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     @OnClick(R.id.txtViewLogout)
     void logout() {
+
+        GCMHelper gcmHelper = new GCMHelper(this);
+        gcmHelper.changeLoginBit(userSession.getUserID(),false);
+
         userSession.logout();
         toggleLogout();
     }
@@ -570,6 +604,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
         txtViewProfile.setText("Login");
         txtViewLogout.setVisibility(View.GONE);
         txtViewUserName.setText(" ");
+
+
     }
 
     private void passIntentHome() {
@@ -581,7 +617,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     //Edited by himanshu shekher
     public void gotoCartItem() {
         Intent intent = new Intent(this, ViewCartActivity.class);
-        intent.putExtra(ConstVarIntent.TAG_VENUE_ID,venue_id);
+        intent.putExtra(ConstVarIntent.TAG_VENUE_ID, venue_id);
         startActivity(intent);
     }
 
@@ -706,6 +742,62 @@ public class OutletCategoryActivity extends AppCompatActivity {
         bundle.putString("outlet_id", outlet_id);
         bundle.putSerializable("arraylistitem", arrayListItems);
         bundle.putString("title", title);
+    }
+
+
+    private void registerToGCM() {
+        ProgresBar.start(this);
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ProgresBar.stop();
+
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+
+                    Log.e("gcm message", getString(R.string.gcm_send_message));
+
+
+                } else {
+                    Log.e("gcm message", getString(R.string.token_error_message));
+                }
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
     }
 
 

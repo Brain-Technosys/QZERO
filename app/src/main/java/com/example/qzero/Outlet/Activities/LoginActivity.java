@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.qzero.CommonFiles.Helpers.GCMHelper;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.Fragments.LoginRegisterFragment;
@@ -120,6 +121,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_logOut)
     public void logout() {
+        GCMHelper gcmHelper=new GCMHelper(this);
+        gcmHelper.changeLoginBit(userSession.getUserID(),false);
         userSession.logout();
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

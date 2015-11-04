@@ -26,19 +26,20 @@ public class GCMHelper {
 
     String deviceId;
 
+    Boolean isLogin;
+
     public GCMHelper(Context context) {
         this.context = context;
         userSession = new UserSession(context);
-    }
-
-    public void checkRegisterDevice() {
 
         deviceId = Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.e("device", deviceId);
+    }
+
+    public void checkRegisterDevice() {
 
         checkIfDeviceRegistered();
-
     }
 
 
@@ -50,12 +51,14 @@ public class GCMHelper {
 
     private void registerDevice() {
 
-            new RegisterDevice().execute();
+        new RegisterDevice().execute();
     }
 
-    private void changeLoginBit() {
+    public void changeLoginBit(String userId,Boolean loginBit) {
+        isLogin=loginBit;
+
         if (CheckInternetHelper.checkInternetConnection(context)) {
-            new DeviceLoginLogout().execute();
+            new DeviceLoginLogout().execute(userId);
         }
     }
 
@@ -84,19 +87,17 @@ public class GCMHelper {
                 jsonObjParams.put("token", userSession.getGcmToken());
                 jsonObjParams.put("deviceKey", deviceId);
                 jsonObjParams.put("deviceType", context.getString(R.string.device_type));
-                jsonObjParams.put("isLogin", true);
+                jsonObjParams.put("isLogin",isLogin);
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
 
-            Log.e("jsonparams", jsonObjParams.toString());
 
-            String jsonString = jsonParser.executePost(url, jsonObjParams.toString(),"",Const.TIME_OUT);
-
-            Log.e("checkregister", jsonString);
+            String jsonString = jsonParser.executePost(url, jsonObjParams.toString(), "", Const.TIME_OUT);
 
 
             try {
+                Log.e("checkregister", jsonString);
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
@@ -128,7 +129,7 @@ public class GCMHelper {
 
             if (status == 1) {
 
-                changeLoginBit();
+                changeLoginBit(userSession.getUserID(),true);
 
             } else if (status == 0) {
 
@@ -140,7 +141,7 @@ public class GCMHelper {
         }
     }
 
-    private class DeviceLoginLogout extends AsyncTask<String, String, String> {
+    public class DeviceLoginLogout extends AsyncTask<String, String, String> {
 
         int status = -1;
         String msg;
@@ -160,21 +161,22 @@ public class GCMHelper {
             JSONObject jsonObjParams = new JSONObject();
             try {
 
-                jsonObjParams.put("customerId", userSession.getUserID());
+                jsonObjParams.put("customerId",params[0]);
                 jsonObjParams.put("token", userSession.getGcmToken());
                 jsonObjParams.put("deviceKey", deviceId);
                 jsonObjParams.put("deviceType", context.getString(R.string.device_type));
                 jsonObjParams.put("isLogin", true);
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
 
-            String jsonString = jsonParser.executePost(url, jsonObjParams.toString()," ",Const.TIME_OUT);
-
-            Log.e("jsondevicelogin", jsonString);
+            String jsonString = jsonParser.executePost(url, jsonObjParams.toString(), " ", Const.TIME_OUT);
 
 
             try {
+                Log.e("jsondevicelogin", jsonString);
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
@@ -243,14 +245,17 @@ public class GCMHelper {
                 jsonObjParams.put("deviceKey", deviceId);
                 jsonObjParams.put("deviceType", context.getString(R.string.device_type));
                 jsonObjParams.put("isLogin", true);
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
 
-            String jsonString = jsonParser.executePost(url, jsonObjParams.toString()," ",Const.TIME_OUT);
-            Log.e("registerdevice", jsonString);
+            String jsonString = jsonParser.executePost(url, jsonObjParams.toString(), " ", Const.TIME_OUT);
+
 
             try {
+                Log.e("registerdevice", jsonString);
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
@@ -283,7 +288,6 @@ public class GCMHelper {
             if (status == 1) {
 
             } else if (status == 0) {
-
 
 
             } else {

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qzero.CommonFiles.Common.ConstVarIntent;
+import com.example.qzero.CommonFiles.Helpers.GCMHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.MyAccount.Fragments.DashboardFragment;
@@ -175,6 +176,9 @@ public class DashBoardActivity extends AppCompatActivity {
                 checkFragmentIns(fragmentClass, fragment);
                 break;
             case id.nav_logout:
+                GCMHelper gcmHelper = new GCMHelper(this);
+                gcmHelper.changeLoginBit(userSession.getUserID(),false);
+
                 userSession.logout();
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

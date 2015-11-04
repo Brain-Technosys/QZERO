@@ -254,6 +254,8 @@ public class DashboardFragment extends Fragment {
 
             orderCountTextView.setText(orderCount);
             if (userSession.getLogin()) {
+
+                userSession.saveLogin(false);
                 //Check if the device has not been registered to GCM
                 if (userSession.getGcmToken().equals("null")) {
                     Log.e("insde", "registerToGCM");
