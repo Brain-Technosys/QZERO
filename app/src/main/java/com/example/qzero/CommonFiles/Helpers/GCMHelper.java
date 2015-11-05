@@ -28,6 +28,8 @@ public class GCMHelper {
 
     Boolean isLogin;
 
+    int count=0;
+
     public GCMHelper(Context context) {
         this.context = context;
         userSession = new UserSession(context);
@@ -129,14 +131,20 @@ public class GCMHelper {
 
             if (status == 1) {
 
+
+                count=0;
                 changeLoginBit(userSession.getUserID(),true);
 
             } else if (status == 0) {
 
+                count=0;
                 registerDevice();
 
             } else {
 
+                if(count!=3)
+                checkRegisterDevice();
+                count++;
             }
         }
     }
@@ -165,7 +173,7 @@ public class GCMHelper {
                 jsonObjParams.put("token", userSession.getGcmToken());
                 jsonObjParams.put("deviceKey", deviceId);
                 jsonObjParams.put("deviceType", context.getString(R.string.device_type));
-                jsonObjParams.put("isLogin", true);
+                jsonObjParams.put("isLogin",isLogin);
             } catch (NullPointerException ex) {
                 ex.printStackTrace();
             } catch (JSONException ex) {
@@ -208,12 +216,13 @@ public class GCMHelper {
 
             if (status == 1) {
 
-
             } else if (status == 0) {
 
 
             } else {
-
+                if(count!=3)
+                checkRegisterDevice();
+                count++;
             }
         }
     }
@@ -291,7 +300,9 @@ public class GCMHelper {
 
 
             } else {
-
+                if(count!=3)
+                    checkRegisterDevice();
+                count++;
             }
         }
     }
