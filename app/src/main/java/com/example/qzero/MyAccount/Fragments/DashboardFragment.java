@@ -188,6 +188,8 @@ public class DashboardFragment extends Fragment {
         JsonParser jsonParser;
         int status = 0;
 
+        String message;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -210,6 +212,8 @@ public class DashboardFragment extends Fragment {
 
                 if (json != null) {
                     JSONObject jsonObject = new JSONObject(json);
+
+                    message = jsonObject.getString(Const.TAG_MESSAGE);
 
                     if (jsonObject.getInt(Const.TAG_STATUS) == 1) {
                         status = 1;
@@ -241,7 +245,7 @@ public class DashboardFragment extends Fragment {
 
                 case 0:
                     AlertDialogHelper.showAlertDialog(getActivity(),
-                            "Server is not responding!", "Alert");
+                           message, "Alert");
                     break;
                 case -1:
                     AlertDialogHelper.showAlertDialog(getActivity(),
@@ -282,7 +286,6 @@ public class DashboardFragment extends Fragment {
                 if (sentToken) {
 
                     Log.e("gcm message", getString(R.string.gcm_send_message));
-
 
 
                 } else {
