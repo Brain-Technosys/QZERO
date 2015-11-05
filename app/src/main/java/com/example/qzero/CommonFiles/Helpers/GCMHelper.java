@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.text.Html;
 import android.util.Log;
 
 import com.example.qzero.CommonFiles.Common.ProgresBar;
@@ -281,7 +282,6 @@ public class GCMHelper {
                 e.printStackTrace();
                 status = -1;
             } catch (JSONException e) {
-
                 e.printStackTrace();
                 status = -1;
             }
