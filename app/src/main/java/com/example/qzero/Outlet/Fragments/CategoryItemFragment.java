@@ -106,6 +106,8 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
     String category_id;
     String sub_cat_id;
 
+    String item_id;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -220,6 +222,11 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
         this.category_id = category_id;
         this.sub_cat_id = sub_cat_id;
 
+        Log.e("venue_id",venue_id);
+        Log.e("outlet_id",outlet_id);
+        Log.e("category_id",category_id);
+
+
         new GetItems().execute();
     }
 
@@ -243,8 +250,8 @@ public class CategoryItemFragment extends Fragment implements SearchView.OnQuery
 
 
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outlet_id + "&itemId=" + category_id
-                    + "&subCatId=" + sub_cat_id;
+            String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outlet_id + "&itemId=" +item_id+ "&catId="+category_id
+                     + "&subCatId=" + sub_cat_id;
 
             Log.e("url", url);
 

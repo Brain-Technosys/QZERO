@@ -465,7 +465,10 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 if (isAddToCartOpen) {
                     replaceAddItem();
                 } else {
+                    subCategoryId = "0";
+                    closeDrawer();
                     setItemsInFragment();
+
                 }
 
                 int tag = Integer.parseInt(view.getTag(R.string.Tag).toString());
@@ -537,6 +540,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 if (isAddToCartOpen) {
                     replaceAddItem();
                 } else {
+                    closeDrawer();
                     setItemsInFragment();
                 }
             }
@@ -594,7 +598,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     void logout() {
 
         GCMHelper gcmHelper = new GCMHelper(this);
-        gcmHelper.changeLoginBit(userSession.getUserID(),false);
+        gcmHelper.changeLoginBit(userSession.getUserID(), false);
 
         userSession.logout();
         toggleLogout();
@@ -644,6 +648,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
+
+            Log.e("venue_id", venue_id);
+            Log.e("outlet_id", outlet_id);
             String url = Const.BASE_URL + Const.GET_ITEMS + "/" + venue_id + "/?outletId=" + outlet_id + "&itemId=" + ""
                     + "&subCatId=" + "";
 
@@ -800,5 +807,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
         super.onPause();
     }
 
+
+    private void closeDrawer() {
+        mDrawer.closeDrawers();
+    }
 
 }
