@@ -1,5 +1,6 @@
 package com.example.qzero.Outlet.Activities;
 
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.qzero.CommonFiles.Common.ConstVarIntent;
 import com.example.qzero.CommonFiles.Common.ProgresBar;
 import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
 import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
@@ -96,6 +98,8 @@ public class AddAddressActivity extends AppCompatActivity {
     String countryName;
     String stateName;
 
+    String outletId;
+
     //Check email address
     public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
             .compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
@@ -158,6 +162,8 @@ public class AddAddressActivity extends AppCompatActivity {
         fillDataStateSpinner(state, 0);
 
         getCountryAndState();
+
+        getOutletId();
 
 
     }
@@ -228,6 +234,20 @@ public class AddAddressActivity extends AppCompatActivity {
     public void getCountryAndState() {
         if (CheckInternetHelper.checkInternetConnection(this)) {
             new GetCountry().execute();
+        }
+    }
+
+    private void getOutletId()
+    {
+        DatabaseHelper databaseHelper=new DatabaseHelper(this);
+        Cursor outletCursor = databaseHelper.getCheckoutItems();
+
+        if (outletCursor != null) {
+            if (outletCursor.moveToFirst()) {
+
+                outletId = outletCursor.getString(2);
+                Log.e("outletId",outletId);
+            }
         }
     }
 
@@ -540,11 +560,13 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObj.put("stateName", stateName);
                 jsonObj.put("shippingAddressId", type);
                 jsonObj.put("stateId", state_id);
+                jsonObj.put("OutletId", outletId);
 
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
 
+            Log.e("json",jsonObj.toString());
             String jsonString = jsonParser.executePost(url, jsonObj.toString(), userSession.getUserID(), Const.TIME_OUT);
 
             try {
@@ -619,10 +641,13 @@ public class AddAddressActivity extends AppCompatActivity {
                 jsonObj.put("stateName", stateName);
                 jsonObj.put("billingAddressId", type);
                 jsonObj.put("stateId", state_id);
+                jsonObj.put("OutletId", outletId);
 
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
+
+            Log.e("jsonbill",jsonObj.toString());
 
             String jsonString = jsonParser.executePost(url, jsonObj.toString(), userSession.getUserID(), Const.TIME_OUT);
 
