@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -61,6 +62,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -151,6 +154,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     @InjectView(R.id.imgViewLand)
     ImageView imgViewLand;
 
+
     TextView txtViewHeading;
     TextView txtViewSubHeading;
 
@@ -161,6 +165,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     String outletTitle;
 
     String oldOutletId = "null";
+
+    String venueImages[];
 
     int status;
     int jsonLength;
@@ -188,9 +194,17 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     SearchView search_view;
     LinearLayout item;
 
+    ImageView imgViewAdAdmin;
+    ImageView imgViewAdVenue;
+
     DatabaseHelper databaseHelper;
 
     Context context;
+
+    public int currentImageIndex = 0;
+
+    Timer timer;
+    TimerTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +220,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
 
         getOutletData();
+
 
         onFinishActivity();
 
@@ -227,6 +242,9 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         txtViewSubHeading = (TextView) findViewById(R.id.txtViewSubHeading);
 
         search_view = (SearchView) findViewById(R.id.search_view);
+
+        imgViewAdAdmin = (ImageView) findViewById(R.id.imgViewAdAdmin);
+        imgViewAdVenue = (ImageView) findViewById(R.id.imgViewAdVenue);
 
         //Set title
         txtViewHeading.setText("Outlets");
@@ -302,6 +320,16 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         }
 
 
+    }
+
+    public void getAdvertisement() {
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new GetAdvertisement().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(this,
+                    getString(R.string.internet_connection_message),
+                    "Alert");
+        }
     }
 
     public class GetOutlet extends AsyncTask<String, String, String> {
@@ -394,6 +422,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                 AlertDialogHelper.showAlertDialog(OutletActivity.this,
                         getString(R.string.server_message), "Alert");
             }
+
+            getAdvertisement();
         }
     }
 
@@ -475,7 +505,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     }
 
-    private void initializeLayoutWidth() {
+   /* private void initializeLayoutWidth() {
 
 
         ViewGroup.LayoutParams paramsLeft = relLayDescOutletLeft.getLayoutParams();
@@ -489,7 +519,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         // Changes the height and width to the specified *pixels*
         paramsRight.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         paramsRight.width = getScreenWidth();
-    }
+    }*/
 
 
     private void inflateLandscapeValues() {
@@ -736,6 +766,143 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         }
     }
 
+    public class GetAdvertisement extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(OutletActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            status = -1;
+            jsonParser = new JsonParser();
+            String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id;
+
+            Log.e("url", url);
+
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
+
+            Log.e("json", jsonString);
+
+            try {
+                jsonObject = new JSONObject(jsonString);
+
+                if (jsonObject != null) {
+
+
+
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+
+                    if (status == 1) {
+
+                        Log.e("jsonobj", jsonObject.toString());
+
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_RESULT);
+
+                        JSONArray jsonArrayAd = jsonObj.getJSONArray(Const.TAG_JsonAd);
+
+                        if (jsonArrayAd.length() != 0) {
+
+                            venueImages = new String[jsonArrayAd.length()];
+
+                            for (int i = 0; i < jsonArrayAd.length(); i++) {
+
+                                JSONObject advertisementObj = jsonArrayAd.getJSONObject(i);
+
+                                String advertisementId = advertisementObj.getString(Const.TAG_ADD_ID);
+                                String image = Const.BASE_URL + Const.AD_IMAGE_URL + advertisementId;
+
+                                venueImages[i] = image;
+
+                            }
+                        } else {
+                            status = 0;
+                        }
+                    }
+
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+
+            ProgresBar.stop();
+
+
+            if (status == 1) {
+
+                Picasso.with(OutletActivity.this).load(venueImages[0]).into(imgViewAdAdmin);
+
+                if (venueImages.length == 1) {
+                    Picasso.with(OutletActivity.this).load(venueImages[0]).into(imgViewAdVenue);
+                } else {
+
+                    autoSlideImages();
+                }
+
+            } else if (status == 0) {
+
+                AlertDialogHelper.showAlertDialog(OutletActivity.this, "Images not found", "Alert");
+
+            } else {
+                AlertDialogHelper.showAlertDialog(OutletActivity.this,
+                        getString(R.string.server_message), "Alert");
+            }
+        }
+    }
+
+    private void autoSlideImages() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+
+                AnimateandSlideShow();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 2000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
+    private void AnimateandSlideShow() {
+
+        Picasso.with(this).load(venueImages[currentImageIndex % venueImages.length]).into(imgViewAdVenue);
+        currentImageIndex++;
+    }
+
     private void openDialog() {
 
 
@@ -809,9 +976,9 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("jsonvenue", jsonString);
-
             try {
+
+                Log.e("jsonvenue", jsonString);
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
@@ -937,7 +1104,5 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         startActivity(intent);
     }
 
-    protected void init() {
 
-    }
 }

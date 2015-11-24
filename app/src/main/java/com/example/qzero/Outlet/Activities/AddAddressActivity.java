@@ -173,8 +173,13 @@ public class AddAddressActivity extends AppCompatActivity {
         stateAdapter = new ArrayAdapter(AddAddressActivity.this, R.layout.layout_spinner, state);
         stateAdapter.setDropDownViewResource(R.layout.layout_spinner_drop_down);
         spnr_state.setAdapter(stateAdapter);
+        try {
 
-        spnr_state.setSelection(pos, true);
+
+            spnr_state.setSelection(pos, true);
+        } catch (IndexOutOfBoundsException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -197,38 +202,43 @@ public class AddAddressActivity extends AppCompatActivity {
 
         int country_id = Integer.parseInt(addressDetail.get(position).get(Const.TAG_COUNTRY_ID));
         stateId = Integer.parseInt(addressDetail.get(position).get(Const.TAG_STATE_ID));
-
-        spnr_country.setSelection(country_id);
-
-        if (hashMapState.containsKey(country_id)) {
-            stateArrayList = new ArrayList<State>();
-
-            stateArrayList = hashMapState.get(country_id);
-            state = new String[stateArrayList.size() + 1];
-            if (stateArrayList.size() != 0) {
-
-                state[0] = "Select State";
-                for (int i = 0; i < stateArrayList.size(); i++) {
-
-                    if (stateArrayList.get(i).getStateId() == stateId) {
-                        stateId = i + 1;
+        try {
 
 
+            spnr_country.setSelection(country_id);
+
+
+            if (hashMapState.containsKey(country_id)) {
+                stateArrayList = new ArrayList<State>();
+
+                stateArrayList = hashMapState.get(country_id);
+                state = new String[stateArrayList.size() + 1];
+                if (stateArrayList.size() != 0) {
+
+                    state[0] = "Select State";
+                    for (int i = 0; i < stateArrayList.size(); i++) {
+
+                        if (stateArrayList.get(i).getStateId() == stateId) {
+                            stateId = i + 1;
+
+
+                        }
+                        state[i + 1] = stateArrayList.get(i).getStateName();
                     }
-                    state[i + 1] = stateArrayList.get(i).getStateName();
+
+                    fillDataStateSpinner(state, stateId);
+
+                } else {
+                    state[0] = "Select State";
+
+                    fillDataStateSpinner(state, 0);
                 }
 
-                fillDataStateSpinner(state, stateId);
-
-            } else {
-                state[0] = "Select State";
-
-                fillDataStateSpinner(state, 0);
             }
 
+        } catch (IndexOutOfBoundsException ex) {
+            ex.printStackTrace();
         }
-
-
     }
 
     public void getCountryAndState() {
@@ -237,16 +247,15 @@ public class AddAddressActivity extends AppCompatActivity {
         }
     }
 
-    private void getOutletId()
-    {
-        DatabaseHelper databaseHelper=new DatabaseHelper(this);
+    private void getOutletId() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
         Cursor outletCursor = databaseHelper.getCheckoutItems();
 
         if (outletCursor != null) {
             if (outletCursor.moveToFirst()) {
 
                 outletId = outletCursor.getString(2);
-                Log.e("outletId",outletId);
+                Log.e("outletId", outletId);
             }
         }
     }
@@ -257,33 +266,42 @@ public class AddAddressActivity extends AppCompatActivity {
         if (position == 0) {
             //do nothing
         } else {
-            if (arrayListCountry.size() != 0) {
 
-                country_id = arrayListCountry.get(position - 1).getCountryId();
+            try {
 
-                countryName = arrayListCountry.get(position - 1).getCountryName();
+                if (arrayListCountry.size() != 0) {
 
-                if (hashMapState.containsKey(country_id)) {
-                    stateArrayList = new ArrayList<State>();
+                    country_id = arrayListCountry.get(position - 1).getCountryId();
 
-                    stateArrayList = hashMapState.get(country_id);
-                    state = new String[stateArrayList.size() + 1];
-                    if (stateArrayList.size() != 0) {
+                    countryName = arrayListCountry.get(position - 1).getCountryName();
 
-                        state[0] = "Select State";
-                        for (int i = 0; i < stateArrayList.size(); i++) {
-                            state[i + 1] = stateArrayList.get(i).getStateName();
+                    if (hashMapState.containsKey(country_id)) {
+                        stateArrayList = new ArrayList<State>();
+
+                        stateArrayList = hashMapState.get(country_id);
+                        state = new String[stateArrayList.size() + 1];
+                        if (stateArrayList.size() != 0) {
+
+                            state[0] = "Select State";
+                            for (int i = 0; i < stateArrayList.size(); i++) {
+                                state[i + 1] = stateArrayList.get(i).getStateName();
+                            }
+
+
+                        } else {
+                            state[0] = "Select State";
+                            stateId = 0;
                         }
 
-
-                    } else {
-                        state[0] = "Select State";
+                        fillDataStateSpinner(state, stateId);
                     }
-
-                    fillDataStateSpinner(state, stateId);
                 }
+            } catch (IndexOutOfBoundsException ex) {
+                ex.printStackTrace();
             }
+
         }
+
     }
 
 
@@ -566,7 +584,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
 
-            Log.e("json",jsonObj.toString());
+            Log.e("json", jsonObj.toString());
             String jsonString = jsonParser.executePost(url, jsonObj.toString(), userSession.getUserID(), Const.TIME_OUT);
 
             try {
@@ -647,7 +665,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
 
-            Log.e("jsonbill",jsonObj.toString());
+            Log.e("jsonbill", jsonObj.toString());
 
             String jsonString = jsonParser.executePost(url, jsonObj.toString(), userSession.getUserID(), Const.TIME_OUT);
 

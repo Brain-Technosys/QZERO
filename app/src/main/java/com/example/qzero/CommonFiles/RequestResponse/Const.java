@@ -9,7 +9,10 @@ public class Const {
     public static String APP_KEY = "OAI9/IAkW/jA4u+zosKrBKTcqDP9DHM9MtCEvaLZPSg=";
 
     //Initialize image url
-    public static String IMAGE_URL = "/Venue/GetItemImage/";
+    public static String IMAGE_URL = "Venue/GetItemImage/";
+
+    //Initialize advertisemnent image url
+    public static String AD_IMAGE_URL = "Venue/GetAdvertisementImage/";
 
     //Initialize time out
     public static int TIME_OUT = 60000;
@@ -43,6 +46,7 @@ public class Const {
     public static String POST_REGISTER_DEVICE="checkout/DeviceRegisteration";
     public static String GET_REGISTER_DEVICE="checkout/getDeviceRegistered";
     public static String POST_DEVICE_LOGIN_LOGOUT="checkout/DeviceLoginLogout";
+    public static String GET_VENUE_ADVERTISEMENT="Venue/GetVenueAdvertisements/";
 
     //Intialize jsonArray parameter
 
@@ -57,6 +61,7 @@ public class Const {
     public static String TAG_JsonModObj = "modifiers";
     public static String TAG_MODIFIER_ID = "modifierId";
     public static String TAG_JsonState = "state";
+    public static String TAG_JsonAd = "advertisements";
 
 
     //Initialize message and status parameter
@@ -232,6 +237,9 @@ public class Const {
     //Get paymentgateway details
     public static String TAG_KEY="key";
     public static String TAG_GATEWAY_NAME="gatewayName";
+
+    //Get Advertisement details
+    public static String TAG_ADD_ID="id";
 
 
 

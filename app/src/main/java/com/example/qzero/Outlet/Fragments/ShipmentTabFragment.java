@@ -300,7 +300,7 @@ public class ShipmentTabFragment extends Fragment {
 
             if(chk_shipmentChoice.isChecked())
             {
-                shipping_id=billing_id;
+                shipping_id="0";
             }
             Log.e("bill2", billing_id);
             Log.e("ship2", shipping_id);
