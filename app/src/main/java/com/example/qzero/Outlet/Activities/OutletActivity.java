@@ -2,6 +2,7 @@ package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +46,7 @@ import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.Outlet;
@@ -166,8 +169,6 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     String oldOutletId = "null";
 
-    String venueImages[];
-
     int status;
     int jsonLength;
     int pos = 0;
@@ -179,6 +180,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     ArrayList<Outlet> arrayListOutlet;
     ArrayList<ItemOutlet> arrayListItem;
     ArrayList<Category> arrayListCat;
+    ArrayList<Advertisement> arrayListAdvertisement;
 
     HashMap<Integer, ArrayList<SubCategory>> hashMapSubCat;
 
@@ -202,6 +204,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     Context context;
 
     public int currentImageIndex = 0;
+    public int currentImagePos = 0;
 
     Timer timer;
     TimerTask task;
@@ -245,6 +248,24 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
         imgViewAdAdmin = (ImageView) findViewById(R.id.imgViewAdAdmin);
         imgViewAdVenue = (ImageView) findViewById(R.id.imgViewAdVenue);
+
+        imgViewAdVenue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(arrayListAdvertisement.size()!=0)
+                {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdvertisement.get(currentImagePos).getImgUrl()));
+                        startActivity(intent);
+                    }
+                    catch(ActivityNotFoundException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
 
         //Set title
         txtViewHeading.setText("Outlets");
@@ -350,8 +371,6 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
-
-            Log.e("json", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -782,25 +801,19 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id;
 
-            Log.e("url", url);
-
-
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
-
-            Log.e("json", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
 
-                if (jsonObject != null) {
+                arrayListAdvertisement = new ArrayList<Advertisement>();
 
+                if (jsonObject != null) {
 
 
                     status = jsonObject.getInt(Const.TAG_STATUS);
 
                     if (status == 1) {
-
-                        Log.e("jsonobj", jsonObject.toString());
 
                         JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_RESULT);
 
@@ -808,7 +821,6 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
                         if (jsonArrayAd.length() != 0) {
 
-                            venueImages = new String[jsonArrayAd.length()];
 
                             for (int i = 0; i < jsonArrayAd.length(); i++) {
 
@@ -817,7 +829,11 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                                 String advertisementId = advertisementObj.getString(Const.TAG_ADD_ID);
                                 String image = Const.BASE_URL + Const.AD_IMAGE_URL + advertisementId;
 
-                                venueImages[i] = image;
+                                String linkUrl=advertisementObj.getString(Const.TAG_ADD_URL);
+
+                                Advertisement advertisement=new Advertisement(image,advertisementId,linkUrl);
+
+                                arrayListAdvertisement.add(advertisement);
 
                             }
                         } else {
@@ -842,14 +858,12 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             super.onPostExecute(result);
 
             ProgresBar.stop();
-
+            Picasso.with(OutletActivity.this).load(R.drawable.adminad).error(R.drawable.noimage).into(imgViewAdAdmin);
 
             if (status == 1) {
 
-                Picasso.with(OutletActivity.this).load(venueImages[0]).into(imgViewAdAdmin);
-
-                if (venueImages.length == 1) {
-                    Picasso.with(OutletActivity.this).load(venueImages[0]).into(imgViewAdVenue);
+                if (arrayListAdvertisement.size() == 1) {
+                    Picasso.with(OutletActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
                 } else {
 
                     autoSlideImages();
@@ -857,7 +871,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             } else if (status == 0) {
 
-                AlertDialogHelper.showAlertDialog(OutletActivity.this, "Images not found", "Alert");
+                Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
 
             } else {
                 AlertDialogHelper.showAlertDialog(OutletActivity.this,
@@ -880,7 +894,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
         int delay = 1000; // delay for 1 sec.
 
-        int period = 2000; // repeat every 4 sec.
+        int period = 4000; // repeat every 4 sec.
 
         Timer timer = new Timer();
 
@@ -899,8 +913,10 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     private void AnimateandSlideShow() {
 
-        Picasso.with(this).load(venueImages[currentImageIndex % venueImages.length]).into(imgViewAdVenue);
+        Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
+        currentImagePos=currentImageIndex % arrayListAdvertisement.size();
         currentImageIndex++;
+        Log.e("cu1",""+currentImagePos);
     }
 
     private void openDialog() {
@@ -978,11 +994,10 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             try {
 
-                Log.e("jsonvenue", jsonString);
                 jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                    Log.e("inside", "json");
+
 
                     arrayListItem = new ArrayList<ItemOutlet>(jsonObject.length());
 
@@ -993,7 +1008,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                     status = jsonObject.getInt(Const.TAG_STATUS);
                     message = jsonObject.getString(Const.TAG_MESSAGE);
 
-                    Log.d("status", "" + status);
+
                     if (status == 1) {
 
                         JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_JsonObj);
@@ -1098,6 +1113,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
         bundle.putSerializable("hashMapSubCat", hashMapSubCat);
+        bundle.putSerializable("arrayListAd",arrayListAdvertisement);
         bundle.putString(ConstVarIntent.TAG_CLASSNAME, "outlet");
         bundle.putString(Const.TAG_OUTLET_NAME, outletTitle);
         intent.putExtras(bundle);

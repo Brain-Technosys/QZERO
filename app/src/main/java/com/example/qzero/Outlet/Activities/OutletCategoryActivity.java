@@ -1,6 +1,7 @@
 package com.example.qzero.Outlet.Activities;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +9,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -49,12 +52,14 @@ import com.example.qzero.Outlet.Adapters.SubCategoryAdapter;
 import com.example.qzero.Outlet.ExpandableListView.ExpandableListView;
 import com.example.qzero.Outlet.Fragments.AddCartFragment;
 import com.example.qzero.Outlet.Fragments.CategoryItemFragment;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.Outlet.ObjectClasses.Category;
 import com.example.qzero.Outlet.ObjectClasses.ItemOutlet;
 import com.example.qzero.Outlet.ObjectClasses.SubCategory;
 import com.example.qzero.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,6 +67,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -87,6 +94,12 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     @InjectView(R.id.txtViewLogout)
     TextView txtViewLogout;
+
+    @InjectView(R.id.imgViewAdAdmin)
+    ImageView imgViewAdAdmin;
+
+    @InjectView(R.id.imgViewAdVenue)
+    ImageView imgViewAdVenue;
 
     ImageView imgViewUpArrow;
     ImageView imgViewDownArrow;
@@ -116,6 +129,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     ArrayList<ItemOutlet> arrayListItems;
     ArrayList<Category> arrayListCat;
     ArrayList<SubCategory> arrayListSubCat;
+    ArrayList<Advertisement> arrayListAdvertisement;
 
     HashMap<Integer, ArrayList<SubCategory>> hashMapSubCat;
 
@@ -136,6 +150,12 @@ public class OutletCategoryActivity extends AppCompatActivity {
     private static final String TAG = "login";
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    public int currentImageIndex = 0;
+    public int currentImagePos = 0;
+
+    Timer timer;
+    TimerTask task;
 
 
     @Override
@@ -169,6 +189,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
         getCartCount();
 
         createCategoryItem();
+
+        setAdvertisement();
     }//end of onCreate()
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -299,6 +321,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
             hashMapSubCat = (HashMap<Integer, ArrayList<SubCategory>>) bundle.getSerializable("hashMapSubCat");
 
+            arrayListAdvertisement = (ArrayList<Advertisement>) bundle.getSerializable("arrayListAd");
+
 
             title = bundle.getString(Const.TAG_OUTLET_NAME);
             venue_id = bundle.getString("venue_id");
@@ -335,6 +359,59 @@ public class OutletCategoryActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
 
+    }
+
+    private void setAdvertisement() {
+        Picasso.with(this).load(R.drawable.adminad).error(R.drawable.noimage).into(imgViewAdAdmin);
+
+
+        if (arrayListAdvertisement.size() == 1) {
+            Picasso.with(this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else {
+
+            autoSlideImages();
+        }
+
+
+    }
+
+    private void autoSlideImages() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+
+                AnimateandSlideShow();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 4000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
+    private void AnimateandSlideShow() {
+
+        Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
+        currentImagePos = currentImageIndex % arrayListAdvertisement.size();
+
+        currentImageIndex++;
     }
 
     public void replaceAddItem() {
@@ -810,6 +887,18 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     private void closeDrawer() {
         mDrawer.closeDrawers();
+    }
+
+    @OnClick(R.id.imgViewAdVenue)
+    void openBrowser() {
+        if (arrayListAdvertisement.size() != 0) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdvertisement.get(currentImagePos).getImgUrl()));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
 }
