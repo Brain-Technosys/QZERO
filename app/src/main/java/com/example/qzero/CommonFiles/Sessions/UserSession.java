@@ -26,6 +26,7 @@ public class UserSession {
     public static final String KEY_APP_LAUNCH = "launch";
 
     public static final String KEY_USER_LOCATION = "user_loc";
+    public static final String KEY_ZIP_CODE = "zip_code";
 
     //Session for OrderSummary and CartViewActivity
     public static final String KEY_FINALPAYBLE_AMOUNT = "final_amount";
@@ -80,8 +81,10 @@ public class UserSession {
     }
 
 
-    public void saveUserLocation(String city) {
+    public void saveUserLocation(String city,String zip_code) {
         editor.putString(KEY_USER_LOCATION, city);
+        editor.putString(KEY_ZIP_CODE, zip_code);
+
         editor.commit();
     }
 
@@ -114,8 +117,13 @@ public class UserSession {
     }
 
     public String getUserLocation() {
-        return pref.getString(KEY_USER_LOCATION, "");
+        return pref.getString(KEY_USER_LOCATION,null);
     }
+
+    public String getZipCode() {
+        return pref.getString(KEY_ZIP_CODE,null);
+    }
+
 
 
     //get finalPaybleAmount

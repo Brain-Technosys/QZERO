@@ -179,8 +179,11 @@ public class HomeActivity extends FragmentActivity {
                     Address returnAddress = addresses.get(0);
 
                     String city = returnAddress.getLocality();
+                    String zipCode=returnAddress.getPostalCode();
 
-                    userSession.saveUserLocation(city);
+                    Log.e("zip",zipCode);
+
+                    userSession.saveUserLocation(city,zipCode);
 
                 }
             } catch (IOException e) {

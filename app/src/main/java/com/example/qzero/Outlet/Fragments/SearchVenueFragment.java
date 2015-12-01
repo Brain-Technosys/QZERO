@@ -94,6 +94,7 @@ public class SearchVenueFragment extends Fragment {
         if(userSession.getUserLocation()!=null){
 
             edtTextCity.setText(userSession.getUserLocation());
+            edtTextZip.setText(userSession.getZipCode());
 
         }
     }
