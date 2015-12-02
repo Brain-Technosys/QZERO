@@ -949,6 +949,7 @@ public class AddCartFragment extends Fragment {
 
                         afterDiscPrice = jsonObj.getDouble(Const.TAG_AFTER_DISC);
                         discountDesc = jsonObj.getString(Const.TAG_DISC_DETAIL);
+                        Log.e("discountDesc",discountDesc);
 
                         String item_id = jsonObj.getString(Const.TAG_ITEM_ID);
 

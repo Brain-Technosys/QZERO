@@ -180,6 +180,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     ArrayList<Outlet> arrayListOutlet;
     ArrayList<ItemOutlet> arrayListItem;
     ArrayList<Category> arrayListCat;
+    ArrayList<Advertisement> arrayListAdminAdvertisement;
     ArrayList<Advertisement> arrayListAdvertisement;
 
     HashMap<Integer, ArrayList<SubCategory>> hashMapSubCat;
@@ -253,14 +254,11 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             @Override
             public void onClick(View v) {
 
-                if(arrayListAdvertisement.size()!=0)
-                {
+                if (arrayListAdvertisement.size() != 0) {
                     try {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdvertisement.get(currentImagePos).getImgUrl()));
                         startActivity(intent);
-                    }
-                    catch(ActivityNotFoundException ex)
-                    {
+                    } catch (ActivityNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -550,7 +548,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
+
                 int a = relLayDesc.getHeight();
 
                 imgViewLand.requestLayout();
@@ -593,7 +591,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
+
                 int a = relLayDescOutletLeft.getHeight();
 
                 imgViewLeft.requestLayout();
@@ -638,7 +636,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
+
                 int a = relLayDescOutletRight.getHeight();
 
                 imgViewRight.requestLayout();
@@ -805,8 +803,10 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             try {
                 jsonObject = new JSONObject(jsonString);
+                Log.e("jsonobject", jsonObject.toString());
 
                 arrayListAdvertisement = new ArrayList<Advertisement>();
+                arrayListAdminAdvertisement = new ArrayList<Advertisement>();
 
                 if (jsonObject != null) {
 
@@ -829,11 +829,17 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                                 String advertisementId = advertisementObj.getString(Const.TAG_ADD_ID);
                                 String image = Const.BASE_URL + Const.AD_IMAGE_URL + advertisementId;
 
-                                String linkUrl=advertisementObj.getString(Const.TAG_ADD_URL);
+                                String linkUrl = advertisementObj.getString(Const.TAG_ADD_URL);
+                                Boolean isAdminAdd = advertisementObj.getBoolean(Const.TAG_ADD_ISADMIN);
 
-                                Advertisement advertisement=new Advertisement(image,advertisementId,linkUrl);
+                                Advertisement advertisement = new Advertisement(image, advertisementId, linkUrl);
 
-                                arrayListAdvertisement.add(advertisement);
+                                if (isAdminAdd) {
+                                    arrayListAdminAdvertisement.add(advertisement);
+                                } else {
+                                    arrayListAdvertisement.add(advertisement);
+                                }
+
 
                             }
                         } else {
@@ -858,10 +864,21 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             super.onPostExecute(result);
 
             ProgresBar.stop();
+
+
             Picasso.with(OutletActivity.this).load(R.drawable.adminad).error(R.drawable.noimage).into(imgViewAdAdmin);
 
             if (status == 1) {
 
+                //adding image to admin if image is not from admin
+                if (arrayListAdminAdvertisement.size() == 1) {
+                    Picasso.with(OutletActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+                } else {
+
+                    autoSlideImages();
+                }
+
+                //adding image to admin if image is from admin
                 if (arrayListAdvertisement.size() == 1) {
                     Picasso.with(OutletActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
                 } else {
@@ -914,9 +931,9 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     private void AnimateandSlideShow() {
 
         Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
-        currentImagePos=currentImageIndex % arrayListAdvertisement.size();
+        currentImagePos = currentImageIndex % arrayListAdvertisement.size();
         currentImageIndex++;
-        Log.e("cu1",""+currentImagePos);
+        Log.e("cu1", "" + currentImagePos);
     }
 
     private void openDialog() {
@@ -1113,7 +1130,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
         bundle.putSerializable("hashMapSubCat", hashMapSubCat);
-        bundle.putSerializable("arrayListAd",arrayListAdvertisement);
+        bundle.putSerializable("arrayListAd", arrayListAdvertisement);
         bundle.putString(ConstVarIntent.TAG_CLASSNAME, "outlet");
         bundle.putString(Const.TAG_OUTLET_NAME, outletTitle);
         intent.putExtras(bundle);

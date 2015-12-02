@@ -241,6 +241,7 @@ public class Const {
     //Get Advertisement details
     public static String TAG_ADD_ID="id";
     public static String TAG_ADD_URL="advertisementUrl";
+    public static String TAG_ADD_ISADMIN="isAdminAdvertisement";
 
 
 
