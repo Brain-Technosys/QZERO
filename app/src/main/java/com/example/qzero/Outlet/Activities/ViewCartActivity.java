@@ -160,7 +160,7 @@ public class ViewCartActivity extends Activity {
             listCartItem.setVisibility(View.VISIBLE);
         }
 
-        setAdvertisement();
+       // setAdvertisement();
     }
 
     private void setFont() {
@@ -172,7 +172,6 @@ public class ViewCartActivity extends Activity {
         if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
             venueId = bundle.getString(ConstVarIntent.TAG_VENUE_ID);
-            arrayListAdvertisement = (ArrayList<Advertisement>) bundle.getSerializable("arrayListAd");
         }
     }
 
@@ -500,7 +499,6 @@ public class ViewCartActivity extends Activity {
                     Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);
 
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("arrayListAd", arrayListAdvertisement);
                     bundle.putString("LOGINTYPE", "CHECKOUT");
                     intent.putExtras(bundle);
 

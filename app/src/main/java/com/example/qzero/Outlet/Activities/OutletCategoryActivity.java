@@ -190,7 +190,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         createCategoryItem();
 
-        setAdvertisement();
+        //setAdvertisement();
     }//end of onCreate()
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -320,9 +320,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
             arrayListCat = (ArrayList<Category>) bundle.getSerializable("arrayListCat");
 
             hashMapSubCat = (HashMap<Integer, ArrayList<SubCategory>>) bundle.getSerializable("hashMapSubCat");
-
-            arrayListAdvertisement = (ArrayList<Advertisement>) bundle.getSerializable("arrayListAd");
-
 
             title = bundle.getString(Const.TAG_OUTLET_NAME);
             venue_id = bundle.getString("venue_id");
@@ -708,7 +705,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString(ConstVarIntent.TAG_VENUE_ID, venue_id);
-        bundle.putSerializable("arrayListAd", arrayListAdvertisement);
+        //bundle.putSerializable("arrayListAd", arrayListAdvertisement);
         intent.putExtras(bundle);
 
         startActivity(intent);

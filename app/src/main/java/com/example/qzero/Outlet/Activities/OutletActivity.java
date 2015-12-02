@@ -204,11 +204,11 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     Context context;
 
+    public int currentImageIndexAdmin = 0;
+    public int currentImagePosAdmin = 0;
+
     public int currentImageIndex = 0;
     public int currentImagePos = 0;
-
-    Timer timer;
-    TimerTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -865,20 +865,27 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             ProgresBar.stop();
 
-
-            Picasso.with(OutletActivity.this).load(R.drawable.adminad).error(R.drawable.noimage).into(imgViewAdAdmin);
-
             if (status == 1) {
 
                 //adding image to admin if image is not from admin
+               if(arrayListAdminAdvertisement.size()==0)
+               {
+                   Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+               }
+                else
                 if (arrayListAdminAdvertisement.size() == 1) {
                     Picasso.with(OutletActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
                 } else {
 
-                    autoSlideImages();
+                    autoSlideImagesAdmin();
                 }
 
                 //adding image to admin if image is from admin
+                if(arrayListAdvertisement.size()==0)
+                {
+                    Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+                }
+                else
                 if (arrayListAdvertisement.size() == 1) {
                     Picasso.with(OutletActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
                 } else {
@@ -889,6 +896,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             } else if (status == 0) {
 
                 Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+                Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
 
             } else {
                 AlertDialogHelper.showAlertDialog(OutletActivity.this,
@@ -928,6 +936,38 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     }
 
+
+    private void autoSlideImagesAdmin() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+
+                AnimateandSlideShowAdmin();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 4000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
     private void AnimateandSlideShow() {
 
         Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
@@ -935,6 +975,15 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         currentImageIndex++;
         Log.e("cu1", "" + currentImagePos);
     }
+
+    private void AnimateandSlideShowAdmin() {
+
+        Picasso.with(this).load(arrayListAdminAdvertisement.get(currentImageIndexAdmin % arrayListAdminAdvertisement.size()).getImageAd()).into(imgViewAdAdmin);
+        currentImagePosAdmin = currentImageIndexAdmin % arrayListAdminAdvertisement.size();
+        currentImageIndexAdmin++;
+
+    }
+
 
     private void openDialog() {
 
@@ -1130,7 +1179,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
         bundle.putSerializable("hashMapSubCat", hashMapSubCat);
-        bundle.putSerializable("arrayListAd", arrayListAdvertisement);
+       // bundle.putSerializable("arrayListAd", arrayListAdvertisement);
         bundle.putString(ConstVarIntent.TAG_CLASSNAME, "outlet");
         bundle.putString(Const.TAG_OUTLET_NAME, outletTitle);
         intent.putExtras(bundle);
