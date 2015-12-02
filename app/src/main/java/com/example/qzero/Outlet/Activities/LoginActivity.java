@@ -19,7 +19,10 @@ import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.Fragments.LoginRegisterFragment;
 import com.example.qzero.Outlet.Fragments.LoginTabFragment;
 import com.example.qzero.Outlet.Fragments.LoginUserFragment;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.R;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -43,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 
     String LOGINTYPE = "SIMPLELOGIN";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +54,11 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         //getting intent from HomeScreen and CartScreen, LOGINTYPE will differenciate
-        Intent intent = getIntent();
+        Bundle bundle = getIntent().getExtras();
+
         if (getIntent().hasExtra("LOGINTYPE")) {
-            LOGINTYPE = intent.getStringExtra("LOGINTYPE");
+
+            LOGINTYPE = bundle.getString("LOGINTYPE");
         }
 
     }
@@ -83,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager
                 .beginTransaction();
         LoginTabFragment loginTabFragment = new LoginTabFragment();
+
         fragmentTransaction.add(R.id.loginFrameLay, loginTabFragment, "login");
         fragmentTransaction.commit();
 
@@ -114,15 +119,15 @@ public class LoginActivity extends AppCompatActivity {
         userSession.saveLogin(false);
         Intent intent = new Intent(LoginActivity.this,
                 DashBoardActivity.class);
-       intent.putExtra("LOGINTYPE","myProfile");
+        intent.putExtra("LOGINTYPE", "myProfile");
         startActivity(intent);
 
     }
 
     @OnClick(R.id.btn_logOut)
     public void logout() {
-        GCMHelper gcmHelper=new GCMHelper(this);
-        gcmHelper.changeLoginBit(userSession.getUserID(),false);
+        GCMHelper gcmHelper = new GCMHelper(this);
+        gcmHelper.changeLoginBit(userSession.getUserID(), false);
         userSession.logout();
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

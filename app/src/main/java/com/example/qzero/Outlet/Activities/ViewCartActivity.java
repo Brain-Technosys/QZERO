@@ -1,10 +1,13 @@
 package com.example.qzero.Outlet.Activities;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -33,10 +37,12 @@ import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterCartItem;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.Outlet.ObjectClasses.DbItems;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
 import com.example.qzero.Outlet.ObjectClasses.OrderItemStatusModel;
 import com.example.qzero.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +52,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -58,6 +66,12 @@ public class ViewCartActivity extends Activity {
 
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
+
+    @InjectView(R.id.imgViewAdAdmin)
+    ImageView imgViewAdAdmin;
+
+    @InjectView(R.id.imgViewAdVenue)
+    ImageView imgViewAdVenue;
 
 
     //Code changed by himanshu
@@ -73,6 +87,7 @@ public class ViewCartActivity extends Activity {
     TextView txt_CartFinalAmount;
 
     ArrayList<HashMap<String, String>> mainCartItem;
+    ArrayList<Advertisement> arrayListAdvertisement;
 
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
@@ -103,6 +118,9 @@ public class ViewCartActivity extends Activity {
     ShippingAddSession shippingAddSession;
 
     public static String client_id;
+
+    public int currentImageIndex = 0;
+    public int currentImagePos = 0;
 
 
     @Override
@@ -141,6 +159,8 @@ public class ViewCartActivity extends Activity {
             rly_emptyCart_layout.setVisibility(View.GONE);
             listCartItem.setVisibility(View.VISIBLE);
         }
+
+        setAdvertisement();
     }
 
     private void setFont() {
@@ -152,6 +172,7 @@ public class ViewCartActivity extends Activity {
         if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
             venueId = bundle.getString(ConstVarIntent.TAG_VENUE_ID);
+            arrayListAdvertisement = (ArrayList<Advertisement>) bundle.getSerializable("arrayListAd");
         }
     }
 
@@ -422,11 +443,10 @@ public class ViewCartActivity extends Activity {
 
             hashMapPaymentDetails = new HashMap<String, String>();
 
-            String url = Const.BASE_URL + Const.GET_PAYMENTGATEWAY_DETAILS +venueId;
+            String url = Const.BASE_URL + Const.GET_PAYMENTGATEWAY_DETAILS + venueId;
 
 
-
-            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT," ");
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, " ");
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
@@ -474,11 +494,16 @@ public class ViewCartActivity extends Activity {
                 UserSession userSession = new UserSession(ViewCartActivity.this);
                 if (userSession.isUserLoggedIn()) {
 
-                    getCheckOutDetails.managingChkoutDetailAPI();
+                    getCheckOutDetails.managingChkoutDetailAPI(arrayListAdvertisement);
 
                 } else {
                     Intent intent = new Intent(ViewCartActivity.this, LoginActivity.class);
-                    intent.putExtra("LOGINTYPE", "CHECKOUT");
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("arrayListAd", arrayListAdvertisement);
+                    bundle.putString("LOGINTYPE", "CHECKOUT");
+                    intent.putExtras(bundle);
+
                     startActivity(intent);
                 }
 
@@ -488,6 +513,78 @@ public class ViewCartActivity extends Activity {
             } else {
                 AlertDialogHelper.showAlertDialog(ViewCartActivity.this,
                         getString(R.string.server_message), "Alert");
+            }
+        }
+    }
+
+    private void setAdvertisement() {
+        Picasso.with(this).load(R.drawable.adminad).error(R.drawable.noimage).into(imgViewAdAdmin);
+
+
+        if (arrayListAdvertisement.size() == 0) {
+            Picasso.with(this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else if (arrayListAdvertisement.size() == 1) {
+            Picasso.with(this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else {
+
+            autoSlideImages();
+        }
+
+
+    }
+
+    private void autoSlideImages() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+
+                AnimateandSlideShow();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 4000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
+    private void AnimateandSlideShow() {
+
+        try {
+
+            Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
+            currentImagePos = currentImageIndex % arrayListAdvertisement.size();
+
+            currentImageIndex++;
+        } catch (ArithmeticException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @OnClick(R.id.imgViewAdVenue)
+    void openBrowser() {
+        if (arrayListAdvertisement.size() != 0) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdvertisement.get(currentImagePos).getImgUrl()));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                ex.printStackTrace();
             }
         }
     }

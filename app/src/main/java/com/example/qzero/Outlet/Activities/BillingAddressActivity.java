@@ -22,6 +22,7 @@ import com.example.qzero.CommonFiles.Helpers.GetCheckOutDetails;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.Outlet.Adapters.CustomAdapterBillingAddress;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.R;
 
 import org.json.JSONArray;
@@ -60,6 +61,8 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     View footerView;
 
+    ArrayList<Advertisement> arrayListAdvertisement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +82,7 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
         super.onResume();
 
         getCheckOutDetails = new GetCheckOutDetails(this, "addedit");
-        getCheckOutDetails.managingChkoutDetailAPI();
+        getCheckOutDetails.managingChkoutDetailAPI(arrayListAdvertisement);
 
         if (CheckInternetHelper.checkInternetConnection(BillingAddressActivity.this))
             new GetBillingAddressDetail().execute();

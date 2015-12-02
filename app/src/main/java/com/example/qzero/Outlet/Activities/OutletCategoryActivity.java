@@ -365,7 +365,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
         Picasso.with(this).load(R.drawable.adminad).error(R.drawable.noimage).into(imgViewAdAdmin);
 
 
-        if (arrayListAdvertisement.size() == 1) {
+        if (arrayListAdvertisement.size() == 0) {
+            Picasso.with(this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else if (arrayListAdvertisement.size() == 1) {
             Picasso.with(this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
         } else {
 
@@ -408,10 +410,15 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     private void AnimateandSlideShow() {
 
-        Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
-        currentImagePos = currentImageIndex % arrayListAdvertisement.size();
+        try {
 
-        currentImageIndex++;
+            Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
+            currentImagePos = currentImageIndex % arrayListAdvertisement.size();
+
+            currentImageIndex++;
+        } catch (ArithmeticException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void replaceAddItem() {
@@ -698,7 +705,12 @@ public class OutletCategoryActivity extends AppCompatActivity {
     //Edited by himanshu shekher
     public void gotoCartItem() {
         Intent intent = new Intent(this, ViewCartActivity.class);
-        intent.putExtra(ConstVarIntent.TAG_VENUE_ID, venue_id);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstVarIntent.TAG_VENUE_ID, venue_id);
+        bundle.putSerializable("arrayListAd", arrayListAdvertisement);
+        intent.putExtras(bundle);
+
         startActivity(intent);
     }
 
