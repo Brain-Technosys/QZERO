@@ -51,7 +51,6 @@
         android:layout_marginTop="2dp"
         android:background="@drawable/background_editext"
         android:ems="10"
-        android:inputType="number"
         android:gravity="center_horizontal"
         android:hint="@string/search_zip"
         android:paddingTop="10dp"
