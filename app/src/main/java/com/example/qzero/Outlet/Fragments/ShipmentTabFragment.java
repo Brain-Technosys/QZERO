@@ -37,6 +37,7 @@ import com.example.qzero.Outlet.Activities.AddAddressActivity;
 import com.example.qzero.Outlet.Activities.BillingAddressActivity;
 import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
 import com.example.qzero.Outlet.Activities.ShippingAddressActivity;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.Outlet.ObjectClasses.DbModifiers;
 import com.example.qzero.Outlet.ObjectClasses.OrderItemStatusModel;
 import com.example.qzero.R;
@@ -169,6 +170,8 @@ public class ShipmentTabFragment extends Fragment {
     ArrayList<OrderItemStatusModel> orderStatusArrayList;
     ArrayList<OrderItemStatusModel> orderItemStatusArrayList;
 
+    ArrayList<Advertisement> arrayListAdvertisement;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -231,7 +234,7 @@ public class ShipmentTabFragment extends Fragment {
         hmShipAddressDetail.clear();
 
         GetCheckOutDetails getCheckOutDetails = new GetCheckOutDetails(getActivity(), "addedit");
-        getCheckOutDetails.managingChkoutDetailAPI();
+        getCheckOutDetails.managingChkoutDetailAPI(arrayListAdvertisement);
 
         new GetAddressAtFirstPosition().execute();
     }

@@ -41,6 +41,7 @@ import com.example.qzero.MyAccount.Activities.DashBoardActivity;
 import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
 import com.example.qzero.Outlet.Activities.ForgotPasswordActivity;
 import com.example.qzero.Outlet.Activities.LoginActivity;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -51,6 +52,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -85,6 +87,8 @@ public class LoginUserFragment extends Fragment {
     String LOGINTYPE = "SIMPLELOGIN";
 
     GetCheckOutDetails getCheckOutDetails;
+
+    ArrayList<Advertisement> arrayListAdvertisement;
 
 
     @Override
@@ -231,7 +235,7 @@ public class LoginUserFragment extends Fragment {
 
                 if (LOGINTYPE.equals("CHECKOUT")) {
 
-                    getCheckOutDetails.managingChkoutDetailAPI();
+                    getCheckOutDetails.managingChkoutDetailAPI(arrayListAdvertisement);
                 } else if (LOGINTYPE.equals("SIMPLELOGIN")) {
                     Intent intent = new Intent(getActivity(),
                             DashBoardActivity.class);

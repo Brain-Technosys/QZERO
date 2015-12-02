@@ -181,8 +181,6 @@ public class HomeActivity extends FragmentActivity {
                     String city = returnAddress.getLocality();
                     String zipCode=returnAddress.getPostalCode();
 
-                    Log.e("zip",zipCode);
-
                     userSession.saveUserLocation(city,zipCode);
 
                 }

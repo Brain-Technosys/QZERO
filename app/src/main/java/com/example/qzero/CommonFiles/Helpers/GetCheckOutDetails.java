@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Activities.FinalChkoutActivity;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.R;
 
 import org.json.JSONException;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Created by Braintech on 10/16/2015.
@@ -38,13 +41,17 @@ public class GetCheckOutDetails {
     String outletId;
     String className;
 
+    ArrayList<Advertisement> arrayListAdvertisement;
+
     public GetCheckOutDetails(Activity context,String className) {
 
         this.context = context;
         this.className=className;
     }
 
-    public void managingChkoutDetailAPI() {
+    public void managingChkoutDetailAPI(ArrayList<Advertisement> arrayListAd) {
+
+        arrayListAdvertisement=arrayListAd;
         shippingAddSession = new ShippingAddSession(context);
 
         userSession = new UserSession(context);
@@ -141,11 +148,17 @@ public class GetCheckOutDetails {
                         }
                     }
                     Intent intent = new Intent(context, FinalChkoutActivity.class);
+
+
                     if (className.equals("login")) {
                         context.finish();
                     }
 
-                    intent.putExtra("gcm","gcm");
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("arrayListAd", arrayListAdvertisement);
+                    bundle.putString("gcm", "gcm");
+                    intent.putExtras(bundle);
+
                     context.startActivity(intent);
                 }
 
