@@ -766,13 +766,24 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
         outletId = view.getTag().toString();
 
+
+
         Cursor outletCursor = databaseHelper.selectOutletId();
 
         if (outletCursor != null) {
             if (outletCursor.moveToFirst()) {
-                oldOutletId = outletCursor.getString(0);
+
+                int index=outletCursor.getColumnIndex(databaseHelper.OUTLET_ID);
+                oldOutletId = outletCursor.getString(index);
+            }
+            else
+            {
+                oldOutletId = "null";
             }
         }
+
+
+        Log.e("outletId",oldOutletId);
 
         if (oldOutletId.equals("null")) {
             getOutletItems();

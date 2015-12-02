@@ -147,7 +147,12 @@ public class SearchItemActivity extends Activity {
         {
             if(outletCursor.moveToFirst())
             {
-                oldOutletId=outletCursor.getString(0);
+                int index=outletCursor.getColumnIndex(databaseHelper.OUTLET_ID);
+                oldOutletId=outletCursor.getString(index);
+            }
+            else
+            {
+                oldOutletId="null";
             }
         }
 
