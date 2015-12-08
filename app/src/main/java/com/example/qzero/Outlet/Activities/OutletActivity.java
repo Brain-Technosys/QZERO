@@ -173,6 +173,9 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     int jsonLength;
     int pos = 0;
 
+    int categoryId=0;
+    int item_id=0;
+
     String message;
 
     ArrayList<Outlet> orig;
@@ -808,7 +811,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id;
+            String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id+"?"+Const.TAG_CAT_ID+"="+categoryId+"&"+Const.TAG_ITEM_ID+"="+item_id;
+            Log.e("url",url);
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
@@ -1190,7 +1194,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         bundle.putSerializable("arraylistitem", arrayListItem);
         bundle.putSerializable("arrayListCat", arrayListCat);
         bundle.putSerializable("hashMapSubCat", hashMapSubCat);
-       // bundle.putSerializable("arrayListAd", arrayListAdvertisement);
+        bundle.putSerializable("arrayListAd", arrayListAdvertisement);
+        bundle.putSerializable("arrayListAdAdmin", arrayListAdminAdvertisement);
         bundle.putString(ConstVarIntent.TAG_CLASSNAME, "outlet");
         bundle.putString(Const.TAG_OUTLET_NAME, outletTitle);
         intent.putExtras(bundle);

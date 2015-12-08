@@ -119,6 +119,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
     String subCategoryId;
     String item_id;
 
+    int category_id = 0;
+    int itemId = 0;
+
     String classname;
 
     Boolean isSubCatPresent;
@@ -129,7 +132,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
     ArrayList<ItemOutlet> arrayListItems;
     ArrayList<Category> arrayListCat;
     ArrayList<SubCategory> arrayListSubCat;
+
     ArrayList<Advertisement> arrayListAdvertisement;
+    ArrayList<Advertisement> arrayListAdminAdvertisement;
 
     HashMap<Integer, ArrayList<SubCategory>> hashMapSubCat;
 
@@ -154,9 +159,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
     public int currentImageIndex = 0;
     public int currentImagePos = 0;
 
-    Timer timer;
-    TimerTask task;
-
+    public int currentImageIndexAdmin = 0;
+    public int currentImagePosAdmin = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -190,7 +194,8 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         createCategoryItem();
 
-        //setAdvertisement();
+        setAdvertisement();
+
     }//end of onCreate()
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -319,6 +324,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
             arrayListItems = (ArrayList<ItemOutlet>) bundle.getSerializable("arraylistitem");
             arrayListCat = (ArrayList<Category>) bundle.getSerializable("arrayListCat");
 
+            arrayListAdvertisement = (ArrayList<Advertisement>) bundle.getSerializable("arrayListAd");
+            arrayListAdminAdvertisement = (ArrayList<Advertisement>) bundle.getSerializable("arrayListAdAdmin");
+
             hashMapSubCat = (HashMap<Integer, ArrayList<SubCategory>>) bundle.getSerializable("hashMapSubCat");
 
             title = bundle.getString(Const.TAG_OUTLET_NAME);
@@ -358,65 +366,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     }
 
-    private void setAdvertisement() {
-        Picasso.with(this).load(R.drawable.adminad).error(R.drawable.noimage).into(imgViewAdAdmin);
-
-
-        if (arrayListAdvertisement.size() == 0) {
-            Picasso.with(this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else if (arrayListAdvertisement.size() == 1) {
-            Picasso.with(this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else {
-
-            autoSlideImages();
-        }
-
-
-    }
-
-    private void autoSlideImages() {
-        final Handler mHandler = new Handler();
-
-        // Create runnable for posting
-        final Runnable mUpdateResults = new Runnable() {
-            public void run() {
-
-                AnimateandSlideShow();
-
-            }
-        };
-
-        int delay = 1000; // delay for 1 sec.
-
-        int period = 4000; // repeat every 4 sec.
-
-        Timer timer = new Timer();
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-
-                mHandler.post(mUpdateResults);
-
-            }
-
-        }, delay, period);
-
-
-    }
-
-    private void AnimateandSlideShow() {
-
-        try {
-
-            Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
-            currentImagePos = currentImageIndex % arrayListAdvertisement.size();
-
-            currentImageIndex++;
-        } catch (ArithmeticException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     public void replaceAddItem() {
         if (CheckInternetHelper.checkInternetConnection(this)) {
@@ -443,6 +392,10 @@ public class OutletCategoryActivity extends AppCompatActivity {
         addCartFragment.setArguments(bundle);
 
         fragmentTransaction.commit();
+
+        itemId = Integer.parseInt(item_id);
+
+        getAdvertisement();
     }
 
     //if switching from search items add the add to cart layout
@@ -543,12 +496,15 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
                 categoryId = view.getTag(R.string.ID).toString();
 
+                category_id = Integer.parseInt(categoryId);
+
                 if (isAddToCartOpen) {
                     replaceAddItem();
                 } else {
                     subCategoryId = "0";
                     closeDrawer();
                     setItemsInFragment();
+                    getAdvertisement();
 
                 }
 
@@ -705,7 +661,6 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString(ConstVarIntent.TAG_VENUE_ID, venue_id);
-        //bundle.putSerializable("arrayListAd", arrayListAdvertisement);
         intent.putExtras(bundle);
 
         startActivity(intent);
@@ -897,6 +852,232 @@ public class OutletCategoryActivity extends AppCompatActivity {
     private void closeDrawer() {
         mDrawer.closeDrawers();
     }
+
+    public void getAdvertisement() {
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new GetAdvertisement().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(this,
+                    getString(R.string.internet_connection_message),
+                    "Alert");
+        }
+    }
+
+    public class GetAdvertisement extends AsyncTask<String, String, String> {
+
+        int status;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(OutletCategoryActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            status = -1;
+            JsonParser jsonParser = new JsonParser();
+            String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id + "?" + Const.TAG_CAT_ID + "=" + category_id + "&" + Const.TAG_ITEM_ID + "=" + itemId;
+            Log.e("url", url);
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Log.e("jsonobject", jsonObject.toString());
+
+
+                arrayListAdvertisement = new ArrayList<Advertisement>();
+                arrayListAdminAdvertisement = new ArrayList<Advertisement>();
+
+                arrayListAdvertisement.clear();
+                arrayListAdminAdvertisement.clear();
+
+                if (jsonObject != null) {
+
+
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+
+                    if (status == 1) {
+
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_RESULT);
+
+                        JSONArray jsonArrayAd = jsonObj.getJSONArray(Const.TAG_JsonAd);
+
+                        Log.e("jsonAd", "" + jsonArrayAd.length());
+
+                        if (jsonArrayAd.length() != 0) {
+
+
+                            for (int i = 0; i < jsonArrayAd.length(); i++) {
+
+                                JSONObject advertisementObj = jsonArrayAd.getJSONObject(i);
+
+                                String advertisementId = advertisementObj.getString(Const.TAG_ADD_ID);
+                                String image = Const.BASE_URL + Const.AD_IMAGE_URL + advertisementId;
+
+                                String linkUrl = advertisementObj.getString(Const.TAG_ADD_URL);
+                                Boolean isAdminAdd = advertisementObj.getBoolean(Const.TAG_ADD_ISADMIN);
+
+                                Advertisement advertisement = new Advertisement(image, advertisementId, linkUrl);
+
+                                if (isAdminAdd) {
+                                    arrayListAdminAdvertisement.add(advertisement);
+                                } else {
+                                    arrayListAdvertisement.add(advertisement);
+                                }
+
+
+                            }
+                        } else {
+                            status = 0;
+                        }
+                    }
+
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+
+            ProgresBar.stop();
+
+            Log.e("status", "" + status);
+            if (status == 1) {
+
+                setAdvertisement();
+            } else if (status == 0) {
+
+                Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+                Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+
+            } else {
+                AlertDialogHelper.showAlertDialog(OutletCategoryActivity.this,
+                        getString(R.string.server_message), "Alert");
+            }
+        }
+
+    }
+
+    private void setAdvertisement() {
+
+        Log.e("arraylist", "" + arrayListAdminAdvertisement.size());
+        Log.e("arraylistadmin", "" + arrayListAdvertisement.size());
+        //adding image to admin if image is not from admin
+        if (arrayListAdminAdvertisement.size() == 0) {
+            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+        } else if (arrayListAdminAdvertisement.size() == 1) {
+            Picasso.with(OutletCategoryActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+        } else {
+
+            autoSlideImagesAdmin();
+        }
+
+        //adding image to admin if image is from admin
+        if (arrayListAdvertisement.size() == 0) {
+            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else if (arrayListAdvertisement.size() == 1) {
+            Picasso.with(OutletCategoryActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else {
+
+            autoSlideImages();
+        }
+
+    }
+
+    private void autoSlideImages() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+
+
+                if (arrayListAdvertisement.size() != 0)
+                    AnimateandSlideShow();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 4000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
+
+    private void autoSlideImagesAdmin() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+                if (arrayListAdminAdvertisement.size() != 0)
+                    AnimateandSlideShowAdmin();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 4000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
+    private void AnimateandSlideShow() {
+
+        Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
+        currentImagePos = currentImageIndex % arrayListAdvertisement.size();
+        currentImageIndex++;
+        Log.e("cu1", "" + currentImagePos);
+    }
+
+    private void AnimateandSlideShowAdmin() {
+
+        Picasso.with(this).load(arrayListAdminAdvertisement.get(currentImageIndexAdmin % arrayListAdminAdvertisement.size()).getImageAd()).into(imgViewAdAdmin);
+        currentImagePosAdmin = currentImageIndexAdmin % arrayListAdminAdvertisement.size();
+        currentImageIndexAdmin++;
+
+    }
+
 
     @OnClick(R.id.imgViewAdVenue)
     void openBrowser() {
