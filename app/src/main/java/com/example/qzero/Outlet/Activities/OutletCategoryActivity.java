@@ -455,7 +455,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 userSession.saveLogin(false);
                 //Check if the device has not been registered to GCM
                 if (userSession.getGcmToken().equals("null")) {
-                    Log.e("insde", "registerToGCM");
+                    //Log.e("insde", "registerToGCM");
                     registerToGCM();
                 } else {
                     GCMHelper gcmHelper = new GCMHelper(this);
@@ -572,7 +572,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
                 subCategoryId = txtViewSubCategory.getTag(R.string.ID).toString();
 
-                Log.e("item", subCategoryId);
+                //Log.e("item", subCategoryId);
 
                 if (isAddToCartOpen) {
                     replaceAddItem();
@@ -607,7 +607,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
     }
 
     public void setItemsInFragment() {
-        Log.e("frag", "method");
+        //Log.e("frag", "method");
         CategoryItemFragment categoryFragment = (CategoryItemFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayItem);
         categoryFragment.getSubCatItems(venue_id, outlet_id, categoryId, subCategoryId);
     }
@@ -686,19 +686,19 @@ public class OutletCategoryActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            Log.e("inside", "do in");
+            //Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
 
-            Log.e("venue_id", venue_id);
-            Log.e("outlet_id", outlet_id);
+            //Log.e("venue_id", venue_id);
+            //Log.e("outlet_id", outlet_id);
             String url = Const.BASE_URL + Const.GET_ITEMS + "/" + venue_id + "/?outletId=" + outlet_id + "&itemId=" + ""
                     + "&subCatId=" + "";
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("jsonvenue", jsonString);
+            //Log.e("jsonvenue", jsonString);
 
             try {
                 jsonObject = new JSONObject(jsonString);
@@ -759,7 +759,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
             ProgresBar.stop();
 
-            Log.e("inside", "postexecute");
+            //Log.e("inside", "postexecute");
 
             if (status == 1) {
                 isAddToCartOpen = false;
@@ -880,13 +880,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
             status = -1;
             JsonParser jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id + "?" + Const.TAG_CAT_ID + "=" + category_id + "&" + Const.TAG_ITEM_ID + "=" + itemId;
-            Log.e("url", url);
+            //Log.e("url", url);
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
-                Log.e("jsonobject", jsonObject.toString());
+                //Log.e("jsonobject", jsonObject.toString());
 
 
                 arrayListAdvertisement = new ArrayList<Advertisement>();
@@ -906,7 +906,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
                         JSONArray jsonArrayAd = jsonObj.getJSONArray(Const.TAG_JsonAd);
 
-                        Log.e("jsonAd", "" + jsonArrayAd.length());
+                        //Log.e("jsonAd", "" + jsonArrayAd.length());
 
                         if (jsonArrayAd.length() != 0) {
 
@@ -952,9 +952,13 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
 
+            imgViewAdAdmin.setVisibility(View.VISIBLE);
+            imgViewAdVenue.setVisibility(View.VISIBLE);
+
             ProgresBar.stop();
 
-            Log.e("status", "" + status);
+
+            //Log.e("status", "" + status);
             if (status == 1) {
 
                 setAdvertisement();
@@ -973,26 +977,36 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     private void setAdvertisement() {
 
-        Log.e("arraylist", "" + arrayListAdminAdvertisement.size());
-        Log.e("arraylistadmin", "" + arrayListAdvertisement.size());
-        //adding image to admin if image is not from admin
-        if (arrayListAdminAdvertisement.size() == 0) {
+        //Log.e("arraylist", "" + arrayListAdminAdvertisement.size());
+        //Log.e("arraylistadmin", "" + arrayListAdvertisement.size());
+
+        if (arrayListAdminAdvertisement.size() == 0 && arrayListAdvertisement.size() == 0) {
+
             Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-        } else if (arrayListAdminAdvertisement.size() == 1) {
-            Picasso.with(OutletCategoryActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
-        } else {
-
-            autoSlideImagesAdmin();
-        }
-
-        //adding image to admin if image is from admin
-        if (arrayListAdvertisement.size() == 0) {
             Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else if (arrayListAdvertisement.size() == 1) {
-            Picasso.with(OutletCategoryActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
         } else {
+            if (arrayListAdminAdvertisement.size() == 0) {
 
-            autoSlideImages();
+                imgViewAdAdmin.setVisibility(View.GONE);
+
+            } else if (arrayListAdminAdvertisement.size() == 1) {
+                Picasso.with(OutletCategoryActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else {
+
+                autoSlideImagesAdmin();
+            }
+
+            //adding image to admin if image is from admin
+
+            if (arrayListAdvertisement.size() == 0) {
+
+                imgViewAdVenue.setVisibility(View.GONE);
+            } else if (arrayListAdvertisement.size() == 1) {
+                Picasso.with(OutletCategoryActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else {
+
+                autoSlideImages();
+            }
         }
 
     }
@@ -1067,7 +1081,7 @@ public class OutletCategoryActivity extends AppCompatActivity {
         Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
         currentImagePos = currentImageIndex % arrayListAdvertisement.size();
         currentImageIndex++;
-        Log.e("cu1", "" + currentImagePos);
+        //Log.e("cu1", "" + currentImagePos);
     }
 
     private void AnimateandSlideShowAdmin() {
@@ -1084,6 +1098,19 @@ public class OutletCategoryActivity extends AppCompatActivity {
         if (arrayListAdvertisement.size() != 0) {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdvertisement.get(currentImagePos).getImgUrl()));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    @OnClick(R.id.imgViewAdAdmin)
+    void openBrowserAdmin() {
+        if (arrayListAdminAdvertisement.size() != 0) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdminAdvertisement.get(currentImagePosAdmin).getImgUrl()));
                 startActivity(intent);
             } catch (ActivityNotFoundException ex) {
                 ex.printStackTrace();

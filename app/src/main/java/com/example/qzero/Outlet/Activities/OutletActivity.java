@@ -173,8 +173,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     int jsonLength;
     int pos = 0;
 
-    int categoryId=0;
-    int item_id=0;
+    int categoryId = 0;
+    int item_id = 0;
 
     String message;
 
@@ -268,6 +268,21 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             }
         });
 
+        imgViewAdAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (arrayListAdminAdvertisement.size() != 0) {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdminAdvertisement.get(currentImagePosAdmin).getImgUrl()));
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
         //Set title
         txtViewHeading.setText("Outlets");
     }
@@ -287,7 +302,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     public boolean onQueryTextChange(String newText) {
 
-        Log.e("newtext", newText);
+        //Log.e("newtext", newText);
         if (TextUtils.isEmpty(newText)) {
 
             filterJson(newText);
@@ -301,7 +316,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     public boolean onQueryTextSubmit(String query) {
 
-        Log.e("qyuery", query);
+        //Log.e("qyuery", query);
         return false;
     }
 
@@ -324,7 +339,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             item.removeAllViews();
             pos = 0;
-            Log.e("size", "" + arrayListOutlet.size());
+            //Log.e("size", "" + arrayListOutlet.size());
         }
 
         setLayout();
@@ -454,11 +469,11 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
         int mod = arrayLength % 3;
 
-        Log.e("mod", "" + mod);
+        //Log.e("mod", "" + mod);
         if (mod == 0) {
             int length = arrayLength / 3;
 
-            Log.e("length", "" + length);
+            //Log.e("length", "" + length);
 
             for (int i = 0; i < length; i++) {
 
@@ -702,7 +717,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         getWindowManager().getDefaultDisplay().getMetrics(metrics);*/
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 35, resources.getDisplayMetrics());
         int layoutWidth = dpWidth / 2 - px;
-        Log.e("layoutwidth", "" + layoutWidth);
+        //Log.e("layoutwidth", "" + layoutWidth);
 
         return layoutWidth;
     }
@@ -770,23 +785,20 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         outletId = view.getTag().toString();
 
 
-
         Cursor outletCursor = databaseHelper.selectOutletId();
 
         if (outletCursor != null) {
             if (outletCursor.moveToFirst()) {
 
-                int index=outletCursor.getColumnIndex(databaseHelper.OUTLET_ID);
+                int index = outletCursor.getColumnIndex(databaseHelper.OUTLET_ID);
                 oldOutletId = outletCursor.getString(index);
-            }
-            else
-            {
+            } else {
                 oldOutletId = "null";
             }
         }
 
 
-        Log.e("outletId",oldOutletId);
+        //Log.e("outletId", oldOutletId);
 
         if (oldOutletId.equals("null")) {
             getOutletItems();
@@ -811,14 +823,14 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id+"?"+Const.TAG_CAT_ID+"="+categoryId+"&"+Const.TAG_ITEM_ID+"="+item_id;
-            Log.e("url",url);
+            String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venue_id + "?" + Const.TAG_CAT_ID + "=" + categoryId + "&" + Const.TAG_ITEM_ID + "=" + item_id;
+            //Log.e("url", url);
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
             try {
                 jsonObject = new JSONObject(jsonString);
-                Log.e("jsonobject", jsonObject.toString());
+                //Log.e("jsonobject", jsonObject.toString());
 
                 arrayListAdvertisement = new ArrayList<Advertisement>();
                 arrayListAdminAdvertisement = new ArrayList<Advertisement>();
@@ -883,12 +895,10 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
             if (status == 1) {
 
                 //adding image to admin if image is not from admin
-               if(arrayListAdminAdvertisement.size()==0)
-               {
-                   Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-               }
-                else
-                if (arrayListAdminAdvertisement.size() == 1) {
+                if (arrayListAdminAdvertisement.size() == 0) {
+                     imgViewAdAdmin.setVisibility(View.GONE);
+                    //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+                } else if (arrayListAdminAdvertisement.size() == 1) {
                     Picasso.with(OutletActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
                 } else {
 
@@ -896,12 +906,10 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
                 }
 
                 //adding image to admin if image is from admin
-                if(arrayListAdvertisement.size()==0)
-                {
-                    Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                }
-                else
-                if (arrayListAdvertisement.size() == 1) {
+                if (arrayListAdvertisement.size() == 0) {
+                    imgViewAdVenue.setVisibility(View.GONE);
+                    //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+                } else if (arrayListAdvertisement.size() == 1) {
                     Picasso.with(OutletActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
                 } else {
 
@@ -988,7 +996,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
         currentImagePos = currentImageIndex % arrayListAdvertisement.size();
         currentImageIndex++;
-        Log.e("cu1", "" + currentImagePos);
+        //Log.e("cu1", "" + currentImagePos);
     }
 
     private void AnimateandSlideShowAdmin() {
@@ -1064,7 +1072,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         @Override
         protected String doInBackground(String... params) {
 
-            Log.e("inside", "do in");
+           // Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" + itemId
@@ -1167,7 +1175,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             ProgresBar.stop();
 
-            Log.e("inside", "postexecute");
+            //Log.e("inside", "postexecute");
 
             if (status == 1) {
 
@@ -1202,5 +1210,5 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         startActivity(intent);
     }
 
-
 }
+

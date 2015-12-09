@@ -1,7 +1,11 @@
 package com.example.qzero.Outlet.Activities;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,9 +14,11 @@ import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +31,11 @@ import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
 import com.example.qzero.CommonFiles.Sessions.UserSession;
+import com.example.qzero.Outlet.ObjectClasses.Advertisement;
 import com.example.qzero.Outlet.ObjectClasses.Country;
 import com.example.qzero.Outlet.ObjectClasses.State;
 import com.example.qzero.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +45,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
@@ -79,8 +89,14 @@ public class AddAddressActivity extends AppCompatActivity {
     @InjectView(R.id.txtViewHeading)
     TextView txtViewHeading;
 
-    String countryId;
+    @InjectView(R.id.imgViewAdAdmin)
+    ImageView imgViewAdAdmin;
 
+    @InjectView(R.id.imgViewAdVenue)
+    ImageView imgViewAdVenue;
+
+
+    String countryId;
 
     String fname;
     String lname;
@@ -99,6 +115,20 @@ public class AddAddressActivity extends AppCompatActivity {
     String stateName;
 
     String outletId;
+
+    String venueId;
+
+    int categoryId=0;
+    int item_id=0;
+
+    ArrayList<Advertisement> arrayListAdminAdvertisement;
+    ArrayList<Advertisement> arrayListAdvertisement;
+
+    public int currentImageIndexAdmin = 0;
+    public int currentImagePosAdmin = 0;
+
+    public int currentImageIndex = 0;
+    public int currentImagePos = 0;
 
     //Check email address
     public final Pattern EMAIL_ADDRESS_PATTERN = Pattern
@@ -255,7 +285,7 @@ public class AddAddressActivity extends AppCompatActivity {
             if (outletCursor.moveToFirst()) {
 
                 outletId = outletCursor.getString(2);
-                Log.e("outletId", outletId);
+               // Log.e("outletId", outletId);
             }
         }
     }
@@ -509,6 +539,7 @@ public class AddAddressActivity extends AppCompatActivity {
 
             super.onPostExecute(result);
 
+            getAdvertisement();
 
             if (status == 1) {
 
@@ -537,6 +568,8 @@ public class AddAddressActivity extends AppCompatActivity {
 
             ProgresBar.stop();
         }
+
+
     }
 
 
@@ -665,7 +698,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
 
-            Log.e("jsonbill", jsonObj.toString());
+            //Log.e("jsonbill", jsonObj.toString());
 
             String jsonString = jsonParser.executePost(url, jsonObj.toString(), userSession.getUserID(), Const.TIME_OUT);
 
@@ -702,6 +735,249 @@ public class AddAddressActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void getAdvertisement() {
+
+        venueId=userSession.getVenueId();
+
+        if (CheckInternetHelper.checkInternetConnection(this)) {
+            new GetAdvertisement().execute();
+        } else {
+            AlertDialogHelper.showAlertDialog(this,
+                    getString(R.string.internet_connection_message),
+                    "Alert");
+        }
+    }
+
+    public class GetAdvertisement extends AsyncTask<String, String, String> {
+
+        int status;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            ProgresBar.start(AddAddressActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            status = -1;
+            JsonParser jsonParser = new JsonParser();
+            String url = Const.BASE_URL + Const.GET_VENUE_ADVERTISEMENT + venueId + "?" + Const.TAG_CAT_ID + "=" + categoryId + "&" + Const.TAG_ITEM_ID + "=" + item_id;
+           // Log.e("url", url);
+
+            String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+               // Log.e("jsonobject", jsonObject.toString());
+
+                arrayListAdvertisement = new ArrayList<Advertisement>();
+                arrayListAdminAdvertisement = new ArrayList<Advertisement>();
+
+                if (jsonObject != null) {
+
+
+                    status = jsonObject.getInt(Const.TAG_STATUS);
+
+                    if (status == 1) {
+
+                        JSONObject jsonObj = jsonObject.getJSONObject(Const.TAG_RESULT);
+
+                        JSONArray jsonArrayAd = jsonObj.getJSONArray(Const.TAG_JsonAd);
+
+                        if (jsonArrayAd.length() != 0) {
+
+
+                            for (int i = 0; i < jsonArrayAd.length(); i++) {
+
+                                JSONObject advertisementObj = jsonArrayAd.getJSONObject(i);
+
+                                String advertisementId = advertisementObj.getString(Const.TAG_ADD_ID);
+                                String image = Const.BASE_URL + Const.AD_IMAGE_URL + advertisementId;
+
+                                String linkUrl = advertisementObj.getString(Const.TAG_ADD_URL);
+                                Boolean isAdminAdd = advertisementObj.getBoolean(Const.TAG_ADD_ISADMIN);
+
+                                Advertisement advertisement = new Advertisement(image, advertisementId, linkUrl);
+
+                                if (isAdminAdd) {
+                                    arrayListAdminAdvertisement.add(advertisement);
+                                } else {
+                                    arrayListAdvertisement.add(advertisement);
+                                }
+
+
+                            }
+                        } else {
+                            status = 0;
+                        }
+                    }
+
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            super.onPostExecute(result);
+
+            ProgresBar.stop();
+
+            if (status == 1) {
+
+                setAdvertisement();
+
+            } else if (status == 0) {
+
+                Picasso.with(AddAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+                Picasso.with(AddAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+
+            } else {
+                AlertDialogHelper.showAlertDialog(AddAddressActivity.this,
+                        getString(R.string.server_message), "Alert");
+            }
+        }
+    }
+
+    private void setAdvertisement() {
+        //adding image to admin if image is not from admin
+        if (arrayListAdminAdvertisement.size() == 0) {
+            imgViewAdAdmin.setVisibility(View.GONE);
+            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+        } else if (arrayListAdminAdvertisement.size() == 1) {
+            Picasso.with(AddAddressActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+        } else {
+
+            autoSlideImagesAdmin();
+        }
+
+        //adding image to admin if image is from admin
+        if (arrayListAdvertisement.size() == 0) {
+            imgViewAdVenue.setVisibility(View.GONE);
+            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else if (arrayListAdvertisement.size() == 1) {
+            Picasso.with(AddAddressActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+        } else {
+
+            autoSlideImages();
+        }
+    }
+
+    private void autoSlideImages() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+
+                AnimateandSlideShow();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 4000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
+
+    private void autoSlideImagesAdmin() {
+        final Handler mHandler = new Handler();
+
+        // Create runnable for posting
+        final Runnable mUpdateResults = new Runnable() {
+            public void run() {
+
+                AnimateandSlideShowAdmin();
+
+            }
+        };
+
+        int delay = 1000; // delay for 1 sec.
+
+        int period = 4000; // repeat every 4 sec.
+
+        Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+
+                mHandler.post(mUpdateResults);
+
+            }
+
+        }, delay, period);
+
+
+    }
+
+    private void AnimateandSlideShow() {
+
+        Picasso.with(this).load(arrayListAdvertisement.get(currentImageIndex % arrayListAdvertisement.size()).getImageAd()).into(imgViewAdVenue);
+        currentImagePos = currentImageIndex % arrayListAdvertisement.size();
+        currentImageIndex++;
+        //Log.e("cu1", "" + currentImagePos);
+    }
+
+    private void AnimateandSlideShowAdmin() {
+
+        Picasso.with(this).load(arrayListAdminAdvertisement.get(currentImageIndexAdmin % arrayListAdminAdvertisement.size()).getImageAd()).into(imgViewAdAdmin);
+        currentImagePosAdmin = currentImageIndexAdmin % arrayListAdminAdvertisement.size();
+        currentImageIndexAdmin++;
+
+    }
+
+
+    @OnClick(R.id.imgViewAdVenue)
+    void openBrowser() {
+        if (arrayListAdvertisement.size() != 0) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdvertisement.get(currentImagePos).getImgUrl()));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    @OnClick(R.id.imgViewAdAdmin)
+    void openBrowserAdmin() {
+        if (arrayListAdminAdvertisement.size() != 0) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(arrayListAdminAdvertisement.get(currentImagePosAdmin).getImgUrl()));
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 
 
 }

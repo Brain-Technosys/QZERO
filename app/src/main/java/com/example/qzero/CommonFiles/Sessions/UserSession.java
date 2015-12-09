@@ -36,6 +36,8 @@ public class UserSession {
 
     public static final String GCM_LOGIN = "gcm_login";
 
+    public static final String VENUE_ID="venue_id";
+
 
 
     public UserSession(Context _context) {
@@ -108,6 +110,14 @@ public class UserSession {
         editor.commit();
     }
 
+    //save GCM Token
+    public void saveVenueId(String venue_id)
+    {
+        editor.putString(VENUE_ID, venue_id);
+        editor.commit();
+    }
+
+
     public boolean getUserPermissionLoc() {
         return pref.getBoolean(KEY_LOCATION_PERM, true);
     }
@@ -143,6 +153,11 @@ public class UserSession {
 
     public boolean getLogin() {
         return pref.getBoolean(GCM_LOGIN, false);
+    }
+
+    public String getVenueId()
+    {
+        return pref.getString(VENUE_ID, "null");
     }
 
     public void clearCartSession() { // Clearing all data from Shared

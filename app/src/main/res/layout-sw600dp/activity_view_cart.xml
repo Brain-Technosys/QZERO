@@ -67,7 +67,7 @@ android:background="@color/cardview_back"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="fill_parent"
-            android:background="#ffde665d">
+            android:background="@android:color/black">
         </ImageView>
 
         <ImageView
