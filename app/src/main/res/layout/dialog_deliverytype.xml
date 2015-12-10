@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="250dp"
+    android:background="#DFDFDF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linLayTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/item_detail"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:text="Choose Delivery Type"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linLayTitle"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+
+            android:id="@+id/radioBtnShipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shipment"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <RadioButton
+
+            android:id="@+id/radioBtnPickUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick up"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <RadioButton
+
+            android:id="@+id/radioBtnInhouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In-House"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/color_background"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtViewCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/item_detail"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            android:text="@string/alertbox_cancel"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtViewChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@color/item_detail"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            android:text="CHANGE"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

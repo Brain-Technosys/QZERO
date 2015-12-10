@@ -98,6 +98,24 @@ public class AlertDialogHelper {
 
     }
 
+    //Alert Dialog box to get user permission about location
+
+    public static void alertBoxDeliveryType(final Activity context) {
+
+        setLayoutDeliveryType(context);
+
+        userSession = new UserSession(context);
+
+
+
+
+
+        dialog.show();
+
+    }
+
+
+
     public static void setLayout(Activity context, String message, String title) {
         dialog = new CustomDialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -110,6 +128,26 @@ public class AlertDialogHelper {
         txtViewAlertMsg = (TextView) dialog
                 .findViewById(R.id.txtViewAlertMsg);
         txtViewAlertMsg.setText(message);
+
+        FontHelper.applyFont(context, txtViewAlertMsg, FontType.FONT);
+
+        txtViewOk = (TextView) dialog.findViewById(R.id.txtViewOk);
+
+        FontHelper.applyFont(context, txtViewOk, FontType.FONT);
+
+    }
+
+    public static void setLayoutDeliveryType(Activity context) {
+        dialog = new CustomDialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_deliverytype);
+
+        txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
+        FontHelper.applyFont(context, txtViewTitle, FontType.FONT);
+
+
+        txtViewAlertMsg = (TextView) dialog
+                .findViewById(R.id.txtViewAlertMsg);
 
         FontHelper.applyFont(context, txtViewAlertMsg, FontType.FONT);
 
