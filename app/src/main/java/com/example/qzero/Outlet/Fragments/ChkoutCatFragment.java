@@ -2,13 +2,12 @@ package com.example.qzero.Outlet.Fragments;
 
 
 import android.content.Context;
-import android.database.Cursor;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +17,15 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.qzero.CommonFiles.Common.ConstVarIntent;
-import com.example.qzero.CommonFiles.Common.ProgresBar;
-import com.example.qzero.CommonFiles.Helpers.AlertDialogHelper;
-import com.example.qzero.CommonFiles.Helpers.CheckInternetHelper;
+
 import com.example.qzero.CommonFiles.Helpers.DatabaseHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper;
-import com.example.qzero.CommonFiles.RequestResponse.Const;
-import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
-import com.example.qzero.CommonFiles.Sessions.ShippingAddSession;
+
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.ObjectClasses.DeliveryType;
 import com.example.qzero.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 

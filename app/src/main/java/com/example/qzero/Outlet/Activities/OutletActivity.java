@@ -200,6 +200,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     SearchView search_view;
     LinearLayout item;
 
+    LinearLayout linLayAdvertisement;
     ImageView imgViewAdAdmin;
     ImageView imgViewAdVenue;
 
@@ -218,6 +219,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outlet);
 
+        //ButterKnife.inject(this);
 
         databaseHelper = new DatabaseHelper(this);
 
@@ -252,6 +254,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
         imgViewAdAdmin = (ImageView) findViewById(R.id.imgViewAdAdmin);
         imgViewAdVenue = (ImageView) findViewById(R.id.imgViewAdVenue);
+        linLayAdvertisement = (LinearLayout) findViewById(R.id.linLayAdvertisement);
 
         imgViewAdVenue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -894,33 +897,42 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             if (status == 1) {
 
-                //adding image to admin if image is not from admin
-                if (arrayListAdminAdvertisement.size() == 0) {
-                     imgViewAdAdmin.setVisibility(View.GONE);
-                    //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-                } else if (arrayListAdminAdvertisement.size() == 1) {
-                    Picasso.with(OutletActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+                if (arrayListAdminAdvertisement.size() == 0 && arrayListAdvertisement.size() == 0) {
+
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+
+
+                    linLayAdvertisement.setVisibility(View.GONE);
+
                 } else {
+                    //adding image to admin if image is not from admin
+                    if (arrayListAdminAdvertisement.size() == 0) {
+                        imgViewAdAdmin.setVisibility(View.GONE);
+                        //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+                    } else if (arrayListAdminAdvertisement.size() == 1) {
+                        Picasso.with(OutletActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+                    } else {
 
-                    autoSlideImagesAdmin();
+                        autoSlideImagesAdmin();
+                    }
+
+                    //adding image to admin if image is from admin
+                    if (arrayListAdvertisement.size() == 0) {
+                        imgViewAdVenue.setVisibility(View.GONE);
+                        //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+                    } else if (arrayListAdvertisement.size() == 1) {
+                        Picasso.with(OutletActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+                    } else {
+
+                        autoSlideImages();
+                    }
                 }
-
-                //adding image to admin if image is from admin
-                if (arrayListAdvertisement.size() == 0) {
-                    imgViewAdVenue.setVisibility(View.GONE);
-                    //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                } else if (arrayListAdvertisement.size() == 1) {
-                    Picasso.with(OutletActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
-                } else {
-
-                    autoSlideImages();
-                }
-
             } else if (status == 0) {
 
-                Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-
+//                Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+//                Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+                linLayAdvertisement.setVisibility(View.GONE);
             } else {
                 AlertDialogHelper.showAlertDialog(OutletActivity.this,
                         getString(R.string.server_message), "Alert");
@@ -1072,7 +1084,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         @Override
         protected String doInBackground(String... params) {
 
-           // Log.e("inside", "do in");
+            // Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" + itemId

@@ -95,11 +95,49 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/relLayDlvryType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relLayHome"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/selector_navigation_menu_item">
+
+
+                <ImageView
+                    android:id="@+id/img_DeliveryType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:padding="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_delivery_type" />
+
+                <TextView
+
+                    android:id="@+id/txtViewDeliveryType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@+id/img_DeliveryType"
+                    android:gravity="start"
+                    android:padding="10dp"
+                    android:text="@string/txt_dlvry_typ"
+                    android:textColor="@color/navigation_text_color"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/navigationView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relLayHome"
+                android:layout_below="@+id/relLayDlvryType"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:gravity="start"

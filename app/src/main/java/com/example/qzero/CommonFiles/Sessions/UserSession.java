@@ -36,8 +36,9 @@ public class UserSession {
 
     public static final String GCM_LOGIN = "gcm_login";
 
-    public static final String VENUE_ID="venue_id";
+    public static final String VENUE_ID = "venue_id";
 
+    private static final String TAG_DELIVERY_TYPE = "delivery_type";
 
 
     public UserSession(Context _context) {
@@ -83,7 +84,7 @@ public class UserSession {
     }
 
 
-    public void saveUserLocation(String city,String zip_code) {
+    public void saveUserLocation(String city, String zip_code) {
         editor.putString(KEY_USER_LOCATION, city);
         editor.putString(KEY_ZIP_CODE, zip_code);
 
@@ -97,23 +98,26 @@ public class UserSession {
     }
 
     //save GCM Token
-    public void saveGCMToken(String token)
-    {
-       Log.e("session", token);
-        editor.putString(GCM_TOKEN,token);
+    public void saveGCMToken(String token) {
+        Log.e("session", token);
+        editor.putString(GCM_TOKEN, token);
         editor.commit();
     }
 
-    public void saveLogin(Boolean value)
-    {
+    public void saveLogin(Boolean value) {
         editor.putBoolean(GCM_LOGIN, value);
         editor.commit();
     }
 
     //save GCM Token
-    public void saveVenueId(String venue_id)
-    {
+    public void saveVenueId(String venue_id) {
         editor.putString(VENUE_ID, venue_id);
+        editor.commit();
+    }
+
+    //storing delivery type
+    public void saveDeliveryType(String deliveryType) {
+        editor.putString(TAG_DELIVERY_TYPE, deliveryType);
         editor.commit();
     }
 
@@ -127,18 +131,21 @@ public class UserSession {
     }
 
     public String getUserLocation() {
-        return pref.getString(KEY_USER_LOCATION,null);
+        return pref.getString(KEY_USER_LOCATION, null);
     }
 
     public String getZipCode() {
-        return pref.getString(KEY_ZIP_CODE,null);
+        return pref.getString(KEY_ZIP_CODE, null);
     }
 
+    public String getDeliveryType() {
+        return pref.getString(TAG_DELIVERY_TYPE, null);
+    }
 
 
     //get finalPaybleAmount
 
-    public String getFinalPaybleAmount(){
+    public String getFinalPaybleAmount() {
         return pref.getString(KEY_FINALPAYBLE_AMOUNT, "0.0");
     }
 
@@ -146,8 +153,7 @@ public class UserSession {
      * Clear session details
      */
 
-    public String getGcmToken()
-    {
+    public String getGcmToken() {
         return pref.getString(GCM_TOKEN, "null");
     }
 
@@ -155,8 +161,7 @@ public class UserSession {
         return pref.getBoolean(GCM_LOGIN, false);
     }
 
-    public String getVenueId()
-    {
+    public String getVenueId() {
         return pref.getString(VENUE_ID, "null");
     }
 
@@ -173,6 +178,12 @@ public class UserSession {
         editor.remove(GCM_LOGIN);
         editor.commit();
     }
+
+    public void clearDeliveryType() {
+        editor.remove(TAG_DELIVERY_TYPE);
+        editor.commit();
+    }
+
 
     /**
      * Quick check for login

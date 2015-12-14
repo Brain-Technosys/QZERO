@@ -228,7 +228,7 @@ public class ShipmentTabFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("onresume", "onresume");
+
 
         hmBillAddressDetail.clear();
         hmShipAddressDetail.clear();
@@ -305,8 +305,7 @@ public class ShipmentTabFragment extends Fragment {
             {
                 shipping_id="0";
             }
-            Log.e("bill2", billing_id);
-            Log.e("ship2", shipping_id);
+
             jsonObjDetails.put("outletId", outletId);
             jsonObjDetails.put("totalAmount", totalAmount);
             jsonObjDetails.put("billingAddressId", billing_id);
@@ -387,11 +386,14 @@ public class ShipmentTabFragment extends Fragment {
             jsonObjDetails.putOpt("orderItemStatus", jsonArrayOrder);
             jsonObjDetails.putOpt("orderItemModifiers", jsonArrayMod);
 
-            Log.e("json", jsonObjDetails.toString());
+
 
             postToCheckOut(jsonObjDetails.toString());
 
-        } catch (JSONException ex) {
+        }catch (NullPointerException e) {
+            e.printStackTrace();
+        }catch
+         (JSONException ex) {
             ex.printStackTrace();
         }
     }
@@ -516,7 +518,7 @@ public class ShipmentTabFragment extends Fragment {
             } else {
                 try {
                     JSONObject jsonObjResult = new JSONObject(shippingAddSession.getChkOutDetail());
-                    Log.e("jsonObjResult", shippingAddSession.getChkOutDetail());
+
                     try {
 
 
@@ -577,7 +579,11 @@ public class ShipmentTabFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } catch (JSONException e) {
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+
+                catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -596,7 +602,7 @@ public class ShipmentTabFragment extends Fragment {
                 billing_id=shippingAddSession.getBillingID();
                 if (billing_id.equals("null")) {
                     billing_id = hmBillAddressDetail.get(Const.TAG_BILLING_ID);
-                    Log.e("bill1", billing_id);
+
                     bill_add_name = hmBillAddressDetail.get(Const.TAG_FNAME);
                     bill_add_address = hmBillAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmBillAddressDetail.get(Const.TAG_CITY) + ", " + hmBillAddressDetail.get(Const.TAG_STATE) + ", " +
                             hmBillAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmBillAddressDetail.get(Const.TAG_ZIPCODE);
@@ -608,7 +614,7 @@ public class ShipmentTabFragment extends Fragment {
                 shipping_id=shippingAddSession.getShippingID();
                 if (shipping_id.equals("null")) {
                     shipping_id = hmShipAddressDetail.get(Const.TAG_SHIPPING_ID);
-                    Log.e("ship1", shipping_id);
+
                     ship_add_name = hmShipAddressDetail.get(Const.TAG_FNAME);
                     ship_add_address = hmShipAddressDetail.get(Const.TAG_ADDRESS1) + ", " + hmShipAddressDetail.get(Const.TAG_CITY) + ", " + hmShipAddressDetail.get(Const.TAG_STATE) + ", " +
                             hmShipAddressDetail.get(Const.TAG_COUNTRY) + ", " + hmShipAddressDetail.get(Const.TAG_ZIPCODE);
@@ -648,7 +654,7 @@ public class ShipmentTabFragment extends Fragment {
             //Updating Billing Address
             billing_id = shippingAddSession.getBillingID();
 
-            Log.e("bill3", billing_id);
+
             txt_user_bill_add.setText(shippingAddSession.getBillingName());
             // txt_user_bill_add.setTag(shippingAddSession.getBillingID());
             txt_billing_address.setText(shippingAddSession.getBillingAddress());
@@ -693,7 +699,7 @@ public class ShipmentTabFragment extends Fragment {
 
             //Updating Shipping Address
             shipping_id = shippingAddSession.getShippingID();
-            Log.e("ship3", shipping_id);
+
             txt_user_ship.setText(shippingAddSession.getShippingName());
             txt_shipping_address.setText(shippingAddSession.getShippingAddress());
             txt_shipping_contact.setText(shippingAddSession.getShippingContact());

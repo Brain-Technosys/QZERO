@@ -81,6 +81,9 @@ public class ViewCartActivity extends Activity {
     @InjectView(R.id.txt_empty_cart_msg)
     TextView txt_empty_cart_msg;
 
+    @InjectView(R.id.linLayAdvertisement)
+    LinearLayout linLayAdvertisement;
+
     Button continue_shopping;
     Button placeOrder;
 
@@ -625,8 +628,9 @@ public class ViewCartActivity extends Activity {
 
             } else if (status == 0) {
 
-                Picasso.with(ViewCartActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                Picasso.with(ViewCartActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//                Picasso.with(ViewCartActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+//                Picasso.with(ViewCartActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+                linLayAdvertisement.setVisibility(View.GONE);
 
             } else {
                 AlertDialogHelper.showAlertDialog(ViewCartActivity.this,
@@ -636,26 +640,35 @@ public class ViewCartActivity extends Activity {
     }
 
     private void setAdvertisement() {
-        //adding image to admin if image is not from admin
-        if (arrayListAdminAdvertisement.size() == 0) {
-            imgViewAdAdmin.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-        } else if (arrayListAdminAdvertisement.size() == 1) {
-            Picasso.with(ViewCartActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+
+        if (arrayListAdminAdvertisement.size() == 0 && arrayListAdvertisement.size() == 0) {
+
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+
+            linLayAdvertisement.setVisibility(View.GONE);
         } else {
+            //adding image to admin if image is not from admin
+            if (arrayListAdminAdvertisement.size() == 0) {
+                imgViewAdAdmin.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else if (arrayListAdminAdvertisement.size() == 1) {
+                Picasso.with(ViewCartActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else {
 
-            autoSlideImagesAdmin();
-        }
+                autoSlideImagesAdmin();
+            }
 
-        //adding image to admin if image is from admin
-        if (arrayListAdvertisement.size() == 0) {
-            imgViewAdVenue.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else if (arrayListAdvertisement.size() == 1) {
-            Picasso.with(ViewCartActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else {
+            //adding image to admin if image is from admin
+            if (arrayListAdvertisement.size() == 0) {
+                imgViewAdVenue.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else if (arrayListAdvertisement.size() == 1) {
+                Picasso.with(ViewCartActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else {
 
-            autoSlideImages();
+                autoSlideImages();
+            }
         }
     }
 

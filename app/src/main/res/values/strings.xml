@@ -35,6 +35,7 @@
     <string name="txt_search">Search</string>
     <string name="txt_my_profile">My Profile</string>
     <string name="txt_login">Login</string>
+    <string name="txt_dlvry_typ">Change Delivery type</string>
     <string name="msg_perm_get_location">QZERO want to know your location.</string>
     <string name="title_perm_get_location">Location Permission</string>
     <string name="wifi_mobile_network_error">No network found, please turn on your wifi or mobile network.</string>

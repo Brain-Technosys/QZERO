@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
@@ -98,23 +100,6 @@ public class AlertDialogHelper {
 
     }
 
-    //Alert Dialog box to get user permission about location
-
-    public static void alertBoxDeliveryType(final Activity context) {
-
-        setLayoutDeliveryType(context);
-
-        userSession = new UserSession(context);
-
-
-
-
-
-        dialog.show();
-
-    }
-
-
 
     public static void setLayout(Activity context, String message, String title) {
         dialog = new CustomDialog(context);
@@ -133,25 +118,75 @@ public class AlertDialogHelper {
 
         txtViewOk = (TextView) dialog.findViewById(R.id.txtViewOk);
 
+
         FontHelper.applyFont(context, txtViewOk, FontType.FONT);
 
     }
 
+    //Alert Dialog box to get user permission about location
+
+    public static void alertBoxDeliveryType(final Activity context) {
+
+        setLayoutDeliveryType(context);
+
+        userSession = new UserSession(context);
+
+        dialog.show();
+
+    }
+
     public static void setLayoutDeliveryType(Activity context) {
+        final String[] deliveryType = new String[1];
+
         dialog = new CustomDialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_deliverytype);
 
         txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
+        RadioGroup rg_deliveryType = (RadioGroup) dialog.findViewById(R.id.rg_deliveryType);
+        final RadioButton radioBtnShipment = (RadioButton) dialog.findViewById(R.id.radioBtnShipment);
+        final RadioButton radioBtnPickUp = (RadioButton) dialog.findViewById(R.id.radioBtnPickUp);
+        final RadioButton radioBtnInhouse = (RadioButton) dialog.findViewById(R.id.radioBtnInhouse);
+       // txtViewAlertMsg = (TextView) dialog.findViewById(R.id.txtViewAlertMsg);
+        txtViewOk = (TextView) dialog.findViewById(R.id.txtViewChange);
+
         FontHelper.applyFont(context, txtViewTitle, FontType.FONT);
+      //  FontHelper.applyFont(context, txtViewAlertMsg, FontType.FONT);
+
+        rg_deliveryType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                // find which radio button is selected
+
+                if (checkedId == R.id.radioBtnShipment) {
+                    deliveryType[0] = radioBtnShipment.getText().toString();
+                } else if (checkedId == R.id.radioBtnPickUp) {
+                    deliveryType[0] = radioBtnPickUp.getText().toString();
+                } else if (checkedId == R.id.radioBtnInhouse) {
+                    deliveryType[0] = radioBtnInhouse.getText().toString();
+                }
+
+            }
+
+        });
 
 
-        txtViewAlertMsg = (TextView) dialog
-                .findViewById(R.id.txtViewAlertMsg);
+        txtViewOk.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        FontHelper.applyFont(context, txtViewAlertMsg, FontType.FONT);
+//                Log.e("deliveryType",deliveryType[0]);
+                //save user choice abt delivery type
+                if (deliveryType != null) {
+                    userSession.saveDeliveryType(deliveryType[0]);
+                }
+                dialog.dismiss();
 
-        txtViewOk = (TextView) dialog.findViewById(R.id.txtViewOk);
+            }
+        });
 
         FontHelper.applyFont(context, txtViewOk, FontType.FONT);
 

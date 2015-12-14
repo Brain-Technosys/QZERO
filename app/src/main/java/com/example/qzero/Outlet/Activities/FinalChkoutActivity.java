@@ -21,7 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -112,6 +112,9 @@ public class FinalChkoutActivity extends AppCompatActivity {
     @InjectView(R.id.imgViewAdVenue)
     ImageView imgViewAdVenue;
 
+    @InjectView(R.id.linLayAdvertisement)
+    LinearLayout linLayAdvertisement;
+
     HashMap<Integer, ArrayList<DbItems>> hashMapItems;
     HashMap<Integer, ArrayList<DbModifiers>> hashMapModifiers;
     HashMap<Integer, ArrayList<DbItems>> hashMapListItems;
@@ -145,8 +148,8 @@ public class FinalChkoutActivity extends AppCompatActivity {
     String outletId;
     String venueId;
 
-    int categoryId=0;
-    int item_id=0;
+    int categoryId = 0;
+    int item_id = 0;
 
     Cursor itemCursor;
     Cursor itemIdCursorMod;
@@ -259,7 +262,6 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
                 itemName = distinctItemCursor.getString(index);
 
-                Log.e("item_name", itemName);
 
                 Cursor itemIdCursor = databaseHelper.selectItems(itemName);
 
@@ -339,7 +341,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                             String mod_price = modCursor.getString(4);
                             String quantity = modCursor.getString(5);
 
-                           // Log.e("mod_name", mod_name);
+                            // Log.e("mod_name", mod_name);
 
 
                             DbModifiers dbModifiers = new DbModifiers(item_id, quantity, mod_name, mod_price);
@@ -503,7 +505,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             String jsonString = jsonParser.executePost(url, parameter, userId, Const.TIME_OUT);
 
-           // Log.e("json", jsonString);
+            // Log.e("json", jsonString);
 
 
             try {
@@ -572,7 +574,6 @@ public class FinalChkoutActivity extends AppCompatActivity {
                 if (confirm != null) {
                     try {
                         System.out.println("Responseeee" + confirm);
-                        Log.i("paymentExample", confirm.toJSONObject().toString());
 
 
                         JSONObject jsonObj = new JSONObject(confirm.toJSONObject().toString());
@@ -584,13 +585,13 @@ public class FinalChkoutActivity extends AppCompatActivity {
                         callTransactionApi();
 
                     } catch (JSONException e) {
-                        Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+
                     }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i("paymentExample", "The user canceled.");
+
             } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-                Log.i("paymentExample", "An invalid Payment was submitted. Please see the docs.");
+
             }
         }
 
@@ -742,7 +743,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(jsonString);
 
                 if (jsonObject != null) {
-                   // Log.e("json", jsonString);
+                    // Log.e("json", jsonString);
                     status = jsonObject.getInt("status");
                     message = jsonObject.getString("message");
                     if (status == 1) {
@@ -791,8 +792,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                         getString(R.string.server_message), "Alert");
             }
 
-            if(getIntent().hasExtra("gcm"))
-            {
+            if (getIntent().hasExtra("gcm")) {
                 if (userSession.getLogin()) {
 
                     userSession.saveLogin(false);
@@ -824,12 +824,9 @@ public class FinalChkoutActivity extends AppCompatActivity {
                         .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
 
-                    Log.e("gcm message", getString(R.string.gcm_send_message));
-
-
 
                 } else {
-                    Log.e("gcm message", getString(R.string.token_error_message));
+
                 }
             }
         };
@@ -853,7 +850,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                         .show();
             } else {
-                Log.i(TAG, "This device is not supported.");
+
                 finish();
             }
             return false;
@@ -869,7 +866,7 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
     public void getAdvertisement() {
 
-        venueId=userSession.getVenueId();
+        venueId = userSession.getVenueId();
 
         if (CheckInternetHelper.checkInternetConnection(this)) {
             new GetAdvertisement().execute();
@@ -971,8 +968,10 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             } else if (status == 0) {
 
-                Picasso.with(FinalChkoutActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                Picasso.with(FinalChkoutActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//                Picasso.with(FinalChkoutActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+//                Picasso.with(FinalChkoutActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+                linLayAdvertisement.setVisibility(View.GONE);
+
 
             } else {
                 AlertDialogHelper.showAlertDialog(FinalChkoutActivity.this,
@@ -982,26 +981,35 @@ public class FinalChkoutActivity extends AppCompatActivity {
     }
 
     private void setAdvertisement() {
-        //adding image to admin if image is not from admin
-        if (arrayListAdminAdvertisement.size() == 0) {
-            imgViewAdAdmin.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-        } else if (arrayListAdminAdvertisement.size() == 1) {
-            Picasso.with(FinalChkoutActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+
+        if (arrayListAdminAdvertisement.size() == 0 && arrayListAdvertisement.size() == 0) {
+
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+
+            linLayAdvertisement.setVisibility(View.GONE);
         } else {
+            //adding image to admin if image is not from admin
+            if (arrayListAdminAdvertisement.size() == 0) {
+                imgViewAdAdmin.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else if (arrayListAdminAdvertisement.size() == 1) {
+                Picasso.with(FinalChkoutActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else {
 
-            autoSlideImagesAdmin();
-        }
+                autoSlideImagesAdmin();
+            }
 
-        //adding image to admin if image is from admin
-        if (arrayListAdvertisement.size() == 0) {
-            imgViewAdVenue.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else if (arrayListAdvertisement.size() == 1) {
-            Picasso.with(FinalChkoutActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else {
+            //adding image to admin if image is from admin
+            if (arrayListAdvertisement.size() == 0) {
+                imgViewAdVenue.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else if (arrayListAdvertisement.size() == 1) {
+                Picasso.with(FinalChkoutActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else {
 
-            autoSlideImages();
+                autoSlideImages();
+            }
         }
     }
 

@@ -33,6 +33,8 @@ public class ShippingAddSession {
 
     private static final String TAG_CHKOUT_DETAIL = "chkout_detail";
 
+
+
     public ShippingAddSession(Context context) {
         this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -63,7 +65,7 @@ public class ShippingAddSession {
     }
 
     public void saveBillingID(String id) {
-        editor.putString(TAG_BILLING_ID,id);
+        editor.putString(TAG_BILLING_ID, id);
         editor.commit();
     }
 
@@ -99,6 +101,9 @@ public class ShippingAddSession {
         editor.commit();
     }
 
+
+
+
     //get Address of different type
     public String getBillingAddress() {
         return pref.getString(TAG_BILLING_ADD, null);
@@ -117,7 +122,7 @@ public class ShippingAddSession {
     }
 
     public String getBillingID() {
-        return pref.getString(TAG_BILLING_ID,"null");
+        return pref.getString(TAG_BILLING_ID, "null");
     }
 
     public String getShippingAddress() {
@@ -162,6 +167,7 @@ public class ShippingAddSession {
         editor.remove(TAG_BILLING_ID);
         editor.commit();
     }
+
 
     public void clear() {
         editor.clear();

@@ -101,6 +101,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
     @InjectView(R.id.imgViewAdVenue)
     ImageView imgViewAdVenue;
 
+    @InjectView(R.id.linLayAdvertisement)
+    LinearLayout linLayAdvertisement;
+
     ImageView imgViewUpArrow;
     ImageView imgViewDownArrow;
 
@@ -964,9 +967,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 setAdvertisement();
             } else if (status == 0) {
 
-                Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-
+//                Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+//                Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+                linLayAdvertisement.setVisibility(View.GONE);
             } else {
                 AlertDialogHelper.showAlertDialog(OutletCategoryActivity.this,
                         getString(R.string.server_message), "Alert");
@@ -982,8 +985,9 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
         if (arrayListAdminAdvertisement.size() == 0 && arrayListAdvertisement.size() == 0) {
 
-            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+            linLayAdvertisement.setVisibility(View.GONE);
         } else {
             if (arrayListAdminAdvertisement.size() == 0) {
 
@@ -1116,6 +1120,14 @@ public class OutletCategoryActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
         }
+    }
+
+    @OnClick(R.id.relLayDlvryType)
+    public void setDeliveryType() {
+//        Intent intent = new Intent(OutletCategoryActivity.this, HomeActivity.class);
+//        startActivity(intent);
+        closeDrawer();
+        AlertDialogHelper.alertBoxDeliveryType(this);
     }
 
 }

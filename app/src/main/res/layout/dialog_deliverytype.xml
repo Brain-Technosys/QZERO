@@ -29,6 +29,7 @@
     </LinearLayout>
 
     <RadioGroup
+        android:id="@+id/rg_deliveryType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linLayTitle"
@@ -74,28 +75,28 @@
         android:gravity="center"
         android:padding="5dp">
 
-        <TextView
-            android:id="@+id/txtViewCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/item_detail"
-            android:gravity="center_horizontal"
-            android:padding="4dp"
-            android:text="@string/alertbox_cancel"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:id="@+id/txtViewCancel"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/item_detail"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:padding="4dp"-->
+            <!--android:text="@string/alertbox_cancel"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textStyle="bold" />-->
 
         <TextView
             android:id="@+id/txtViewChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@color/item_detail"
             android:gravity="center_horizontal"
             android:padding="4dp"
-            android:text="CHANGE"
+            android:textColor="#FFFFFF"
+            android:text="OK"
             android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>

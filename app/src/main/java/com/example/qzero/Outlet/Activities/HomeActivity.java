@@ -85,6 +85,7 @@ public class HomeActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         if (userSession.isUserLoggedIn()) {
             txtViewLogin.setText(getString(R.string.txt_my_profile));
         } else {
@@ -140,6 +141,11 @@ public class HomeActivity extends FragmentActivity {
         }
 
         startActivity(intent);
+    }
+
+    @OnClick(R.id.relLayDeliveryTyp)
+    public void setDeliveryType(){
+        AlertDialogHelper.alertBoxDeliveryType(this);
     }
 
     private void setUserLocation() {
