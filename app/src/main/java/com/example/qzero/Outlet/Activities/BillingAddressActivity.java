@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,6 +61,9 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
     @InjectView(R.id.imgViewAdVenue)
     ImageView imgViewAdVenue;
+
+    @InjectView(R.id.linLayAdvertisement)
+    LinearLayout linLayAdvertisement;
 
 
     ArrayList<HashMap<String, String>> listAddress;
@@ -373,9 +377,9 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
 
             } else if (status == 0) {
 
-                Picasso.with(BillingAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                Picasso.with(BillingAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-
+//                Picasso.with(BillingAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+//                Picasso.with(BillingAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+                linLayAdvertisement.setVisibility(View.GONE);
             } else {
                 AlertDialogHelper.showAlertDialog(BillingAddressActivity.this,
                         getString(R.string.server_message), "Alert");
@@ -384,29 +388,37 @@ public class BillingAddressActivity extends AppCompatActivity implements View.On
     }
 
     private void setAdvertisement() {
-        //adding image to admin if image is not from admin
-        if (arrayListAdminAdvertisement.size() == 0) {
-            imgViewAdAdmin.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-        } else if (arrayListAdminAdvertisement.size() == 1) {
-            Picasso.with(BillingAddressActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+
+        if (arrayListAdminAdvertisement.size() == 0 && arrayListAdvertisement.size() == 0) {
+
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+
+            linLayAdvertisement.setVisibility(View.GONE);
         } else {
+            //adding image to admin if image is not from admin
+            if (arrayListAdminAdvertisement.size() == 0) {
+                imgViewAdAdmin.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else if (arrayListAdminAdvertisement.size() == 1) {
+                Picasso.with(BillingAddressActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else {
 
-            autoSlideImagesAdmin();
-        }
+                autoSlideImagesAdmin();
+            }
 
-        //adding image to admin if image is from admin
-        if (arrayListAdvertisement.size() == 0) {
-            imgViewAdVenue.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else if (arrayListAdvertisement.size() == 1) {
-            Picasso.with(BillingAddressActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else {
+            //adding image to admin if image is from admin
+            if (arrayListAdvertisement.size() == 0) {
+                imgViewAdVenue.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else if (arrayListAdvertisement.size() == 1) {
+                Picasso.with(BillingAddressActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else {
 
-            autoSlideImages();
+                autoSlideImages();
+            }
         }
     }
-
     private void autoSlideImages() {
         final Handler mHandler = new Handler();
 

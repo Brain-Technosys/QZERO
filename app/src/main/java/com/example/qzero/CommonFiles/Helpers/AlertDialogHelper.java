@@ -81,6 +81,9 @@ public class AlertDialogHelper {
 
                 ((HomeActivity) context).getUserLocation();
 
+                //Alert box to ask delivery type
+                alertBoxDeliveryType(context);
+
                 dialog.dismiss();
 
             }
@@ -92,6 +95,9 @@ public class AlertDialogHelper {
             public void onClick(View view) {
                 userSession.saveAppLaunchStatus(true);
                 userSession.saveUserLocationPermission(false);
+
+                //Alert box to ask delivery type
+                alertBoxDeliveryType(context);
                 dialog.dismiss();
             }
         });
@@ -129,8 +135,6 @@ public class AlertDialogHelper {
 
         setLayoutDeliveryType(context);
 
-        userSession = new UserSession(context);
-
         dialog.show();
 
     }
@@ -147,11 +151,12 @@ public class AlertDialogHelper {
         final RadioButton radioBtnShipment = (RadioButton) dialog.findViewById(R.id.radioBtnShipment);
         final RadioButton radioBtnPickUp = (RadioButton) dialog.findViewById(R.id.radioBtnPickUp);
         final RadioButton radioBtnInhouse = (RadioButton) dialog.findViewById(R.id.radioBtnInhouse);
-       // txtViewAlertMsg = (TextView) dialog.findViewById(R.id.txtViewAlertMsg);
+        final TextView txt_deliveryType = (TextView) dialog.findViewById(R.id.txt_deliveryType);
+        // txtViewAlertMsg = (TextView) dialog.findViewById(R.id.txtViewAlertMsg);
         txtViewOk = (TextView) dialog.findViewById(R.id.txtViewChange);
 
         FontHelper.applyFont(context, txtViewTitle, FontType.FONT);
-      //  FontHelper.applyFont(context, txtViewAlertMsg, FontType.FONT);
+        //  FontHelper.applyFont(context, txtViewAlertMsg, FontType.FONT);
 
         rg_deliveryType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -190,6 +195,13 @@ public class AlertDialogHelper {
 
         FontHelper.applyFont(context, txtViewOk, FontType.FONT);
 
+        userSession = new UserSession(context);
+        if (userSession.getDeliveryType() != null) {
+            txt_deliveryType.setVisibility(View.VISIBLE);
+            txt_deliveryType.setText("Your selected delivery type is  :  "+userSession.getDeliveryType());
+        }else{
+            txt_deliveryType.setVisibility(View.INVISIBLE);
+        }
     }
 
     //Alert Dialog box set Layout for get location

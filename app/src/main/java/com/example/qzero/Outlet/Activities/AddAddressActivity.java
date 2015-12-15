@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,6 +95,9 @@ public class AddAddressActivity extends AppCompatActivity {
 
     @InjectView(R.id.imgViewAdVenue)
     ImageView imgViewAdVenue;
+
+    @InjectView(R.id.linLayAdvertisement)
+    LinearLayout linLayAdvertisement;
 
 
     String countryId;
@@ -840,9 +844,10 @@ public class AddAddressActivity extends AppCompatActivity {
 
             } else if (status == 0) {
 
-                Picasso.with(AddAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-                Picasso.with(AddAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//                Picasso.with(AddAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+//                Picasso.with(AddAddressActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
 
+                linLayAdvertisement.setVisibility(View.GONE);
             } else {
                 AlertDialogHelper.showAlertDialog(AddAddressActivity.this,
                         getString(R.string.server_message), "Alert");
@@ -851,29 +856,37 @@ public class AddAddressActivity extends AppCompatActivity {
     }
 
     private void setAdvertisement() {
-        //adding image to admin if image is not from admin
-        if (arrayListAdminAdvertisement.size() == 0) {
-            imgViewAdAdmin.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
-        } else if (arrayListAdminAdvertisement.size() == 1) {
-            Picasso.with(AddAddressActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+        if (arrayListAdminAdvertisement.size() == 0 && arrayListAdvertisement.size() == 0) {
+
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+//            Picasso.with(OutletCategoryActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+
+            linLayAdvertisement.setVisibility(View.GONE);
         } else {
 
-            autoSlideImagesAdmin();
-        }
+            //adding image to admin if image is not from admin
+            if (arrayListAdminAdvertisement.size() == 0) {
+                imgViewAdAdmin.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else if (arrayListAdminAdvertisement.size() == 1) {
+                Picasso.with(AddAddressActivity.this).load(arrayListAdminAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdAdmin);
+            } else {
 
-        //adding image to admin if image is from admin
-        if (arrayListAdvertisement.size() == 0) {
-            imgViewAdVenue.setVisibility(View.GONE);
-            //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else if (arrayListAdvertisement.size() == 1) {
-            Picasso.with(AddAddressActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
-        } else {
+                autoSlideImagesAdmin();
+            }
 
-            autoSlideImages();
+            //adding image to admin if image is from admin
+            if (arrayListAdvertisement.size() == 0) {
+                imgViewAdVenue.setVisibility(View.GONE);
+                //Picasso.with(OutletActivity.this).load(R.drawable.noimage).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else if (arrayListAdvertisement.size() == 1) {
+                Picasso.with(AddAddressActivity.this).load(arrayListAdvertisement.get(0).getImageAd()).error(R.drawable.noimage).into(imgViewAdVenue);
+            } else {
+
+                autoSlideImages();
+            }
         }
     }
-
     private void autoSlideImages() {
         final Handler mHandler = new Handler();
 

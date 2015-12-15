@@ -12,8 +12,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
         android:layout_above="@+id/linLayAdvertisement"
+        android:layout_below="@+id/header"
         android:layout_marginTop="10dp">
 
         <LinearLayout
@@ -25,9 +25,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="First Name:"
                 android:textColor="@color/black"
-                android:text="First Name:" />
+                android:textSize="@dimen/textSize" />
 
 
             <android.support.v7.widget.AppCompatEditText
@@ -53,9 +53,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:text="Last Name:"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textSize"
-                android:text="Last Name:" />
+                android:textSize="@dimen/textSize" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edtTxtLastName"
@@ -80,9 +80,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="Address:"
                 android:textColor="@color/black"
-                android:text="Address:" />
+                android:textSize="@dimen/textSize" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edtTxtAddress"
@@ -107,9 +107,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="Zip Code:"
                 android:textColor="@color/black"
-                android:text="Zip Code:" />
+                android:textSize="@dimen/textSize" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edtTxtZipCode"
@@ -134,9 +134,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="Country:"
                 android:textColor="@color/black"
-                android:text="Country:" />
+                android:textSize="@dimen/textSize" />
 
             <Spinner
                 android:id="@+id/spnr_country"
@@ -146,17 +146,16 @@
 
                 android:layout_centerHorizontal="true"
 
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                ></Spinner>
+                android:layout_marginRight="10dp"></Spinner>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="State:"
                 android:textColor="@color/black"
-                android:text="State:" />
+                android:textSize="@dimen/textSize" />
 
             <Spinner
                 android:id="@+id/spnr_state"
@@ -164,18 +163,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                ></Spinner>
+                android:layout_marginRight="10dp"></Spinner>
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="Town/City:"
                 android:textColor="@color/black"
-                android:text="Town/City:" />
+                android:textSize="@dimen/textSize" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edtTxtTownCity"
@@ -200,9 +198,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="Email:"
                 android:textColor="@color/black"
-                android:text="Email:" />
+                android:textSize="@dimen/textSize" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/edtTxtEmail"
@@ -229,9 +227,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/textSize"
+                android:text="Phone:"
                 android:textColor="@color/black"
-                android:text="Phone:" />
+                android:textSize="@dimen/textSize" />
 
 
             <android.support.v7.widget.AppCompatEditText
@@ -282,17 +280,15 @@
         <ImageView
             android:id="@+id/imgViewAdAdmin"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="fill_parent"
-            android:background="@android:color/black">
-        </ImageView>
+            android:layout_weight="1"
+            android:background="@android:color/black"></ImageView>
 
         <ImageView
             android:id="@+id/imgViewAdVenue"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="fill_parent"
-            android:background="@android:color/black">
-        </ImageView>
+            android:layout_weight="1"
+            android:background="@android:color/black"></ImageView>
     </LinearLayout>
 </RelativeLayout>

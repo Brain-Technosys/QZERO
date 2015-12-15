@@ -86,6 +86,11 @@ public class HomeActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
+        //
+        if (LOGINTYPE.equals("OUTLETCAT")) {
+            AlertDialogHelper.alertBoxDeliveryType(this);
+        }
+
         if (userSession.isUserLoggedIn()) {
             txtViewLogin.setText(getString(R.string.txt_my_profile));
         } else {
@@ -135,7 +140,7 @@ public class HomeActivity extends FragmentActivity {
         intent.putExtra("LOGINTYPE", LOGINTYPE);
 
         if (getIntent().hasExtra("LOGINTYPE")) {
-            if (LOGINTYPE.equals("OUTLET")||LOGINTYPE.equals("CHECKOUT")) {
+            if (LOGINTYPE.equals("OUTLET") || LOGINTYPE.equals("CHECKOUT")) {
                 finish();
             }
         }
@@ -144,7 +149,7 @@ public class HomeActivity extends FragmentActivity {
     }
 
     @OnClick(R.id.relLayDeliveryTyp)
-    public void setDeliveryType(){
+    public void setDeliveryType() {
         AlertDialogHelper.alertBoxDeliveryType(this);
     }
 
@@ -187,9 +192,9 @@ public class HomeActivity extends FragmentActivity {
                     Address returnAddress = addresses.get(0);
 
                     String city = returnAddress.getLocality();
-                    String zipCode=returnAddress.getPostalCode();
+                    String zipCode = returnAddress.getPostalCode();
 
-                    userSession.saveUserLocation(city,zipCode);
+                    userSession.saveUserLocation(city, zipCode);
 
                 }
             } catch (IOException e) {

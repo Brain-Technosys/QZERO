@@ -1124,10 +1124,14 @@ public class OutletCategoryActivity extends AppCompatActivity {
 
     @OnClick(R.id.relLayDlvryType)
     public void setDeliveryType() {
-//        Intent intent = new Intent(OutletCategoryActivity.this, HomeActivity.class);
-//        startActivity(intent);
         closeDrawer();
-        AlertDialogHelper.alertBoxDeliveryType(this);
+        Intent intent = new Intent(OutletCategoryActivity.this, HomeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("LOGINTYPE", "OUTLETCAT");
+        intent.putExtras(bundle);;
+        startActivity(intent);
+
+//        AlertDialogHelper.alertBoxDeliveryType(this);
     }
 
 }
