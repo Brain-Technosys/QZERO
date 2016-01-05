@@ -111,7 +111,7 @@ public class HomeActivity extends FragmentActivity {
             AlertDialogHelper.showAlertBoxLocationPermission(this, getString(R.string.msg_perm_get_location),
                     getString(R.string.title_perm_get_location));
 
-            AlertDialogHelper.alertBoxDeliveryType(this);
+            //AlertDialogHelper.alertBoxDeliveryType(this);
         } else {
             getUserLocation();
         }

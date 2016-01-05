@@ -98,10 +98,12 @@ public class AlertDialogHelper {
 
                     ((HomeActivity) context).getUserLocation();
 
-                    //Alert box to ask delivery type
-                    alertBoxDeliveryType(context);
+
 
                     dialog.dismiss();
+
+                    //Alert box to ask delivery type
+                    alertBoxDeliveryType(context);
 
                 }
             });
@@ -113,9 +115,11 @@ public class AlertDialogHelper {
                     userSession.saveAppLaunchStatus(true);
                     userSession.saveUserLocationPermission(false);
 
+
+                    dialog.dismiss();
+
                     //Alert box to ask delivery type
                     alertBoxDeliveryType(context);
-                    dialog.dismiss();
                 }
             });
 
@@ -175,7 +179,7 @@ public class AlertDialogHelper {
         dialog = new CustomDialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_deliverytype);
-
+        dialog.setCanceledOnTouchOutside(false);
         txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
 
         RadioGroup rg_deliveryType = (RadioGroup) dialog.findViewById(R.id.rg_deliveryType);
@@ -259,6 +263,7 @@ public class AlertDialogHelper {
         dialog = new CustomDialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_alert_box);
+        dialog.setCanceledOnTouchOutside(false);
 
         txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
         FontHelper.applyFont(context, txtViewTitle, FontType.FONT);
