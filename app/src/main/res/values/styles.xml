@@ -16,7 +16,7 @@
 
     <style name="Theme.MyTheme.EditText" parent="AppBaseTheme">
         <item name="colorControlNormal">@android:color/darker_gray</item>
-        <item name="colorControlActivated">@color/color_edittext_activated</item>
+        <item name="colorControlActivated">@color/color_accent</item>
     </style>
 
     <style name="menu_style" parent="AppBaseTheme">
@@ -26,6 +26,12 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="MyChkBoxStyle" parent="AppBaseTheme">
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+
     </style>
 
 </resources>

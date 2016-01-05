@@ -30,60 +30,67 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linLayTitle"
-        android:layout_above="@+id/llayBottom">
+        android:layout_above="@+id/llayBottom"
+        android:layout_below="@+id/linLayTitle">
 
-    <TextView
-        android:id="@+id/txt_deliveryType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:layout_marginTop="20dp"
-        android:paddingTop="5dp"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
-        android:textStyle="normal"/>
+        <TextView
+            android:id="@+id/txt_deliveryType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textStyle="normal" />
 
 
-
-    <RadioGroup
-        android:id="@+id/rg_deliveryType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="60dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-
-            android:id="@+id/radioBtnShipment"
+        <RadioGroup
+            android:id="@+id/rg_deliveryType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="In-Venue"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:layout_centerInParent="true"
+            android:layout_marginTop="60dp"
 
-        <RadioButton
+            android:orientation="horizontal">
 
-            android:id="@+id/radioBtnPickUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pick up"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            <RadioButton
 
-        <RadioButton
+                android:id="@+id/radioBtnShipment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In-Venue"
+                style="@style/MyChkBoxStyle"
+                android:theme="@style/MyChkBoxStyle"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
-            android:id="@+id/radioBtnInhouse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="In-House"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            <RadioButton
 
-    </RadioGroup>
+                android:id="@+id/radioBtnPickUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pick up"
+                style="@style/MyChkBoxStyle"
+                android:theme="@style/MyChkBoxStyle"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <RadioButton
+
+                android:id="@+id/radioBtnInhouse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In-House"
+                style="@style/MyChkBoxStyle"
+                android:theme="@style/MyChkBoxStyle"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </RadioGroup>
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/llayBottom"
         android:layout_width="match_parent"
@@ -95,16 +102,16 @@
         android:padding="5dp">
 
         <!--<TextView-->
-            <!--android:id="@+id/txtViewCancel"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@color/item_detail"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:padding="4dp"-->
-            <!--android:text="@string/alertbox_cancel"-->
-            <!--android:textSize="15sp"-->
-            <!--android:textStyle="bold" />-->
+        <!--android:id="@+id/txtViewCancel"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@color/item_detail"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:padding="4dp"-->
+        <!--android:text="@string/alertbox_cancel"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textStyle="bold" />-->
 
         <TextView
             android:id="@+id/txtViewChange"
@@ -114,8 +121,8 @@
             android:background="@color/item_detail"
             android:gravity="center_horizontal"
             android:padding="4dp"
-            android:textColor="#FFFFFF"
             android:text="OK"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>

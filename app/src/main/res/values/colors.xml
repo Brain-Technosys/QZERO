@@ -31,4 +31,6 @@
     <color name="searchbar_color">#a1a1a1</color>
     <color name="gray">#A1A1A1</color>
 
+    <color name="color_accent">#80CBC4</color>
+
 </resources>
