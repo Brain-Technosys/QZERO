@@ -1,7 +1,15 @@
 package com.example.qzero.CommonFiles.Helpers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -31,17 +39,24 @@ public class AlertDialogHelper {
     public static void showAlertDialog(Activity context, String message,
                                        String title) {
 
-        setLayout(context, message, title);
+        try {
 
-        txtViewOk.setOnClickListener(new OnClickListener() {
+            setLayout(context, message, title);
 
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
+            txtViewOk.setOnClickListener(new OnClickListener() {
 
-        });
-        dialog.show();
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+
+            });
+            dialog.show();
+        }
+        catch (RuntimeException ex)
+        {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -66,43 +81,50 @@ public class AlertDialogHelper {
 
     public static void showAlertBoxLocationPermission(final Activity context, String message, String title) {
 
-        setLayoutGetLocation(context, message, title);
+        try {
 
-        userSession = new UserSession(context);
+            setLayoutGetLocation(context, message, title);
 
-        txtViewOk.setOnClickListener(new OnClickListener() {
+            userSession = new UserSession(context);
 
-
-            @Override
-            public void onClick(View view) {
-                userSession.saveAppLaunchStatus(true);
-
-                userSession.saveUserLocationPermission(true);
-
-                ((HomeActivity) context).getUserLocation();
-
-                //Alert box to ask delivery type
-                alertBoxDeliveryType(context);
-
-                dialog.dismiss();
-
-            }
-        });
+            txtViewOk.setOnClickListener(new OnClickListener() {
 
 
-        txtViewCancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                userSession.saveAppLaunchStatus(true);
-                userSession.saveUserLocationPermission(false);
+                @Override
+                public void onClick(View view) {
+                    userSession.saveAppLaunchStatus(true);
 
-                //Alert box to ask delivery type
-                alertBoxDeliveryType(context);
-                dialog.dismiss();
-            }
-        });
+                    userSession.saveUserLocationPermission(true);
 
-        dialog.show();
+                    ((HomeActivity) context).getUserLocation();
+
+                    //Alert box to ask delivery type
+                    alertBoxDeliveryType(context);
+
+                    dialog.dismiss();
+
+                }
+            });
+
+
+            txtViewCancel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    userSession.saveAppLaunchStatus(true);
+                    userSession.saveUserLocationPermission(false);
+
+                    //Alert box to ask delivery type
+                    alertBoxDeliveryType(context);
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+        }
+        catch(RuntimeException ex)
+        {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -133,9 +155,16 @@ public class AlertDialogHelper {
 
     public static void alertBoxDeliveryType(final Activity context) {
 
-        setLayoutDeliveryType(context);
+        try {
 
-        dialog.show();
+            setLayoutDeliveryType(context);
+
+            dialog.show();
+        }
+        catch(RuntimeException ex)
+        {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -229,5 +258,53 @@ public class AlertDialogHelper {
 
         FontHelper.applyFont(context, txtViewOk, FontType.FONT);
         FontHelper.applyFont(context, txtViewCancel, FontType.FONT);
+    }
+
+    public static void showAlertDialogSettings(final Context context, String message) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(message);
+        alertDialog.setTitle("Alert");
+
+        // Setting OK Button
+        alertDialog.setPositiveButton("Go to settings",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                        if (currentapiVersion >= Build.VERSION_CODES.M) {
+
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+                            intent.setData(uri);
+                            context.startActivity(intent);
+                        } else {
+                            context.startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        try {
+            // Showing Alert Message
+            AlertDialog alert = alertDialog.show();
+            TextView messageText = (TextView) alert
+                    .findViewById(android.R.id.message);
+            // Fonts.myriadProRegular(context, messageText);
+            messageText.setGravity(Gravity.CENTER);
+
+            alert.show();
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+        }
     }
 }

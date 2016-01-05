@@ -14,9 +14,20 @@ public class Utility {
 
     // Formats the string to US currency ($0.00) format
     public static String formatCurrency(String amount) {
-        double doubleAmount = Double.valueOf(amount);
-        NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
-        String s = n.format(doubleAmount);
+
+        String s=null;
+        try {
+
+
+            double doubleAmount = Double.valueOf(amount);
+            NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
+            s = n.format(doubleAmount);
+
+        }
+        catch (NumberFormatException ex)
+        {
+            ex.printStackTrace();
+        }
         return s;
     }
 

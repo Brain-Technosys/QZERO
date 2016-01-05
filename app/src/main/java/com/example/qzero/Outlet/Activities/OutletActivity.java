@@ -23,11 +23,14 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -219,8 +222,6 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outlet);
 
-        //ButterKnife.inject(this);
-
         databaseHelper = new DatabaseHelper(this);
 
         getIntents();
@@ -234,6 +235,8 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         onFinishActivity();
 
         setupSearchView();
+
+
 
         context = OutletActivity.this;
     }
@@ -296,11 +299,20 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
     }
 
     private void setupSearchView() {
+
+        search_view.clearFocus();
         search_view.setIconifiedByDefault(false);
         search_view.setOnQueryTextListener(this);
         search_view.setSubmitButtonEnabled(true);
         search_view.setQueryHint("Search Outlets");
         search_view.setSubmitButtonEnabled(false);
+
+        hideSoftKeyboard();
+    }
+
+    private void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(search_view.getWindowToken(), 0);
     }
 
     public boolean onQueryTextChange(String newText) {
@@ -319,7 +331,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     public boolean onQueryTextSubmit(String query) {
 
-        //Log.e("qyuery", query);
+
         return false;
     }
 
@@ -342,7 +354,6 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
             item.removeAllViews();
             pos = 0;
-            //Log.e("size", "" + arrayListOutlet.size());
         }
 
         setLayout();
