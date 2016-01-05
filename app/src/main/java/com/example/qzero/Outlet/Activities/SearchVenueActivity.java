@@ -264,6 +264,8 @@ public class SearchVenueActivity extends Activity {
             String url = Const.BASE_URL + Const.GET_ITEMS + venue_id + "/?outletId=" + outletId + "&itemId=" +itemId
                     + "&subCatId=" +subCatId;
 
+            Log.e("url",url);
+
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
