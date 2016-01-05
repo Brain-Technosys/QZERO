@@ -212,5 +212,10 @@
 
     <string name="device_type">2</string>
 
+    <!---Delivery type values-->
+    <string name="in-venue">1</string>
+    <string name="delivery">2</string>
+    <string name="pick_up">3</string>
+
 
 </resources>

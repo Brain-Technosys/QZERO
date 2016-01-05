@@ -36,6 +36,7 @@
         android:layout_below="@+id/relLayHeading"
         android:background="@color/searchbar_color"
         android:textColor="#000000"
+        android:focusable="false"
         android:layout_height="wrap_content"/>
 
     <ScrollView

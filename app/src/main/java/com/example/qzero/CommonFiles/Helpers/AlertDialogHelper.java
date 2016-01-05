@@ -168,7 +168,8 @@ public class AlertDialogHelper {
 
     }
 
-    public static void setLayoutDeliveryType(Activity context) {
+    public static void setLayoutDeliveryType(final Activity context) {
+
         final String[] deliveryType = new String[1];
 
         dialog = new CustomDialog(context);
@@ -176,22 +177,26 @@ public class AlertDialogHelper {
         dialog.setContentView(R.layout.dialog_deliverytype);
 
         txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
+
         RadioGroup rg_deliveryType = (RadioGroup) dialog.findViewById(R.id.rg_deliveryType);
+
         final RadioButton radioBtnShipment = (RadioButton) dialog.findViewById(R.id.radioBtnShipment);
         final RadioButton radioBtnPickUp = (RadioButton) dialog.findViewById(R.id.radioBtnPickUp);
         final RadioButton radioBtnInhouse = (RadioButton) dialog.findViewById(R.id.radioBtnInhouse);
         final TextView txt_deliveryType = (TextView) dialog.findViewById(R.id.txt_deliveryType);
-        // txtViewAlertMsg = (TextView) dialog.findViewById(R.id.txtViewAlertMsg);
+
         txtViewOk = (TextView) dialog.findViewById(R.id.txtViewChange);
 
         FontHelper.applyFont(context, txtViewTitle, FontType.FONT);
-        //  FontHelper.applyFont(context, txtViewAlertMsg, FontType.FONT);
+
 
         rg_deliveryType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
 
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
 
                 // find which radio button is selected
 
@@ -203,8 +208,9 @@ public class AlertDialogHelper {
                     deliveryType[0] = radioBtnInhouse.getText().toString();
                 }
 
-            }
 
+            }
+           
         });
 
 
@@ -212,10 +218,25 @@ public class AlertDialogHelper {
             @Override
             public void onClick(View view) {
 
-//                Log.e("deliveryType",deliveryType[0]);
+                 String service_type=null;
                 //save user choice abt delivery type
                 if (deliveryType != null) {
-                    userSession.saveDeliveryType(deliveryType[0]);
+
+                    if(deliveryType[0].equals("In-Venue"))
+                    {
+                        service_type=context.getString(R.string.in_venue);
+                    }
+                    else
+                    if(deliveryType[0].equalsIgnoreCase("pick up"))
+                    {
+                        service_type=context.getString(R.string.pick_up);
+                    }
+                    else
+                    if(deliveryType[0].equalsIgnoreCase("In-House"))
+                    {
+                        service_type=context.getString(R.string.inhouse);
+                    }
+                    userSession.saveDeliveryType(service_type);
                 }
                 dialog.dismiss();
 

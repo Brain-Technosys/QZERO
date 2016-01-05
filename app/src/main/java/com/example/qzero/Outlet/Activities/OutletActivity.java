@@ -228,18 +228,17 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
         setText();
 
-
         getOutletData();
-
 
         onFinishActivity();
 
         setupSearchView();
 
-
-
         context = OutletActivity.this;
+
+
     }
+
 
     public void getIntents() {
         if (getIntent().hasExtra("venue_id")) {
@@ -306,12 +305,13 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         search_view.setSubmitButtonEnabled(true);
         search_view.setQueryHint("Search Outlets");
         search_view.setSubmitButtonEnabled(false);
+//        search_view.clearFocus();
 
-        hideSoftKeyboard();
+        ///  hideSoftKeyboard();
     }
 
     private void hideSoftKeyboard() {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search_view.getWindowToken(), 0);
     }
 
@@ -331,7 +331,7 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
 
     public boolean onQueryTextSubmit(String query) {
 
-
+//        search_view.clearFocus();
         return false;
     }
 
@@ -1232,6 +1232,5 @@ public class OutletActivity extends Activity implements SearchView.OnQueryTextLi
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
 }
 
