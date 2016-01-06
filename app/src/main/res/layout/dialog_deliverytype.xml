@@ -52,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="60dp"
-
             android:orientation="horizontal">
 
             <RadioButton
@@ -60,6 +59,7 @@
                 android:id="@+id/radioBtnShipment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="In-Venue"
                 style="@style/MyChkBoxStyle"
                 android:theme="@style/MyChkBoxStyle"
