@@ -47,12 +47,9 @@ public class SearchVenueFragment extends Fragment {
     String venue;
     String city;
     String zip;
-    String location;
 
     String message;
-    String urlParameters;
 
-    String delivery_type;
     int status;
 
     JsonParser jsonParser;

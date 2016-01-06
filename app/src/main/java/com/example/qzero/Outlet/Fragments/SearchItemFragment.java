@@ -47,12 +47,9 @@ public class SearchItemFragment extends Fragment {
     String itemName;
 
     String outlet;
-    String city;
-    String zip;
-    String location;
 
     String message;
-    String urlParameters;
+
 
     int status;
 
