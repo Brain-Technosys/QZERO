@@ -236,9 +236,9 @@ public class AlertDialogHelper {
                         service_type=context.getString(R.string.pick_up);
                     }
                     else
-                    if(deliveryType[0].equalsIgnoreCase("In-House"))
+                    if(deliveryType[0].equalsIgnoreCase("Delivery"))
                     {
-                        service_type=context.getString(R.string.inhouse);
+                        service_type=context.getString(R.string.delivery);
                     }
                     userSession.saveDeliveryType(service_type);
                 }

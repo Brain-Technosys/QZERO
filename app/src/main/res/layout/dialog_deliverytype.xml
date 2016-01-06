@@ -82,7 +82,7 @@
                 android:id="@+id/radioBtnInhouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="In-House"
+                android:text="Delivery"
                 style="@style/MyChkBoxStyle"
                 android:theme="@style/MyChkBoxStyle"
                 android:textColor="@color/black"

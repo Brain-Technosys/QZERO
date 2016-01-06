@@ -144,7 +144,7 @@ public class SearchOutletFragment extends Fragment {
             status = -1;
             jsonParser = new JsonParser();
             String url = Const.BASE_URL + Const.SEARCH_OUTLET + "?restaurantName=" + outlet.replace(" ","%20") + "&city=" + city.replace(" ","%20")
-                    + "&zipCode=" + zip;
+                    + "&zipCode=" + zip+"&serviceType="+userSession.getDeliveryType();
 
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);

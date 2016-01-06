@@ -20,6 +20,7 @@ import com.example.qzero.CommonFiles.Helpers.FontHelper;
 import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 import com.example.qzero.CommonFiles.RequestResponse.Const;
 import com.example.qzero.CommonFiles.RequestResponse.JsonParser;
+import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Activities.SearchItemActivity;
 import com.example.qzero.Outlet.Activities.SearchVenueActivity;
 import com.example.qzero.Outlet.ObjectClasses.Items;
@@ -121,9 +122,11 @@ public class SearchItemFragment extends Fragment {
 
             jsonParser = new JsonParser();
 
-            url = Const.BASE_URL + Const.SEARCH_ITEM + "/" + itemName;
+            UserSession userSession = new UserSession(getActivity());
 
+            url = Const.BASE_URL + Const.SEARCH_ITEM + "?"+"itemName=" + itemName + "&serviceType=" + userSession.getDeliveryType();
 
+            Log.e("urlitem", url);
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
             try {
@@ -146,19 +149,19 @@ public class SearchItemFragment extends Fragment {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                            String venue_id=jsonObj.getString(Const.TAG_VENUE_ID);
-                            String outlet_id=jsonObj.getString(Const.TAG_OUTLET_ID);
+                            String venue_id = jsonObj.getString(Const.TAG_VENUE_ID);
+                            String outlet_id = jsonObj.getString(Const.TAG_OUTLET_ID);
                             String item_id = jsonObj.getString(Const.TAG_ITEM_ID);
                             String item_name = jsonObj.getString(Const.TAG_ITEM_NAME);
                             String venue_name = jsonObj.getString(Const.TAG_VENUE_NAME);
-                            String outlet_name=jsonObj.getString(Const.TAG_OUTLET_NAME);
+                            String outlet_name = jsonObj.getString(Const.TAG_OUTLET_NAME);
                             String venue_address = jsonObj.getString(Const.TAG_ADDRESS);
                             String venue_city = jsonObj.getString(Const.TAG_CITY);
                             String venue_phone = jsonObj.getString(Const.TAG_PHONE_NO);
                             String venue_mobile = jsonObj.getString(Const.TAG_MOB_N0);
-                            String outletName=jsonObj.getString(Const.TAG_OUTLET_NAME);
+                            String outletName = jsonObj.getString(Const.TAG_OUTLET_NAME);
 
-                            Items items = new Items(item_id,venue_id,outlet_id,item_name, venue_name,outlet_name, venue_address, venue_city, venue_phone, venue_mobile);
+                            Items items = new Items(item_id, venue_id, outlet_id, item_name, venue_name, outlet_name, venue_address, venue_city, venue_phone, venue_mobile);
                             arrayListItems.add(items);
                         }
                     }

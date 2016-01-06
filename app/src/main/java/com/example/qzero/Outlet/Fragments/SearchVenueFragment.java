@@ -154,8 +154,8 @@ public class SearchVenueFragment extends Fragment {
             Log.e("inside", "do in");
             status = -1;
             jsonParser = new JsonParser();
-            String url = Const.BASE_URL + Const.SEARCH_VENUE + "?restaurantName=" + venue.replace(" ","%20") + "&city=" + city.replace(" ","%20")+"&serviceType="+userSession.getDeliveryType() + "&zipCode=" + zip;
-
+            String url = Const.BASE_URL + Const.SEARCH_VENUE + "?restaurantName=" + venue.replace(" ","%20") + "&city=" + city.replace(" ","%20")+ "&zipCode=" + zip+"&serviceType="+userSession.getDeliveryType() ;
+            Log.e("urlserach",url);
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
