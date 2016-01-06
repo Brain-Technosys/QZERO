@@ -23,7 +23,10 @@ import com.example.qzero.CommonFiles.Helpers.FontHelper.FontType;
 
 import com.example.qzero.CommonFiles.Sessions.UserSession;
 import com.example.qzero.Outlet.Activities.HomeActivity;
+import com.example.qzero.Outlet.Activities.OutletCategoryActivity;
 import com.example.qzero.R;
+
+import butterknife.InjectView;
 
 public class AlertDialogHelper {
 
@@ -243,6 +246,11 @@ public class AlertDialogHelper {
                     userSession.saveDeliveryType(service_type);
                 }
                 dialog.dismiss();
+
+                if(context instanceof OutletCategoryActivity){
+                    Intent intent=new Intent(context,HomeActivity.class);
+                    context.startActivity(intent);
+                }
 
             }
         });
