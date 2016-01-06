@@ -262,163 +262,168 @@ public class AddCartFragment extends Fragment {
 
     private void inflateQtyLayout() {
 
-        relLayItems.removeAllViews();//clear add item layout
+        try {
 
-        view = new View[countLength];
+            relLayItems.removeAllViews();//clear add item layout
 
-        tableTotPrice = new TextView[countLength];
+            view = new View[countLength];
 
-        totalPrices = new Double[countLength];
+            tableTotPrice = new TextView[countLength];
 
-        for (int i = countLength - 1; i >= 0; i--) {
+            totalPrices = new Double[countLength];
 
-            view[i] = getActivity().getLayoutInflater().inflate(R.layout.list_addcart, null);
+            for (int i = countLength - 1; i >= 0; i--) {
 
-            relLayItems.addView(view[i]); //inflate relative layout with custom layout for add items
+                view[i] = getActivity().getLayoutInflater().inflate(R.layout.list_addcart, null);
 
-            //find id's of the widgets of inflated view
-            TextView txtViewAddModifiers = (TextView) view[i].findViewById(R.id.txtViewAddModifiers);
-            final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
-            final TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
-            TextView txtViewModList = (TextView) view[i].findViewById(R.id.txtViewModList);
-            TextView txtViewTotal = (TextView) view[i].findViewById(R.id.txtViewTotal);
+                relLayItems.addView(view[i]); //inflate relative layout with custom layout for add items
 
-            ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
-            ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
+                //find id's of the widgets of inflated view
+                TextView txtViewAddModifiers = (TextView) view[i].findViewById(R.id.txtViewAddModifiers);
+                final TextView txtViewQty = (TextView) view[i].findViewById(R.id.txtViewQty);
+                final TextView txtViewPrice = (TextView) view[i].findViewById(R.id.txtViewPrice);
+                TextView txtViewModList = (TextView) view[i].findViewById(R.id.txtViewModList);
+                TextView txtViewTotal = (TextView) view[i].findViewById(R.id.txtViewTotal);
 
-            TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
+                ImageView imgViewSub = (ImageView) view[i].findViewById(R.id.imgViewSub);
+                ImageView imgViewAdd = (ImageView) view[i].findViewById(R.id.imgViewAdd);
 
-            //set font
-            FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTSANSBOLD, getActivity());
-            FontHelper.setFontFace(txtViewAddModifiers, FontHelper.FontType.FONT, getActivity());
-            FontHelper.setFontFace(txtViewQty, FontHelper.FontType.FONT, getActivity());
-            FontHelper.setFontFace(txtViewPrice, FontHelper.FontType.FONT, getActivity());
+                TableLayout tableLayoutModifiers = (TableLayout) view[i].findViewById(R.id.tableLayoutModifiers);
 
-            //set tag
-            txtViewAddModifiers.setTag(i);
+                //set font
+                FontHelper.setFontFace(txtViewTotal, FontHelper.FontType.FONTSANSBOLD, getActivity());
+                FontHelper.setFontFace(txtViewAddModifiers, FontHelper.FontType.FONT, getActivity());
+                FontHelper.setFontFace(txtViewQty, FontHelper.FontType.FONT, getActivity());
+                FontHelper.setFontFace(txtViewPrice, FontHelper.FontType.FONT, getActivity());
 
-            imgViewSub.setTag(i);
+                //set tag
+                txtViewAddModifiers.setTag(i);
 
-            imgViewAdd.setTag(i);
+                imgViewSub.setTag(i);
+
+                imgViewAdd.setTag(i);
 
 
-            if (hashMapModifiers.size() == 0) {
-                txtViewAddModifiers.setVisibility(View.INVISIBLE);
-            }
-            //Hashmap for the data to be inflated in the view
-            HashMap<String, String> hashmap = arrayListViewData.get(i);
+                if (hashMapModifiers.size() == 0) {
+                    txtViewAddModifiers.setVisibility(View.INVISIBLE);
+                }
+                //Hashmap for the data to be inflated in the view
+                HashMap<String, String> hashmap = arrayListViewData.get(i);
 
-            txtViewQty.setText(hashmap.get("qty"));
+                txtViewQty.setText(hashmap.get("qty"));
 
-            //set price of total amount textview shown initially
-            txtViewPrice.setText("$" + Utility.formatDecimalByString(String.valueOf(totPrice)));
+                //set price of total amount textview shown initially
+                txtViewPrice.setText("$" + Utility.formatDecimalByString(String.valueOf(totPrice)));
 
-            //Decrease item count on click of subtract button
+                //Decrease item count on click of subtract button
 
-            imgViewSub.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                imgViewSub.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    int tag = Integer.parseInt(v.getTag().toString());
+                        int tag = Integer.parseInt(v.getTag().toString());
 
-                    int qty = Integer.parseInt(txtViewQty.getText().toString());
+                        int qty = Integer.parseInt(txtViewQty.getText().toString());
 
-                    if (qty == 1) {
-                        //do nothing
-                    } else {
-                        qty--;
+                        if (qty == 1) {
+                            //do nothing
+                        } else {
+                            qty--;
+
+                            txtViewQty.setText(String.valueOf(qty));
+
+                            onChangeSetPrice(qty, txtViewPrice, tag);
+                        }
+
+                        //Intialize the hashmap for the values to be inflated in the view
+                        initalizeArrayItem(tag, String.valueOf(qty));
+
+                    }
+                });
+
+
+                //Increase item count on click of subtract button
+                imgViewAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int tag = Integer.parseInt(v.getTag().toString());
+
+                        int qty = Integer.parseInt(txtViewQty.getText().toString());
+
+
+                        qty++;
+
+                        onChangeSetPrice(qty, txtViewPrice, tag);
 
                         txtViewQty.setText(String.valueOf(qty));
 
-                        onChangeSetPrice(qty, txtViewPrice, tag);
+                        //Intialize the hashmap for the values to be inflated in the view
+                        initalizeArrayItem(tag, String.valueOf(qty));
                     }
 
-                    //Intialize the hashmap for the values to be inflated in the view
-                    initalizeArrayItem(tag, String.valueOf(qty));
 
-                }
-            });
+                });
+
+                //find id of delete button
+                ImageView imgViewDelete = (ImageView) view[i].findViewById(R.id.imgViewDelete);
+
+                //set tag to delete button
+
+                imgViewDelete.setTag(i);
+
+                //Delete view on click
+                imgViewDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (countLength == 1) {
+
+                            //do not delete
+                            Toast.makeText(getActivity(), "This item cannot be deleted.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int tag = Integer.parseInt(v.getTag().toString());
+
+                            //Remove the tag clicked
+                            view[tag].setVisibility(View.GONE);
+
+                            hashMapChoosenMod.remove(tag);
+                            countLength--;
+                        }
+                    }
+                });
 
 
-            //Increase item count on click of subtract button
-            imgViewAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                txtViewAddModifiers.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    int tag = Integer.parseInt(v.getTag().toString());
+                        index = Integer.parseInt(v.getTag().toString());
 
-                    int qty = Integer.parseInt(txtViewQty.getText().toString());
-
-
-                    qty++;
-
-                    onChangeSetPrice(qty, txtViewPrice, tag);
-
-                    txtViewQty.setText(String.valueOf(qty));
-
-                    //Intialize the hashmap for the values to be inflated in the view
-                    initalizeArrayItem(tag, String.valueOf(qty));
-                }
+                        openDialog();
 
 
-            });
+                    }
+                });
 
-            //find id of delete button
-            ImageView imgViewDelete = (ImageView) view[i].findViewById(R.id.imgViewDelete);
+                if (hashMapChoosenMod.size() != 0 && hashMapChoosenMod.containsKey(i)) { //check if a user has already selected the modifiers
 
-            //set tag to delete button
+                    ArrayList<Modifier> choosenModListTable = hashMapChoosenMod.get(i);
+                    BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, choosenModListTable, i);
 
-            imgViewDelete.setTag(i);
+                } else if (hashMapDefaultMod.size() != 0) { //if no modifier has been selected and default mofifiers present
+                    ArrayList<Modifier> defaultModList = hashMapDefaultMod.get(0);
 
-            //Delete view on click
-            imgViewDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (countLength == 1) {
-
-                        //do not delete
-                        Toast.makeText(getActivity(), "This item cannot be deleted.", Toast.LENGTH_SHORT).show();
+                    if (defaultModList.size() == 0) {
+                        //do nothing
                     } else {
-                        int tag = Integer.parseInt(v.getTag().toString());
 
-                        //Remove the tag clicked
-                        view[tag].setVisibility(View.GONE);
-
-                        hashMapChoosenMod.remove(tag);
-                        countLength--;
+                        BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, defaultModList, i);
                     }
-                }
-            });
-
-
-            txtViewAddModifiers.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    index = Integer.parseInt(v.getTag().toString());
-
-                    openDialog();
-
-
-                }
-            });
-
-            if (hashMapChoosenMod.size() != 0 && hashMapChoosenMod.containsKey(i)) { //check if a user has already selected the modifiers
-
-                ArrayList<Modifier> choosenModListTable = hashMapChoosenMod.get(i);
-                BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, choosenModListTable, i);
-
-            } else if (hashMapDefaultMod.size() != 0) { //if no modifier has been selected and default mofifiers present
-                ArrayList<Modifier> defaultModList = hashMapDefaultMod.get(0);
-
-                if (defaultModList.size() == 0) {
-                    //do nothing
-                } else {
-
-                    BuildTable(tableLayoutModifiers, txtViewModList, txtViewAddModifiers, defaultModList, i);
                 }
             }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -695,41 +700,44 @@ public class AddCartFragment extends Fragment {
 
 
     public void setLayout() {
+        try {
+            String formattedPrice = Utility.formatDecimalByString(item_price);
 
-        String formattedPrice = Utility.formatDecimalByString(item_price);
+            String formatDiscPrice = Utility.formatDecimalByString(String.valueOf(afterDiscPrice));
 
-        String formatDiscPrice = Utility.formatDecimalByString(String.valueOf(afterDiscPrice));
+            txtViewItemName.setText(item_name);
 
-        txtViewItemName.setText(item_name);
+            if (item_desc.equals("null") || item_desc == null) {
 
-        if (item_desc.equals("null") || item_desc == null) {
-
-        } else
-            txtViewDesc.setText(item_desc);
-
-
-        if (afterDiscPrice == 0.0) {
-            txtViewDiscPrice.setText("$" + formattedPrice);
-            txtViewDiscPrice.setTextColor(Color.parseColor("#742314"));
-            txtViewOrigPrice.setVisibility(View.GONE);
-            txtViewTitDisc.setVisibility(View.INVISIBLE);
-            price = formattedPrice;
+            } else
+                txtViewDesc.setText(item_desc);
 
 
-        } else {
-            txtViewOrigPrice.setText("$" + formattedPrice);
-            txtViewDiscount.setText(discountDesc);
-            txtViewDiscPrice.setText("$" + formatDiscPrice);
+            if (afterDiscPrice == 0.0) {
+                txtViewDiscPrice.setText("$" + formattedPrice);
+                txtViewDiscPrice.setTextColor(Color.parseColor("#742314"));
+                txtViewOrigPrice.setVisibility(View.GONE);
+                txtViewTitDisc.setVisibility(View.INVISIBLE);
+                price = formattedPrice;
 
-            price = formatDiscPrice;
+
+            } else {
+                txtViewOrigPrice.setText("$" + formattedPrice);
+                txtViewDiscount.setText(discountDesc);
+                txtViewDiscPrice.setText("$" + formatDiscPrice);
+
+                price = formatDiscPrice;
+            }
+
+            totPrice = totPrice + Double.parseDouble(price);
+
+            //Load Image
+            Picasso.with(getActivity()).load(item_image).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItem);
+
+            initalizeArrayItem(0, "1");
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
         }
-
-        totPrice = totPrice + Double.parseDouble(price);
-
-        //Load Image
-        Picasso.with(getActivity()).load(item_image).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_placeholder).into(imgViewItem);
-
-        initalizeArrayItem(0, "1");
 
     }
 
@@ -923,10 +931,11 @@ public class AddCartFragment extends Fragment {
             String url = Const.BASE_URL + Const.GET_ITEM_DETAIL + "/" + venue_id + "?outletId=" + outletId + "&itemId=" + itemId
                     + "&subCatId=" + subCatId;
 
+            Log.e("urladdcart", url);
+
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT);
 
-            Log.e("jsonitem", jsonString);
 
             hashMapDefaultMod = new HashMap<Integer, ArrayList<Modifier>>();
 
@@ -949,7 +958,7 @@ public class AddCartFragment extends Fragment {
 
                         afterDiscPrice = jsonObj.getDouble(Const.TAG_AFTER_DISC);
                         discountDesc = jsonObj.getString(Const.TAG_DISC_DETAIL);
-                        Log.e("discountDesc",discountDesc);
+                        Log.e("discountDesc", discountDesc);
 
                         String item_id = jsonObj.getString(Const.TAG_ITEM_ID);
 
@@ -1042,14 +1051,15 @@ public class AddCartFragment extends Fragment {
 
     @OnClick(R.id.btnAddToCart)
     void addToCart() {
+        if (hashMap != null) {
+            saveItemDetails();
 
-        saveItemDetails();
+            getTotalQty();
 
-        getTotalQty();
+            saveItemDetailsInCheckout();
 
-        saveItemDetailsInCheckout();
-
-        Toast.makeText(getActivity(), "Items added to cart.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Items added to cart.", Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -1085,7 +1095,7 @@ public class AddCartFragment extends Fragment {
 
                     if (!isDuplicate) {
                         Log.e("not", "duplicate");
-                        long itemId = databaseHelper.insertIntoItem(itemCode,item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                        long itemId = databaseHelper.insertIntoItem(itemCode, item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                         for (int mod = 0; mod < modifierSaved.size(); mod++) {
 
                             databaseHelper.insertIntoModifiers(modifierSaved.get(mod).getMod_id(), modifierSaved.get(mod).getMod_name(), modifierSaved.get(mod).getMod_price(), hashmap.get("qty"), String.valueOf(itemId), item_name);
@@ -1094,7 +1104,7 @@ public class AddCartFragment extends Fragment {
                 } else {
 
                     Log.e("inside", "item not present");
-                    long item_id = databaseHelper.insertIntoItem(itemCode,item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                    long item_id = databaseHelper.insertIntoItem(itemCode, item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                     saveModDb(i, String.valueOf(item_id));
                 }
             }
@@ -1134,7 +1144,7 @@ public class AddCartFragment extends Fragment {
             Cursor nullModCursor = databaseHelper.getNullModifiers(item_name, "null");
 
             if (nullModCursor.getCount() == 0) {
-                long itemId = databaseHelper.insertIntoItem(itemCode,item_name, item_price, String.valueOf(afterDiscPrice), item_image);
+                long itemId = databaseHelper.insertIntoItem(itemCode, item_name, item_price, String.valueOf(afterDiscPrice), item_image);
                 databaseHelper.insertIntoModifiers("null", "null", "null", hashmap.get("qty"), String.valueOf(itemId), item_name);
             } else {
                 while (nullModCursor.moveToNext()) {
@@ -1251,7 +1261,7 @@ public class AddCartFragment extends Fragment {
             discountAmt = String.valueOf(Double.parseDouble(item_price) - afterDiscPrice);
         }
 
-        databaseHelper.insertIntoCheckout(itemId, outletId, String.valueOf(countLength), discountAmt, String.valueOf(afterDiscPrice),venue_id);
+        databaseHelper.insertIntoCheckout(itemId, outletId, String.valueOf(countLength), discountAmt, String.valueOf(afterDiscPrice), venue_id);
     }
 
 

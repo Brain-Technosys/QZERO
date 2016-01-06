@@ -189,7 +189,10 @@ public class HomeActivity extends FragmentActivity {
     private void getLocation() {
         LocationManager location_manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean networkLocationEnabled = location_manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if (networkLocationEnabled) {
+        boolean gpsLocationEnabled = location_manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        Log.e("networkenabled",""+networkLocationEnabled);
+        Log.e("gpsLocationEnabled",""+gpsLocationEnabled);
+        if (networkLocationEnabled || gpsLocationEnabled) {
 
             LocationListener listner = new MyLocationListener();
             location_manager.requestLocationUpdates(
@@ -197,9 +200,11 @@ public class HomeActivity extends FragmentActivity {
             location_manager
                     .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion < Build.VERSION_CODES.M) {
-            AlertDialogHelper.showAlertDialogSettings(this, "GPS permission allows us to access location data. Please enable location for additional functionality.");
+        else {
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion < Build.VERSION_CODES.M) {
+                AlertDialogHelper.showAlertDialogSettings(this, "GPS permission allows us to access location data. Please enable location for additional functionality.");
+            }
         }
     }
 

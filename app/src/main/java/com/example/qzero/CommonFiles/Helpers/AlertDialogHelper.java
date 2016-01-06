@@ -177,7 +177,7 @@ public class AlertDialogHelper {
 
     public static void setLayoutDeliveryType(final Activity context) {
 
-        final String[] deliveryType = new String[1];
+        final String deliveryType;
 
         dialog = new CustomDialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -185,7 +185,7 @@ public class AlertDialogHelper {
         dialog.setCanceledOnTouchOutside(false);
         txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
 
-        RadioGroup rg_deliveryType = (RadioGroup) dialog.findViewById(R.id.rg_deliveryType);
+       final RadioGroup rg_deliveryType = (RadioGroup) dialog.findViewById(R.id.rg_deliveryType);
 
         final RadioButton radioBtnShipment = (RadioButton) dialog.findViewById(R.id.radioBtnShipment);
         final RadioButton radioBtnPickUp = (RadioButton) dialog.findViewById(R.id.radioBtnPickUp);
@@ -196,8 +196,27 @@ public class AlertDialogHelper {
 
         FontHelper.applyFont(context, txtViewTitle, FontType.FONT);
 
+        userSession = new UserSession(context);
 
-        rg_deliveryType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        Log.e("deliverytype",userSession.getDeliveryType());
+
+        if(userSession.getDeliveryType().equals("1"))
+        {
+            radioBtnInhouse.setChecked(true);
+        }
+        else
+        if(userSession.getDeliveryType().equalsIgnoreCase("3"))
+        {
+            radioBtnPickUp.setChecked(true);
+        }
+        else
+        if(userSession.getDeliveryType().equalsIgnoreCase("2"))
+        {
+            radioBtnShipment.setChecked(true);
+        }
+
+
+        /*rg_deliveryType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
 
@@ -207,48 +226,43 @@ public class AlertDialogHelper {
 
                 // find which radio button is selected
 
-                if (checkedId == R.id.radioBtnShipment) {
-                    deliveryType[0] = radioBtnShipment.getText().toString();
-                } else if (checkedId == R.id.radioBtnPickUp) {
-                    deliveryType[0] = radioBtnPickUp.getText().toString();
-                } else if (checkedId == R.id.radioBtnInhouse) {
-                    deliveryType[0] = radioBtnInhouse.getText().toString();
-                }
+               RadioButton radioButton=(RadioButton)group.findViewById(checkedId);
+
+                deliveryType=radioButton.getText().toString();
 
 
             }
 
-        });
+        });*/
 
 
         txtViewOk.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                 String service_type=null;
+                int selectedId = rg_deliveryType.getCheckedRadioButtonId();
+
+                RadioButton radioButton = (RadioButton) rg_deliveryType.findViewById(selectedId);
+
+                String deliveryType = radioButton.getText().toString();
+
+                String service_type = null;
                 //save user choice abt delivery type
                 if (deliveryType != null) {
 
-                    if(deliveryType[0].equals("In-Venue"))
-                    {
-                        service_type=context.getString(R.string.in_venue);
-                    }
-                    else
-                    if(deliveryType[0].equalsIgnoreCase("pick up"))
-                    {
-                        service_type=context.getString(R.string.pick_up);
-                    }
-                    else
-                    if(deliveryType[0].equalsIgnoreCase("Delivery"))
-                    {
-                        service_type=context.getString(R.string.delivery);
+                    if (deliveryType.equals("In-Venue")) {
+                        service_type = context.getString(R.string.in_venue);
+                    } else if (deliveryType.equalsIgnoreCase("pick up")) {
+                        service_type = context.getString(R.string.pick_up);
+                    } else if (deliveryType.equalsIgnoreCase("Delivery")) {
+                        service_type = context.getString(R.string.delivery);
                     }
                     userSession.saveDeliveryType(service_type);
                 }
                 dialog.dismiss();
 
-                if(context instanceof OutletCategoryActivity){
-                    Intent intent=new Intent(context,HomeActivity.class);
+                if (context instanceof OutletCategoryActivity) {
+                    Intent intent = new Intent(context, HomeActivity.class);
                     context.startActivity(intent);
                 }
 
@@ -257,10 +271,27 @@ public class AlertDialogHelper {
 
         FontHelper.applyFont(context, txtViewOk, FontType.FONT);
 
-        userSession = new UserSession(context);
+
         if (userSession.getDeliveryType() != null) {
             txt_deliveryType.setVisibility(View.VISIBLE);
-            txt_deliveryType.setText("Your selected delivery type is  :  "+userSession.getDeliveryType());
+
+            String delivery_type=null;
+
+            if(userSession.getDeliveryType().equals("1"))
+            {
+                delivery_type="In-Venue";
+            }
+            else
+            if(userSession.getDeliveryType().equalsIgnoreCase("3"))
+            {
+                delivery_type="Pick Up";
+            }
+            else
+            if(userSession.getDeliveryType().equalsIgnoreCase("2"))
+            {
+                delivery_type="Delivery";
+            }
+            txt_deliveryType.setText("Your selected delivery type is  :  "+delivery_type);
         }else{
             txt_deliveryType.setVisibility(View.INVISIBLE);
         }

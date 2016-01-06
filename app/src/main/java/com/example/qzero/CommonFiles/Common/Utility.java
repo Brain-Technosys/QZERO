@@ -15,7 +15,7 @@ public class Utility {
     // Formats the string to US currency ($0.00) format
     public static String formatCurrency(String amount) {
 
-        String s=null;
+        String s = null;
         try {
 
 
@@ -23,18 +23,23 @@ public class Utility {
             NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
             s = n.format(doubleAmount);
 
-        }
-        catch (NumberFormatException ex)
-        {
+        } catch (NumberFormatException ex) {
             ex.printStackTrace();
         }
         return s;
     }
 
     public static String formatDecimalByString(String dub) {
+        String myNum = null;
+        try {
+            Double data = Double.parseDouble(dub);
+            myNum = String.format("%.2f", data);
 
-        Double data = Double.parseDouble(dub);
-        String myNum = String.format("%.2f", data);
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
         return myNum;
     }
 
