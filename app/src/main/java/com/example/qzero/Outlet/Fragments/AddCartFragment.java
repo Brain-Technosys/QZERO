@@ -52,7 +52,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-
 public class AddCartFragment extends Fragment {
 
     @InjectView(R.id.txtViewItemName)
@@ -1051,7 +1050,7 @@ public class AddCartFragment extends Fragment {
 
     @OnClick(R.id.btnAddToCart)
     void addToCart() {
-        if (hashMap != null) {
+        if (item_name != null) {
             saveItemDetails();
 
             getTotalQty();

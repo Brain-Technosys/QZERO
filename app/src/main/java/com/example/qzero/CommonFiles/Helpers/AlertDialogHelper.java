@@ -55,9 +55,7 @@ public class AlertDialogHelper {
 
             });
             dialog.show();
-        }
-        catch (RuntimeException ex)
-        {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
         }
 
@@ -102,7 +100,6 @@ public class AlertDialogHelper {
                     ((HomeActivity) context).getUserLocation();
 
 
-
                     dialog.dismiss();
 
                     //Alert box to ask delivery type
@@ -127,9 +124,7 @@ public class AlertDialogHelper {
             });
 
             dialog.show();
-        }
-        catch(RuntimeException ex)
-        {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
         }
 
@@ -167,9 +162,7 @@ public class AlertDialogHelper {
             setLayoutDeliveryType(context);
 
             dialog.show();
-        }
-        catch(RuntimeException ex)
-        {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
         }
 
@@ -185,7 +178,7 @@ public class AlertDialogHelper {
         dialog.setCanceledOnTouchOutside(false);
         txtViewTitle = (TextView) dialog.findViewById(R.id.txtViewTitle);
 
-       final RadioGroup rg_deliveryType = (RadioGroup) dialog.findViewById(R.id.rg_deliveryType);
+        final RadioGroup rg_deliveryType = (RadioGroup) dialog.findViewById(R.id.rg_deliveryType);
 
         final RadioButton radioBtnShipment = (RadioButton) dialog.findViewById(R.id.radioBtnShipment);
         final RadioButton radioBtnPickUp = (RadioButton) dialog.findViewById(R.id.radioBtnPickUp);
@@ -193,26 +186,23 @@ public class AlertDialogHelper {
         final TextView txt_deliveryType = (TextView) dialog.findViewById(R.id.txt_deliveryType);
 
         txtViewOk = (TextView) dialog.findViewById(R.id.txtViewChange);
+        txtViewCancel=(TextView) dialog.findViewById(R.id.txtViewCancel);
 
         FontHelper.applyFont(context, txtViewTitle, FontType.FONT);
 
         userSession = new UserSession(context);
 
-        Log.e("deliverytype",userSession.getDeliveryType());
+        if (userSession.getDeliveryType() != null) {
 
-        if(userSession.getDeliveryType().equals("1"))
-        {
-            radioBtnInhouse.setChecked(true);
-        }
-        else
-        if(userSession.getDeliveryType().equalsIgnoreCase("3"))
-        {
-            radioBtnPickUp.setChecked(true);
-        }
-        else
-        if(userSession.getDeliveryType().equalsIgnoreCase("2"))
-        {
-            radioBtnShipment.setChecked(true);
+            Log.e("deliverytype", userSession.getDeliveryType());
+
+            if (userSession.getDeliveryType().equals("1")) {
+                radioBtnInhouse.setChecked(true);
+            } else if (userSession.getDeliveryType().equalsIgnoreCase("3")) {
+                radioBtnPickUp.setChecked(true);
+            } else if (userSession.getDeliveryType().equalsIgnoreCase("2")) {
+                radioBtnShipment.setChecked(true);
+            }
         }
 
 
@@ -269,30 +259,31 @@ public class AlertDialogHelper {
             }
         });
 
+        txtViewCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
         FontHelper.applyFont(context, txtViewOk, FontType.FONT);
 
 
         if (userSession.getDeliveryType() != null) {
             txt_deliveryType.setVisibility(View.VISIBLE);
 
-            String delivery_type=null;
+            String delivery_type = null;
 
-            if(userSession.getDeliveryType().equals("1"))
-            {
-                delivery_type="In-Venue";
+            if (userSession.getDeliveryType().equals("1")) {
+                delivery_type = "In-Venue";
+            } else if (userSession.getDeliveryType().equalsIgnoreCase("3")) {
+                delivery_type = "Pick Up";
+            } else if (userSession.getDeliveryType().equalsIgnoreCase("2")) {
+                delivery_type = "Delivery";
             }
-            else
-            if(userSession.getDeliveryType().equalsIgnoreCase("3"))
-            {
-                delivery_type="Pick Up";
-            }
-            else
-            if(userSession.getDeliveryType().equalsIgnoreCase("2"))
-            {
-                delivery_type="Delivery";
-            }
-            txt_deliveryType.setText("Your selected delivery type is  :  "+delivery_type);
-        }else{
+            txt_deliveryType.setText("Your selected delivery type is  :  " + delivery_type);
+        } else {
             txt_deliveryType.setVisibility(View.INVISIBLE);
         }
     }

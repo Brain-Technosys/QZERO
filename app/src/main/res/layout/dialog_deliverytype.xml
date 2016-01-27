@@ -57,36 +57,36 @@
             <RadioButton
 
                 android:id="@+id/radioBtnInhouse"
+                style="@style/MyChkBoxStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="In-Venue"
-                style="@style/MyChkBoxStyle"
-                android:theme="@style/MyChkBoxStyle"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:theme="@style/MyChkBoxStyle" />
 
             <RadioButton
 
                 android:id="@+id/radioBtnPickUp"
+                style="@style/MyChkBoxStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pick up"
-                style="@style/MyChkBoxStyle"
-                android:theme="@style/MyChkBoxStyle"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:theme="@style/MyChkBoxStyle" />
 
             <RadioButton
 
                 android:id="@+id/radioBtnShipment"
+                style="@style/MyChkBoxStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Delivery"
-                style="@style/MyChkBoxStyle"
-                android:theme="@style/MyChkBoxStyle"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:theme="@style/MyChkBoxStyle" />
 
         </RadioGroup>
     </RelativeLayout>
@@ -101,17 +101,18 @@
         android:gravity="center"
         android:padding="5dp">
 
-        <!--<TextView-->
-        <!--android:id="@+id/txtViewCancel"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@color/item_detail"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:padding="4dp"-->
-        <!--android:text="@string/alertbox_cancel"-->
-        <!--android:textSize="15sp"-->
-        <!--android:textStyle="bold" />-->
+        <TextView
+            android:id="@+id/txtViewCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@color/item_detail"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            android:text="@string/alertbox_cancel"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtViewChange"

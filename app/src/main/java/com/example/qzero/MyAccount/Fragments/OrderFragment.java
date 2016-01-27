@@ -158,7 +158,7 @@ public class OrderFragment extends Fragment implements SearchView.OnQueryTextLis
 
         if (TextUtils.isEmpty(newText)) {
             System.out.println("isEmpty");
-            orderListView.clearTextFilter();
+            ca.getFilter().filter(newText);
         } else {
 
             ca.getFilter().filter(newText);

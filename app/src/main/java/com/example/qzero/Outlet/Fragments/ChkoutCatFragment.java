@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,34 +89,14 @@ public class ChkoutCatFragment extends Fragment {
         return view;
     }
 
-    private void getBundle()
-    {
-        if(getArguments()!=null)
-        {
-            Bundle bundle=getArguments();
+    private void getBundle() {
+        if (getArguments() != null) {
+            Bundle bundle = getArguments();
 
-            arrayListDeliveryName=(ArrayList<String>)bundle.getSerializable(ConstVarIntent.TAG_DELIVERY_TYPE);
+            arrayListDeliveryName = (ArrayList<String>) bundle.getSerializable(ConstVarIntent.TAG_DELIVERY_TYPE);
         }
     }
 
-
-    private void checkTabsPresent() {
-
-        if (!arrayListDeliveryName.contains("In-House")) {
-            tabIndicatorInHouse.setVisibility(View.INVISIBLE);
-        }
-
-        if(!arrayListDeliveryName.contains("Shipment"))
-        {
-            tabIndicatorShipment.setVisibility(View.INVISIBLE);
-        }
-
-
-        if(!arrayListDeliveryName.contains("Pick Up"))
-        {
-            tabIndicatorPickup.setVisibility(View.INVISIBLE);
-        }
-    }
 
     @Override
     public void onDestroyView() {
@@ -144,7 +125,7 @@ public class ChkoutCatFragment extends Fragment {
         titleShipment = (TextView) tabIndicatorShipment
                 .findViewById(android.R.id.title);
 
-        titleShipment.setText("Shipment");
+        titleShipment.setText("Delivery");
 
         FontHelper.applyFont(getActivity(), titleShipment, FontHelper.FontType.FONT);
 
@@ -170,7 +151,7 @@ public class ChkoutCatFragment extends Fragment {
         titleInHouse = (TextView) tabIndicatorInHouse
                 .findViewById(android.R.id.title);
 
-        titleInHouse.setText("In House");
+        titleInHouse.setText("In-Venue");
 
         FontHelper.applyFont(getActivity(), titleInHouse, FontHelper.FontType.FONT);
 
@@ -179,27 +160,31 @@ public class ChkoutCatFragment extends Fragment {
 
     public void addTabs() {
 
+        Log.e("deliverytype", userSession.getDeliveryType());
+        if (userSession.getDeliveryType().equals("2")) {
+            if (arrayListDeliveryName.contains("Delivery")) {
+                TabHost.TabSpec shipmentspec = mTabHost.newTabSpec("Delivery");
+                // setting Title and Icon for the Tab
+                shipmentspec.setIndicator(tabIndicatorShipment);
 
-        if(arrayListDeliveryName.contains("Shipment")) {
-            TabHost.TabSpec shipmentspec = mTabHost.newTabSpec("Shipment");
-            // setting Title and Icon for the Tab
-            shipmentspec.setIndicator(tabIndicatorShipment);
-
-            mTabHost.addTab(shipmentspec, ShipmentTabFragment.class, null);
-        }
+                mTabHost.addTab(shipmentspec, ShipmentTabFragment.class, null);
+            }
+        } else if (userSession.getDeliveryType().equals("3")) {
 
 
-        if(arrayListDeliveryName.contains("Pick Up")) {
-        mTabHost.addTab(
-                mTabHost.newTabSpec("Pick Up").setIndicator(tabIndicatorPickup),
-                PickupTabFragment.class, null);
-         }
+            if (arrayListDeliveryName.contains("Pick Up")) {
+                mTabHost.addTab(
+                        mTabHost.newTabSpec("Pick Up").setIndicator(tabIndicatorPickup),
+                        PickupTabFragment.class, null);
+            }
+        } else {
 
-       if(arrayListDeliveryName.contains("In-House")) {
+            if (arrayListDeliveryName.contains("In-Venue")) {
 
-        mTabHost.addTab(
-                mTabHost.newTabSpec("In House").setIndicator(tabIndicatorInHouse),
-                InHouseTabFragment.class, null);
+                mTabHost.addTab(
+                        mTabHost.newTabSpec("In-Venue").setIndicator(tabIndicatorInHouse),
+                        InHouseTabFragment.class, null);
+            }
         }
     }
 

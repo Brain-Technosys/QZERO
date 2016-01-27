@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -734,10 +735,14 @@ public class FinalChkoutActivity extends AppCompatActivity {
 
             String userId = userSession.getUserID();
 
+            Log.e("deliverytype", url);
+
 
             //Log.e("userId", userId);
 
             String jsonString = jsonParser.getJSONFromUrl(url, Const.TIME_OUT, userId);
+
+            Log.e("jsonDelivery",jsonString);
 
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
