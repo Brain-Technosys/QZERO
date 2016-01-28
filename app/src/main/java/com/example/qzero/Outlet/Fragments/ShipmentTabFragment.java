@@ -352,7 +352,11 @@ public class ShipmentTabFragment extends Fragment {
                 orderStatusObj.put("quantity", quantity);
                 orderStatusObj.put("itemPrice", itemPrice);
                 orderStatusObj.put("discountAmount", afterDiscountAmount);
-                orderStatusObj.put("afterDiscountAmount", discountAmount);
+
+                if(discountAmount==0.0)
+                orderStatusObj.put("afterDiscountAmount", itemPrice);
+                else
+                    orderStatusObj.put("afterDiscountAmount", discountAmount);
 
 
                 jsonArrayOrder.put(orderStatusObj);
@@ -386,8 +390,7 @@ public class ShipmentTabFragment extends Fragment {
             jsonObjDetails.putOpt("orderItemStatus", jsonArrayOrder);
             jsonObjDetails.putOpt("orderItemModifiers", jsonArrayMod);
 
-
-
+            Log.e("json", jsonObjDetails.toString());
             postToCheckOut(jsonObjDetails.toString());
 
         }catch (NullPointerException e) {
