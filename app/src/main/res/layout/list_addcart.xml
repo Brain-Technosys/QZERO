@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/imgViewDelete"
                 android:padding="2dp"
-                android:text="Add Modifier"
+                android:text="Select Sides and Cook type"
                 android:textColor="@drawable/addmodifier_selector"
                 android:textSize="16sp" />
 

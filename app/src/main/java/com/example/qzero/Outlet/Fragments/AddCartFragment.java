@@ -1,6 +1,7 @@
 package com.example.qzero.Outlet.Fragments;
 
 
+
 import android.app.Dialog;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -754,7 +755,7 @@ public class AddCartFragment extends Fragment {
         }
 
 
-        txtViewAddModifiers.setText("Edit Modifier");
+        txtViewAddModifiers.setText("Edit Select Sides and Cook type");
 
 
         tableLayoutModifiers.removeAllViews();
